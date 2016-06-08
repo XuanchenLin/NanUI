@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetDimension.NanUI, Version=0.1.5983.27918, Culture=neutral, PublicKeyToken=8561fe0ef53cee55, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\NetDimension.NanUI\bin\Debug\NetDimension.NanUI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,6 +89,10 @@
     <ProjectReference Include="..\NanUI.Demo.CodeEditor.Resources\NanUI.Demo.CodeEditor.Resources.csproj">
       <Project>{e1156d1b-f07a-452a-b4f0-6c492f6b0b40}</Project>
       <Name>NanUI.Demo.CodeEditor.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetDimension.NanUI\NetDimension.NanUI.csproj">
+      <Project>{f08bb3ec-8bd4-4af0-ac3f-49af44917324}</Project>
+      <Name>NetDimension.NanUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

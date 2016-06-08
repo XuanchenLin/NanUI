@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace NetDimension.NanUI
 {
+
+
+
 	public class HtmlUILauncher
 	{
 		private static List<GCHandle> SchemeHandlerGCHandles = new List<GCHandle>();
@@ -25,6 +28,8 @@ namespace NetDimension.NanUI
 		private static string LocalesDir = null;
 		private static string ResourcesDir = null;
 		private static readonly string RuntimeDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
+
+		private static readonly RuntimeArch PlatformArch = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? RuntimeArch.x64 : RuntimeArch.x86;
 
 		private static CfxBrowserSettings defaultBrowserSettings;
 
@@ -127,16 +132,14 @@ namespace NetDimension.NanUI
 		private static bool IsRuntimeExists()
 		{
 
-
-
 			var libCfxName = "libcfx.dll";
 
-			if (CfxRuntime.PlatformArch == CfxPlatformArch.x64)
+			if (PlatformArch == RuntimeArch.x64)
 				libCfxName = "libcfx64.dll";
 
 
 
-			if (CfxRuntime.PlatformArch == CfxPlatformArch.x64)
+			if (PlatformArch == RuntimeArch.x64)
 				FrameworkDir = System.IO.Path.Combine(RuntimeDir, @"fx\x64");
 			else
 				FrameworkDir = System.IO.Path.Combine(RuntimeDir, @"fx\x86");
@@ -176,7 +179,7 @@ namespace NetDimension.NanUI
 
 			if (IsRuntimeExists() == false)
 			{
-				var downloadForm = new RuntimeDownloadForm(RuntimeDir, FrameworkDownloadUrl);
+				var downloadForm = new RuntimeDownloadForm(RuntimeDir, FrameworkDownloadUrl, PlatformArch, EnableFlashSupport);
 
 				if (downloadForm.ShowDialog() != DialogResult.OK || !IsRuntimeExists())
 				{

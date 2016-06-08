@@ -90,5 +90,27 @@ public class MainFrame : HtmlUIForm
 
 代码示例中，将详细展示NanUI的使用方法。当然你也可以通过WIKI来了解更多信息。
 
-### 参见
+### 演示项目
+**CodeEditor**
+
+NanUI.Demo.CodeEditor
+NanUI.Demo.CodeEditor.Resources
+
+该项目使用强大的JS项目CodeMirror，配合Bootstrap库进行界面布局，实现了一个简单的代码编辑器功能。
+
+**Welcome**
+
+NanUI.Demo.Welcome
+
+该项目使用jQuery及Bootstrap构建界面，主要演示了NanUI对HTML5、CSS3、Flash、WebGL等技术的支持程度。
+
+### CEF运行库下载
+[完全](www.bolepa.com/NanUI/NanUIPackages/all.exe) 73.0M
+[资源文件](www.bolepa.com/NanUI/NanUIPackages/resources.exe) 3.53M
+[32位CEF运行库](www.bolepa.com/NanUI/NanUIPackages/x86/cef_x86.exe.exe) 24.4M
+[32位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x86/flash_x86.exe) 7.46M
+[64位CEF运行库](www.bolepa.com/NanUI/NanUIPackages/x64/cef_x64.exe.exe) 24.4M
+[64位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x64/flash_x64.exe) 7.46M
+
+### 参考
 暂无，等我慢慢写。要想写得快，记得打赏我几杯咖啡：）

@@ -12,4 +12,10 @@
 		Bottom = 64,
 		BottomLeft = 128
 	}
+
+	public enum RuntimeArch
+	{
+		x86,
+		x64
+	}
 }
