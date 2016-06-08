@@ -1,0 +1,90 @@
+﻿html, body {
+	cursor: default;
+	-webkit-font-smoothing: antialiased;
+	font-family: "Microsoft Yahei Light","Microsoft YaHei UI","Microsoft Yahei","Segoe UI Light","Segoe UI","萍方","Helvetica Neue", Helvetica,Tahoma, Arial, sans-serif;
+	padding: 0;
+	margin: 0;
+	height: 100%;
+}
+
+body {
+	padding-top: 30px;
+}
+
+.ui-sys-bar {
+	position: fixed;
+	width: 100%;
+	height: 30px;
+	background-color: #fff;
+	left: 0;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	z-index: 2;
+	-webkit-app-region: drag;
+}
+
+	.ui-sys-bar > h2 {
+		display: block;
+		height: 30px;
+		line-height: 30px;
+		margin: 0;
+		padding: 0 0 0 15px;
+		font-size: 1em;
+		font-weight: lighter;
+	}
+
+	.ui-sys-bar .ui-sys-commands {
+		-webkit-app-region: no-drag;
+		word-break: keep-all;
+		white-space: nowrap;
+	}
+
+		.ui-sys-bar .ui-sys-commands span {
+			height: 30px;
+			padding: 0 10px;
+			line-height: 30px;
+			text-align: center;
+			vertical-align: middle;
+			font-family: Webdings !important;
+			color: #333;
+			display: inline-block;
+			opacity: 0.5;
+			transition: all ease-in-out 0.2s;
+		}
+
+			.ui-sys-bar .ui-sys-commands span:hover {
+				opacity: 1;
+				background-color: rgba(33,33,33,.1);
+			}
+
+			.ui-sys-bar .ui-sys-commands span:active {
+				opacity: 1;
+				background-color: rgba(33,33,33,.3);
+			}
+
+			.ui-sys-bar .ui-sys-commands span:last-child:hover {
+				opacity: 1;
+				background-color: rgba(204,0,0,1);
+				color: #fff;
+			}
+
+			.ui-sys-bar .ui-sys-commands span:last-child:active {
+				opacity: 1;
+				background-color: rgba(204,0,0,.5);
+				color: #fff;
+			}
+
+footer.ui-footer-bar {
+	height: 60px;
+	background: rgba(0,0,0,.1);
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	text-align:center;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
