@@ -221,7 +221,7 @@ namespace NetDimension.NanUI
 
 		private void btnManualDownload_Click(object sender, EventArgs e)
 		{
-			Process.Start("https://github.com/NetDimension/NanUI/#CEF运行库下载");
+			Process.Start("https://github.com/NetDimension/NanUI/#cef运行库下载");
 			this.Close();
 		}
 

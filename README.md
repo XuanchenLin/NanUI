@@ -105,17 +105,14 @@ NanUI.Demo.Welcome
 该项目使用jQuery及Bootstrap构建界面，主要演示了NanUI对HTML5、CSS3、Flash、WebGL等技术的支持程度。
 
 ### CEF运行库下载
-[完全](www.bolepa.com/NanUI/NanUIPackages/all.exe) 73.0M
-
-[资源文件](www.bolepa.com/NanUI/NanUIPackages/resources.exe) 3.53M
-
-[32位CEF运行库](www.bolepa.com/NanUI/NanUIPackages/x86/cef_x86.exe.exe) 24.4M
-
-[32位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x86/flash_x86.exe) 7.46M
-
-[64位CEF运行库](www.bolepa.com/NanUI/NanUIPackages/x64/cef_x64.exe.exe) 29.2M
-
-[64位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x64/flash_x64.exe) 10.2M
+| Tables         | 大小  | 说明  | 下载                                                           |
+| -------------- |------:|:-----:|:-------------------------------------------------------------:|
+| 完整安装包      | 73.0M | 推荐  | [下载](www.bolepa.com/NanUI/NanUIPackages/all.exe)             |
+| 资源文件        | 3.53M | 必要  | [下载](www.bolepa.com/NanUI/NanUIPackages/resources.exe)       |
+| 32位CEF运行库   | 24.4M |      | [下载](www.bolepa.com/NanUI/NanUIPackages/x86/cef_x86.exe.exe)  |
+| 32位Flash支持库 | 7.46M |      | [下载](www.bolepa.com/NanUI/NanUIPackages/x86/flash_x86.exe)    |
+| 64位CEF运行库   | 29.2M |      | [下载](www.bolepa.com/NanUI/NanUIPackages/x64/cef_x64.exe.exe)  |
+| 64位Flash支持库 | 10.2M |      | [下载](www.bolepa.com/NanUI/NanUIPackages/x64/flash_x64.exe)    |
 
 ### 参考
 暂无，等我慢慢写。要想写得快，记得打赏我几杯咖啡：）
