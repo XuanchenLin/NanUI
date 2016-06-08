@@ -163,6 +163,12 @@ namespace NetDimension.NanUI
 				["snapshot_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "snapshot_blob.bin"))
 			};
 
+			if (EnableFlashSupport)
+			{
+				environmentDetectResults["manifest.json"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\manifest.json"));
+				environmentDetectResults["pepflashplayer.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\pepflashplayer.dll"));
+			}
+
 			return environmentDetectResults.Count(p => p.Value == true) == environmentDetectResults.Count;
 
 		}
@@ -206,7 +212,6 @@ namespace NetDimension.NanUI
 				var cachePath = System.IO.Path.Combine(RuntimeDir, Application.ProductName, "Cache");
 				if (!System.IO.Directory.Exists(cachePath))
 					System.IO.Directory.CreateDirectory(cachePath);
-
 
 				args.Settings.LocalesDirPath = LocalesDir; 
 				args.Settings.ResourcesDirPath = ResourcesDir;
