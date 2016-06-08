@@ -113,9 +113,9 @@ NanUI.Demo.Welcome
 
 [32位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x86/flash_x86.exe) 7.46M
 
-[64位CEF运行库](www.bolepa.com/NanUI/NanUIPackages/x64/cef_x64.exe.exe) 24.4M
+[64位CEF运行库](www.bolepa.com/NanUI/NanUIPackages/x64/cef_x64.exe.exe) 29.2M
 
-[64位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x64/flash_x64.exe) 7.46M
+[64位Flash支持库](www.bolepa.com/NanUI/NanUIPackages/x64/flash_x64.exe) 10.2M
 
 ### 参考
 暂无，等我慢慢写。要想写得快，记得打赏我几杯咖啡：）
