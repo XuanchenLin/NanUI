@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+	<meta charset="utf-8" />
+	<link href="Content/bootstrap.css" rel="stylesheet" />
+	<link href="Content/font-awesome.css" rel="stylesheet" />
+	<link href="Content/jquery.splitter.css" rel="stylesheet" />
+	<link href="lib/codemirror.css" rel="stylesheet" />
+	<link href="Content/github-markdown.css" rel="stylesheet" />
+	<link href="Content/main.css" rel="stylesheet" />
+	<script src="Scripts/jquery-2.2.3.js"></script>
+	<script src="Scripts/jquery.splitter.js"></script>
+	<script src="lib/codemirror.js"></script>
+	<script src="lib/markdown.js"></script>
+	<script src="addon/edit/continuelist.js"></script>
+	<script src="mode/xml/xml.js"></script>
+	<script src="mode/markdown/markdown.js"></script>
+	<script src="Scripts/main.js"></script>
+
+</head>
+<body>
+	<header class="ui-header">
+		<i class="fa fa-file-code-o ui-icon"></i>
+		<h1><span id="captionLabel">新建</span> - Markdown.NET</h1>
+
+		<div class="ui-toolbar">
+			<span id="btnNew"><i class="fa fa-file-o"></i></span>
+			<span id="btnOpen"><i class="fa fa-folder-open-o"></i></span>
+			<span id="btnSave"><i class="fa fa-save"></i></span>
+		</div>
+
+		<div class="ui-sys-commands">
+			<span class="-nanui-minimize">&#48;</span>
+			<span class="-nanui-maximize">&#49;</span>
+			<span class="-nanui-close">&#114;</span>
+		</div>
+
+	</header>
+	<main class="ui-main">
+		<div>
+			<textarea id="code-editor"></textarea>
+		</div>
+		<div>
+			<div class="markdown-body" id="markdown-preview">
+
+			</div>
+		</div>
+	</main>
+	<footer class="ui-footer">
+		<div class="ui-status">
+			<i class="fa fa-lock" id="modifyStateLabel"></i>
+
+			就绪
+		</div>
+
+		<div class="ui-status">
+
+			行 <span id="currentLineLabel">1</span>
+			字符 <span id="currentCharLabel">1</span>
+			
+		</div>
+
+
+
+	</footer>
+
+</body>
+</html>

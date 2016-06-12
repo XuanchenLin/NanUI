@@ -31,6 +31,7 @@ html, body {
 	cursor: default;
 	-webkit-font-smoothing: antialiased;
 	font-family: "Microsoft Yahei Light","Microsoft YaHei UI","Microsoft Yahei","Segoe UI Light","Segoe UI","萍方","Helvetica Neue", Helvetica,Tahoma, Arial, sans-serif;
+	font-size:12px;
 }
 
 body {
