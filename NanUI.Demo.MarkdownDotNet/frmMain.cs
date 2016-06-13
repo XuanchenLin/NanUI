@@ -19,7 +19,7 @@ namespace NanUI.Demo.MarkdownDotNet
 		{
 			InitializeComponent();
 
-			//GlobalObject.Add("hostEditor", new HostEditor(this));
+			GlobalObject.Add("hostEditor", new HostEditor(this));
 
 
 		}
