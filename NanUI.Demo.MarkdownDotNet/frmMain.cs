@@ -15,20 +15,13 @@ namespace NanUI.Demo.MarkdownDotNet
 
 
 		public frmMain()
-			: base("res://assets/main.html")
+			: base("res://assets/main.html",true)
 		{
 			InitializeComponent();
 
-			GlobalObject.Add("hostEditor", new HostEditor(this));
+			//GlobalObject.Add("hostEditor", new HostEditor(this));
 
-			LoadHandler.OnLoadStart += (s, e) =>
-			{
 
-				if (e.Frame.IsMain)
-				{
-					//ShowDevTools();
-				}
-			};
 		}
 		/// <summary>
 		/// 标记文档是否被修改

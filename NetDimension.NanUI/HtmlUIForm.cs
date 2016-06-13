@@ -66,6 +66,8 @@ namespace NetDimension.NanUI
 		private bool isSplashShown = true;
 		private bool isFirstTimeSplashShown = true;
 
+		private string initialUrl;
+
 		protected ResizeDirection ResizeDirection
 		{
 			get;
@@ -180,7 +182,7 @@ namespace NetDimension.NanUI
 
 		public HtmlUIForm(string initialUrl, bool forceNonclientMode = false)
 		{
-
+			this.initialUrl = initialUrl;
 			IsWindowsXP = Environment.OSVersion.Version.Major < 6;
 			ForceNonclientMode = forceNonclientMode;
 			splashPicture = new PictureBox()
@@ -201,14 +203,12 @@ namespace NetDimension.NanUI
 				BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
 				BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
 
-
 				maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
 
 				this.Controls.Add(splashPicture);
 				splashPicture.BringToFront();
 
 				InitializeChromium(initialUrl);
-
 
 			}
 
@@ -292,8 +292,6 @@ namespace NetDimension.NanUI
 			};
 
 			GlobalObject.Add("NanUI", new JsHostWindowObject(this));
-
-
 		}
 
 		#region Private
@@ -560,6 +558,8 @@ namespace NetDimension.NanUI
 		{
 			FormHandle = this.Handle;
 			base.OnHandleCreated(e);
+
+
 		}
 
 		protected override void OnLoad(EventArgs e)
@@ -568,9 +568,8 @@ namespace NetDimension.NanUI
 			{
 				if (IsNonclientMode)
 				{
-					NativeMethods.DisableProcessWindowsGhosting();
+					//NativeMethods.DisableProcessWindowsGhosting();
 					NativeMethods.SetWindowTheme(Handle, string.Empty, string.Empty);
-
 					nativeForm = new NonclientNativeWindow(this);
 				}
 				else
@@ -580,10 +579,8 @@ namespace NetDimension.NanUI
 
 					Padding = new Padding(Padding.Left + BorderSize, Padding.Top + BorderSize, Padding.Right + BorderSize, Padding.Bottom + BorderSize);
 				}
+
 			}
-
-
-
 			base.OnLoad(e);
 		}
 
@@ -763,7 +760,11 @@ namespace NetDimension.NanUI
 					default:
 						{
 
-							if (!IsNonclientMode)
+							if (IsNonclientMode)
+							{
+								NonclientModeWndProc(ref m);
+							}
+							else
 							{
 								DwmModeWndProc(ref m);
 							}

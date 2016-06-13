@@ -58,7 +58,7 @@ namespace NetDimension.NanUI.Internal
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWCAPTION:
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
 					{
-						//InvalidateWindow();
+						InvalidateWindow();
 					}
 					break;
 				case NativeMethods.WindowsMessage.WM_NCPAINT:
@@ -118,15 +118,12 @@ namespace NetDimension.NanUI.Internal
 			windowRect.Top -= _iCaptionHeight;
 			windowRect.Bottom += _iFrameHeight;
 			// reset client area with new size
-			windowRect.Left += 1;
-			windowRect.Right -= 1;
-			windowRect.Bottom -= 1;
-			windowRect.Top += 1;
+			windowRect.Left += ParentForm.BorderSize;
+			windowRect.Right -= ParentForm.BorderSize;
+			windowRect.Bottom -= ParentForm.BorderSize;
+			windowRect.Top += ParentForm.BorderSize;
 
 			NativeMethods.RECT clientRect = new NativeMethods.RECT(windowRect.Left, windowRect.Top, windowRect.Right, windowRect.Bottom);
-
-
-
 
 			return windowRect;
 		}
@@ -149,7 +146,9 @@ namespace NetDimension.NanUI.Internal
 			if (hRgn != (IntPtr)1)
 				clipRegion = Region.FromHrgn(hRgn);
 
+			var borderSize = ParentForm.BorderSize;
 
+			//borderSize = borderSize == 0 ? 1 : borderSize;
 
 			NativeMethods.RECT windowRect = new NativeMethods.RECT();
 			NativeMethods.GetWindowRect(FormHandle, ref windowRect);
@@ -158,7 +157,7 @@ namespace NetDimension.NanUI.Internal
 			NativeMethods.RECT clientRect = new NativeMethods.RECT();
 			NativeMethods.GetWindowRect(FormHandle, ref clientRect);
 			NativeMethods.OffsetRect(ref clientRect, -clientRect.Left, -clientRect.Top);
-			NativeMethods.OffsetRect(ref clientRect, -ParentForm.BorderSize, -ParentForm.BorderSize);
+			NativeMethods.OffsetRect(ref clientRect, -borderSize, -borderSize);
 
 
 
@@ -170,28 +169,32 @@ namespace NetDimension.NanUI.Internal
 				using (var g = Graphics.FromHdc(hDC))
 				{
 
-
+					
 					var height = windowRect.Bottom;
 					var width = windowRect.Right;
 
-					using (var pen = new Pen(ParentForm.BorderColor, ParentForm.BorderSize))
+					if (borderSize > 0)
 					{
-						g.DrawLine(pen, 0, 0, 0, height);
+						using (var pen = new Pen(ParentForm.BorderColor, borderSize))
+						{
+							g.DrawLine(pen, 0, 0, 0, height);
+						}
+
+						using (var pen = new Pen(ParentForm.BorderColor, borderSize))
+						{
+							g.DrawLine(pen, 0, 0, width, 0);
+						}
+
+						using (var pen = new Pen(ParentForm.BorderColor, borderSize))
+						{
+							g.DrawLine(pen, width - borderSize, 0, width - borderSize, height);
+						}
+						using (var pen = new Pen(ParentForm.BorderColor, borderSize))
+						{
+							g.DrawLine(pen, 0, height - borderSize, width, height - borderSize);
+						}
 					}
 
-					using (var pen = new Pen(ParentForm.BorderColor, ParentForm.BorderSize))
-					{
-						g.DrawLine(pen, 0, 0, width, 0);
-					}
-
-					using (var pen = new Pen(ParentForm.BorderColor, ParentForm.BorderSize))
-					{
-						g.DrawLine(pen, width - ParentForm.BorderSize, 0, width - ParentForm.BorderSize, height);
-					}
-					using (var pen = new Pen(ParentForm.BorderColor, ParentForm.BorderSize))
-					{
-						g.DrawLine(pen, 0, height - ParentForm.BorderSize, width, height - ParentForm.BorderSize);
-					}
 
 
 
@@ -199,7 +202,7 @@ namespace NetDimension.NanUI.Internal
 			}
 			finally
 			{
-				NativeMethods.ExcludeClipRect(hDC, -ParentForm.BorderSize, -ParentForm.BorderSize, clientRect.Right + ParentForm.BorderSize, clientRect.Bottom + ParentForm.BorderSize);
+				NativeMethods.ExcludeClipRect(hDC, -borderSize, -borderSize, clientRect.Right + borderSize, clientRect.Bottom + borderSize);
 				NativeMethods.ReleaseDC(FormHandle, hDC);
 			}
 
