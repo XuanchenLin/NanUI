@@ -33,9 +33,10 @@
 
 using System;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    internal class CfxPostDataElementCreateRenderProcessCall : RenderProcessCall {
+	internal class CfxPostDataElementCreateRenderProcessCall : RenderProcessCall {
 
         internal CfxPostDataElementCreateRenderProcessCall()
             : base(RemoteCallId.CfxPostDataElementCreateRenderProcessCall) {}

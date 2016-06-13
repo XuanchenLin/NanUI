@@ -33,20 +33,21 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Structure that should be implemented to handle V8 accessor calls. Accessor
-    /// identifiers are registered by calling CfxV8Value.SetValue(). The
-    /// functions of this structure will be called on the thread associated with the
-    /// V8 accessor.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-    /// </remarks>
-    public class CfxV8Accessor : CfxBase {
+	/// <summary>
+	/// Structure that should be implemented to handle V8 accessor calls. Accessor
+	/// identifiers are registered by calling CfxV8Value.SetValue(). The
+	/// functions of this structure will be called on the thread associated with the
+	/// V8 accessor.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+	/// </remarks>
+	public class CfxV8Accessor : CfxBase {
 
         static CfxV8Accessor () {
             CfxApiLoader.LoadCfxV8AccessorApi();
@@ -203,20 +204,21 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Handle retrieval the accessor value identified by |Name|. |Object| is the
-        /// receiver ('this' object) of the accessor. If retrieval succeeds set
-        /// |Retval| to the return value. If retrieval fails set |Exception| to the
-        /// exception that will be thrown. Return true (1) if accessor retrieval was
-        /// handled.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxV8AccessorGetEventHandler(object sender, CfxV8AccessorGetEventArgs e);
+		/// <summary>
+		/// Handle retrieval the accessor value identified by |Name|. |Object| is the
+		/// receiver ('this' object) of the accessor. If retrieval succeeds set
+		/// |Retval| to the return value. If retrieval fails set |Exception| to the
+		/// exception that will be thrown. Return true (1) if accessor retrieval was
+		/// handled.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxV8AccessorGetEventHandler(object sender, CfxV8AccessorGetEventArgs e);
 
         /// <summary>
         /// Handle retrieval the accessor value identified by |Name|. |Object| is the

@@ -30,11 +30,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 
-namespace Chromium.Remote {
-    internal static class WorkerPool {
+namespace Chromium.Remote
+{
+	internal static class WorkerPool {
 
         static readonly object syncLock = new object();
         static readonly Queue<Action> tasks = new Queue<Action>();

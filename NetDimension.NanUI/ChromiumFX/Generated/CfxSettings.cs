@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Initialization settings. Specify NULL or 0 to get the recommended default
-    /// values. Many of these and other settings can also configured using command-
-    /// line switches.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-    /// </remarks>
-    public sealed class CfxSettings : CfxStructure {
+namespace Chromium
+{
+	/// <summary>
+	/// Initialization settings. Specify NULL or 0 to get the recommended default
+	/// values. Many of these and other settings can also configured using command-
+	/// line switches.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+	/// </remarks>
+	public sealed class CfxSettings : CfxStructure {
 
         static CfxSettings () {
             CfxApiLoader.LoadCfxSettingsApi();

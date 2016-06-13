@@ -32,11 +32,12 @@
 
 using System;
 
-namespace Chromium.Remote {
-    /// <summary>
-    /// Base class for all remote wrapper classes for CEF structs without refcount.
-    /// </summary>
-    public abstract class CfrStructure : CfrObject {
+namespace Chromium.Remote
+{
+	/// <summary>
+	/// Base class for all remote wrapper classes for CEF structs without refcount.
+	/// </summary>
+	public abstract class CfrStructure : CfrObject {
         internal CfrStructure(IntPtr proxyId) : base(proxyId) { }
     }
 }

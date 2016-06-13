@@ -33,15 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure used to represent a download item.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_item_capi.h">cef/include/capi/cef_download_item_capi.h</see>.
-    /// </remarks>
-    public class CfxDownloadItem : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure used to represent a download item.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_item_capi.h">cef/include/capi/cef_download_item_capi.h</see>.
+	/// </remarks>
+	public class CfxDownloadItem : CfxBase {
 
         static CfxDownloadItem () {
             CfxApiLoader.LoadCfxDownloadItemApi();

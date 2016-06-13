@@ -33,16 +33,17 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure used for managing cookies. The functions of this structure may be
-    /// called on any thread unless otherwise indicated.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-    /// </remarks>
-    public class CfxCookieManager : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure used for managing cookies. The functions of this structure may be
+	/// called on any thread unless otherwise indicated.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+	/// </remarks>
+	public class CfxCookieManager : CfxBase {
 
         static CfxCookieManager () {
             CfxApiLoader.LoadCfxCookieManagerApi();

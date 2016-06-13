@@ -30,15 +30,15 @@
 
 
 
-using System;
 
-namespace Chromium {
-        
-        /// <summary>
-        /// 32-bit ARGB color value, not premultiplied. The color components are always
-        /// in a known order. Equivalent to the SkColor type.
-        /// </summary>
-    public struct CfxColor {
+namespace Chromium
+{
+
+	/// <summary>
+	/// 32-bit ARGB color value, not premultiplied. The color components are always
+	/// in a known order. Equivalent to the SkColor type.
+	/// </summary>
+	public struct CfxColor {
 
         internal static CfxColor Wrap(uint value) {
             return new CfxColor(value);

@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to handle printing on Linux. The functions of this
-    /// structure will be called on the browser process UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxPrintHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to handle printing on Linux. The functions of this
+	/// structure will be called on the browser process UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxPrintHandler : CfxBase {
 
         static CfxPrintHandler () {
             CfxApiLoader.LoadCfxPrintHandlerApi();
@@ -406,19 +407,20 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called when printing has started for the specified |Browser|. This function
-        /// will be called before the other OnPrint*() functions and irrespective of
-        /// how printing was initiated (e.g. CfxBrowserHost.Print(), JavaScript
-        /// window.print() or PDF extension print button).
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnPrintStartEventHandler(object sender, CfxOnPrintStartEventArgs e);
+		/// <summary>
+		/// Called when printing has started for the specified |Browser|. This function
+		/// will be called before the other OnPrint*() functions and irrespective of
+		/// how printing was initiated (e.g. CfxBrowserHost.Print(), JavaScript
+		/// window.print() or PDF extension print button).
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnPrintStartEventHandler(object sender, CfxOnPrintStartEventArgs e);
 
         /// <summary>
         /// Called when printing has started for the specified |Browser|. This function

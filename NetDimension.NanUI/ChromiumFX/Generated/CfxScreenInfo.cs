@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Screen information used when window rendering is disabled. This structure is
-    /// passed as a parameter to CfxRenderHandler.GetScreenInfo and should be filled
-    /// in by the client.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-    /// </remarks>
-    public sealed class CfxScreenInfo : CfxStructure {
+namespace Chromium
+{
+	/// <summary>
+	/// Screen information used when window rendering is disabled. This structure is
+	/// passed as a parameter to CfxRenderHandler.GetScreenInfo and should be filled
+	/// in by the client.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+	/// </remarks>
+	public sealed class CfxScreenInfo : CfxStructure {
 
         static CfxScreenInfo () {
             CfxApiLoader.LoadCfxScreenInfoApi();

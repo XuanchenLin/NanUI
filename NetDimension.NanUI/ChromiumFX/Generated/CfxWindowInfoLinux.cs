@@ -33,15 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Class representing window information.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types_linux.h">cef/include/internal/cef_types_linux.h</see>.
-    /// </remarks>
-    internal sealed class CfxWindowInfoLinux : CfxStructure {
+namespace Chromium
+{
+	/// <summary>
+	/// Class representing window information.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types_linux.h">cef/include/internal/cef_types_linux.h</see>.
+	/// </remarks>
+	internal sealed class CfxWindowInfoLinux : CfxStructure {
 
         static CfxWindowInfoLinux () {
             if(CfxApi.PlatformOS == CfxPlatformOS.Linux) {

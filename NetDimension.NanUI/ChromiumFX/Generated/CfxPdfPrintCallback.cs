@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Callback structure for CfxBrowserHost.PrintToPDF. The functions of this
-    /// structure will be called on the browser process UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-    /// </remarks>
-    public class CfxPdfPrintCallback : CfxBase {
+	/// <summary>
+	/// Callback structure for CfxBrowserHost.PrintToPDF. The functions of this
+	/// structure will be called on the browser process UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+	/// </remarks>
+	public class CfxPdfPrintCallback : CfxBase {
 
         static CfxPdfPrintCallback () {
             CfxApiLoader.LoadCfxPdfPrintCallbackApi();
@@ -123,18 +124,19 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Method that will be executed when the PDF printing has completed. |Path| is
-        /// the output path. |Ok| will be true (1) if the printing completed
-        /// successfully or false (0) otherwise.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxPdfPrintCallbackOnPdfPrintFinishedEventHandler(object sender, CfxPdfPrintCallbackOnPdfPrintFinishedEventArgs e);
+		/// <summary>
+		/// Method that will be executed when the PDF printing has completed. |Path| is
+		/// the output path. |Ok| will be true (1) if the printing completed
+		/// successfully or false (0) otherwise.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxPdfPrintCallbackOnPdfPrintFinishedEventHandler(object sender, CfxPdfPrintCallbackOnPdfPrintFinishedEventArgs e);
 
         /// <summary>
         /// Method that will be executed when the PDF printing has completed. |Path| is

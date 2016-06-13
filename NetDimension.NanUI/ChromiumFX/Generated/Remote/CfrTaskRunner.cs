@@ -33,21 +33,22 @@
 
 using System;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    /// <summary>
-    /// Structure that asynchronously executes tasks on the associated thread. It is
-    /// safe to call the functions of this structure on any thread.
-    /// CEF maintains multiple internal threads that are used for handling different
-    /// types of tasks in different processes. The CfrThreadId definitions in
-    /// cef_types.h list the common CEF threads. Task runners are also available for
-    /// other CEF threads as appropriate (for example, V8 WebWorker threads).
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
-    /// </remarks>
-    public class CfrTaskRunner : CfrBase {
+	/// <summary>
+	/// Structure that asynchronously executes tasks on the associated thread. It is
+	/// safe to call the functions of this structure on any thread.
+	/// CEF maintains multiple internal threads that are used for handling different
+	/// types of tasks in different processes. The CfrThreadId definitions in
+	/// cef_types.h list the common CEF threads. Task runners are also available for
+	/// other CEF threads as appropriate (for example, V8 WebWorker threads).
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
+	/// </remarks>
+	public class CfrTaskRunner : CfrBase {
 
         internal static CfrTaskRunner Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

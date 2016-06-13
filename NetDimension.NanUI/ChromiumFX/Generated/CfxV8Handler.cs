@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Structure that should be implemented to handle V8 function calls. The
-    /// functions of this structure will be called on the thread associated with the
-    /// V8 function.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-    /// </remarks>
-    public class CfxV8Handler : CfxBase {
+	/// <summary>
+	/// Structure that should be implemented to handle V8 function calls. The
+	/// functions of this structure will be called on the thread associated with the
+	/// V8 function.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+	/// </remarks>
+	public class CfxV8Handler : CfxBase {
 
         static CfxV8Handler () {
             CfxApiLoader.LoadCfxV8HandlerApi();
@@ -149,20 +150,21 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Handle execution of the function identified by |Name|. |Object| is the
-        /// receiver ('this' object) of the function. |Arguments| is the list of
-        /// arguments passed to the function. If execution succeeds set |Retval| to the
-        /// function return value. If execution fails set |Exception| to the exception
-        /// that will be thrown. Return true (1) if execution was handled.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxV8HandlerExecuteEventHandler(object sender, CfxV8HandlerExecuteEventArgs e);
+		/// <summary>
+		/// Handle execution of the function identified by |Name|. |Object| is the
+		/// receiver ('this' object) of the function. |Arguments| is the list of
+		/// arguments passed to the function. If execution succeeds set |Retval| to the
+		/// function return value. If execution fails set |Exception| to the exception
+		/// that will be thrown. Return true (1) if execution was handled.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxV8HandlerExecuteEventHandler(object sender, CfxV8HandlerExecuteEventArgs e);
 
         /// <summary>
         /// Handle execution of the function identified by |Name|. |Object| is the

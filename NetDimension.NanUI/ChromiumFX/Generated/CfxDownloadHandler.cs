@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Structure used to handle file downloads. The functions of this structure will
-    /// called on the browser process UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_handler_capi.h">cef/include/capi/cef_download_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxDownloadHandler : CfxBase {
+	/// <summary>
+	/// Structure used to handle file downloads. The functions of this structure will
+	/// called on the browser process UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_handler_capi.h">cef/include/capi/cef_download_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxDownloadHandler : CfxBase {
 
         static CfxDownloadHandler () {
             CfxApiLoader.LoadCfxDownloadHandlerApi();
@@ -188,20 +189,21 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called before a download begins. |SuggestedName| is the suggested name for
-        /// the download file. By default the download will be canceled. Execute
-        /// |Callback| either asynchronously or in this function to continue the
-        /// download if desired. Do not keep a reference to |DownloadItem| outside of
-        /// this function.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_handler_capi.h">cef/include/capi/cef_download_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnBeforeDownloadEventHandler(object sender, CfxOnBeforeDownloadEventArgs e);
+		/// <summary>
+		/// Called before a download begins. |SuggestedName| is the suggested name for
+		/// the download file. By default the download will be canceled. Execute
+		/// |Callback| either asynchronously or in this function to continue the
+		/// download if desired. Do not keep a reference to |DownloadItem| outside of
+		/// this function.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_handler_capi.h">cef/include/capi/cef_download_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnBeforeDownloadEventHandler(object sender, CfxOnBeforeDownloadEventArgs e);
 
         /// <summary>
         /// Called before a download begins. |SuggestedName| is the suggested name for

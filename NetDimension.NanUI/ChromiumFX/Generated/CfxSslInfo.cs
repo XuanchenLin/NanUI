@@ -33,15 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure representing SSL information.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_ssl_info_capi.h">cef/include/capi/cef_ssl_info_capi.h</see>.
-    /// </remarks>
-    public class CfxSslInfo : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure representing SSL information.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_ssl_info_capi.h">cef/include/capi/cef_ssl_info_capi.h</see>.
+	/// </remarks>
+	public class CfxSslInfo : CfxBase {
 
         static CfxSslInfo () {
             CfxApiLoader.LoadCfxSslInfoApi();

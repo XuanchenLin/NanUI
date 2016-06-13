@@ -31,10 +31,10 @@
 // Generated file. Do not edit.
 
 
-using System;
 
-namespace Chromium {
-    internal partial class CfxApiLoader {
+namespace Chromium
+{
+	internal partial class CfxApiLoader {
         internal enum FunctionIndex {
             cfx_add_cross_origin_whitelist_entry,
             cfx_add_web_plugin_directory,

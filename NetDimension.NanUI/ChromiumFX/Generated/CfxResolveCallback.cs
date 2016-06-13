@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Callback structure for CfxRequestContext.ResolveHost.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_capi.h">cef/include/capi/cef_request_context_capi.h</see>.
-    /// </remarks>
-    public class CfxResolveCallback : CfxBase {
+	/// <summary>
+	/// Callback structure for CfxRequestContext.ResolveHost.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_capi.h">cef/include/capi/cef_request_context_capi.h</see>.
+	/// </remarks>
+	public class CfxResolveCallback : CfxBase {
 
         static CfxResolveCallback () {
             CfxApiLoader.LoadCfxResolveCallbackApi();
@@ -122,18 +123,19 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called after the ResolveHost request has completed. |Result| will be the
-        /// result code. |ResolvedIps| will be the list of resolved IP addresses or
-        /// NULL if the resolution failed.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_capi.h">cef/include/capi/cef_request_context_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxResolveCallbackOnResolveCompletedEventHandler(object sender, CfxResolveCallbackOnResolveCompletedEventArgs e);
+		/// <summary>
+		/// Called after the ResolveHost request has completed. |Result| will be the
+		/// result code. |ResolvedIps| will be the list of resolved IP addresses or
+		/// NULL if the resolution failed.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_capi.h">cef/include/capi/cef_request_context_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxResolveCallbackOnResolveCompletedEventHandler(object sender, CfxResolveCallbackOnResolveCompletedEventArgs e);
 
         /// <summary>
         /// Called after the ResolveHost request has completed. |Result| will be the

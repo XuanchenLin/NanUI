@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Structure to implement for receiving unstable plugin information. The
-    /// functions of this structure will be called on the browser process IO thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
-    /// </remarks>
-    public class CfxWebPluginUnstableCallback : CfxBase {
+	/// <summary>
+	/// Structure to implement for receiving unstable plugin information. The
+	/// functions of this structure will be called on the browser process IO thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
+	/// </remarks>
+	public class CfxWebPluginUnstableCallback : CfxBase {
 
         static CfxWebPluginUnstableCallback () {
             CfxApiLoader.LoadCfxWebPluginUnstableCallbackApi();
@@ -123,18 +124,19 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Method that will be called for the requested plugin. |Unstable| will be
-        /// true (1) if the plugin has reached the crash count threshold of 3 times in
-        /// 120 seconds.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxWebPluginUnstableCallbackIsUnstableEventHandler(object sender, CfxWebPluginUnstableCallbackIsUnstableEventArgs e);
+		/// <summary>
+		/// Method that will be called for the requested plugin. |Unstable| will be
+		/// true (1) if the plugin has reached the crash count threshold of 3 times in
+		/// 120 seconds.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxWebPluginUnstableCallbackIsUnstableEventHandler(object sender, CfxWebPluginUnstableCallbackIsUnstableEventArgs e);
 
         /// <summary>
         /// Method that will be called for the requested plugin. |Unstable| will be

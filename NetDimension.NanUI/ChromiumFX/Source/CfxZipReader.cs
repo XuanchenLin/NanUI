@@ -30,9 +30,10 @@
 
 using System;
 
-namespace Chromium {
+namespace Chromium
+{
 
-    public partial class CfxZipReader {
+	public partial class CfxZipReader {
         /// <summary>
         /// Read uncompressed file contents into the specified buffer. Returns 
         /// 0 if at the end of file, or the number of bytes read.

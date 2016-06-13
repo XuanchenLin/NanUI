@@ -33,11 +33,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace Chromium.Remote {
-    /// <summary>
-    /// Marshals a call from the render process to the browser process.
-    /// </summary>
-    abstract class BrowserProcessCall : RemoteCall {
+namespace Chromium.Remote
+{
+	/// <summary>
+	/// Marshals a call from the render process to the browser process.
+	/// </summary>
+	abstract class BrowserProcessCall : RemoteCall {
 
         private static readonly Dictionary<ulong, object> eventArgs = new Dictionary<ulong, object>();
         private static ulong globalEventArgId;

@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to filter resource response content. The functions
-    /// of this structure will be called on the browser process IO thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_filter_capi.h">cef/include/capi/cef_response_filter_capi.h</see>.
-    /// </remarks>
-    public class CfxResponseFilter : CfxBase {
+	/// <summary>
+	/// Implement this structure to filter resource response content. The functions
+	/// of this structure will be called on the browser process IO thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_filter_capi.h">cef/include/capi/cef_response_filter_capi.h</see>.
+	/// </remarks>
+	public class CfxResponseFilter : CfxBase {
 
         static CfxResponseFilter () {
             CfxApiLoader.LoadCfxResponseFilterApi();
@@ -198,17 +199,18 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Initialize the response filter. Will only be called a single time. The
-        /// filter will not be installed if this function returns false (0).
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_filter_capi.h">cef/include/capi/cef_response_filter_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxInitFilterEventHandler(object sender, CfxInitFilterEventArgs e);
+		/// <summary>
+		/// Initialize the response filter. Will only be called a single time. The
+		/// filter will not be installed if this function returns false (0).
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_filter_capi.h">cef/include/capi/cef_response_filter_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxInitFilterEventHandler(object sender, CfxInitFilterEventArgs e);
 
         /// <summary>
         /// Initialize the response filter. Will only be called a single time. The

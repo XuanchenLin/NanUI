@@ -32,9 +32,10 @@
 using System;
 using System.IO;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    internal abstract class PipeFactory {
+	internal abstract class PipeFactory {
 
         private static PipeFactory singleton;
 

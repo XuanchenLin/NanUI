@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Structure that creates CfxResourceHandler instances for handling scheme
-    /// requests. The functions of this structure will always be called on the IO
-    /// thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
-    /// </remarks>
-    public class CfxSchemeHandlerFactory : CfxBase {
+	/// <summary>
+	/// Structure that creates CfxResourceHandler instances for handling scheme
+	/// requests. The functions of this structure will always be called on the IO
+	/// thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
+	/// </remarks>
+	public class CfxSchemeHandlerFactory : CfxBase {
 
         static CfxSchemeHandlerFactory () {
             CfxApiLoader.LoadCfxSchemeHandlerFactoryApi();
@@ -133,21 +134,22 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Return a new resource handler instance to handle the request or an NULL
-        /// reference to allow default handling of the request. |Browser| and |Frame|
-        /// will be the browser window and frame respectively that originated the
-        /// request or NULL if the request did not originate from a browser window (for
-        /// example, if the request came from CfxUrlRequest). The |Request| object
-        /// passed to this function will not contain cookie data.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxSchemeHandlerFactoryCreateEventHandler(object sender, CfxSchemeHandlerFactoryCreateEventArgs e);
+		/// <summary>
+		/// Return a new resource handler instance to handle the request or an NULL
+		/// reference to allow default handling of the request. |Browser| and |Frame|
+		/// will be the browser window and frame respectively that originated the
+		/// request or NULL if the request did not originate from a browser window (for
+		/// example, if the request came from CfxUrlRequest). The |Request| object
+		/// passed to this function will not contain cookie data.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxSchemeHandlerFactoryCreateEventHandler(object sender, CfxSchemeHandlerFactoryCreateEventArgs e);
 
         /// <summary>
         /// Return a new resource handler instance to handle the request or an NULL

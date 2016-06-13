@@ -30,8 +30,9 @@
 
 using System;
 
-namespace Chromium {
-    internal class TimeFunctions {
+namespace Chromium
+{
+	internal class TimeFunctions {
         private static DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
         internal static DateTime FromTimeT(ulong t) {
             return epoch.AddSeconds(t);

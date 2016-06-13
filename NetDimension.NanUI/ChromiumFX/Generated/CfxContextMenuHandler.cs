@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to handle context menu events. The functions of this
-    /// structure will be called on the UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxContextMenuHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to handle context menu events. The functions of this
+	/// structure will be called on the UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxContextMenuHandler : CfxBase {
 
         static CfxContextMenuHandler () {
             CfxApiLoader.LoadCfxContextMenuHandlerApi();
@@ -314,20 +315,21 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called before a context menu is displayed. |Params| provides information
-        /// about the context menu state. |Model| initially contains the default
-        /// context menu. The |Model| can be cleared to show no context menu or
-        /// modified to show a custom menu. Do not keep references to |Params| or
-        /// |Model| outside of this callback.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnBeforeContextMenuEventHandler(object sender, CfxOnBeforeContextMenuEventArgs e);
+		/// <summary>
+		/// Called before a context menu is displayed. |Params| provides information
+		/// about the context menu state. |Model| initially contains the default
+		/// context menu. The |Model| can be cleared to show no context menu or
+		/// modified to show a custom menu. Do not keep references to |Params| or
+		/// |Model| outside of this callback.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnBeforeContextMenuEventHandler(object sender, CfxOnBeforeContextMenuEventArgs e);
 
         /// <summary>
         /// Called before a context menu is displayed. |Params| provides information

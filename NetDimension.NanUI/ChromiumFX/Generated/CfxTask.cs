@@ -33,22 +33,21 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
-
-    /// <summary>
-    /// Implement this structure for asynchronous task execution. If the task is
-    /// posted successfully and if the associated message loop is still running then
-    /// the execute() function will be called on the target thread. If the task fails
-    /// to post then the task object may be destroyed on the source thread instead of
-    /// the target thread. For this reason be cautious when performing work in the
-    /// task object destructor.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
-    /// </remarks>
-    public class CfxTask : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Implement this structure for asynchronous task execution. If the task is
+	/// posted successfully and if the associated message loop is still running then
+	/// the execute() function will be called on the target thread. If the task fails
+	/// to post then the task object may be destroyed on the source thread instead of
+	/// the target thread. For this reason be cautious when performing work in the
+	/// task object destructor.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
+	/// </remarks>
+	public class CfxTask : CfxBase {
 
         static CfxTask () {
             CfxApiLoader.LoadCfxTaskApi();
@@ -125,8 +124,9 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
 
-    }
+	}
 }

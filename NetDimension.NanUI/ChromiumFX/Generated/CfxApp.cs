@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to provide handler implementations. Methods will be
-    /// called by the process and/or thread indicated.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_app_capi.h">cef/include/capi/cef_app_capi.h</see>.
-    /// </remarks>
-    public partial class CfxApp : CfxBase {
+	/// <summary>
+	/// Implement this structure to provide handler implementations. Methods will be
+	/// called by the process and/or thread indicated.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_app_capi.h">cef/include/capi/cef_app_capi.h</see>.
+	/// </remarks>
+	public partial class CfxApp : CfxBase {
 
         static CfxApp () {
             CfxApiLoader.LoadCfxAppApi();
@@ -357,24 +358,25 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Provides an opportunity to view and/or modify command-line arguments before
-        /// processing by CEF and Chromium. The |ProcessType| value will be NULL for
-        /// the browser process. Do not keep a reference to the CfxCommandLine
-        /// object passed to this function. The CfxSettings.CommandLineArgsDisabled
-        /// value can be used to start with an NULL command-line object. Any values
-        /// specified in CfxSettings that equate to command-line arguments will be set
-        /// before this function is called. Be cautious when using this function to
-        /// modify command-line arguments for non-browser processes as this may result
-        /// in undefined behavior including crashes.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_app_capi.h">cef/include/capi/cef_app_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnBeforeCommandLineProcessingEventHandler(object sender, CfxOnBeforeCommandLineProcessingEventArgs e);
+		/// <summary>
+		/// Provides an opportunity to view and/or modify command-line arguments before
+		/// processing by CEF and Chromium. The |ProcessType| value will be NULL for
+		/// the browser process. Do not keep a reference to the CfxCommandLine
+		/// object passed to this function. The CfxSettings.CommandLineArgsDisabled
+		/// value can be used to start with an NULL command-line object. Any values
+		/// specified in CfxSettings that equate to command-line arguments will be set
+		/// before this function is called. Be cautious when using this function to
+		/// modify command-line arguments for non-browser processes as this may result
+		/// in undefined behavior including crashes.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_app_capi.h">cef/include/capi/cef_app_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnBeforeCommandLineProcessingEventHandler(object sender, CfxOnBeforeCommandLineProcessingEventArgs e);
 
         /// <summary>
         /// Provides an opportunity to view and/or modify command-line arguments before

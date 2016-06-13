@@ -31,15 +31,13 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Chromium.Remote {
-    /// <summary>
-    /// Marshals a call from the browser process to the render process.
-    /// </summary>
-    abstract class RenderProcessCall : RemoteCall {
+namespace Chromium.Remote
+{
+	/// <summary>
+	/// Marshals a call from the browser process to the render process.
+	/// </summary>
+	abstract class RenderProcessCall : RemoteCall {
 
         internal RenderProcessCall(RemoteCallId callId) : base(callId) { }
         internal RenderProcessCall(RemoteCallId callId, bool returnImmediately) : base(callId, returnImmediately) { }

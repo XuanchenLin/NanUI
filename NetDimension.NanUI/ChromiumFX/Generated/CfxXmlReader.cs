@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure that supports the reading of XML data via the libxml streaming API.
-    /// The functions of this structure should only be called on the thread that
-    /// creates the object.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
-    /// </remarks>
-    public class CfxXmlReader : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure that supports the reading of XML data via the libxml streaming API.
+	/// The functions of this structure should only be called on the thread that
+	/// creates the object.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
+	/// </remarks>
+	public class CfxXmlReader : CfxBase {
 
         static CfxXmlReader () {
             CfxApiLoader.LoadCfxXmlReaderApi();

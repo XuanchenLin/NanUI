@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to provide handler implementations. The handler
-    /// instance will not be released until all objects related to the context have
-    /// been destroyed.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_handler_capi.h">cef/include/capi/cef_request_context_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxRequestContextHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to provide handler implementations. The handler
+	/// instance will not be released until all objects related to the context have
+	/// been destroyed.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_handler_capi.h">cef/include/capi/cef_request_context_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxRequestContextHandler : CfxBase {
 
         static CfxRequestContextHandler () {
             CfxApiLoader.LoadCfxRequestContextHandlerApi();
@@ -197,18 +198,19 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called on the browser process IO thread to retrieve the cookie manager. If
-        /// this function returns NULL the default cookie manager retrievable via
-        /// CfxRequestContext.GetDefaultCookieManager() will be used.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_handler_capi.h">cef/include/capi/cef_request_context_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxGetCookieManagerEventHandler(object sender, CfxGetCookieManagerEventArgs e);
+		/// <summary>
+		/// Called on the browser process IO thread to retrieve the cookie manager. If
+		/// this function returns NULL the default cookie manager retrievable via
+		/// CfxRequestContext.GetDefaultCookieManager() will be used.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_handler_capi.h">cef/include/capi/cef_request_context_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxGetCookieManagerEventHandler(object sender, CfxGetCookieManagerEventArgs e);
 
         /// <summary>
         /// Called on the browser process IO thread to retrieve the cookie manager. If

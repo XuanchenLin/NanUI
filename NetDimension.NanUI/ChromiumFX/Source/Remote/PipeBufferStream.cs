@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 
-namespace Chromium.Remote {
-    /// <summary>
-    /// Buffer data until Flush() or until the buffer is full 
-    /// and read data into a buffer in an attempt to bundle 
-    /// several pipe read/write operations into one.
-    /// </summary>
-    class PipeBufferStream : Stream {
+namespace Chromium.Remote
+{
+	/// <summary>
+	/// Buffer data until Flush() or until the buffer is full 
+	/// and read data into a buffer in an attempt to bundle 
+	/// several pipe read/write operations into one.
+	/// </summary>
+	class PipeBufferStream : Stream {
 
         internal const int bufferLength = 1024;
 

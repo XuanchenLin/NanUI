@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to handle events related to browser load status. The
-    /// functions of this structure will be called on the browser process UI thread
-    /// or render process main thread (TID_RENDERER).
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxLoadHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to handle events related to browser load status. The
+	/// functions of this structure will be called on the browser process UI thread
+	/// or render process main thread (TID_RENDERER).
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxLoadHandler : CfxBase {
 
         static CfxLoadHandler () {
             CfxApiLoader.LoadCfxLoadHandlerApi();
@@ -307,20 +308,21 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called when the loading state has changed. This callback will be executed
-        /// twice -- once when loading is initiated either programmatically or by user
-        /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure. It will be called before any calls to OnLoadStart and after all
-        /// calls to OnLoadError and/or OnLoadEnd.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnLoadingStateChangeEventHandler(object sender, CfxOnLoadingStateChangeEventArgs e);
+		/// <summary>
+		/// Called when the loading state has changed. This callback will be executed
+		/// twice -- once when loading is initiated either programmatically or by user
+		/// action, and once when loading is terminated due to completion, cancellation
+		/// of failure. It will be called before any calls to OnLoadStart and after all
+		/// calls to OnLoadError and/or OnLoadEnd.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnLoadingStateChangeEventHandler(object sender, CfxOnLoadingStateChangeEventArgs e);
 
         /// <summary>
         /// Called when the loading state has changed. This callback will be executed

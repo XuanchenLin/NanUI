@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium.Remote {
-    using Event;
+namespace Chromium.Remote
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to receive string values asynchronously.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
-    /// </remarks>
-    public class CfrStringVisitor : CfrBase {
+	/// <summary>
+	/// Implement this structure to receive string values asynchronously.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
+	/// </remarks>
+	public class CfrStringVisitor : CfrBase {
 
         internal static CfrStringVisitor Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;
@@ -112,16 +113,17 @@ namespace Chromium.Remote {
         }
     }
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Method that will be executed.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
-        /// </remarks>
-        public delegate void CfrStringVisitorVisitEventHandler(object sender, CfrStringVisitorVisitEventArgs e);
+		/// <summary>
+		/// Method that will be executed.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
+		/// </remarks>
+		public delegate void CfrStringVisitorVisitEventHandler(object sender, CfrStringVisitorVisitEventArgs e);
 
         /// <summary>
         /// Method that will be executed.

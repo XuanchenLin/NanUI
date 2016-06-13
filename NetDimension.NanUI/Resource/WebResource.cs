@@ -35,7 +35,6 @@ using Chromium.Event;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System;
 
 namespace NetDimension.NanUI.Resource
 {

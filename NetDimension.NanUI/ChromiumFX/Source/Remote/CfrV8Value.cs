@@ -30,10 +30,10 @@
 
 
 
-using System;
 
-namespace Chromium.Remote {
-    partial class CfrV8Value {
+namespace Chromium.Remote
+{
+	partial class CfrV8Value {
 
         public static implicit operator CfrV8Value(bool value) {
             return CfrV8Value.CreateBool(value);

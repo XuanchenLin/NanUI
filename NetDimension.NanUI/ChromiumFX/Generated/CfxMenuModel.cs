@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Supports creation and modification of menus. See CfxMenuId for the
-    /// command ids that have default implementations. All user-defined command ids
-    /// should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of
-    /// this structure can only be accessed on the browser process the UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_menu_model_capi.h">cef/include/capi/cef_menu_model_capi.h</see>.
-    /// </remarks>
-    public class CfxMenuModel : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Supports creation and modification of menus. See CfxMenuId for the
+	/// command ids that have default implementations. All user-defined command ids
+	/// should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of
+	/// this structure can only be accessed on the browser process the UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_menu_model_capi.h">cef/include/capi/cef_menu_model_capi.h</see>.
+	/// </remarks>
+	public class CfxMenuModel : CfxBase {
 
         static CfxMenuModel () {
             CfxApiLoader.LoadCfxMenuModelApi();

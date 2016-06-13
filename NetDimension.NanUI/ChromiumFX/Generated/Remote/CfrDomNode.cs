@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    /// <summary>
-    /// Structure used to represent a DOM node. The functions of this structure
-    /// should only be called on the render process main thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
-    /// </remarks>
-    public class CfrDomNode : CfrBase {
+	/// <summary>
+	/// Structure used to represent a DOM node. The functions of this structure
+	/// should only be called on the render process main thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
+	/// </remarks>
+	public class CfrDomNode : CfrBase {
 
         internal static CfrDomNode Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

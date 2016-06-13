@@ -32,8 +32,9 @@
 
 using System;
 
-namespace Chromium {
-    public partial class CfxBinaryValue {
+namespace Chromium
+{
+	public partial class CfxBinaryValue {
 
         /// <summary>
         /// Creates a new object that is not owned by any other object. The specified

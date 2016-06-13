@@ -33,9 +33,10 @@
 
 using System;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    internal class CfxBrowserCanGoBackRenderProcessCall : RenderProcessCall {
+	internal class CfxBrowserCanGoBackRenderProcessCall : RenderProcessCall {
 
         internal CfxBrowserCanGoBackRenderProcessCall()
             : base(RemoteCallId.CfxBrowserCanGoBackRenderProcessCall) {}

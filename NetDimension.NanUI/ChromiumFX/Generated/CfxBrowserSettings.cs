@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Browser initialization settings. Specify NULL or 0 to get the recommended
-    /// default values. The consequences of using custom values may not be well
-    /// tested. Many of these and other settings can also configured using command-
-    /// line switches.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-    /// </remarks>
-    public sealed class CfxBrowserSettings : CfxStructure {
+namespace Chromium
+{
+	/// <summary>
+	/// Browser initialization settings. Specify NULL or 0 to get the recommended
+	/// default values. The consequences of using custom values may not be well
+	/// tested. Many of these and other settings can also configured using command-
+	/// line switches.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+	/// </remarks>
+	public sealed class CfxBrowserSettings : CfxStructure {
 
         static CfxBrowserSettings () {
             CfxApiLoader.LoadCfxBrowserSettingsApi();

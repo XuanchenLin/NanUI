@@ -34,8 +34,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Chromium {
-    internal class StringFunctions {
+namespace Chromium
+{
+	internal class StringFunctions {
 
         static StringFunctions() {
             CfxApiLoader.LoadStringCollectionApi();

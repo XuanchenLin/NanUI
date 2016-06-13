@@ -32,8 +32,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Chromium {
-    internal abstract class NativeFunctionLoader {
+namespace Chromium
+{
+	internal abstract class NativeFunctionLoader {
 
         internal static NativeFunctionLoader Create() {
             // use path separator character instead of Environment.OSVersion.Platform

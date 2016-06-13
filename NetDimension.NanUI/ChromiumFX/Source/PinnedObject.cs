@@ -33,8 +33,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Chromium {
-    internal struct PinnedObject {
+namespace Chromium
+{
+	internal struct PinnedObject {
 
         public IntPtr PinnedPtr;
         private GCHandle handle;

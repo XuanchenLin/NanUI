@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    /// <summary>
-    /// Structure used to represent a browser window. When used in the browser
-    /// process the functions of this structure may be called on any thread unless
-    /// otherwise indicated in the comments. When used in the render process the
-    /// functions of this structure may only be called on the main thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-    /// </remarks>
-    public class CfrBrowser : CfrBase {
+	/// <summary>
+	/// Structure used to represent a browser window. When used in the browser
+	/// process the functions of this structure may be called on any thread unless
+	/// otherwise indicated in the comments. When used in the render process the
+	/// functions of this structure may only be called on the main thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+	/// </remarks>
+	public class CfrBrowser : CfrBase {
 
         internal static CfrBrowser Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

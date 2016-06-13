@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to receive notification when tracing has completed.
-    /// The functions of this structure will be called on the browser process UI
-    /// thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_trace_capi.h">cef/include/capi/cef_trace_capi.h</see>.
-    /// </remarks>
-    public class CfxEndTracingCallback : CfxBase {
+	/// <summary>
+	/// Implement this structure to receive notification when tracing has completed.
+	/// The functions of this structure will be called on the browser process UI
+	/// thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_trace_capi.h">cef/include/capi/cef_trace_capi.h</see>.
+	/// </remarks>
+	public class CfxEndTracingCallback : CfxBase {
 
         static CfxEndTracingCallback () {
             CfxApiLoader.LoadCfxEndTracingCallbackApi();
@@ -124,18 +125,19 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called after all processes have sent their trace data. |TracingFile| is
-        /// the path at which tracing data was written. The client is responsible for
-        /// deleting |TracingFile|.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_trace_capi.h">cef/include/capi/cef_trace_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxEndTracingCallbackOnEndTracingCompleteEventHandler(object sender, CfxEndTracingCallbackOnEndTracingCompleteEventArgs e);
+		/// <summary>
+		/// Called after all processes have sent their trace data. |TracingFile| is
+		/// the path at which tracing data was written. The client is responsible for
+		/// deleting |TracingFile|.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_trace_capi.h">cef/include/capi/cef_trace_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxEndTracingCallbackOnEndTracingCompleteEventHandler(object sender, CfxEndTracingCallbackOnEndTracingCompleteEventArgs e);
 
         /// <summary>
         /// Called after all processes have sent their trace data. |TracingFile| is

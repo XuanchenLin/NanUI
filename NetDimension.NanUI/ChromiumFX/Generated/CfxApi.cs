@@ -31,12 +31,12 @@
 // Generated file. Do not edit.
 
 
+using System;
 using System.Runtime.InteropServices;
 
-using System;
-
-namespace Chromium {
-    internal partial class CfxApi {
+namespace Chromium
+{
+	internal partial class CfxApi {
 
         // global cef export functions
 

@@ -33,15 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure used to represent an entry in navigation history.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_navigation_entry_capi.h">cef/include/capi/cef_navigation_entry_capi.h</see>.
-    /// </remarks>
-    public class CfxNavigationEntry : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure used to represent an entry in navigation history.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_navigation_entry_capi.h">cef/include/capi/cef_navigation_entry_capi.h</see>.
+	/// </remarks>
+	public class CfxNavigationEntry : CfxBase {
 
         static CfxNavigationEntry () {
             CfxApiLoader.LoadCfxNavigationEntryApi();

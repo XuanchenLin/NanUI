@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to handle events related to browser requests. The
-    /// functions of this structure will be called on the thread indicated.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxRequestHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to handle events related to browser requests. The
+	/// functions of this structure will be called on the thread indicated.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxRequestHandler : CfxBase {
 
         static CfxRequestHandler () {
             CfxApiLoader.LoadCfxRequestHandlerApi();
@@ -992,23 +993,24 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called on the UI thread before browser navigation. Return true (1) to
-        /// cancel the navigation or false (0) to allow the navigation to proceed. The
-        /// |Request| object cannot be modified in this callback.
-        /// CfxLoadHandler.OnLoadingStateChange will be called twice in all cases.
-        /// If the navigation is allowed CfxLoadHandler.OnLoadStart and
-        /// CfxLoadHandler.OnLoadEnd will be called. If the navigation is canceled
-        /// CfxLoadHandler.OnLoadError will be called with an |ErrorCode| value of
-        /// ERR_ABORTED.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnBeforeBrowseEventHandler(object sender, CfxOnBeforeBrowseEventArgs e);
+		/// <summary>
+		/// Called on the UI thread before browser navigation. Return true (1) to
+		/// cancel the navigation or false (0) to allow the navigation to proceed. The
+		/// |Request| object cannot be modified in this callback.
+		/// CfxLoadHandler.OnLoadingStateChange will be called twice in all cases.
+		/// If the navigation is allowed CfxLoadHandler.OnLoadStart and
+		/// CfxLoadHandler.OnLoadEnd will be called. If the navigation is canceled
+		/// CfxLoadHandler.OnLoadError will be called with an |ErrorCode| value of
+		/// ERR_ABORTED.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnBeforeBrowseEventHandler(object sender, CfxOnBeforeBrowseEventArgs e);
 
         /// <summary>
         /// Called on the UI thread before browser navigation. Return true (1) to

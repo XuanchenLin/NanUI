@@ -3,23 +3,18 @@ using NetDimension.NanUI.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NetDimension.NanUI
 {
 	using Chromium;
-	using Chromium.Remote;
-	using System.Drawing;
-	using System.Threading.Tasks;
 	using Chromium.Event;
+	using Chromium.Remote;
 	using Chromium.Remote.Event;
 	using Resource;
+	using System.Drawing;
+	using System.Threading.Tasks;
 	public class HtmlUIForm : Form, IChromiumWebBrowser
 	{
 		private const int BORDER_WIDTH = 6;

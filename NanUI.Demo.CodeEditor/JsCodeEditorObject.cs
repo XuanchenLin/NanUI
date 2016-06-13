@@ -1,15 +1,8 @@
-﻿using Chromium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Linq;
 
 namespace NanUI.Demo.CodeEditor
 {
 	using Chromium.Remote;
-	using NetDimension.NanUI;
 	using NetDimension.NanUI.ChromiumCore;
 	class JsCodeEditorObject : JSObject
 	{

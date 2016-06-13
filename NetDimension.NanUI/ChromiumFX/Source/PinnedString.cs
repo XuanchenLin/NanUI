@@ -30,9 +30,9 @@
 
 
 
-using System;
-namespace Chromium {
-    internal struct PinnedString {
+namespace Chromium
+{
+	internal struct PinnedString {
 
         public PinnedObject Obj;
         public int Length;

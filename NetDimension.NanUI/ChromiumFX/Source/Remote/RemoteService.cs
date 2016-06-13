@@ -33,17 +33,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace Chromium {
-    /// <summary>
-    /// Delegate for the main callback of the remote render process.
-    /// </summary>
-    /// <returns></returns>
-    public delegate int CfxRenderProcessMainDelegate();
+namespace Chromium
+{
+	/// <summary>
+	/// Delegate for the main callback of the remote render process.
+	/// </summary>
+	/// <returns></returns>
+	public delegate int CfxRenderProcessMainDelegate();
 }
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    internal class RemoteService {
+	internal class RemoteService {
 
         internal static CfxRenderProcessMainDelegate renderProcessMainCallback;
         internal static readonly List<RemoteConnection> connections = new List<RemoteConnection>();

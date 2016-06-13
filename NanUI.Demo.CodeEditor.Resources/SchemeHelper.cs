@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NanUI.Demo.CodeEditor.Resources
+﻿namespace NanUI.Demo.CodeEditor.Resources
 {
 	public static class SchemeHelper
 	{

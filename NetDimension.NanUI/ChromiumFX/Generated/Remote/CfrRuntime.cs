@@ -31,10 +31,10 @@
 // Generated file. Do not edit.
 
 
-using System;
 
-namespace Chromium.Remote {
-    public partial class CfrRuntime {
+namespace Chromium.Remote
+{
+	public partial class CfrRuntime {
 
         /// <summary>
         /// Returns true (1) if called on the specified thread. Equivalent to using

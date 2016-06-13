@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to handle dialog events. The functions of this
-    /// structure will be called on the browser process UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dialog_handler_capi.h">cef/include/capi/cef_dialog_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxDialogHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to handle dialog events. The functions of this
+	/// structure will be called on the browser process UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dialog_handler_capi.h">cef/include/capi/cef_dialog_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxDialogHandler : CfxBase {
 
         static CfxDialogHandler () {
             CfxApiLoader.LoadCfxDialogHandlerApi();
@@ -137,28 +138,29 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called to run a file chooser dialog. |Mode| represents the type of dialog
-        /// to display. |Title| to the title to be used for the dialog and may be NULL
-        /// to show the default title ("Open" or "Save" depending on the mode).
-        /// |DefaultFilePath| is the path with optional directory and/or file name
-        /// component that should be initially selected in the dialog. |AcceptFilters|
-        /// are used to restrict the selectable file types and may any combination of
-        /// (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b)
-        /// individual file extensions (e.g. ".txt" or ".png"), or (c) combined
-        /// description and file extension delimited using "|" and ";" (e.g. "Image
-        /// Types|.png;.gif;.jpg"). |SelectedAcceptFilter| is the 0-based index of
-        /// the filter that should be selected by default. To display a custom dialog
-        /// return true (1) and execute |Callback| either inline or at a later time. To
-        /// display the default dialog return false (0).
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dialog_handler_capi.h">cef/include/capi/cef_dialog_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxDialogHandlerOnFileDialogEventHandler(object sender, CfxDialogHandlerOnFileDialogEventArgs e);
+		/// <summary>
+		/// Called to run a file chooser dialog. |Mode| represents the type of dialog
+		/// to display. |Title| to the title to be used for the dialog and may be NULL
+		/// to show the default title ("Open" or "Save" depending on the mode).
+		/// |DefaultFilePath| is the path with optional directory and/or file name
+		/// component that should be initially selected in the dialog. |AcceptFilters|
+		/// are used to restrict the selectable file types and may any combination of
+		/// (a) valid lower-cased MIME types (e.g. "text/*" or "image/*"), (b)
+		/// individual file extensions (e.g. ".txt" or ".png"), or (c) combined
+		/// description and file extension delimited using "|" and ";" (e.g. "Image
+		/// Types|.png;.gif;.jpg"). |SelectedAcceptFilter| is the 0-based index of
+		/// the filter that should be selected by default. To display a custom dialog
+		/// return true (1) and execute |Callback| either inline or at a later time. To
+		/// display the default dialog return false (0).
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dialog_handler_capi.h">cef/include/capi/cef_dialog_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxDialogHandlerOnFileDialogEventHandler(object sender, CfxDialogHandlerOnFileDialogEventArgs e);
 
         /// <summary>
         /// Called to run a file chooser dialog. |Mode| represents the type of dialog

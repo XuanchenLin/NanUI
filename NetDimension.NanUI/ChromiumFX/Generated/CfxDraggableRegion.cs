@@ -33,15 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure representing a draggable region.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-    /// </remarks>
-    public sealed class CfxDraggableRegion : CfxStructure {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure representing a draggable region.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+	/// </remarks>
+	public sealed class CfxDraggableRegion : CfxStructure {
 
         static CfxDraggableRegion () {
             CfxApiLoader.LoadCfxDraggableRegionApi();

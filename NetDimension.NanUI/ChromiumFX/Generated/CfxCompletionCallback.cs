@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
-
-    /// <summary>
-    /// Generic callback structure used for asynchronous completion.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_callback_capi.h">cef/include/capi/cef_callback_capi.h</see>.
-    /// </remarks>
-    public class CfxCompletionCallback : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Generic callback structure used for asynchronous completion.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_callback_capi.h">cef/include/capi/cef_callback_capi.h</see>.
+	/// </remarks>
+	public class CfxCompletionCallback : CfxBase {
 
         static CfxCompletionCallback () {
             CfxApiLoader.LoadCfxCompletionCallbackApi();
@@ -120,8 +119,9 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
 
-    }
+	}
 }

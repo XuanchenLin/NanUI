@@ -35,7 +35,7 @@ using System.Runtime.InteropServices;
 
 namespace Chromium
 {
-    partial class CfxApi
+	partial class CfxApi
     {
 
         internal static IntPtr libcfxPtr;

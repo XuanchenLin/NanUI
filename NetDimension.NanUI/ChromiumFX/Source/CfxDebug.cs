@@ -29,11 +29,11 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-using System;
 using System.Diagnostics;
 
-namespace Chromium {
-    internal class CfxDebug {
+namespace Chromium
+{
+	internal class CfxDebug {
         [Conditional("DEBUG")]
         internal static void Announce() {
             Debug.Print("Running ChromiumFX debug library.");

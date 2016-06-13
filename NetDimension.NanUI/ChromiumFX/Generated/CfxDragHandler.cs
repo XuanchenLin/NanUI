@@ -33,18 +33,19 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to handle events related to dragging. The functions
-    /// of this structure will be called on the UI thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_handler_capi.h">cef/include/capi/cef_drag_handler_capi.h</see>.
-    /// </remarks>
-    public class CfxDragHandler : CfxBase {
+	/// <summary>
+	/// Implement this structure to handle events related to dragging. The functions
+	/// of this structure will be called on the UI thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_handler_capi.h">cef/include/capi/cef_drag_handler_capi.h</see>.
+	/// </remarks>
+	public class CfxDragHandler : CfxBase {
 
         static CfxDragHandler () {
             CfxApiLoader.LoadCfxDragHandlerApi();
@@ -191,19 +192,20 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Called when an external drag event enters the browser window. |DragData|
-        /// contains the drag event data and |Mask| represents the type of drag
-        /// operation. Return false (0) for default drag handling behavior or true (1)
-        /// to cancel the drag event.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_handler_capi.h">cef/include/capi/cef_drag_handler_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxOnDragEnterEventHandler(object sender, CfxOnDragEnterEventArgs e);
+		/// <summary>
+		/// Called when an external drag event enters the browser window. |DragData|
+		/// contains the drag event data and |Mask| represents the type of drag
+		/// operation. Return false (0) for default drag handling behavior or true (1)
+		/// to cancel the drag event.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_handler_capi.h">cef/include/capi/cef_drag_handler_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxOnDragEnterEventHandler(object sender, CfxOnDragEnterEventArgs e);
 
         /// <summary>
         /// Called when an external drag event enters the browser window. |DragData|

@@ -33,15 +33,16 @@
 
 using System;
 
-namespace Chromium {
-    /// <summary>
-    /// Structure representing a list value. Can be used on any process and thread.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
-    /// </remarks>
-    public class CfxListValue : CfxBase {
+namespace Chromium
+{
+	/// <summary>
+	/// Structure representing a list value. Can be used on any process and thread.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
+	/// </remarks>
+	public class CfxListValue : CfxBase {
 
         static CfxListValue () {
             CfxApiLoader.LoadCfxListValueApi();

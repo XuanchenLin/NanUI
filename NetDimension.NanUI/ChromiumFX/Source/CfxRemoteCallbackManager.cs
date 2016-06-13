@@ -1,16 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 
-namespace Chromium {
+namespace Chromium
+{
 
-    /// <summary>
-    /// Provides methods and events for managing the remote callback interface.
-    /// </summary>
-    public static class CfxRemoteCallbackManager {
+	/// <summary>
+	/// Provides methods and events for managing the remote callback interface.
+	/// </summary>
+	public static class CfxRemoteCallbackManager {
 
         private static readonly object syncLock = new object();
 

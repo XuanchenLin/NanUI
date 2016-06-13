@@ -28,15 +28,12 @@
 // TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Chromium.Event;
 
-namespace Chromium {
-    partial class CfxApp {
+namespace Chromium
+{
+	partial class CfxApp {
         internal CfxBrowserProcessHandler RetrieveBrowserProcessHandler() {
             var h = m_GetBrowserProcessHandler;
             if(h != null) {

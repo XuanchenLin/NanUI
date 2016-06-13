@@ -33,19 +33,20 @@
 
 using System;
 
-namespace Chromium.Remote {
-    using Event;
+namespace Chromium.Remote
+{
+	using Event;
 
-    /// <summary>
-    /// Structure that should be implemented to handle V8 function calls. The
-    /// functions of this structure will be called on the thread associated with the
-    /// V8 function.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-    /// </remarks>
-    public class CfrV8Handler : CfrBase {
+	/// <summary>
+	/// Structure that should be implemented to handle V8 function calls. The
+	/// functions of this structure will be called on the thread associated with the
+	/// V8 function.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+	/// </remarks>
+	public class CfrV8Handler : CfrBase {
 
         internal static CfrV8Handler Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;
@@ -118,20 +119,21 @@ namespace Chromium.Remote {
         }
     }
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Handle execution of the function identified by |Name|. |Object| is the
-        /// receiver ('this' object) of the function. |Arguments| is the list of
-        /// arguments passed to the function. If execution succeeds set |Retval| to the
-        /// function return value. If execution fails set |Exception| to the exception
-        /// that will be thrown. Return true (1) if execution was handled.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-        /// </remarks>
-        public delegate void CfrV8HandlerExecuteEventHandler(object sender, CfrV8HandlerExecuteEventArgs e);
+		/// <summary>
+		/// Handle execution of the function identified by |Name|. |Object| is the
+		/// receiver ('this' object) of the function. |Arguments| is the list of
+		/// arguments passed to the function. If execution succeeds set |Retval| to the
+		/// function return value. If execution fails set |Exception| to the exception
+		/// that will be thrown. Return true (1) if execution was handled.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+		/// </remarks>
+		public delegate void CfrV8HandlerExecuteEventHandler(object sender, CfrV8HandlerExecuteEventArgs e);
 
         /// <summary>
         /// Handle execution of the function identified by |Name|. |Object| is the

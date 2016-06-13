@@ -32,12 +32,13 @@
 
 using System;
 
-namespace Chromium {
+namespace Chromium
+{
 
-    /// <summary>
-    /// Base class for all wrapper classes for CEF structs.
-    /// </summary>
-    public abstract class CfxObject : IDisposable {
+	/// <summary>
+	/// Base class for all wrapper classes for CEF structs.
+	/// </summary>
+	public abstract class CfxObject : IDisposable {
 
         private IntPtr m_nativePtr;
                 

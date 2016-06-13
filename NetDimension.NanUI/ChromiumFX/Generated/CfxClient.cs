@@ -33,17 +33,18 @@
 
 using System;
 
-namespace Chromium {
-    using Event;
+namespace Chromium
+{
+	using Event;
 
-    /// <summary>
-    /// Implement this structure to provide handler implementations.
-    /// </summary>
-    /// <remarks>
-    /// See also the original CEF documentation in
-    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_client_capi.h">cef/include/capi/cef_client_capi.h</see>.
-    /// </remarks>
-    public class CfxClient : CfxBase {
+	/// <summary>
+	/// Implement this structure to provide handler implementations.
+	/// </summary>
+	/// <remarks>
+	/// See also the original CEF documentation in
+	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_client_capi.h">cef/include/capi/cef_client_capi.h</see>.
+	/// </remarks>
+	public class CfxClient : CfxBase {
 
         static CfxClient () {
             CfxApiLoader.LoadCfxClientApi();
@@ -901,17 +902,18 @@ namespace Chromium {
     }
 
 
-    namespace Event {
+    namespace Event
+	{
 
-        /// <summary>
-        /// Return the handler for context menus. If no handler is provided the default
-        /// implementation will be used.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_client_capi.h">cef/include/capi/cef_client_capi.h</see>.
-        /// </remarks>
-        public delegate void CfxGetContextMenuHandlerEventHandler(object sender, CfxGetContextMenuHandlerEventArgs e);
+		/// <summary>
+		/// Return the handler for context menus. If no handler is provided the default
+		/// implementation will be used.
+		/// </summary>
+		/// <remarks>
+		/// See also the original CEF documentation in
+		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_client_capi.h">cef/include/capi/cef_client_capi.h</see>.
+		/// </remarks>
+		public delegate void CfxGetContextMenuHandlerEventHandler(object sender, CfxGetContextMenuHandlerEventArgs e);
 
         /// <summary>
         /// Return the handler for context menus. If no handler is provided the default

@@ -34,8 +34,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Chromium.Remote {
-    internal class RemoteProxy {
+namespace Chromium.Remote
+{
+	internal class RemoteProxy {
 
         private static Dictionary<IntPtr, CfxObject> objects = new Dictionary<IntPtr, CfxObject>();
 

@@ -30,11 +30,11 @@
 
 
 
-using System;
 
-namespace Chromium.Remote {
+namespace Chromium.Remote
+{
 
-    internal class RemoteClient {
+	internal class RemoteClient {
 
         internal static RemoteConnection connection;
 
