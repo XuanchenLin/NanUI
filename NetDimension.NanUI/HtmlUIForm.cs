@@ -527,7 +527,6 @@ namespace NetDimension.NanUI
 			windowInfo.Width = 720;
 			windowInfo.Height = 480;
 
-
 			browser.BrowserHost.ShowDevTools(windowInfo, new CfxClient(), new CfxBrowserSettings(), null);
 		}
 
@@ -654,8 +653,6 @@ namespace NetDimension.NanUI
 						}
 
 						e.Graphics.FillRectangle(brush, rect);
-
-
 					}
 				}
 
@@ -766,16 +763,10 @@ namespace NetDimension.NanUI
 					default:
 						{
 
-							if (IsNonclientMode)
-							{
-								NonclientModeWndProc(ref m);
-							}
-							else
+							if (!IsNonclientMode)
 							{
 								DwmModeWndProc(ref m);
 							}
-
-
 						}
 						break;
 				}

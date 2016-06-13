@@ -33,13 +33,10 @@ namespace NetDimension.NanUI.Internal
 		{
 			ParentForm = form;
 			FormHandle = form.Handle;
-
 			AssignHandle(FormHandle);
 			RecalculateSize();
 			InvalidateWindow();
 			RecalculateSize();
-
-
 		}
 
 		protected override void WndProc(ref Message m)
@@ -61,7 +58,7 @@ namespace NetDimension.NanUI.Internal
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWCAPTION:
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
 					{
-						InvalidateWindow();
+						//InvalidateWindow();
 					}
 					break;
 				case NativeMethods.WindowsMessage.WM_NCPAINT:
