@@ -47,6 +47,8 @@ namespace NetDimension.NanUI.Internal
 					break;
 				case NativeMethods.WindowsMessage.WM_SETCURSOR:
 				case NativeMethods.WindowsMessage.WM_ACTIVATEAPP:
+				case NativeMethods.WindowsMessage.WM_SIZE:
+				case NativeMethods.WindowsMessage.WM_MOVE:
 					{
 						base.WndProc(ref m);
 						InvalidateWindow();
