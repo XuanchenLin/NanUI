@@ -38,7 +38,7 @@ namespace NetDimension.NanUI
 			this.enableFlashSupport = enableFlashSupport;
 			if (string.IsNullOrEmpty(downloadUrl))
 			{
-				this.downloadUrl = "http://www.bolepa.com/nanui/";
+				this.downloadUrl = "http://www.ohtrip.cn/nanui/";
 			}
 			else
 			{
