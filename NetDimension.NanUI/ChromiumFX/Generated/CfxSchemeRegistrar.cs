@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure that manages custom scheme registrations.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
-	/// </remarks>
-	public class CfxSchemeRegistrar : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure that manages custom scheme registrations.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
+    /// </remarks>
+    public class CfxSchemeRegistrar : CfxBase {
 
         static CfxSchemeRegistrar () {
             CfxApiLoader.LoadCfxSchemeRegistrarApi();

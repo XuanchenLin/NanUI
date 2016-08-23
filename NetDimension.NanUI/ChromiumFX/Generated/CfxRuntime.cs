@@ -33,9 +33,8 @@
 
 using System;
 
-namespace Chromium
-{
-	public partial class CfxRuntime {
+namespace Chromium {
+    public partial class CfxRuntime {
 
         /// <summary>
         /// Add an entry to the cross-origin access whitelist.

@@ -33,11 +33,11 @@
 using System;
 namespace Chromium
 {
-	/// <summary>
-	/// Window Styles.
-	/// The following styles can be specified wherever a window style is required. After the control has been created, these styles cannot be modified, except as noted.
-	/// </summary>
-	[Flags()]
+    /// <summary>
+    /// Window Styles.
+    /// The following styles can be specified wherever a window style is required. After the control has been created, these styles cannot be modified, except as noted.
+    /// </summary>
+    [Flags()]
     public enum WindowStyle
     {
         /// <summary>The window has a thin-line border.</summary>

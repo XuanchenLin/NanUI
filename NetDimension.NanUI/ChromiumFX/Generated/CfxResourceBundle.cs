@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure used for retrieving resources from the resource bundle (*.pak)
-	/// files loaded by CEF during startup or via the CfxResourceBundleHandler
-	/// returned from CfxApp.GetResourceBundleHandler. See CfxSettings for
-	/// additional options related to resource bundle loading. The functions of this
-	/// structure may be called on any thread unless otherwise indicated.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_capi.h">cef/include/capi/cef_resource_bundle_capi.h</see>.
-	/// </remarks>
-	public class CfxResourceBundle : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure used for retrieving resources from the resource bundle (*.pak)
+    /// files loaded by CEF during startup or via the CfxResourceBundleHandler
+    /// returned from CfxApp.GetResourceBundleHandler. See CfxSettings for
+    /// additional options related to resource bundle loading. The functions of this
+    /// structure may be called on any thread unless otherwise indicated.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_capi.h">cef/include/capi/cef_resource_bundle_capi.h</see>.
+    /// </remarks>
+    public class CfxResourceBundle : CfxBase {
 
         static CfxResourceBundle () {
             CfxApiLoader.LoadCfxResourceBundleApi();

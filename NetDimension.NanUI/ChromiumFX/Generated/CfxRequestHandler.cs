@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to browser requests. The
-	/// functions of this structure will be called on the thread indicated.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxRequestHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to browser requests. The
+    /// functions of this structure will be called on the thread indicated.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxRequestHandler : CfxBase {
 
         static CfxRequestHandler () {
             CfxApiLoader.LoadCfxRequestHandlerApi();
@@ -794,9 +793,10 @@ namespace Chromium
         /// Called on the UI thread to handle requests for URLs with an invalid SSL
         /// certificate. Return true (1) and call CfxRequestCallback.Continue() either
         /// in this function or at a later time to continue or cancel the request.
-        /// Return false (0) to cancel the request immediately. If
-        /// CfxSettings.IgnoreCertificateErrors is set all invalid certificates will
-        /// be accepted without calling this function.
+        /// Return false (0) to cancel the request immediately. If |Callback| is NULL
+        /// the error cannot be recovered from and the request will be canceled
+        /// automatically. If CfxSettings.IgnoreCertificateErrors is set all invalid
+        /// certificates will be accepted without calling this function.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -993,24 +993,23 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called on the UI thread before browser navigation. Return true (1) to
-		/// cancel the navigation or false (0) to allow the navigation to proceed. The
-		/// |Request| object cannot be modified in this callback.
-		/// CfxLoadHandler.OnLoadingStateChange will be called twice in all cases.
-		/// If the navigation is allowed CfxLoadHandler.OnLoadStart and
-		/// CfxLoadHandler.OnLoadEnd will be called. If the navigation is canceled
-		/// CfxLoadHandler.OnLoadError will be called with an |ErrorCode| value of
-		/// ERR_ABORTED.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnBeforeBrowseEventHandler(object sender, CfxOnBeforeBrowseEventArgs e);
+        /// <summary>
+        /// Called on the UI thread before browser navigation. Return true (1) to
+        /// cancel the navigation or false (0) to allow the navigation to proceed. The
+        /// |Request| object cannot be modified in this callback.
+        /// CfxLoadHandler.OnLoadingStateChange will be called twice in all cases.
+        /// If the navigation is allowed CfxLoadHandler.OnLoadStart and
+        /// CfxLoadHandler.OnLoadEnd will be called. If the navigation is canceled
+        /// CfxLoadHandler.OnLoadError will be called with an |ErrorCode| value of
+        /// ERR_ABORTED.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_handler_capi.h">cef/include/capi/cef_request_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnBeforeBrowseEventHandler(object sender, CfxOnBeforeBrowseEventArgs e);
 
         /// <summary>
         /// Called on the UI thread before browser navigation. Return true (1) to
@@ -2180,9 +2179,10 @@ namespace Chromium
         /// Called on the UI thread to handle requests for URLs with an invalid SSL
         /// certificate. Return true (1) and call CfxRequestCallback.Continue() either
         /// in this function or at a later time to continue or cancel the request.
-        /// Return false (0) to cancel the request immediately. If
-        /// CfxSettings.IgnoreCertificateErrors is set all invalid certificates will
-        /// be accepted without calling this function.
+        /// Return false (0) to cancel the request immediately. If |Callback| is NULL
+        /// the error cannot be recovered from and the request will be canceled
+        /// automatically. If CfxSettings.IgnoreCertificateErrors is set all invalid
+        /// certificates will be accepted without calling this function.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -2194,9 +2194,10 @@ namespace Chromium
         /// Called on the UI thread to handle requests for URLs with an invalid SSL
         /// certificate. Return true (1) and call CfxRequestCallback.Continue() either
         /// in this function or at a later time to continue or cancel the request.
-        /// Return false (0) to cancel the request immediately. If
-        /// CfxSettings.IgnoreCertificateErrors is set all invalid certificates will
-        /// be accepted without calling this function.
+        /// Return false (0) to cancel the request immediately. If |Callback| is NULL
+        /// the error cannot be recovered from and the request will be canceled
+        /// automatically. If CfxSettings.IgnoreCertificateErrors is set all invalid
+        /// certificates will be accepted without calling this function.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in

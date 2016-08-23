@@ -31,10 +31,10 @@
 
 
 using System;
+using System.Runtime.InteropServices;
 
-namespace Chromium
-{
-	public partial class CfxTime {
+namespace Chromium {
+    public partial class CfxTime {
 
         public DateTime ToUniversalTime(CfxTime time) {
             return new DateTime(time.Year, time.Month, time.DayOfMonth, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Utc);

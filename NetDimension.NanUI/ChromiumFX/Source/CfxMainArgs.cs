@@ -29,10 +29,10 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+using System;
 
-namespace Chromium
-{
-	internal class CfxMainArgs : CfxStructure {
+namespace Chromium {
+    internal class CfxMainArgs : CfxStructure {
 
         internal static CfxMainArgs ForLinux() {
             CfxMainArgsLinux mainArgsLinux = CfxMainArgsLinux.Create();

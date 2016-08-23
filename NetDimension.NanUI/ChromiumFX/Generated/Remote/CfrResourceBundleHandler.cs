@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	using Event;
+namespace Chromium.Remote {
+    using Event;
 
-	/// <summary>
-	/// Structure used to implement a custom resource bundle structure. See
-	/// CfrSettings for additional options related to resource bundle loading. The
-	/// functions of this structure may be called on multiple threads.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_handler_capi.h">cef/include/capi/cef_resource_bundle_handler_capi.h</see>.
-	/// </remarks>
-	public class CfrResourceBundleHandler : CfrBase {
+    /// <summary>
+    /// Structure used to implement a custom resource bundle structure. See
+    /// CfrSettings for additional options related to resource bundle loading. The
+    /// functions of this structure may be called on multiple threads.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_handler_capi.h">cef/include/capi/cef_resource_bundle_handler_capi.h</see>.
+    /// </remarks>
+    public class CfrResourceBundleHandler : CfrBase {
 
         internal static CfrResourceBundleHandler Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;
@@ -200,20 +199,19 @@ namespace Chromium.Remote
         }
     }
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called to retrieve a localized translation for the specified |StringId|.
-		/// To provide the translation set |String| to the translation string and
-		/// return true (1). To use the default translation return false (0). Include
-		/// cef_pack_strings.h for a listing of valid string ID values.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_handler_capi.h">cef/include/capi/cef_resource_bundle_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfrGetLocalizedStringEventHandler(object sender, CfrGetLocalizedStringEventArgs e);
+        /// <summary>
+        /// Called to retrieve a localized translation for the specified |StringId|.
+        /// To provide the translation set |String| to the translation string and
+        /// return true (1). To use the default translation return false (0). Include
+        /// cef_pack_strings.h for a listing of valid string ID values.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_handler_capi.h">cef/include/capi/cef_resource_bundle_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfrGetLocalizedStringEventHandler(object sender, CfrGetLocalizedStringEventArgs e);
 
         /// <summary>
         /// Called to retrieve a localized translation for the specified |StringId|.

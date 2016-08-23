@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to find results. The
-	/// functions of this structure will be called on the UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_find_handler_capi.h">cef/include/capi/cef_find_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxFindHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to find results. The
+    /// functions of this structure will be called on the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_find_handler_capi.h">cef/include/capi/cef_find_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxFindHandler : CfxBase {
 
         static CfxFindHandler () {
             CfxApiLoader.LoadCfxFindHandlerApi();
@@ -128,22 +127,21 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called to report find results returned by CfxBrowserHost.Find().
-		/// |Identifer| is the identifier passed to find(), |Count| is the number of
-		/// matches currently identified, |SelectionRect| is the location of where the
-		/// match was found (in window coordinates), |ActiveMatchOrdinal| is the
-		/// current position in the search results, and |FinalUpdate| is true (1) if
-		/// this is the last find notification.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_find_handler_capi.h">cef/include/capi/cef_find_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxFindHandlerOnFindResultEventHandler(object sender, CfxFindHandlerOnFindResultEventArgs e);
+        /// <summary>
+        /// Called to report find results returned by CfxBrowserHost.Find().
+        /// |Identifer| is the identifier passed to find(), |Count| is the number of
+        /// matches currently identified, |SelectionRect| is the location of where the
+        /// match was found (in window coordinates), |ActiveMatchOrdinal| is the
+        /// current position in the search results, and |FinalUpdate| is true (1) if
+        /// this is the last find notification.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_find_handler_capi.h">cef/include/capi/cef_find_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxFindHandlerOnFindResultEventHandler(object sender, CfxFindHandlerOnFindResultEventArgs e);
 
         /// <summary>
         /// Called to report find results returned by CfxBrowserHost.Find().

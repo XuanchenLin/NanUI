@@ -17,6 +17,8 @@ namespace NetDimension.NanUI
 		private RuntimeArch platformArch;
 		private bool enableFlashSupport;
 
+		private string cefVersion = string.Empty;
+
 		private readonly string tmpPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "NanUIPackages");
 
 		protected override CreateParams CreateParams
@@ -30,9 +32,11 @@ namespace NetDimension.NanUI
 			}
 		}
 
-		public RuntimeDownloadForm(string runtimeDir, string downloadUrl = null, RuntimeArch platformArch = RuntimeArch.x86, bool enableFlashSupport = false)
+		public RuntimeDownloadForm(string runtimeDir, string cefversion, string downloadUrl = null, RuntimeArch platformArch = RuntimeArch.x86, bool enableFlashSupport = false)
 		{
 			InitializeComponent();
+
+			this.cefVersion = cefversion;
 
 			this.platformArch = platformArch;
 			this.enableFlashSupport = enableFlashSupport;
@@ -132,12 +136,13 @@ namespace NetDimension.NanUI
 
 
 
-			var baseUrl = $"{downloadUrl}NanUIPackages/";
+			var baseUrl = $"{downloadUrl}NanUIPackages/{cefVersion}/";
 
 			var url = $"{baseUrl}{currentTask.Value}";
 			var tmpFile = new System.IO.FileInfo(System.IO.Path.Combine(tmpPath, currentTask.Value));
 
-			if (!tmpFile.Directory.Exists) {
+			if (!tmpFile.Directory.Exists)
+			{
 				tmpFile.Directory.Create();
 			}
 
@@ -155,7 +160,7 @@ namespace NetDimension.NanUI
 				var tSpan = (DateTime.Now - startTime).TotalSeconds;
 				var speed = (int)(args.BytesReceived / tSpan);
 				prograssBar.Value = args.ProgressPercentage;
-				lblInfo.Text = $"正在下载{currentTask.Key}，已完成{args.ProgressPercentage}%\r\n第{currentDonwloadItemIndex+1}个共{requirements.Count}个\r\n（{ConverBytesToString(args.BytesReceived)}/{ConverBytesToString(args.TotalBytesToReceive)} {ConverBytesToString(speed)}/s）";
+				lblInfo.Text = $"正在下载{currentTask.Key}，已完成{args.ProgressPercentage}%\r\n第{currentDonwloadItemIndex + 1}个共{requirements.Count}个\r\n（{ConverBytesToString(args.BytesReceived)}/{ConverBytesToString(args.TotalBytesToReceive)} {ConverBytesToString(speed)}/s）";
 			};
 
 			webClient.DownloadFileCompleted += (s, args) =>
@@ -168,7 +173,7 @@ namespace NetDimension.NanUI
 					return;
 				}
 
-				if(++currentDonwloadItemIndex<count)
+				if (++currentDonwloadItemIndex < count)
 				{
 					StartDownload(currentDonwloadItemIndex);
 					return;
@@ -183,7 +188,7 @@ namespace NetDimension.NanUI
 					var info = new ProcessStartInfo(filePath)
 					{
 						CreateNoWindow = true,
-						
+
 					};
 
 					lblInfo.Text = $"正在解压{file.Key}，请稍后...";

@@ -30,12 +30,15 @@
 
 
 
-using Chromium.Remote;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace Chromium
-{
-	internal class CfxArray {
+using Chromium.Remote;
+
+namespace Chromium {
+    internal class CfxArray {
 
         internal static IntPtr[] GetProxyIds<T>(T[] values) where T : CfxBase {
             if(values == null) return null;

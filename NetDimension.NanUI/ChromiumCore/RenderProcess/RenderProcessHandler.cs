@@ -36,31 +36,44 @@ using Chromium.Remote.Event;
 
 namespace NetDimension.NanUI.ChromiumCore
 {
-	internal class RenderProcessHandler : CfrRenderProcessHandler {
+	internal class RenderProcessHandler : CfrRenderProcessHandler
+	{
 
 		private readonly RenderProcess remoteProcess;
 
-		internal RenderProcessHandler(RenderProcess remoteProcess) {
+		internal RenderProcessHandler(RenderProcess remoteProcess)
+		{
 			this.remoteProcess = remoteProcess;
 
 			this.OnContextCreated += RenderProcessHandler_OnContextCreated;
 			this.OnBrowserCreated += RenderProcessHandler_OnBrowserCreated;
+			this.OnWebKitInitialized += RenderProcessHandler_OnWebKitInitialized;
 		}
 
-		void RenderProcessHandler_OnUncaughtException(object sender, CfrOnUncaughtExceptionEventArgs e) {
+		private void RenderProcessHandler_OnWebKitInitialized(object sender, CfrEventArgs e)
+		{
+			//var result = CfrRuntime.RegisterExtension("NanUI/extensions", Properties.Resources.ExtensionScripts, null);
+		}
+
+		void RenderProcessHandler_OnUncaughtException(object sender, CfrOnUncaughtExceptionEventArgs e)
+		{
 			var wb = HtmlUILauncher.GetBrowser(e.Browser.Identifier);
-			if(wb != null) {
-				
+			if (wb != null)
+			{
+
 			}
 		}
 
-		void RenderProcessHandler_OnBrowserCreated(object sender, CfrOnBrowserCreatedEventArgs e) {
+		void RenderProcessHandler_OnBrowserCreated(object sender, CfrOnBrowserCreatedEventArgs e)
+		{
 			var id = e.Browser.Identifier;
 			var wb = HtmlUILauncher.GetBrowser(id);
-			if(wb != null) {
+			if (wb != null)
+			{
 
 				var rp = wb.RemoteProcess;
-				if(rp != null && rp != this.remoteProcess) {
+				if (rp != null && rp != this.remoteProcess)
+				{
 					// A new process has been created for the browser.
 					// The old process is still alive, but probably it gets
 					// killed soon after this callback returns.
@@ -76,23 +89,33 @@ namespace NetDimension.NanUI.ChromiumCore
 			}
 		}
 
-		void RenderProcessHandler_OnContextCreated(object sender, CfrOnContextCreatedEventArgs e) {
+		void RenderProcessHandler_OnContextCreated(object sender, CfrOnContextCreatedEventArgs e)
+		{
 			var wb = HtmlUILauncher.GetBrowser(e.Browser.Identifier);
-			if(wb != null) {
-				if(e.Frame.IsMain) {
+			if (wb != null)
+			{
+				if (e.Frame.IsMain)
+				{
 					SetProperties(e.Context, wb.GlobalObject);
-				} else {
+					e.Frame.ExecuteJavaScript(Properties.Resources.InitialScripts, e.Frame.Url, 0);
+				}
+				else
+				{
 					JSObject obj;
-					if(wb.FrameGlobalObjects.TryGetValue(e.Frame.Name, out obj)) {
+					if (wb.FrameGlobalObjects.TryGetValue(e.Frame.Name, out obj))
+					{
 						SetProperties(e.Context, obj);
 					}
 				}
+
 				wb.RaiseOnV8ContextCreated(e);
 			}
 		}
 
-		private void SetProperties(CfrV8Context context, JSObject obj) {
-			foreach(var p in obj) {
+		private void SetProperties(CfrV8Context context, JSObject obj)
+		{
+			foreach (var p in obj)
+			{
 				var v8Value = p.Value.GetV8Value(context);
 				context.Global.SetValue(p.Key, v8Value, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
 			}

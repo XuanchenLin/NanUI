@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure the client can implement to provide a custom stream reader. The
-	/// functions of this structure may be called on any thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
-	/// </remarks>
-	public class CfxReadHandler : CfxBase {
+    /// <summary>
+    /// Structure the client can implement to provide a custom stream reader. The
+    /// functions of this structure may be called on any thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
+    /// </remarks>
+    public class CfxReadHandler : CfxBase {
 
         static CfxReadHandler () {
             CfxApiLoader.LoadCfxReadHandlerApi();
@@ -347,17 +346,16 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Read raw binary data.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxReadEventHandler(object sender, CfxReadEventArgs e);
+        /// <summary>
+        /// Read raw binary data.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxReadEventHandler(object sender, CfxReadEventArgs e);
 
         /// <summary>
         /// Read raw binary data.

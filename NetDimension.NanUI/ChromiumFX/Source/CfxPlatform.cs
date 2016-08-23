@@ -29,12 +29,11 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-namespace Chromium
-{
-	/// <summary>
-	/// Operating systems supported by CEF.
-	/// </summary>
-	public enum CfxPlatformOS {
+namespace Chromium {
+    /// <summary>
+    /// Operating systems supported by CEF.
+    /// </summary>
+    public enum CfxPlatformOS {
         /// <summary>
         /// Windows (see CEF documentation for supported versions).
         /// </summary>

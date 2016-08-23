@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure used to represent drag data. The functions of this structure may be
-	/// called on any thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
-	/// </remarks>
-	public class CfxDragData : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure used to represent drag data. The functions of this structure may be
+    /// called on any thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
+    /// </remarks>
+    public class CfxDragData : CfxBase {
 
         static CfxDragData () {
             CfxApiLoader.LoadCfxDragDataApi();

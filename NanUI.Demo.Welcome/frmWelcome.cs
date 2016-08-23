@@ -23,15 +23,27 @@ namespace NanUI.Demo.Welcome
 				ShowDevTools();
 			};
 
+			LifeSpanHandler.OnBeforePopup += (sender, args) =>
+			{
+
+			};
+
+			LifeSpanHandler.OnAfterCreated += (sender, args) =>
+			{
+
+			};
 
 			//网页加载完成时触发事件
 			LoadHandler.OnLoadEnd += (sender, args) =>
 			{
-			//判断下触发的事件是不是主框架的
-			if (args.Frame.IsMain)
+				//判断下触发的事件是不是主框架的
+				if (args.Frame.IsMain)
 				{
-				//执行JS，将当前的CEF运行版本等信息通过JS加载到网页上
-				var js = $"$client.setRuntimeInfo({{ api: ['{CfxRuntime.ApiHash(0)}', '{CfxRuntime.ApiHash(1)}'], cef:'{CfxRuntime.GetCefVersion()}', chrome:'{CfxRuntime.GetChromeVersion()}',os:'{CfxRuntime.PlatformOS}', arch:'{CfxRuntime.PlatformArch}'}});";
+
+					//ShowDevTools();
+
+					//执行JS，将当前的CEF运行版本等信息通过JS加载到网页上
+					var js = $"$client.setRuntimeInfo({{ api: ['{CfxRuntime.ApiHash(0)}', '{CfxRuntime.ApiHash(1)}'], cef:'{CfxRuntime.GetCefVersion()}', chrome:'{CfxRuntime.GetChromeVersion()}',os:'{CfxRuntime.PlatformOS}', arch:'{CfxRuntime.PlatformArch}'}});";
 					ExecuteJavascript(js);
 				}
 
@@ -45,8 +57,8 @@ namespace NanUI.Demo.Welcome
 			//因为当前环境中的JS代码跑在另外的线程上，所以在Control上扩展个UpdateUI方法，简化InvokeRequired流程
 			this.UpdateUI(() =>
 			{
-			//显示字窗体的过程，不解释
-			if (aboutForm == null || aboutForm.IsDisposed)
+				//显示字窗体的过程，不解释
+				if (aboutForm == null || aboutForm.IsDisposed)
 				{
 					aboutForm = new frmAbout();
 					aboutForm.Show(this);

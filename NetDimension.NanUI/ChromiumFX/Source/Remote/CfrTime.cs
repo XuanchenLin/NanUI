@@ -32,9 +32,8 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	partial class CfrTime {
+namespace Chromium.Remote {
+    partial class CfrTime {
 
         public DateTime ToUniversalTime(CfrTime time) {
             return new DateTime(time.Year, time.Month, time.DayOfMonth, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Utc);

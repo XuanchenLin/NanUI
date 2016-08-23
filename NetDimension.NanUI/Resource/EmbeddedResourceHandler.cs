@@ -22,7 +22,7 @@ namespace NetDimension.NanUI.Resource
 		internal EmbeddedResourceHandler(Assembly resourceAssembly, IChromiumWebBrowser browser)
 		{
 			gcHandle = System.Runtime.InteropServices.GCHandle.Alloc(this);
-			
+
 
 			this.browser = browser;
 
@@ -43,9 +43,9 @@ namespace NetDimension.NanUI.Resource
 
 		private void EmbeddedResourceHandler_ProcessRequest(object sender, Chromium.Event.CfxProcessRequestEventArgs e)
 		{
-			
+
 			readResponseStreamOffset = 0;
-			   var request = e.Request;
+			var request = e.Request;
 			var callback = e.Callback;
 
 			var uri = new Uri(request.Url);
@@ -70,7 +70,7 @@ namespace NetDimension.NanUI.Resource
 
 					reader.Close();
 
-					if (!browser.WebResource.ContainsKey(requestUrl))
+					if (!browser.WebResources.ContainsKey(requestUrl))
 					{
 						browser.SetWebResource(requestUrl, webResource);
 					}
@@ -100,12 +100,13 @@ namespace NetDimension.NanUI.Resource
 			{
 				e.Response.Status = 404;
 			}
-			else {
+			else
+			{
 				e.ResponseLength = webResource.data.Length;
 				e.Response.MimeType = webResource.mimeType;
 				e.Response.Status = 200;
 
-				if (!browser.WebResource.ContainsKey(requestUrl))
+				if (!browser.WebResources.ContainsKey(requestUrl))
 				{
 					browser.SetWebResource(requestUrl, webResource);
 				}
@@ -125,57 +126,12 @@ namespace NetDimension.NanUI.Resource
 			readResponseStreamOffset += bytesToCopy;
 			e.SetReturnValue(true);
 
-			//if (requestUrl == "embedded://www/Scripts/kendo.web.min.js")
-			//{
-			//	Console.WriteLine($"Total:{webResource.data.Length}\t buff:{bytesToCopy}\t read:{readResponseStreamOffset}\t remain:{webResource.data.Length - readResponseStreamOffset }");
-			//}
 
-			if (readResponseStreamOffset == webResource.data.Length) {
+			if (readResponseStreamOffset == webResource.data.Length)
+			{
 				gcHandle.Free();
 				Console.WriteLine($"[完成]:\t{requestUrl}");
 			}
-
-			//if (webResource==null || webResource.data == null || webResource.data.Length == 0)
-			//{
-			//	e.BytesRead = 0;
-
-			//	e.SetReturnValue(false);
-
-			//	var ii = e.BytesToRead;
-			//}
-			//else
-			//{
-
-			//	int bytesLeft = webResource.data.Length - readResponseStreamOffset;
-			//	int bytesToCopy = e.BytesToRead;
-
-			//	if (bytesLeft > e.BytesToRead)
-			//	{
-
-			//	}
-
-
-
-
-
-
-			//	bytesToCopy = e.BytesToRead;
-
-			//	System.Runtime.InteropServices.Marshal.Copy(webResource.data, readResponseStreamOffset, e.DataOut, bytesToCopy);
-
-			//	e.BytesRead = bytesToCopy;
-			//	readResponseStreamOffset += bytesToCopy;
-
-			//	if (requestUrl == "embedded://www/Scripts/kendo.web.min.js")
-			//	{
-			//		Console.WriteLine($"Total:{webResource.data.Length}\t buff:{bytesToCopy}\t read:{readResponseStreamOffset}\t remain:{webResource.data.Length - readResponseStreamOffset }");
-			//	}
-			//	else {
-			//		e.SetReturnValue(true);
-			//	}
-
-
-			//}
 		}
 	}
 }

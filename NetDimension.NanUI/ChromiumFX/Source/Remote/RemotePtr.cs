@@ -32,12 +32,11 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	/// <summary>
-	/// Represents an IntPtr in the remote process.
-	/// </summary>
-	public struct RemotePtr {
+namespace Chromium.Remote {
+    /// <summary>
+    /// Represents an IntPtr in the remote process.
+    /// </summary>
+    public struct RemotePtr {
         internal IntPtr ptr;
         public static readonly RemotePtr Zero;
         public RemotePtr(IntPtr ptr) {

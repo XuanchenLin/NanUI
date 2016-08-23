@@ -29,19 +29,19 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-using Chromium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Chromium.Remote;
 
-namespace Chromium
-{
-
-	/// <summary>
-	/// Enables access to static members and constructors of remote (Cfr*) classes.
-	/// In the scope of a remote callback event, the executing thread is always in 
-	/// the context of the calling thread in the render process.
-	/// </summary>
-	public class CfxRemoteCallContext {
+namespace Chromium {
+    
+    /// <summary>
+    /// Enables access to static members and constructors of remote (Cfr*) classes.
+    /// In the scope of a remote callback event, the executing thread is always in 
+    /// the context of the calling thread in the render process.
+    /// </summary>
+    public class CfxRemoteCallContext {
 
         internal static int currentThreadId {
             get {

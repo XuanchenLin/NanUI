@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing a message. Can be used on any process and thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_process_message_capi.h">cef/include/capi/cef_process_message_capi.h</see>.
-	/// </remarks>
-	public class CfxProcessMessage : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing a message. Can be used on any process and thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_process_message_capi.h">cef/include/capi/cef_process_message_capi.h</see>.
+    /// </remarks>
+    public class CfxProcessMessage : CfxBase {
 
         static CfxProcessMessage () {
             CfxApiLoader.LoadCfxProcessMessageApi();

@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Callback structure for CfxBrowserHost.GetNavigationEntries. The
-	/// functions of this structure will be called on the browser process UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-	/// </remarks>
-	public class CfxNavigationEntryVisitor : CfxBase {
+    /// <summary>
+    /// Callback structure for CfxBrowserHost.GetNavigationEntries. The
+    /// functions of this structure will be called on the browser process UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+    /// </remarks>
+    public class CfxNavigationEntryVisitor : CfxBase {
 
         static CfxNavigationEntryVisitor () {
             CfxApiLoader.LoadCfxNavigationEntryVisitorApi();
@@ -129,21 +128,20 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Method that will be executed. Do not keep a reference to |Entry| outside of
-		/// this callback. Return true (1) to continue visiting entries or false (0) to
-		/// stop. |Current| is true (1) if this entry is the currently loaded
-		/// navigation entry. |Index| is the 0-based index of this entry and |Total| is
-		/// the total number of entries.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxNavigationEntryVisitorVisitEventHandler(object sender, CfxNavigationEntryVisitorVisitEventArgs e);
+        /// <summary>
+        /// Method that will be executed. Do not keep a reference to |Entry| outside of
+        /// this callback. Return true (1) to continue visiting entries or false (0) to
+        /// stop. |Current| is true (1) if this entry is the currently loaded
+        /// navigation entry. |Index| is the 0-based index of this entry and |Total| is
+        /// the total number of entries.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxNavigationEntryVisitorVisitEventHandler(object sender, CfxNavigationEntryVisitorVisitEventArgs e);
 
         /// <summary>
         /// Method that will be executed. Do not keep a reference to |Entry| outside of

@@ -12,21 +12,19 @@ using System.Windows.Forms;
 
 namespace NetDimension.NanUI
 {
-
-
-
 	public class HtmlUILauncher
 	{
-		private static List<GCHandle> SchemeHandlerGCHandles = new List<GCHandle>();
-		
-		public static string FrameworkDownloadUrl { get; set; } = null;
+		private const string CURRENT_CEF_VERSION = "3.2526.1366.g8617e7c";
 
+		private static List<GCHandle> SchemeHandlerGCHandles = new List<GCHandle>();
+		public static string FrameworkDownloadUrl { get; set; } = null;
 		public static bool EnableFlashSupport { get; set; } = false;
 
 		private static string FrameworkDir = null;
 		private static string LocalesDir = null;
 		private static string ResourcesDir = null;
-		private static readonly string RuntimeDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
+		private static readonly string ApplicationDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI\");
+		private static readonly string CommonRuntimeDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI\");
 
 		private static readonly RuntimeArch PlatformArch = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? RuntimeArch.x64 : RuntimeArch.x86;
 
@@ -63,31 +61,19 @@ namespace NetDimension.NanUI
 		internal static event OnBeforeCommandLineProcessingEventHandler OnBeforeCommandLineProcessing;
 		internal static void RaiseOnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
 		{
-			var handler = OnBeforeCommandLineProcessing;
-			if (handler != null)
-			{
-				handler(e);
-			}
+			OnBeforeCommandLineProcessing?.Invoke(e);
 		}
 
 		internal static event OnRegisterCustomSchemesEventHandler OnRegisterCustomSchemes;
 		internal static void RaiseOnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
 		{
-			var handler = OnRegisterCustomSchemes;
-			if (handler != null)
-			{
-				handler(e);
-			}
+			OnRegisterCustomSchemes?.Invoke(e);
 		}
 
 		internal static event RemoteProcessCreatedEventHandler RemoteProcessCreated;
 		internal static void RaiseRemoteProcessCreated(CfrRenderProcessHandler renderProcessHandler)
 		{
-			var ev = RemoteProcessCreated;
-			if (ev != null)
-			{
-				ev(new RemoteProcessCreatedEventArgs(renderProcessHandler));
-			}
+			RemoteProcessCreated?.Invoke(new RemoteProcessCreatedEventArgs(renderProcessHandler));
 		}
 
 		internal static void Initialize()
@@ -139,12 +125,12 @@ namespace NetDimension.NanUI
 
 
 			if (PlatformArch == RuntimeArch.x64)
-				FrameworkDir = System.IO.Path.Combine(RuntimeDir, @"fx\x64");
+				FrameworkDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x64");
 			else
-				FrameworkDir = System.IO.Path.Combine(RuntimeDir, @"fx\x86");
+				FrameworkDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x86");
 
-			LocalesDir = System.IO.Path.Combine(RuntimeDir, @"fx\Resources\locales");
-			ResourcesDir = System.IO.Path.Combine(RuntimeDir, @"fx\Resources");
+			LocalesDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources\locales");
+			ResourcesDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources");
 
 			var cfxDllFile = System.IO.Path.Combine(FrameworkDir, libCfxName);
 
@@ -177,14 +163,14 @@ namespace NetDimension.NanUI
 		{
 
 
-			if (!System.IO.Directory.Exists(RuntimeDir))
+			if (!System.IO.Directory.Exists(CommonRuntimeDir))
 			{
-				System.IO.Directory.CreateDirectory(RuntimeDir);
+				System.IO.Directory.CreateDirectory(CommonRuntimeDir);
 			}
 
 			if (IsRuntimeExists() == false)
 			{
-				var downloadForm = new RuntimeDownloadForm(RuntimeDir, FrameworkDownloadUrl, PlatformArch, EnableFlashSupport);
+				var downloadForm = new RuntimeDownloadForm(CommonRuntimeDir, CURRENT_CEF_VERSION, FrameworkDownloadUrl, PlatformArch, EnableFlashSupport);
 
 				if (downloadForm.ShowDialog() != DialogResult.OK || !IsRuntimeExists())
 				{
@@ -208,15 +194,16 @@ namespace NetDimension.NanUI
 
 			OnBeforeCfxInitialize += (args) =>
 			{
-				var cachePath = System.IO.Path.Combine(RuntimeDir, Application.ProductName, "Cache");
+				var cachePath = System.IO.Path.Combine(ApplicationDataDir, Application.ProductName, "Cache");
 				if (!System.IO.Directory.Exists(cachePath))
 					System.IO.Directory.CreateDirectory(cachePath);
 
-				args.Settings.LocalesDirPath = LocalesDir; 
+				args.Settings.LocalesDirPath = LocalesDir;
 				args.Settings.ResourcesDirPath = ResourcesDir;
 				args.Settings.Locale = "zh-CN";
 				args.Settings.CachePath = cachePath;
 				args.Settings.LogSeverity = CfxLogSeverity.Disable;
+
 
 				BeforeChromiumInitialize?.Invoke(args);
 			};
@@ -245,6 +232,8 @@ namespace NetDimension.NanUI
 			{
 				args.Registrar.AddCustomScheme("embedded", false, false, false);
 			};
+
+
 
 			try
 			{

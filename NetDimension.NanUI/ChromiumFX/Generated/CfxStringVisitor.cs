@@ -33,18 +33,17 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to receive string values asynchronously.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
-	/// </remarks>
-	public class CfxStringVisitor : CfxBase {
+    /// <summary>
+    /// Implement this structure to receive string values asynchronously.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
+    /// </remarks>
+    public class CfxStringVisitor : CfxBase {
 
         static CfxStringVisitor () {
             CfxApiLoader.LoadCfxStringVisitorApi();
@@ -121,17 +120,16 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Method that will be executed.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxStringVisitorVisitEventHandler(object sender, CfxStringVisitorVisitEventArgs e);
+        /// <summary>
+        /// Method that will be executed.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_string_visitor_capi.h">cef/include/capi/cef_string_visitor_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxStringVisitorVisitEventHandler(object sender, CfxStringVisitorVisitEventArgs e);
 
         /// <summary>
         /// Method that will be executed.

@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure used to implement render process callbacks. The functions of this
-	/// structure will be called on the render process main thread (TID_RENDERER)
-	/// unless otherwise indicated.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_process_handler_capi.h">cef/include/capi/cef_render_process_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxRenderProcessHandler : CfxBase {
+    /// <summary>
+    /// Structure used to implement render process callbacks. The functions of this
+    /// structure will be called on the render process main thread (TID_RENDERER)
+    /// unless otherwise indicated.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_process_handler_capi.h">cef/include/capi/cef_render_process_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxRenderProcessHandler : CfxBase {
 
         static CfxRenderProcessHandler () {
             CfxApiLoader.LoadCfxRenderProcessHandlerApi();
@@ -703,20 +702,19 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called after the render process main thread has been created. |ExtraInfo|
-		/// is a read-only value originating from
-		/// CfxBrowserProcessHandler.OnRenderProcessThreadCreated(). Do not
-		/// keep a reference to |ExtraInfo| outside of this function.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_process_handler_capi.h">cef/include/capi/cef_render_process_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnRenderThreadCreatedEventHandler(object sender, CfxOnRenderThreadCreatedEventArgs e);
+        /// <summary>
+        /// Called after the render process main thread has been created. |ExtraInfo|
+        /// is a read-only value originating from
+        /// CfxBrowserProcessHandler.OnRenderProcessThreadCreated(). Do not
+        /// keep a reference to |ExtraInfo| outside of this function.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_process_handler_capi.h">cef/include/capi/cef_render_process_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnRenderThreadCreatedEventHandler(object sender, CfxOnRenderThreadCreatedEventArgs e);
 
         /// <summary>
         /// Called after the render process main thread has been created. |ExtraInfo|

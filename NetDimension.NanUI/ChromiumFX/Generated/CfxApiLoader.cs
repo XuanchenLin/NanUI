@@ -31,10 +31,10 @@
 // Generated file. Do not edit.
 
 
+using System;
 
-namespace Chromium
-{
-	internal partial class CfxApiLoader {
+namespace Chromium {
+    internal partial class CfxApiLoader {
         internal enum FunctionIndex {
             cfx_add_cross_origin_whitelist_entry,
             cfx_add_web_plugin_directory,
@@ -860,10 +860,6 @@ namespace Chromium
             cfx_request_context_get_all_preferences,
             cfx_request_context_can_set_preference,
             cfx_request_context_set_preference,
-            cfx_request_context_clear_certificate_exceptions,
-            cfx_request_context_close_all_connections,
-            cfx_request_context_resolve_host,
-            cfx_request_context_resolve_host_cached,
             cfx_request_context_handler_ctor,
             cfx_request_context_handler_get_gc_handle,
             cfx_request_context_handler_set_managed_callback,
@@ -882,9 +878,6 @@ namespace Chromium
             cfx_request_handler_ctor,
             cfx_request_handler_get_gc_handle,
             cfx_request_handler_set_managed_callback,
-            cfx_resolve_callback_ctor,
-            cfx_resolve_callback_get_gc_handle,
-            cfx_resolve_callback_set_managed_callback,
             cfx_resource_bundle_get_global,
             cfx_resource_bundle_get_localized_string,
             cfx_resource_bundle_get_data_resource,
@@ -2692,10 +2685,6 @@ namespace Chromium
             CfxApi.cfx_request_context_get_all_preferences = (CfxApi.cfx_request_context_get_all_preferences_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_get_all_preferences, typeof(CfxApi.cfx_request_context_get_all_preferences_delegate));
             CfxApi.cfx_request_context_can_set_preference = (CfxApi.cfx_request_context_can_set_preference_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_can_set_preference, typeof(CfxApi.cfx_request_context_can_set_preference_delegate));
             CfxApi.cfx_request_context_set_preference = (CfxApi.cfx_request_context_set_preference_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_set_preference, typeof(CfxApi.cfx_request_context_set_preference_delegate));
-            CfxApi.cfx_request_context_clear_certificate_exceptions = (CfxApi.cfx_request_context_clear_certificate_exceptions_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_clear_certificate_exceptions, typeof(CfxApi.cfx_request_context_clear_certificate_exceptions_delegate));
-            CfxApi.cfx_request_context_close_all_connections = (CfxApi.cfx_request_context_close_all_connections_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_close_all_connections, typeof(CfxApi.cfx_request_context_close_all_connections_delegate));
-            CfxApi.cfx_request_context_resolve_host = (CfxApi.cfx_request_context_resolve_host_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_resolve_host, typeof(CfxApi.cfx_request_context_resolve_host_delegate));
-            CfxApi.cfx_request_context_resolve_host_cached = (CfxApi.cfx_request_context_resolve_host_cached_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_context_resolve_host_cached, typeof(CfxApi.cfx_request_context_resolve_host_cached_delegate));
         }
 
         private static bool CfxRequestContextHandlerApiLoaded;
@@ -2735,16 +2724,6 @@ namespace Chromium
             CfxApi.cfx_request_handler_ctor = (CfxApi.cfx_ctor_with_gc_handle_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_handler_ctor, typeof(CfxApi.cfx_ctor_with_gc_handle_delegate));
             CfxApi.cfx_request_handler_get_gc_handle = (CfxApi.cfx_get_gc_handle_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_handler_get_gc_handle, typeof(CfxApi.cfx_get_gc_handle_delegate));
             CfxApi.cfx_request_handler_set_managed_callback = (CfxApi.cfx_set_callback_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_request_handler_set_managed_callback, typeof(CfxApi.cfx_set_callback_delegate));
-        }
-
-        private static bool CfxResolveCallbackApiLoaded;
-        internal static void LoadCfxResolveCallbackApi() {
-            if(CfxResolveCallbackApiLoaded) return;
-            CfxResolveCallbackApiLoaded = true;
-            CfxApi.Probe();
-            CfxApi.cfx_resolve_callback_ctor = (CfxApi.cfx_ctor_with_gc_handle_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_resolve_callback_ctor, typeof(CfxApi.cfx_ctor_with_gc_handle_delegate));
-            CfxApi.cfx_resolve_callback_get_gc_handle = (CfxApi.cfx_get_gc_handle_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_resolve_callback_get_gc_handle, typeof(CfxApi.cfx_get_gc_handle_delegate));
-            CfxApi.cfx_resolve_callback_set_managed_callback = (CfxApi.cfx_set_callback_delegate)CfxApi.GetDelegate(FunctionIndex.cfx_resolve_callback_set_managed_callback, typeof(CfxApi.cfx_set_callback_delegate));
         }
 
         private static bool CfxResourceBundleApiLoaded;

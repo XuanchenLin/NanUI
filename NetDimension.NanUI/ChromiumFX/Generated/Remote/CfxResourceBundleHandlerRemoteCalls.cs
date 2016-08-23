@@ -33,12 +33,11 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	using Chromium.Event;
-	using Event;
+namespace Chromium.Remote {
+    using Event;
+    using Chromium.Event;
 
-	internal class CfxResourceBundleHandlerCtorRenderProcessCall : RenderProcessCall {
+    internal class CfxResourceBundleHandlerCtorRenderProcessCall : RenderProcessCall {
 
         internal CfxResourceBundleHandlerCtorRenderProcessCall()
             : base(RemoteCallId.CfxResourceBundleHandlerCtorRenderProcessCall) {}

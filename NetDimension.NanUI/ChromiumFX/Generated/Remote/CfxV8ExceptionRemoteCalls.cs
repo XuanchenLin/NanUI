@@ -33,10 +33,9 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	internal class CfxV8ExceptionGetMessageRenderProcessCall : RenderProcessCall {
+    internal class CfxV8ExceptionGetMessageRenderProcessCall : RenderProcessCall {
 
         internal CfxV8ExceptionGetMessageRenderProcessCall()
             : base(RemoteCallId.CfxV8ExceptionGetMessageRenderProcessCall) {}

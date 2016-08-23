@@ -31,10 +31,12 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace Chromium
-{
-	partial class CfxMainArgsLinux {
+namespace Chromium {
+    partial class CfxMainArgsLinux {
 
         internal static CfxMainArgsLinux Create() {
             var args = Environment.GetCommandLineArgs();

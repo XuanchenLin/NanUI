@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Time information. Values should always be in UTC.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_time.h">cef/include/internal/cef_time.h</see>.
-	/// </remarks>
-	public sealed partial class CfxTime : CfxStructure {
+namespace Chromium {
+    /// <summary>
+    /// Time information. Values should always be in UTC.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_time.h">cef/include/internal/cef_time.h</see>.
+    /// </remarks>
+    public sealed partial class CfxTime : CfxStructure {
 
         static CfxTime () {
             CfxApiLoader.LoadCfxTimeApi();

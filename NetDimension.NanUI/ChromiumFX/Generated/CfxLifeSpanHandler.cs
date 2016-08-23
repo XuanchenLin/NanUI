@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to browser life span. The
-	/// functions of this structure will be called on the UI thread unless otherwise
-	/// indicated.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_life_span_handler_capi.h">cef/include/capi/cef_life_span_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxLifeSpanHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to browser life span. The
+    /// functions of this structure will be called on the UI thread unless otherwise
+    /// indicated.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_life_span_handler_capi.h">cef/include/capi/cef_life_span_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxLifeSpanHandler : CfxBase {
 
         static CfxLifeSpanHandler () {
             CfxApiLoader.LoadCfxLifeSpanHandlerApi();
@@ -422,32 +421,31 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called on the IO thread before a new popup browser is created. The
-		/// |Browser| and |Frame| values represent the source of the popup request. The
-		/// |TargetUrl| and |TargetFrameName| values indicate where the popup
-		/// browser should navigate and may be NULL if not specified with the request.
-		/// The |TargetDisposition| value indicates where the user intended to open
-		/// the popup (e.g. current tab, new tab, etc). The |UserGesture| value will
-		/// be true (1) if the popup was opened via explicit user gesture (e.g.
-		/// clicking a link) or false (0) if the popup opened automatically (e.g. via
-		/// the DomContentLoaded event). The |PopupFeatures| structure contains
-		/// additional information about the requested popup window. To allow creation
-		/// of the popup browser optionally modify |WindowInfo|, |Client|, |Settings|
-		/// and |NoJavascriptAccess| and return false (0). To cancel creation of the
-		/// popup browser return true (1). The |Client| and |Settings| values will
-		/// default to the source browser's values. If the |NoJavascriptAccess| value
-		/// is set to false (0) the new browser will not be scriptable and may not be
-		/// hosted in the same renderer process as the source browser.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_life_span_handler_capi.h">cef/include/capi/cef_life_span_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnBeforePopupEventHandler(object sender, CfxOnBeforePopupEventArgs e);
+        /// <summary>
+        /// Called on the IO thread before a new popup browser is created. The
+        /// |Browser| and |Frame| values represent the source of the popup request. The
+        /// |TargetUrl| and |TargetFrameName| values indicate where the popup
+        /// browser should navigate and may be NULL if not specified with the request.
+        /// The |TargetDisposition| value indicates where the user intended to open
+        /// the popup (e.g. current tab, new tab, etc). The |UserGesture| value will
+        /// be true (1) if the popup was opened via explicit user gesture (e.g.
+        /// clicking a link) or false (0) if the popup opened automatically (e.g. via
+        /// the DomContentLoaded event). The |PopupFeatures| structure contains
+        /// additional information about the requested popup window. To allow creation
+        /// of the popup browser optionally modify |WindowInfo|, |Client|, |Settings|
+        /// and |NoJavascriptAccess| and return false (0). To cancel creation of the
+        /// popup browser return true (1). The |Client| and |Settings| values will
+        /// default to the source browser's values. If the |NoJavascriptAccess| value
+        /// is set to false (0) the new browser will not be scriptable and may not be
+        /// hosted in the same renderer process as the source browser.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_life_span_handler_capi.h">cef/include/capi/cef_life_span_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnBeforePopupEventHandler(object sender, CfxOnBeforePopupEventArgs e);
 
         /// <summary>
         /// Called on the IO thread before a new popup browser is created. The

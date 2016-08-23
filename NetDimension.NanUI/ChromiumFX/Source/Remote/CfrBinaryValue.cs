@@ -32,9 +32,8 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	public partial class CfrBinaryValue {
+namespace Chromium.Remote {
+    public partial class CfrBinaryValue {
 
         /// <summary>
         /// Creates a new object that is not owned by any other object. The specified

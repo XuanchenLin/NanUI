@@ -33,10 +33,10 @@
 using System;
 namespace Chromium
 {
-	/// <summary>
-	/// Base class for all CEF framework callback event args.
-	/// </summary>
-	public class CfxEventArgs : EventArgs
+    /// <summary>
+    /// Base class for all CEF framework callback event args.
+    /// </summary>
+    public class CfxEventArgs : EventArgs
     {
         internal bool m_isInvalid = false;
         internal void CheckAccess()

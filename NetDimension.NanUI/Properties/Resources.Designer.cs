@@ -8,18 +8,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NetDimension.NanUI.Properties
-{
-
-
-	/// <summary>
-	///   一个强类型的资源类，用于查找本地化的字符串等。
-	/// </summary>
-	// 此类是由 StronglyTypedResourceBuilder
-	// 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
-	// 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
-	// (以 /str 作为命令选项)，或重新生成 VS 项目。
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+namespace NetDimension.NanUI.Properties {
+    using System;
+    
+    
+    /// <summary>
+    ///   一个强类型的资源类，用于查找本地化的字符串等。
+    /// </summary>
+    // 此类是由 StronglyTypedResourceBuilder
+    // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
+    // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
+    // (以 /str 作为命令选项)，或重新生成 VS 项目。
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,36 @@ namespace NetDimension.NanUI.Properties
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string ExtensionScripts {
+            get {
+                return ResourceManager.GetString("ExtensionScripts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 //初始化脚本
+        ///(function () {
+        ///	document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
+        ///		document.body.addEventListener(&apos;click&apos;, function (e) {
+        ///			var region = e.srcElement;
+        ///			var cmd = region.className.includes(&apos;-nanui-close&apos;) ? &apos;close&apos; : region.className.includes(&apos;-nanui-minimize&apos;) ? &apos;minimize&apos; : region.className.includes(&apos;-nanui-maximize&apos;) ? &apos;maximize&apos; : null;
+        ///			if (cmd != null &amp;&amp; NanUI) {
+        ///				NanUI.hostWindow[cmd].apply();
+        ///				e.preventDefault();
+        ///				region.blur();
+        ///			}
+        ///		}, false);
+        ///	}, false [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string InitialScripts {
+            get {
+                return ResourceManager.GetString("InitialScripts", resourceCulture);
             }
         }
     }

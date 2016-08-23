@@ -9,7 +9,7 @@ namespace NanUI.Demo.MarkdownDotNet
 
 
 		public frmMain()
-			: base("res://assets/main.html",true)
+			: base("res://assets/main.html", true)
 		{
 			InitializeComponent();
 
@@ -148,9 +148,11 @@ namespace NanUI.Demo.MarkdownDotNet
 		/// </summary>
 		/// <param name="contents">当前文档中的内容</param>
 		/// <returns>如果保存成功则返回true</returns>
-		internal bool SaveFile(string contents) {
+		internal bool SaveFile(string contents)
+		{
 
-			if (!IsNewFile) {
+			if (!IsNewFile)
+			{
 				if (isClean) return true;
 
 

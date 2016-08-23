@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	/// <summary>
-	/// Structure representing a list value. Can be used on any process and thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
-	/// </remarks>
-	public class CfrListValue : CfrBase {
+    /// <summary>
+    /// Structure representing a list value. Can be used on any process and thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
+    /// </remarks>
+    public class CfrListValue : CfrBase {
 
         internal static CfrListValue Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

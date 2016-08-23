@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Callback structure for asynchronous continuation of file dialog requests.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dialog_handler_capi.h">cef/include/capi/cef_dialog_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxFileDialogCallback : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Callback structure for asynchronous continuation of file dialog requests.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dialog_handler_capi.h">cef/include/capi/cef_dialog_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxFileDialogCallback : CfxBase {
 
         static CfxFileDialogCallback () {
             CfxApiLoader.LoadCfxFileDialogCallbackApi();

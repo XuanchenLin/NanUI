@@ -33,24 +33,23 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	/// <summary>
-	/// Structure used to create and/or parse command line arguments. Arguments with
-	/// '--', '-' and, on Windows, '/' prefixes are considered switches. Switches
-	/// will always precede any arguments without switch prefixes. Switches can
-	/// optionally have a value specified using the '=' delimiter (e.g.
-	/// "-switch=value"). An argument of "--" will terminate switch parsing with all
-	/// subsequent tokens, regardless of prefix, being interpreted as non-switch
-	/// arguments. Switch names are considered case-insensitive. This structure can
-	/// be used before cef_initialize() is called.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
-	/// </remarks>
-	public class CfrCommandLine : CfrBase {
+    /// <summary>
+    /// Structure used to create and/or parse command line arguments. Arguments with
+    /// '--', '-' and, on Windows, '/' prefixes are considered switches. Switches
+    /// will always precede any arguments without switch prefixes. Switches can
+    /// optionally have a value specified using the '=' delimiter (e.g.
+    /// "-switch=value"). An argument of "--" will terminate switch parsing with all
+    /// subsequent tokens, regardless of prefix, being interpreted as non-switch
+    /// arguments. Switch names are considered case-insensitive. This structure can
+    /// be used before cef_initialize() is called.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
+    /// </remarks>
+    public class CfrCommandLine : CfrBase {
 
         internal static CfrCommandLine Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

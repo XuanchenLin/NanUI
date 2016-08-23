@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Callback structure used for asynchronous continuation of authentication
-	/// requests.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_auth_callback_capi.h">cef/include/capi/cef_auth_callback_capi.h</see>.
-	/// </remarks>
-	public class CfxAuthCallback : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Callback structure used for asynchronous continuation of authentication
+    /// requests.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_auth_callback_capi.h">cef/include/capi/cef_auth_callback_capi.h</see>.
+    /// </remarks>
+    public class CfxAuthCallback : CfxBase {
 
         static CfxAuthCallback () {
             CfxApiLoader.LoadCfxAuthCallbackApi();

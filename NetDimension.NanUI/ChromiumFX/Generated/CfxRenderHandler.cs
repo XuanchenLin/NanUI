@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events when window rendering is disabled.
-	/// The functions of this structure will be called on the UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxRenderHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events when window rendering is disabled.
+    /// The functions of this structure will be called on the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxRenderHandler : CfxBase {
 
         static CfxRenderHandler () {
             CfxApiLoader.LoadCfxRenderHandlerApi();
@@ -712,18 +711,17 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called to retrieve the root window rectangle in screen coordinates. Return
-		/// true (1) if the rectangle was provided.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxGetRootScreenRectEventHandler(object sender, CfxGetRootScreenRectEventArgs e);
+        /// <summary>
+        /// Called to retrieve the root window rectangle in screen coordinates. Return
+        /// true (1) if the rectangle was provided.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxGetRootScreenRectEventHandler(object sender, CfxGetRootScreenRectEventArgs e);
 
         /// <summary>
         /// Called to retrieve the root window rectangle in screen coordinates. Return

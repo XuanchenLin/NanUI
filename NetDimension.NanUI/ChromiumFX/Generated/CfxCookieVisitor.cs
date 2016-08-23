@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure to implement for visiting cookie values. The functions of this
-	/// structure will always be called on the IO thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-	/// </remarks>
-	public class CfxCookieVisitor : CfxBase {
+    /// <summary>
+    /// Structure to implement for visiting cookie values. The functions of this
+    /// structure will always be called on the IO thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+    /// </remarks>
+    public class CfxCookieVisitor : CfxBase {
 
         static CfxCookieVisitor () {
             CfxApiLoader.LoadCfxCookieVisitorApi();
@@ -130,21 +129,20 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Method that will be called once for each cookie. |Count| is the 0-based
-		/// index for the current cookie. |Total| is the total number of cookies. Set
-		/// |DeleteCookie| to true (1) to delete the cookie currently being visited.
-		/// Return false (0) to stop visiting cookies. This function may never be
-		/// called if no cookies are found.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxCookieVisitorVisitEventHandler(object sender, CfxCookieVisitorVisitEventArgs e);
+        /// <summary>
+        /// Method that will be called once for each cookie. |Count| is the 0-based
+        /// index for the current cookie. |Total| is the total number of cookies. Set
+        /// |DeleteCookie| to true (1) to delete the cookie currently being visited.
+        /// Return false (0) to stop visiting cookies. This function may never be
+        /// called if no cookies are found.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxCookieVisitorVisitEventHandler(object sender, CfxCookieVisitorVisitEventArgs e);
 
         /// <summary>
         /// Method that will be called once for each cookie. |Count| is the 0-based

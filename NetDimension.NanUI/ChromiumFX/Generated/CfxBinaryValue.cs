@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing a binary value. Can be used on any process and thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
-	/// </remarks>
-	public partial class CfxBinaryValue : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing a binary value. Can be used on any process and thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
+    /// </remarks>
+    public partial class CfxBinaryValue : CfxBase {
 
         static CfxBinaryValue () {
             CfxApiLoader.LoadCfxBinaryValueApi();

@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Callback structure used for continuation of custom context menu display.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxRunContextMenuCallback : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Callback structure used for continuation of custom context menu display.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxRunContextMenuCallback : CfxBase {
 
         static CfxRunContextMenuCallback () {
             CfxApiLoader.LoadCfxRunContextMenuCallbackApi();

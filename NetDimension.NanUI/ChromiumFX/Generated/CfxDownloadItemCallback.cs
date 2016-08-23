@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Callback structure used to asynchronously cancel a download.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_handler_capi.h">cef/include/capi/cef_download_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxDownloadItemCallback : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Callback structure used to asynchronously cancel a download.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_download_handler_capi.h">cef/include/capi/cef_download_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxDownloadItemCallback : CfxBase {
 
         static CfxDownloadItemCallback () {
             CfxApiLoader.LoadCfxDownloadItemCallbackApi();

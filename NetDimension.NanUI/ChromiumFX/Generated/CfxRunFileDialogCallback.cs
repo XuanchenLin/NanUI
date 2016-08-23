@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Callback structure for CfxBrowserHost.RunFileDialog. The functions of
-	/// this structure will be called on the browser process UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-	/// </remarks>
-	public class CfxRunFileDialogCallback : CfxBase {
+    /// <summary>
+    /// Callback structure for CfxBrowserHost.RunFileDialog. The functions of
+    /// this structure will be called on the browser process UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+    /// </remarks>
+    public class CfxRunFileDialogCallback : CfxBase {
 
         static CfxRunFileDialogCallback () {
             CfxApiLoader.LoadCfxRunFileDialogCallbackApi();
@@ -126,21 +125,20 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called asynchronously after the file dialog is dismissed.
-		/// |SelectedAcceptFilter| is the 0-based index of the value selected from
-		/// the accept filters array passed to CfxBrowserHost.RunFileDialog.
-		/// |FilePaths| will be a single value or a list of values depending on the
-		/// dialog mode. If the selection was cancelled |FilePaths| will be NULL.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxRunFileDialogCallbackOnFileDialogDismissedEventHandler(object sender, CfxRunFileDialogCallbackOnFileDialogDismissedEventArgs e);
+        /// <summary>
+        /// Called asynchronously after the file dialog is dismissed.
+        /// |SelectedAcceptFilter| is the 0-based index of the value selected from
+        /// the accept filters array passed to CfxBrowserHost.RunFileDialog.
+        /// |FilePaths| will be a single value or a list of values depending on the
+        /// dialog mode. If the selection was cancelled |FilePaths| will be NULL.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxRunFileDialogCallbackOnFileDialogDismissedEventHandler(object sender, CfxRunFileDialogCallbackOnFileDialogDismissedEventArgs e);
 
         /// <summary>
         /// Called asynchronously after the file dialog is dismissed.

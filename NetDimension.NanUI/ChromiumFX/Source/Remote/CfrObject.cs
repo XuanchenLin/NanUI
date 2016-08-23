@@ -33,13 +33,12 @@
 using System;
 using System.Diagnostics;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	/// <summary>
-	/// Base class for all remote wrapper classes for CEF structs.
-	/// </summary>
-	public abstract class CfrObject : IDisposable {
+    /// <summary>
+    /// Base class for all remote wrapper classes for CEF structs.
+    /// </summary>
+    public abstract class CfrObject : IDisposable {
 
         internal static IntPtr Unwrap(CfrObject remoteObject) {
             return remoteObject == null ? IntPtr.Zero : remoteObject.proxyId;

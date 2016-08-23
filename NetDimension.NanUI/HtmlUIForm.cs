@@ -40,15 +40,6 @@ namespace NetDimension.NanUI
 		/// NanUI窗口状态变化时，发送JS事件通知网页端
 		/// </summary>
 		private const string JS_WINDOW_STATE_CHANGED = "(function(){{var event = new CustomEvent('windowstatechanged',{{'detail':{{ state: {0}, width:{1}, height:{2}}}}}); window.dispatchEvent(event);}})();";
-		/// <summary>
-		/// 监听NanUI窗口保留的最大化、最小化、还原、退出CSS标记的单击事件
-		/// 标记：
-		/// -nanui-close		关闭窗口
-		/// -nanui-maximize		最大化窗口
-		/// -nanui-minimize		最小化窗口
-		/// </summary>
-		private const string JS_WINDOW_SYSTEM_COMMAND_NOTIFY = @"(function(){{document.body.addEventListener('click', function (e) { var region = e.srcElement; var cmd = region.className.includes('-nanui-close') ? 'close' : region.className.includes('-nanui-minimize') ? 'minimize' : region.className.includes('-nanui-maximize') ? 'maximize' : null;  if (cmd != null && NanUI) { NanUI.hostWindow[cmd].apply(); e.preventDefault(); region.blur(); } }, false);}})();";
-
 
 		private PictureBox splashPicture;
 		private BrowserWidgetMessageInterceptor messageInterceptor;
@@ -77,7 +68,14 @@ namespace NetDimension.NanUI
 
 		protected readonly bool IsDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
 
-
+		/// <summary>
+		/// 设置或获取NanUI是否为无边窗口
+		/// </summary>
+		[Category("NanUI")]
+		public bool Borderless
+		{
+			get; set;
+		} = true;
 		/// <summary>
 		/// 设置或获取NanUI窗口加载等待画面使用的图片
 		/// </summary>
@@ -226,6 +224,7 @@ namespace NetDimension.NanUI
 
 			BrowserHandle = browser.Handle;
 
+
 			browser.BrowserCreated += (sender, args) =>
 			{
 				AttachInterceptorToChromiumBrowser();
@@ -276,17 +275,20 @@ namespace NetDimension.NanUI
 
 			LoadHandler.OnLoadEnd += (sender, args) =>
 			{
-				args.Frame.ExecuteJavaScript(JS_WINDOW_SYSTEM_COMMAND_NOTIFY, null, 0);
+				//args.Frame.ExecuteJavaScript(JS_WINDOW_SYSTEM_COMMAND_NOTIFY, null, 0);
 				HideInitialSplash();
 			};
 
 			LoadHandler.OnLoadError += (sender, args) =>
 			{
-				args.Frame.ExecuteJavaScript(JS_WINDOW_SYSTEM_COMMAND_NOTIFY, null, 0);
+				//args.Frame.ExecuteJavaScript(JS_WINDOW_SYSTEM_COMMAND_NOTIFY, null, 0);
 				HideInitialSplash();
 			};
 
+
 			GlobalObject.Add("NanUI", new JsHostWindowObject(this));
+
+
 		}
 
 		#region Private
@@ -306,7 +308,7 @@ namespace NetDimension.NanUI
 						}
 						else
 						{
-							System.Threading.Thread.Sleep(0);
+							System.Threading.Thread.Sleep(100);
 						}
 					}
 				}
@@ -348,7 +350,7 @@ namespace NetDimension.NanUI
 
 				var dir = GetDirection(x, y);
 
-				if (dir != NativeMethods.HitTest.HTCLIENT)
+				if (dir != NativeMethods.HitTest.HTCLIENT && Borderless)
 				{
 					NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT, (IntPtr)dir, message.LParam);
 					return true;
@@ -383,7 +385,7 @@ namespace NetDimension.NanUI
 				var x = NativeMethods.LoWord(message.LParam.ToInt32());
 				var y = NativeMethods.HiWord(message.LParam.ToInt32());
 
-				if (Resizable)
+				if (Resizable && Borderless)
 				{
 					var dir = GetDirection(x, y);
 
@@ -559,11 +561,11 @@ namespace NetDimension.NanUI
 
 		protected override void OnLoad(EventArgs e)
 		{
-			if (!IsDesignMode)
+			if (!IsDesignMode && Borderless)
 			{
 				if (IsNonclientMode)
 				{
-					//NativeMethods.DisableProcessWindowsGhosting();
+					NativeMethods.DisableProcessWindowsGhosting();
 					NativeMethods.SetWindowTheme(Handle, string.Empty, string.Empty);
 					nativeForm = new NonclientNativeWindow(this);
 				}
@@ -619,7 +621,7 @@ namespace NetDimension.NanUI
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 
-			if (!IsDesignMode)
+			if (!IsDesignMode && Borderless)
 			{
 				if (IsNonclientMode)
 				{
@@ -665,6 +667,8 @@ namespace NetDimension.NanUI
 				{
 					case NativeMethods.WindowsMessage.WM_SHOWWINDOW:
 						{
+
+
 							if (StartPosition == FormStartPosition.CenterParent && Owner != null)
 							{
 								Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
@@ -685,7 +689,7 @@ namespace NetDimension.NanUI
 						break;
 					case NativeMethods.WindowsMessage.WM_NCHITTEST:
 						{
-							if (m.Result == NativeMethods.FALSE && Resizable)
+							if (m.Result == NativeMethods.FALSE && Resizable && Borderless)
 							{
 								Point p = PointToClient(new Point(NativeMethods.LoWord(m.LParam.ToInt32()), NativeMethods.HiWord(m.LParam.ToInt32())));
 								var hit = GetDirection(p.X, p.Y);
@@ -702,23 +706,28 @@ namespace NetDimension.NanUI
 						break;
 					case NativeMethods.WindowsMessage.WM_SIZE:
 						{
-							var msg = m.WParam.ToInt32();
-							if (msg == 0 && fullClientModePadding.HasValue)
+							if (Borderless)
 							{
-								Padding = fullClientModePadding.Value;
-								fullClientModePadding = null;
-							}
-							else if (msg == 2)
-							{
+								var msg = m.WParam.ToInt32();
 
-								if (fullClientModePadding == null)
+								if (msg == 0 && fullClientModePadding.HasValue)
 								{
-									fullClientModePadding = Padding;
+									Padding = fullClientModePadding.Value;
+									fullClientModePadding = null;
 								}
+								else if (msg == 2)
+								{
 
-								Padding = maxPadding;
+									if (fullClientModePadding == null)
+									{
+										fullClientModePadding = Padding;
+									}
 
+									Padding = maxPadding;
+
+								}
 							}
+
 
 							if (browser != null && browser.IsHandleCreated)
 							{
@@ -737,15 +746,19 @@ namespace NetDimension.NanUI
 						break;
 					case NativeMethods.WindowsMessage.WM_SYSCOMMAND:
 						{
-							var msg = m.WParam.ToInt32();
-
-							if (msg == NativeMethods.SysCommand.SC_MINIMIZE || msg == NativeMethods.SysCommand.SC_MAXIMIZE)
+							if (Borderless)
 							{
-								if (WindowState != FormWindowState.Minimized && WindowState != FormWindowState.Maximized)
+								var msg = m.WParam.ToInt32();
+
+								if (msg == NativeMethods.SysCommand.SC_MINIMIZE || msg == NativeMethods.SysCommand.SC_MAXIMIZE)
 								{
-									windowOriginalSize = ClientSize;
+									if (WindowState != FormWindowState.Minimized && WindowState != FormWindowState.Maximized)
+									{
+										windowOriginalSize = ClientSize;
+									}
 								}
 							}
+
 
 							base.WndProc(ref m);
 
@@ -754,15 +767,23 @@ namespace NetDimension.NanUI
 
 					default:
 						{
-
-							if (IsNonclientMode)
+							if (Borderless)
 							{
-								NonclientModeWndProc(ref m);
+								if (IsNonclientMode)
+								{
+									NonclientModeWndProc(ref m);
+								}
+								else
+								{
+									DwmModeWndProc(ref m);
+								}
 							}
 							else
 							{
-								DwmModeWndProc(ref m);
+								base.WndProc(ref m);
 							}
+
+
 						}
 						break;
 				}
@@ -907,11 +928,11 @@ namespace NetDimension.NanUI
 			}
 		}
 		[Browsable(false)]
-		public Dictionary<string, WebResource> WebResource
+		public Dictionary<string, WebResource> WebResources
 		{
 			get
 			{
-				return ((IChromiumWebBrowser)browser).WebResource;
+				return ((IChromiumWebBrowser)browser).WebResources;
 			}
 		}
 		[Browsable(false)]

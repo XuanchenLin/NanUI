@@ -155,7 +155,6 @@
     <Compile Include="ChromiumFX\Generated\CfxRequestContextHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxRequestContextSettings.cs" />
     <Compile Include="ChromiumFX\Generated\CfxRequestHandler.cs" />
-    <Compile Include="ChromiumFX\Generated\CfxResolveCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxResourceBundle.cs" />
     <Compile Include="ChromiumFX\Generated\CfxResourceBundleHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxResourceHandler.cs" />
@@ -358,10 +357,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="Resources\ExtensionScripts.js" />
+    <None Include="Resources\InitialScripts.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="StrongKey.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -33,18 +33,17 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	/// <summary>
-	/// Structure representing a V8 exception. The functions of this structure may be
-	/// called on any render process thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-	/// </remarks>
-	public class CfrV8Exception : CfrBase {
+    /// <summary>
+    /// Structure representing a V8 exception. The functions of this structure may be
+    /// called on any render process thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+    /// </remarks>
+    public class CfrV8Exception : CfrBase {
 
         internal static CfrV8Exception Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to geolocation permission
-	/// requests. The functions of this structure will be called on the browser
-	/// process UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_handler_capi.h">cef/include/capi/cef_geolocation_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxGeolocationHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to geolocation permission
+    /// requests. The functions of this structure will be called on the browser
+    /// process UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_handler_capi.h">cef/include/capi/cef_geolocation_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxGeolocationHandler : CfxBase {
 
         static CfxGeolocationHandler () {
             CfxApiLoader.LoadCfxGeolocationHandlerApi();
@@ -84,16 +83,16 @@ namespace Chromium
 
         // on_cancel_geolocation_permission
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_geolocation_handler_on_cancel_geolocation_permission_delegate(IntPtr gcHandlePtr, IntPtr browser, int request_id);
+        private delegate void cfx_geolocation_handler_on_cancel_geolocation_permission_delegate(IntPtr gcHandlePtr, IntPtr browser, IntPtr requesting_url_str, int requesting_url_length, int request_id);
         private static cfx_geolocation_handler_on_cancel_geolocation_permission_delegate cfx_geolocation_handler_on_cancel_geolocation_permission;
         private static IntPtr cfx_geolocation_handler_on_cancel_geolocation_permission_ptr;
 
-        internal static void on_cancel_geolocation_permission(IntPtr gcHandlePtr, IntPtr browser, int request_id) {
+        internal static void on_cancel_geolocation_permission(IntPtr gcHandlePtr, IntPtr browser, IntPtr requesting_url_str, int requesting_url_length, int request_id) {
             var self = (CfxGeolocationHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
             if(self == null) {
                 return;
             }
-            var e = new CfxOnCancelGeolocationPermissionEventArgs(browser, request_id);
+            var e = new CfxOnCancelGeolocationPermissionEventArgs(browser, requesting_url_str, requesting_url_length, request_id);
             var eventHandler = self.m_OnCancelGeolocationPermission;
             if(eventHandler != null) eventHandler(self, e);
             e.m_isInvalid = true;
@@ -141,8 +140,9 @@ namespace Chromium
         private CfxOnRequestGeolocationPermissionEventHandler m_OnRequestGeolocationPermission;
 
         /// <summary>
-        /// Called when a geolocation access request is canceled. |RequestId| is the
-        /// unique ID for the permission request.
+        /// Called when a geolocation access request is canceled. |RequestingUrl| is
+        /// the URL that originally requested permission and |RequestId| is the unique
+        /// ID for the permission request.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -187,22 +187,21 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called when a page requests permission to access geolocation information.
-		/// |RequestingUrl| is the URL requesting permission and |RequestId| is the
-		/// unique ID for the permission request. Return true (1) and call
-		/// CfxGeolocationCallback.Continue() either in this function or at a later
-		/// time to continue or cancel the request. Return false (0) to cancel the
-		/// request immediately.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_handler_capi.h">cef/include/capi/cef_geolocation_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnRequestGeolocationPermissionEventHandler(object sender, CfxOnRequestGeolocationPermissionEventArgs e);
+        /// <summary>
+        /// Called when a page requests permission to access geolocation information.
+        /// |RequestingUrl| is the URL requesting permission and |RequestId| is the
+        /// unique ID for the permission request. Return true (1) and call
+        /// CfxGeolocationCallback.Continue() either in this function or at a later
+        /// time to continue or cancel the request. Return false (0) to cancel the
+        /// request immediately.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_handler_capi.h">cef/include/capi/cef_geolocation_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnRequestGeolocationPermissionEventHandler(object sender, CfxOnRequestGeolocationPermissionEventArgs e);
 
         /// <summary>
         /// Called when a page requests permission to access geolocation information.
@@ -296,8 +295,9 @@ namespace Chromium
         }
 
         /// <summary>
-        /// Called when a geolocation access request is canceled. |RequestId| is the
-        /// unique ID for the permission request.
+        /// Called when a geolocation access request is canceled. |RequestingUrl| is
+        /// the URL that originally requested permission and |RequestId| is the unique
+        /// ID for the permission request.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -306,8 +306,9 @@ namespace Chromium
         public delegate void CfxOnCancelGeolocationPermissionEventHandler(object sender, CfxOnCancelGeolocationPermissionEventArgs e);
 
         /// <summary>
-        /// Called when a geolocation access request is canceled. |RequestId| is the
-        /// unique ID for the permission request.
+        /// Called when a geolocation access request is canceled. |RequestingUrl| is
+        /// the URL that originally requested permission and |RequestId| is the unique
+        /// ID for the permission request.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -317,10 +318,15 @@ namespace Chromium
 
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
+            internal IntPtr m_requesting_url_str;
+            internal int m_requesting_url_length;
+            internal string m_requesting_url;
             internal int m_request_id;
 
-            internal CfxOnCancelGeolocationPermissionEventArgs(IntPtr browser, int request_id) {
+            internal CfxOnCancelGeolocationPermissionEventArgs(IntPtr browser, IntPtr requesting_url_str, int requesting_url_length, int request_id) {
                 m_browser = browser;
+                m_requesting_url_str = requesting_url_str;
+                m_requesting_url_length = requesting_url_length;
                 m_request_id = request_id;
             }
 
@@ -335,6 +341,16 @@ namespace Chromium
                 }
             }
             /// <summary>
+            /// Get the RequestingUrl parameter for the <see cref="CfxGeolocationHandler.OnCancelGeolocationPermission"/> callback.
+            /// </summary>
+            public string RequestingUrl {
+                get {
+                    CheckAccess();
+                    m_requesting_url = StringFunctions.PtrToStringUni(m_requesting_url_str, m_requesting_url_length);
+                    return m_requesting_url;
+                }
+            }
+            /// <summary>
             /// Get the RequestId parameter for the <see cref="CfxGeolocationHandler.OnCancelGeolocationPermission"/> callback.
             /// </summary>
             public int RequestId {
@@ -345,7 +361,7 @@ namespace Chromium
             }
 
             public override string ToString() {
-                return String.Format("Browser={{{0}}}, RequestId={{{1}}}", Browser, RequestId);
+                return String.Format("Browser={{{0}}}, RequestingUrl={{{1}}}, RequestId={{{2}}}", Browser, RequestingUrl, RequestId);
             }
         }
 

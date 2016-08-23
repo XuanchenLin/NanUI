@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure to implement to be notified of asynchronous completion via
-	/// CfxCookieManager.SetCookie().
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-	/// </remarks>
-	public class CfxSetCookieCallback : CfxBase {
+    /// <summary>
+    /// Structure to implement to be notified of asynchronous completion via
+    /// CfxCookieManager.SetCookie().
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+    /// </remarks>
+    public class CfxSetCookieCallback : CfxBase {
 
         static CfxSetCookieCallback () {
             CfxApiLoader.LoadCfxSetCookieCallbackApi();
@@ -123,18 +122,17 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Method that will be called upon completion. |Success| will be true (1) if
-		/// the cookie was set successfully.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxSetCookieCallbackOnCompleteEventHandler(object sender, CfxSetCookieCallbackOnCompleteEventArgs e);
+        /// <summary>
+        /// Method that will be called upon completion. |Success| will be true (1) if
+        /// the cookie was set successfully.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxSetCookieCallbackOnCompleteEventHandler(object sender, CfxSetCookieCallbackOnCompleteEventArgs e);
 
         /// <summary>
         /// Method that will be called upon completion. |Success| will be true (1) if

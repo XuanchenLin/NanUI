@@ -31,12 +31,11 @@
 
 
 using System;
-namespace Chromium
-{
-	/// <summary>
-	/// Collection of global static CEF functions.
-	/// </summary>
-	public static partial class CfxRuntime {
+namespace Chromium {
+    /// <summary>
+    /// Collection of global static CEF functions.
+    /// </summary>
+    public static partial class CfxRuntime {
 
         internal static event Action OnCfxShutdown;
 

@@ -34,10 +34,9 @@ using System;
 using System.Runtime.InteropServices;
 
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	public partial class CfrRuntime {
+    public partial class CfrRuntime {
 
         /// <summary>
         /// Provides access to the remote process unmanaged memory.

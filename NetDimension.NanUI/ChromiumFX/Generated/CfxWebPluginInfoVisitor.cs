@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure to implement for visiting web plugin information. The functions of
-	/// this structure will be called on the browser process UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
-	/// </remarks>
-	public class CfxWebPluginInfoVisitor : CfxBase {
+    /// <summary>
+    /// Structure to implement for visiting web plugin information. The functions of
+    /// this structure will be called on the browser process UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
+    /// </remarks>
+    public class CfxWebPluginInfoVisitor : CfxBase {
 
         static CfxWebPluginInfoVisitor () {
             CfxApiLoader.LoadCfxWebPluginInfoVisitorApi();
@@ -128,20 +127,19 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Method that will be called once for each plugin. |Count| is the 0-based
-		/// index for the current plugin. |Total| is the total number of plugins.
-		/// Return false (0) to stop visiting plugins. This function may never be
-		/// called if no plugins are found.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxWebPluginInfoVisitorVisitEventHandler(object sender, CfxWebPluginInfoVisitorVisitEventArgs e);
+        /// <summary>
+        /// Method that will be called once for each plugin. |Count| is the 0-based
+        /// index for the current plugin. |Total| is the total number of plugins.
+        /// Return false (0) to stop visiting plugins. This function may never be
+        /// called if no plugins are found.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_web_plugin_capi.h">cef/include/capi/cef_web_plugin_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxWebPluginInfoVisitorVisitEventHandler(object sender, CfxWebPluginInfoVisitorVisitEventArgs e);
 
         /// <summary>
         /// Method that will be called once for each plugin. |Count| is the 0-based

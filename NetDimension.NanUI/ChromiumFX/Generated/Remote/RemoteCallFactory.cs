@@ -31,10 +31,10 @@
 // Generated file. Do not edit.
 
 
+using System;
 
-namespace Chromium.Remote
-{
-	internal class RemoteCallFactory {
+namespace Chromium.Remote {
+    internal class RemoteCallFactory {
         private delegate RemoteCall RemoteCallCtor();
         private static RemoteCallCtor[] callConstructors =  {
             () => { return new CfxRuntimeCurrentlyOnRenderProcessCall(); },

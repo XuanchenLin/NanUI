@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to browser display state.
-	/// The functions of this structure will be called on the UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_display_handler_capi.h">cef/include/capi/cef_display_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxDisplayHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to browser display state.
+    /// The functions of this structure will be called on the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_display_handler_capi.h">cef/include/capi/cef_display_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxDisplayHandler : CfxBase {
 
         static CfxDisplayHandler () {
             CfxApiLoader.LoadCfxDisplayHandlerApi();
@@ -468,17 +467,16 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called when a frame's address has changed.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_display_handler_capi.h">cef/include/capi/cef_display_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnAddressChangeEventHandler(object sender, CfxOnAddressChangeEventArgs e);
+        /// <summary>
+        /// Called when a frame's address has changed.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_display_handler_capi.h">cef/include/capi/cef_display_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnAddressChangeEventHandler(object sender, CfxOnAddressChangeEventArgs e);
 
         /// <summary>
         /// Called when a frame's address has changed.

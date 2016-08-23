@@ -33,9 +33,8 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	internal class CfxRuntimeCurrentlyOnRenderProcessCall : RenderProcessCall {
+namespace Chromium.Remote {
+    internal class CfxRuntimeCurrentlyOnRenderProcessCall : RenderProcessCall {
 
         internal CfxRuntimeCurrentlyOnRenderProcessCall()
             : base(RemoteCallId.CfxRuntimeCurrentlyOnRenderProcessCall) {}

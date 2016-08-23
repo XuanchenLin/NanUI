@@ -33,18 +33,17 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing cursor information. |buffer| will be
-	/// |size.width|*|size.height|*4 bytes in size and represents a BGRA image with
-	/// an upper-left origin.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-	/// </remarks>
-	public sealed class CfxCursorInfo : CfxStructure {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing cursor information. |buffer| will be
+    /// |size.width|*|size.height|*4 bytes in size and represents a BGRA image with
+    /// an upper-left origin.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public sealed class CfxCursorInfo : CfxStructure {
 
         static CfxCursorInfo () {
             CfxApiLoader.LoadCfxCursorInfoApi();

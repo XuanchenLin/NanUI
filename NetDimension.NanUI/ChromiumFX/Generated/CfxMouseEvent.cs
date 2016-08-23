@@ -31,17 +31,17 @@
 // Generated file. Do not edit.
 
 
+using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing mouse event information.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-	/// </remarks>
-	public sealed class CfxMouseEvent : CfxStructure {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing mouse event information.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public sealed class CfxMouseEvent : CfxStructure {
 
         static CfxMouseEvent () {
             CfxApiLoader.LoadCfxMouseEventApi();

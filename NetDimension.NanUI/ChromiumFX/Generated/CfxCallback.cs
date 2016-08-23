@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Generic callback structure used for asynchronous continuation.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_callback_capi.h">cef/include/capi/cef_callback_capi.h</see>.
-	/// </remarks>
-	public class CfxCallback : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Generic callback structure used for asynchronous continuation.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_callback_capi.h">cef/include/capi/cef_callback_capi.h</see>.
+    /// </remarks>
+    public class CfxCallback : CfxBase {
 
         static CfxCallback () {
             CfxApiLoader.LoadCfxCallbackApi();

@@ -31,9 +31,8 @@
 using System;
 using System.Collections.Generic;
 
-namespace Chromium
-{
-	internal class WeakCacheBase {
+namespace Chromium {
+    internal class WeakCacheBase {
 
         protected readonly Dictionary<IntPtr, WeakReference> cache = new Dictionary<IntPtr, WeakReference>();
 
@@ -85,9 +84,8 @@ namespace Chromium
         }
     }
 
-    namespace Remote
-	{
-		internal class RemoteWeakCache : WeakCacheBase {
+    namespace Remote {
+        internal class RemoteWeakCache : WeakCacheBase {
             internal void Add(IntPtr key, object obj) {
                 // always locked by caller
                 cache.Add(key, new WeakReference(obj, false));

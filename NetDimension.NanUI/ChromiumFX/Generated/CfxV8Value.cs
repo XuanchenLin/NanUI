@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing a V8 value handle. V8 handles can only be accessed
-	/// from the thread on which they are created. Valid threads for creating a V8
-	/// handle include the render process main thread (TID_RENDERER) and WebWorker
-	/// threads. A task runner for posting tasks on the associated thread can be
-	/// retrieved via the CfxV8Context.GetTaskRunner() function.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-	/// </remarks>
-	public class CfxV8Value : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing a V8 value handle. V8 handles can only be accessed
+    /// from the thread on which they are created. Valid threads for creating a V8
+    /// handle include the render process main thread (TID_RENDERER) and WebWorker
+    /// threads. A task runner for posting tasks on the associated thread can be
+    /// retrieved via the CfxV8Context.GetTaskRunner() function.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+    /// </remarks>
+    public class CfxV8Value : CfxBase {
 
         static CfxV8Value () {
             CfxApiLoader.LoadCfxV8ValueApi();

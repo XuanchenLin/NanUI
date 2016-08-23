@@ -31,11 +31,12 @@
 
 
 
+using System;
 using System.Diagnostics;
+using System.Threading;
 
-namespace Chromium.Remote
-{
-	internal abstract class RemoteCall {
+namespace Chromium.Remote {
+    internal abstract class RemoteCall {
 
         private readonly RemoteCallId callId;
         private readonly bool returnImmediately;

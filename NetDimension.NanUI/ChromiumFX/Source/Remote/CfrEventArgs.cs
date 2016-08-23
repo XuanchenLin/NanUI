@@ -33,10 +33,10 @@
 using System;
 namespace Chromium.Remote
 {
-	/// <summary>
-	/// Base class for all remote callback event args.
-	/// </summary>
-	public class CfrEventArgs : EventArgs {
+    /// <summary>
+    /// Base class for all remote callback event args.
+    /// </summary>
+    public class CfrEventArgs : EventArgs {
         
         internal readonly ulong eventArgsId;
         internal bool m_isInvalid = false;

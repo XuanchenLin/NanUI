@@ -33,18 +33,17 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	/// <summary>
-	/// Structure used to represent post data for a web request. The functions of
-	/// this structure may be called on any thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
-	/// </remarks>
-	public class CfrPostData : CfrBase {
+    /// <summary>
+    /// Structure used to represent post data for a web request. The functions of
+    /// this structure may be called on any thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
+    /// </remarks>
+    public class CfrPostData : CfrBase {
 
         internal static CfrPostData Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

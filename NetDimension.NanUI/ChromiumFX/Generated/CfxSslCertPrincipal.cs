@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing the issuer or subject field of an X.509 certificate.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_ssl_info_capi.h">cef/include/capi/cef_ssl_info_capi.h</see>.
-	/// </remarks>
-	public class CfxSslCertPrincipal : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing the issuer or subject field of an X.509 certificate.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_ssl_info_capi.h">cef/include/capi/cef_ssl_info_capi.h</see>.
+    /// </remarks>
+    public class CfxSslCertPrincipal : CfxBase {
 
         static CfxSslCertPrincipal () {
             CfxApiLoader.LoadCfxSslCertPrincipalApi();

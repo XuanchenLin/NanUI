@@ -33,21 +33,22 @@
 
 using System;
 
-namespace Chromium.Remote
-{
-	/// <summary>
-	/// Implement this structure for asynchronous task execution. If the task is
-	/// posted successfully and if the associated message loop is still running then
-	/// the execute() function will be called on the target thread. If the task fails
-	/// to post then the task object may be destroyed on the source thread instead of
-	/// the target thread. For this reason be cautious when performing work in the
-	/// task object destructor.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
-	/// </remarks>
-	public class CfrTask : CfrBase {
+namespace Chromium.Remote {
+    using Event;
+
+    /// <summary>
+    /// Implement this structure for asynchronous task execution. If the task is
+    /// posted successfully and if the associated message loop is still running then
+    /// the execute() function will be called on the target thread. If the task fails
+    /// to post then the task object may be destroyed on the source thread instead of
+    /// the target thread. For this reason be cautious when performing work in the
+    /// task object destructor.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
+    /// </remarks>
+    public class CfrTask : CfrBase {
 
         internal static CfrTask Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;
@@ -116,9 +117,8 @@ namespace Chromium.Remote
         }
     }
 
-    namespace Event
-	{
+    namespace Event {
 
 
-	}
+    }
 }

@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	/// <summary>
-	/// Structure that wraps other data value types. Complex types (binary,
-	/// dictionary and list) will be referenced but not owned by this object. Can be
-	/// used on any process and thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
-	/// </remarks>
-	public class CfrValue : CfrBase {
+    /// <summary>
+    /// Structure that wraps other data value types. Complex types (binary,
+    /// dictionary and list) will be referenced but not owned by this object. Can be
+    /// used on any process and thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
+    /// </remarks>
+    public class CfrValue : CfrBase {
 
         internal static CfrValue Wrap(IntPtr proxyId) {
             if(proxyId == IntPtr.Zero) return null;

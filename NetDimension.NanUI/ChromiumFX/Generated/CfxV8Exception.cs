@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing a V8 exception. The functions of this structure may be
-	/// called on any render process thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
-	/// </remarks>
-	public class CfxV8Exception : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing a V8 exception. The functions of this structure may be
+    /// called on any render process thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
+    /// </remarks>
+    public class CfxV8Exception : CfxBase {
 
         static CfxV8Exception () {
             CfxApiLoader.LoadCfxV8ExceptionApi();

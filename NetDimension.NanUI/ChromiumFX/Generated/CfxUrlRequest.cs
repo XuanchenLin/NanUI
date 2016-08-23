@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure used to make a URL request. URL requests are not associated with a
-	/// browser instance so no CfxClient callbacks will be executed. URL requests
-	/// can be created on any valid CEF thread in either the browser or render
-	/// process. Once created the functions of the URL request object must be
-	/// accessed on the same thread that created it.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
-	/// </remarks>
-	public class CfxUrlRequest : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure used to make a URL request. URL requests are not associated with a
+    /// browser instance so no CfxClient callbacks will be executed. URL requests
+    /// can be created on any valid CEF thread in either the browser or render
+    /// process. Once created the functions of the URL request object must be
+    /// accessed on the same thread that created it.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
+    /// </remarks>
+    public class CfxUrlRequest : CfxBase {
 
         static CfxUrlRequest () {
             CfxApiLoader.LoadCfxUrlRequestApi();

@@ -31,10 +31,10 @@
 // Generated file. Do not edit.
 
 
+using System;
 
-namespace Chromium.Remote
-{
-	internal enum RemoteCallId : ushort {
+namespace Chromium.Remote {
+    internal enum RemoteCallId : ushort {
         CfxRuntimeCurrentlyOnRenderProcessCall,
         CfxRuntimeFormatUrlForSecurityDisplayRenderProcessCall,
         CfxRuntimePostDelayedTaskRenderProcessCall,

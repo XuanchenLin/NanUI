@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure the client can implement to provide a custom stream writer. The
-	/// functions of this structure may be called on any thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
-	/// </remarks>
-	public class CfxWriteHandler : CfxBase {
+    /// <summary>
+    /// Structure the client can implement to provide a custom stream writer. The
+    /// functions of this structure may be called on any thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
+    /// </remarks>
+    public class CfxWriteHandler : CfxBase {
 
         static CfxWriteHandler () {
             CfxApiLoader.LoadCfxWriteHandlerApi();
@@ -347,17 +346,16 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Write raw binary data.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxWriteEventHandler(object sender, CfxWriteEventArgs e);
+        /// <summary>
+        /// Write raw binary data.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxWriteEventHandler(object sender, CfxWriteEventArgs e);
 
         /// <summary>
         /// Write raw binary data.

@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to keyboard input. The
-	/// functions of this structure will be called on the UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_keyboard_handler_capi.h">cef/include/capi/cef_keyboard_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxKeyboardHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to keyboard input. The
+    /// functions of this structure will be called on the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_keyboard_handler_capi.h">cef/include/capi/cef_keyboard_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxKeyboardHandler : CfxBase {
 
         static CfxKeyboardHandler () {
             CfxApiLoader.LoadCfxKeyboardHandlerApi();
@@ -190,21 +189,20 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called before a keyboard event is sent to the renderer. |Event| contains
-		/// information about the keyboard event. |OsEvent| is the operating system
-		/// event message, if any. Return true (1) if the event was handled or false
-		/// (0) otherwise. If the event will be handled in on_key_event() as a keyboard
-		/// shortcut set |IsKeyboardShortcut| to true (1) and return false (0).
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_keyboard_handler_capi.h">cef/include/capi/cef_keyboard_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnPreKeyEventEventHandler(object sender, CfxOnPreKeyEventEventArgs e);
+        /// <summary>
+        /// Called before a keyboard event is sent to the renderer. |Event| contains
+        /// information about the keyboard event. |OsEvent| is the operating system
+        /// event message, if any. Return true (1) if the event was handled or false
+        /// (0) otherwise. If the event will be handled in on_key_event() as a keyboard
+        /// shortcut set |IsKeyboardShortcut| to true (1) and return false (0).
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_keyboard_handler_capi.h">cef/include/capi/cef_keyboard_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnPreKeyEventEventHandler(object sender, CfxOnPreKeyEventEventArgs e);
 
         /// <summary>
         /// Called before a keyboard event is sent to the renderer. |Event| contains

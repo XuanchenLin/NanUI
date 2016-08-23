@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure used to implement browser process callbacks. The functions of this
-	/// structure will be called on the browser process main thread unless otherwise
-	/// indicated.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_process_handler_capi.h">cef/include/capi/cef_browser_process_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxBrowserProcessHandler : CfxBase {
+    /// <summary>
+    /// Structure used to implement browser process callbacks. The functions of this
+    /// structure will be called on the browser process main thread unless otherwise
+    /// indicated.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_process_handler_capi.h">cef/include/capi/cef_browser_process_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxBrowserProcessHandler : CfxBase {
 
         static CfxBrowserProcessHandler () {
             CfxApiLoader.LoadCfxBrowserProcessHandlerApi();
@@ -296,22 +295,21 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
 
-		/// <summary>
-		/// Called before a child process is launched. Will be called on the browser
-		/// process UI thread when launching a render process and on the browser
-		/// process IO thread when launching a GPU or plugin process. Provides an
-		/// opportunity to modify the child process command line. Do not keep a
-		/// reference to |CommandLine| outside of this function.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_process_handler_capi.h">cef/include/capi/cef_browser_process_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnBeforeChildProcessLaunchEventHandler(object sender, CfxOnBeforeChildProcessLaunchEventArgs e);
+        /// <summary>
+        /// Called before a child process is launched. Will be called on the browser
+        /// process UI thread when launching a render process and on the browser
+        /// process IO thread when launching a GPU or plugin process. Provides an
+        /// opportunity to modify the child process command line. Do not keep a
+        /// reference to |CommandLine| outside of this function.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_process_handler_capi.h">cef/include/capi/cef_browser_process_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnBeforeChildProcessLaunchEventHandler(object sender, CfxOnBeforeChildProcessLaunchEventArgs e);
 
         /// <summary>
         /// Called before a child process is launched. Will be called on the browser

@@ -33,10 +33,9 @@
 
 using System;
 
-namespace Chromium.Remote
-{
+namespace Chromium.Remote {
 
-	internal class CfxDomDocumentGetTypeRenderProcessCall : RenderProcessCall {
+    internal class CfxDomDocumentGetTypeRenderProcessCall : RenderProcessCall {
 
         internal CfxDomDocumentGetTypeRenderProcessCall()
             : base(RemoteCallId.CfxDomDocumentGetTypeRenderProcessCall) {}

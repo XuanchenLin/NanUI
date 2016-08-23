@@ -49,7 +49,7 @@ namespace NetDimension.NanUI.ChromiumCore
 
         void RequestHandler_GetResourceHandler(object sender, CfxGetResourceHandlerEventArgs e) {
             WebResource resource;
-            if(client.browser.WebResource.TryGetValue(e.Request.Url, out resource)) {
+            if(client.browser.WebResources.TryGetValue(e.Request.Url, out resource)) {
                 e.SetReturnValue(resource.GetResourceHandler());
             }
         }

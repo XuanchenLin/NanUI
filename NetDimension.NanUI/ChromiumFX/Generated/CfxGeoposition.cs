@@ -33,18 +33,17 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing geoposition information. The properties of this
-	/// structure correspond to those of the JavaScript Position object although
-	/// their types may differ.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-	/// </remarks>
-	public sealed class CfxGeoposition : CfxStructure {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing geoposition information. The properties of this
+    /// structure correspond to those of the JavaScript Position object although
+    /// their types may differ.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public sealed class CfxGeoposition : CfxStructure {
 
         static CfxGeoposition () {
             CfxApiLoader.LoadCfxGeopositionApi();

@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure used to read data from a stream. The functions of this structure
-	/// may be called on any thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
-	/// </remarks>
-	public class CfxStreamReader : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure used to read data from a stream. The functions of this structure
+    /// may be called on any thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
+    /// </remarks>
+    public class CfxStreamReader : CfxBase {
 
         static CfxStreamReader () {
             CfxApiLoader.LoadCfxStreamReaderApi();

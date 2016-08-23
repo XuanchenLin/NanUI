@@ -33,18 +33,17 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure that supports the reading of zip archives via the zlib unzip API.
-	/// The functions of this structure should only be called on the thread that
-	/// creates the object.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_zip_reader_capi.h">cef/include/capi/cef_zip_reader_capi.h</see>.
-	/// </remarks>
-	public partial class CfxZipReader : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure that supports the reading of zip archives via the zlib unzip API.
+    /// The functions of this structure should only be called on the thread that
+    /// creates the object.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_zip_reader_capi.h">cef/include/capi/cef_zip_reader_capi.h</see>.
+    /// </remarks>
+    public partial class CfxZipReader : CfxBase {
 
         static CfxZipReader () {
             CfxApiLoader.LoadCfxZipReaderApi();

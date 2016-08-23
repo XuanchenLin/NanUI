@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to focus. The functions of
-	/// this structure will be called on the UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_focus_handler_capi.h">cef/include/capi/cef_focus_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxFocusHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to focus. The functions of
+    /// this structure will be called on the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_focus_handler_capi.h">cef/include/capi/cef_focus_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxFocusHandler : CfxBase {
 
         static CfxFocusHandler () {
             CfxApiLoader.LoadCfxFocusHandlerApi();
@@ -238,20 +237,19 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Called when the browser component is about to loose focus. For instance, if
-		/// focus was on the last HTML element and the user pressed the TAB key. |Next|
-		/// will be true (1) if the browser is giving focus to the next component and
-		/// false (0) if the browser is giving focus to the previous component.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_focus_handler_capi.h">cef/include/capi/cef_focus_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnTakeFocusEventHandler(object sender, CfxOnTakeFocusEventArgs e);
+        /// <summary>
+        /// Called when the browser component is about to loose focus. For instance, if
+        /// focus was on the last HTML element and the user pressed the TAB key. |Next|
+        /// will be true (1) if the browser is giving focus to the next component and
+        /// false (0) if the browser is giving focus to the previous component.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_focus_handler_capi.h">cef/include/capi/cef_focus_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnTakeFocusEventHandler(object sender, CfxOnTakeFocusEventArgs e);
 
         /// <summary>
         /// Called when the browser component is about to loose focus. For instance, if

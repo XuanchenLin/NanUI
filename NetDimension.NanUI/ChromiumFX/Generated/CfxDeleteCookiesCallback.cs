@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure to implement to be notified of asynchronous completion via
-	/// CfxCookieManager.DeleteCookies().
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-	/// </remarks>
-	public class CfxDeleteCookiesCallback : CfxBase {
+    /// <summary>
+    /// Structure to implement to be notified of asynchronous completion via
+    /// CfxCookieManager.DeleteCookies().
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+    /// </remarks>
+    public class CfxDeleteCookiesCallback : CfxBase {
 
         static CfxDeleteCookiesCallback () {
             CfxApiLoader.LoadCfxDeleteCookiesCallbackApi();
@@ -123,18 +122,17 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Method that will be called upon completion. |NumDeleted| will be the
-		/// number of cookies that were deleted or -1 if unknown.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxDeleteCookiesCallbackOnCompleteEventHandler(object sender, CfxDeleteCookiesCallbackOnCompleteEventArgs e);
+        /// <summary>
+        /// Method that will be called upon completion. |NumDeleted| will be the
+        /// number of cookies that were deleted or -1 if unknown.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxDeleteCookiesCallbackOnCompleteEventHandler(object sender, CfxDeleteCookiesCallbackOnCompleteEventArgs e);
 
         /// <summary>
         /// Method that will be called upon completion. |NumDeleted| will be the

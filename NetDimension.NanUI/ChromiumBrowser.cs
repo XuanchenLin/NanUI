@@ -74,7 +74,7 @@ namespace NetDimension.NanUI
 			}
 		}
 
-		public Dictionary<string, WebResource> WebResource
+		public Dictionary<string, WebResource> WebResources
 		{
 			get
 			{

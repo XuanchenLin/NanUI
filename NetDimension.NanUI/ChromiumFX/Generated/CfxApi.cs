@@ -31,12 +31,12 @@
 // Generated file. Do not edit.
 
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace Chromium
-{
-	internal partial class CfxApi {
+using System;
+
+namespace Chromium {
+    internal partial class CfxApi {
 
         // global cef export functions
 
@@ -3947,26 +3947,6 @@ namespace Chromium
         public delegate int cfx_request_context_set_preference_delegate(IntPtr self, IntPtr name_str, int name_length, IntPtr value, ref IntPtr error_str, ref int error_length);
         public static cfx_request_context_set_preference_delegate cfx_request_context_set_preference;
 
-        // static void cfx_request_context_clear_certificate_exceptions(cef_request_context_t* self, cef_completion_callback_t* callback)
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-        public delegate void cfx_request_context_clear_certificate_exceptions_delegate(IntPtr self, IntPtr callback);
-        public static cfx_request_context_clear_certificate_exceptions_delegate cfx_request_context_clear_certificate_exceptions;
-
-        // static void cfx_request_context_close_all_connections(cef_request_context_t* self, cef_completion_callback_t* callback)
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-        public delegate void cfx_request_context_close_all_connections_delegate(IntPtr self, IntPtr callback);
-        public static cfx_request_context_close_all_connections_delegate cfx_request_context_close_all_connections;
-
-        // static void cfx_request_context_resolve_host(cef_request_context_t* self, char16 *origin_str, int origin_length, cef_resolve_callback_t* callback)
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-        public delegate void cfx_request_context_resolve_host_delegate(IntPtr self, IntPtr origin_str, int origin_length, IntPtr callback);
-        public static cfx_request_context_resolve_host_delegate cfx_request_context_resolve_host;
-
-        // static cef_errorcode_t cfx_request_context_resolve_host_cached(cef_request_context_t* self, char16 *origin_str, int origin_length, cef_string_list_t resolved_ips)
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-        public delegate int cfx_request_context_resolve_host_cached_delegate(IntPtr self, IntPtr origin_str, int origin_length, IntPtr resolved_ips);
-        public static cfx_request_context_resolve_host_cached_delegate cfx_request_context_resolve_host_cached;
-
 
         // CfxRequestContextHandler
 
@@ -4033,13 +4013,6 @@ namespace Chromium
         public static cfx_ctor_with_gc_handle_delegate cfx_request_handler_ctor;
         public static cfx_get_gc_handle_delegate cfx_request_handler_get_gc_handle;
         public static cfx_set_callback_delegate cfx_request_handler_set_managed_callback;
-
-
-        // CfxResolveCallback
-
-        public static cfx_ctor_with_gc_handle_delegate cfx_resolve_callback_ctor;
-        public static cfx_get_gc_handle_delegate cfx_resolve_callback_get_gc_handle;
-        public static cfx_set_callback_delegate cfx_resolve_callback_set_managed_callback;
 
 
         // CfxResourceBundle

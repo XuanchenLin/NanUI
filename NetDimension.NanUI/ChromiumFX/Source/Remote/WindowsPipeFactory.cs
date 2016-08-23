@@ -29,11 +29,12 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+using System;
+using System.IO;
 using System.IO.Pipes;
 
-namespace Chromium.Remote
-{
-	class WindowsPipeFactory : PipeFactory {
+namespace Chromium.Remote {
+    class WindowsPipeFactory : PipeFactory {
 
         internal override System.IO.Stream CreateServerPipeInputStream(string name) {
             var s = new NamedPipeServerStream(name, PipeDirection.In, 1);

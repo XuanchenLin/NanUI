@@ -31,14 +31,13 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Collections.Generic;
 using System.Threading;
+using System.Diagnostics;
 
-namespace Chromium.Remote
-{
-	internal class RemoteConnection {
+namespace Chromium.Remote {
+    internal class RemoteConnection {
 
 
         private readonly Stream pipeIn;

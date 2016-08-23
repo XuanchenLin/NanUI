@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure used to represent the browser process aspects of a browser window.
-	/// The functions of this structure can only be called in the browser process.
-	/// They may be called on any thread in that process unless otherwise indicated
-	/// in the comments.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-	/// </remarks>
-	public class CfxBrowserHost : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Structure used to represent the browser process aspects of a browser window.
+    /// The functions of this structure can only be called in the browser process.
+    /// They may be called on any thread in that process unless otherwise indicated
+    /// in the comments.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+    /// </remarks>
+    public class CfxBrowserHost : CfxBase {
 
         static CfxBrowserHost () {
             CfxApiLoader.LoadCfxBrowserHostApi();

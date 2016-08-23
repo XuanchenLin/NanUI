@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Provides information about the context menu state. The ethods of this
-	/// structure can only be accessed on browser process the UI thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxContextMenuParams : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Provides information about the context menu state. The ethods of this
+    /// structure can only be accessed on browser process the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxContextMenuParams : CfxBase {
 
         static CfxContextMenuParams () {
             CfxApiLoader.LoadCfxContextMenuParamsApi();

@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Implement this structure to handle events related to browser load status. The
-	/// functions of this structure will be called on the browser process UI thread
-	/// or render process main thread (TID_RENDERER).
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxLoadHandler : CfxBase {
+    /// <summary>
+    /// Implement this structure to handle events related to browser load status. The
+    /// functions of this structure will be called on the browser process UI thread
+    /// or render process main thread (TID_RENDERER).
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxLoadHandler : CfxBase {
 
         static CfxLoadHandler () {
             CfxApiLoader.LoadCfxLoadHandlerApi();
@@ -143,8 +142,7 @@ namespace Chromium
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure. It will be called before any calls to OnLoadStart and after all
-        /// calls to OnLoadError and/or OnLoadEnd.
+        /// of failure.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -180,9 +178,9 @@ namespace Chromium
         /// never be NULL -- call the is_main() function to check if this frame is the
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
-        /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully. For notification of overall browser load
-        /// status use OnLoadingStateChange instead.
+        /// function may not be called for a particular frame if the load request for
+        /// that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -219,8 +217,7 @@ namespace Chromium
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully. For notification of overall browser load
-        /// status use OnLoadingStateChange instead.
+        /// request completes successfully.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -308,28 +305,25 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
-
-		/// <summary>
-		/// Called when the loading state has changed. This callback will be executed
-		/// twice -- once when loading is initiated either programmatically or by user
-		/// action, and once when loading is terminated due to completion, cancellation
-		/// of failure. It will be called before any calls to OnLoadStart and after all
-		/// calls to OnLoadError and/or OnLoadEnd.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnLoadingStateChangeEventHandler(object sender, CfxOnLoadingStateChangeEventArgs e);
+    namespace Event {
 
         /// <summary>
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure. It will be called before any calls to OnLoadStart and after all
-        /// calls to OnLoadError and/or OnLoadEnd.
+        /// of failure.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnLoadingStateChangeEventHandler(object sender, CfxOnLoadingStateChangeEventArgs e);
+
+        /// <summary>
+        /// Called when the loading state has changed. This callback will be executed
+        /// twice -- once when loading is initiated either programmatically or by user
+        /// action, and once when loading is terminated due to completion, cancellation
+        /// of failure.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -398,9 +392,9 @@ namespace Chromium
         /// never be NULL -- call the is_main() function to check if this frame is the
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
-        /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully. For notification of overall browser load
-        /// status use OnLoadingStateChange instead.
+        /// function may not be called for a particular frame if the load request for
+        /// that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -413,9 +407,9 @@ namespace Chromium
         /// never be NULL -- call the is_main() function to check if this frame is the
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
-        /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully. For notification of overall browser load
-        /// status use OnLoadingStateChange instead.
+        /// function may not be called for a particular frame if the load request for
+        /// that frame fails. For notification of overall browser load status use
+        /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -465,8 +459,7 @@ namespace Chromium
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully. For notification of overall browser load
-        /// status use OnLoadingStateChange instead.
+        /// request completes successfully.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -480,8 +473,7 @@ namespace Chromium
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully. For notification of overall browser load
-        /// status use OnLoadingStateChange instead.
+        /// request completes successfully.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in

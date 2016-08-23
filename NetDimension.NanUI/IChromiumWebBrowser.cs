@@ -27,7 +27,7 @@ namespace NetDimension.NanUI
 		CfrBrowser RemoteBrowser { get; }
 		RenderProcess RemoteProcess { get; }
 
-		Dictionary<string, WebResource> WebResource { get; }
+		Dictionary<string, WebResource> WebResources { get; }
 
 		Dictionary<string, JSObject> FrameGlobalObjects { get; }
 

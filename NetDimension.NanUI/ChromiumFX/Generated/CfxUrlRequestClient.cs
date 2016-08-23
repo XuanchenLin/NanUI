@@ -33,20 +33,19 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure that should be implemented by the CfxUrlRequest client. The
-	/// functions of this structure will be called on the same thread that created
-	/// the request unless otherwise documented.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
-	/// </remarks>
-	public class CfxUrlRequestClient : CfxBase {
+    /// <summary>
+    /// Structure that should be implemented by the CfxUrlRequest client. The
+    /// functions of this structure will be called on the same thread that created
+    /// the request unless otherwise documented.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
+    /// </remarks>
+    public class CfxUrlRequestClient : CfxBase {
 
         static CfxUrlRequestClient () {
             CfxApiLoader.LoadCfxUrlRequestClientApi();
@@ -357,19 +356,18 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Notifies the client that the request has completed. Use the
-		/// CfxUrlRequest.GetRequestStatus function to determine if the request was
-		/// successful or not.
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxOnRequestCompleteEventHandler(object sender, CfxOnRequestCompleteEventArgs e);
+        /// <summary>
+        /// Notifies the client that the request has completed. Use the
+        /// CfxUrlRequest.GetRequestStatus function to determine if the request was
+        /// successful or not.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnRequestCompleteEventHandler(object sender, CfxOnRequestCompleteEventArgs e);
 
         /// <summary>
         /// Notifies the client that the request has completed. Use the

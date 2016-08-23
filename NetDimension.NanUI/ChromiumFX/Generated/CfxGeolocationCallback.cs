@@ -33,17 +33,16 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Callback structure used for asynchronous continuation of geolocation
-	/// permission requests.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_handler_capi.h">cef/include/capi/cef_geolocation_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxGeolocationCallback : CfxBase {
+namespace Chromium {
+    /// <summary>
+    /// Callback structure used for asynchronous continuation of geolocation
+    /// permission requests.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_handler_capi.h">cef/include/capi/cef_geolocation_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxGeolocationCallback : CfxBase {
 
         static CfxGeolocationCallback () {
             CfxApiLoader.LoadCfxGeolocationCallbackApi();

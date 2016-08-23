@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing CfxExecuteProcess arguments.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types_linux.h">cef/include/internal/cef_types_linux.h</see>.
-	/// </remarks>
-	internal sealed partial class CfxMainArgsLinux : CfxStructure {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing CfxExecuteProcess arguments.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types_linux.h">cef/include/internal/cef_types_linux.h</see>.
+    /// </remarks>
+    internal sealed partial class CfxMainArgsLinux : CfxStructure {
 
         static CfxMainArgsLinux () {
             if(CfxApi.PlatformOS == CfxPlatformOS.Linux) {

@@ -31,12 +31,11 @@
 
 
 using System;
-namespace Chromium
-{
-	/// <summary>
-	/// Base class for all wrapper classes for CEF structs without refcount.
-	/// </summary>
-	public abstract class CfxStructure : CfxObject {
+namespace Chromium {
+    /// <summary>
+    /// Base class for all wrapper classes for CEF structs without refcount.
+    /// </summary>
+    public abstract class CfxStructure : CfxObject {
 
         static internal IntPtr Unwrap(CfxStructure structure) {
             if(structure == null)

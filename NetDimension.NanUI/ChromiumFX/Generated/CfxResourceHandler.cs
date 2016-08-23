@@ -33,19 +33,18 @@
 
 using System;
 
-namespace Chromium
-{
-	using Event;
+namespace Chromium {
+    using Event;
 
-	/// <summary>
-	/// Structure used to implement a custom request handler structure. The functions
-	/// of this structure will always be called on the IO thread.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_handler_capi.h">cef/include/capi/cef_resource_handler_capi.h</see>.
-	/// </remarks>
-	public class CfxResourceHandler : CfxBase {
+    /// <summary>
+    /// Structure used to implement a custom request handler structure. The functions
+    /// of this structure will always be called on the IO thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_handler_capi.h">cef/include/capi/cef_resource_handler_capi.h</see>.
+    /// </remarks>
+    public class CfxResourceHandler : CfxBase {
 
         static CfxResourceHandler () {
             CfxApiLoader.LoadCfxResourceHandlerApi();
@@ -426,21 +425,20 @@ namespace Chromium
     }
 
 
-    namespace Event
-	{
+    namespace Event {
 
-		/// <summary>
-		/// Begin processing the request. To handle the request return true (1) and
-		/// call CfxCallback.Continue() once the response header information is
-		/// available (CfxCallback.Continue() can also be called from inside this
-		/// function if header information is available immediately). To cancel the
-		/// request return false (0).
-		/// </summary>
-		/// <remarks>
-		/// See also the original CEF documentation in
-		/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_handler_capi.h">cef/include/capi/cef_resource_handler_capi.h</see>.
-		/// </remarks>
-		public delegate void CfxProcessRequestEventHandler(object sender, CfxProcessRequestEventArgs e);
+        /// <summary>
+        /// Begin processing the request. To handle the request return true (1) and
+        /// call CfxCallback.Continue() once the response header information is
+        /// available (CfxCallback.Continue() can also be called from inside this
+        /// function if header information is available immediately). To cancel the
+        /// request return false (0).
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_handler_capi.h">cef/include/capi/cef_resource_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxProcessRequestEventHandler(object sender, CfxProcessRequestEventArgs e);
 
         /// <summary>
         /// Begin processing the request. To handle the request return true (1) and

@@ -33,16 +33,15 @@
 
 using System;
 
-namespace Chromium
-{
-	/// <summary>
-	/// Structure representing PDF print settings.
-	/// </summary>
-	/// <remarks>
-	/// See also the original CEF documentation in
-	/// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-	/// </remarks>
-	public sealed class CfxPdfPrintSettings : CfxStructure {
+namespace Chromium {
+    /// <summary>
+    /// Structure representing PDF print settings.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public sealed class CfxPdfPrintSettings : CfxStructure {
 
         static CfxPdfPrintSettings () {
             CfxApiLoader.LoadCfxPdfPrintSettingsApi();
