@@ -46,7 +46,7 @@ QQ群：
 
 ### 版本状态
 NanUI版本
-> 0.3.2 alpha预览
+> 0.4 alpha预览
 
 支持的操作系统
 > Windows XP及已上版本
@@ -55,7 +55,7 @@ NanUI版本
 > .NET Framework 4.0 Client Profile
 
 当前CEF版本
-> CEF 3.2623.1401 Chromium 49.0.2623.10
+> CEF 3.2526.1366.g8617e7c Chromium 47.0.2526.80
 
 ### 如何使用
 **引用NanUI库**
