@@ -31,6 +31,10 @@ QQ群：
 241088256
 
 ### 更新日志
+> 版本0.4.1
+
+ - 新增了NonclientMode下窗口投影的开关NonclientModeDropShadow，现在在无边框模式下面窗口有阴影了（WinXP暂时没测试）。
+
 > 版本0.4
 
 - 现在CEF运行库安装路径从%AppData%下转到了%ProgramData%目录下，有群友报告此问题，在多用户环境中若使用%AppData%作为CEF共享目录，如果切换用户后会导致NanUI重新下载CEF运行库。
@@ -117,6 +121,13 @@ public class MainFrame : HtmlUIForm
 另外，请勾选“启用本机代码调试”选项来解决中文输入法状态启动调试时软件崩溃的问题。
 
 ### 演示项目
+
+**MarkdownDotNet**
+
+NanUI.Demo.MarkdownDotNet
+
+一个功能简单的Markdown编辑器，主要展示NonclientMode。
+
 **CodeEditor**
 
 NanUI.Demo.CodeEditor

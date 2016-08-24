@@ -13,6 +13,7 @@ namespace NetDimension.NanUI.Internal
 
 		private bool _bStoreSize = false;
 		private bool _bResetSize = false;
+		private FormBorder formBorder = null;
 
 
 		protected IntPtr FormHandle
@@ -34,6 +35,11 @@ namespace NetDimension.NanUI.Internal
 			RecalculateSize();
 			InvalidateWindow();
 			RecalculateSize();
+
+			if (form.Borderless && form.NonclientModeDropShadow)
+			{
+				formBorder = new FormBorder(form);
+			}
 		}
 
 		protected override void WndProc(ref Message m)
@@ -168,7 +174,7 @@ namespace NetDimension.NanUI.Internal
 				using (var g = Graphics.FromHdc(hDC))
 				{
 
-					
+
 					var height = windowRect.Bottom;
 					var width = windowRect.Right;
 
@@ -194,6 +200,7 @@ namespace NetDimension.NanUI.Internal
 						}
 					}
 
+					formBorder?.RefreshShadow(width, height);
 
 
 

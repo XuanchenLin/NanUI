@@ -61,6 +61,36 @@ namespace NetDimension.NanUI.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Bottom {
+            get {
+                object obj = ResourceManager.GetObject("Bottom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap BottomLeft {
+            get {
+                object obj = ResourceManager.GetObject("BottomLeft", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap BottomRight {
+            get {
+                object obj = ResourceManager.GetObject("BottomRight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似  的本地化字符串。
         /// </summary>
         internal static string ExtensionScripts {
@@ -71,22 +101,72 @@ namespace NetDimension.NanUI.Properties {
         
         /// <summary>
         ///   查找类似 //初始化脚本
+        ///
+        /////注册窗口命令的事件监视
+        ////// 监听NanUI窗口保留的最大化、最小化、还原、退出CSS标记的单击事件
+        ////// 标记：
+        ////// -nanui-close		关闭窗口
+        ////// -nanui-maximize		最大化窗口
+        ////// -nanui-minimize		最小化窗口
         ///(function () {
         ///	document.addEventListener(&apos;DOMContentLoaded&apos;, function () {
         ///		document.body.addEventListener(&apos;click&apos;, function (e) {
         ///			var region = e.srcElement;
-        ///			var cmd = region.className.includes(&apos;-nanui-close&apos;) ? &apos;close&apos; : region.className.includes(&apos;-nanui-minimize&apos;) ? &apos;minimize&apos; : region.className.includes(&apos;-nanui-maximize&apos;) ? &apos;maximize&apos; : null;
-        ///			if (cmd != null &amp;&amp; NanUI) {
-        ///				NanUI.hostWindow[cmd].apply();
-        ///				e.preventDefault();
-        ///				region.blur();
-        ///			}
-        ///		}, false);
-        ///	}, false [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///			var cmd = region.className.includes(&apos;-nanui-close&apos;) ? &apos;close&apos; : region.className.includes(&apos;-nanui-minimize&apos;) ? &apos;minimize&apos; : region.className.includes(&apos;-nanui-maximize&apos;) ? &apos;maximize&apos; : nu [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string InitialScripts {
             get {
                 return ResourceManager.GetString("InitialScripts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Left {
+            get {
+                object obj = ResourceManager.GetObject("Left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Right {
+            get {
+                object obj = ResourceManager.GetObject("Right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Top {
+            get {
+                object obj = ResourceManager.GetObject("Top", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap TopLeft {
+            get {
+                object obj = ResourceManager.GetObject("TopLeft", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap TopRight {
+            get {
+                object obj = ResourceManager.GetObject("TopRight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

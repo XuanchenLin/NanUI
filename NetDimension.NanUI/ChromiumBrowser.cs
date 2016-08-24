@@ -147,7 +147,7 @@ namespace NetDimension.NanUI
 					| ControlStyles.UserMouse
 					| ControlStyles.SupportsTransparentBackColor
 					| ControlStyles.EnableNotifyMessage
-					| ControlStyles.DoubleBuffer
+
 					| ControlStyles.OptimizedDoubleBuffer
 					| ControlStyles.UseTextForAccessibility
 					| ControlStyles.Opaque
@@ -156,8 +156,11 @@ namespace NetDimension.NanUI
 				SetStyle(ControlStyles.UserPaint
 					| ControlStyles.AllPaintingInWmPaint
 					| ControlStyles.CacheText
+					| ControlStyles.DoubleBuffer
 					| ControlStyles.Selectable
 					, true);
+
+				UpdateStyles();
 
 				if (initialUrl == null)
 					this.initialUrl = "about:blank";
@@ -527,7 +530,8 @@ namespace NetDimension.NanUI
 			var waitLock = new object();
 			lock (waitLock)
 			{
-				BeginInvoke((MethodInvoker)(() => {
+				BeginInvoke((MethodInvoker)(() =>
+				{
 					context.Enter();
 					try
 					{
@@ -579,7 +583,8 @@ namespace NetDimension.NanUI
 			var waitLock = new object();
 			lock (waitLock)
 			{
-				BeginInvoke((MethodInvoker)(() => {
+				BeginInvoke((MethodInvoker)(() =>
+				{
 					context.Enter();
 					try
 					{
@@ -832,7 +837,8 @@ namespace NetDimension.NanUI
 			var waitLock = new object();
 			lock (waitLock)
 			{
-				BeginInvoke((MethodInvoker)(() => {
+				BeginInvoke((MethodInvoker)(() =>
+				{
 					try
 					{
 						method.Invoke();

@@ -54,6 +54,7 @@ namespace NetDimension.NanUI
 
 		private string initialUrl;
 
+
 		protected ResizeDirection ResizeDirection
 		{
 			get;
@@ -67,6 +68,14 @@ namespace NetDimension.NanUI
 		} = 0;
 
 		protected readonly bool IsDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+		/// <summary>
+		/// 设置或获取NanUI在Nonclient模式下是否显示投影
+		/// </summary>
+		[Category("NanUI")]
+		public bool NonclientModeDropShadow
+		{
+			get; set;
+		} = true;
 
 		/// <summary>
 		/// 设置或获取NanUI是否为无边窗口
@@ -106,6 +115,7 @@ namespace NetDimension.NanUI
 				splashPicture.BackgroundImageLayout = value;
 			}
 		}
+
 
 		/// <summary>
 		/// 设置或获取NanUI窗口加载等待画面背景颜色
@@ -149,6 +159,8 @@ namespace NetDimension.NanUI
 			get; set;
 		} = 1;
 
+
+
 		/// <summary>
 		/// 设置或获取NanUI窗口边框颜色
 		/// </summary>
@@ -191,7 +203,10 @@ namespace NetDimension.NanUI
 				SetStyle(ControlStyles.ResizeRedraw, true);
 				SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 				SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+
 				DoubleBuffered = true;
+
+				UpdateStyles();
 
 				BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
 				BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
@@ -202,6 +217,7 @@ namespace NetDimension.NanUI
 				splashPicture.BringToFront();
 
 				InitializeChromium(initialUrl);
+
 
 			}
 
@@ -275,13 +291,11 @@ namespace NetDimension.NanUI
 
 			LoadHandler.OnLoadEnd += (sender, args) =>
 			{
-				//args.Frame.ExecuteJavaScript(JS_WINDOW_SYSTEM_COMMAND_NOTIFY, null, 0);
 				HideInitialSplash();
 			};
 
 			LoadHandler.OnLoadError += (sender, args) =>
 			{
-				//args.Frame.ExecuteJavaScript(JS_WINDOW_SYSTEM_COMMAND_NOTIFY, null, 0);
 				HideInitialSplash();
 			};
 
@@ -674,6 +688,7 @@ namespace NetDimension.NanUI
 								Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
 								Owner.Location.Y + Owner.Height / 2 - Height / 2);
 
+
 							}
 							else if (StartPosition == FormStartPosition.CenterScreen || (StartPosition == FormStartPosition.CenterParent && Owner == null))
 							{
@@ -684,6 +699,7 @@ namespace NetDimension.NanUI
 
 							Activate();
 							BringToFront();
+
 							base.WndProc(ref m);
 						}
 						break;
@@ -737,7 +753,6 @@ namespace NetDimension.NanUI
 								var js = string.Format(JS_WINDOW_STATE_CHANGED, m.WParam, x, y);
 								browser.ExecuteJavascript(js);
 							}
-
 
 							base.WndProc(ref m);
 
