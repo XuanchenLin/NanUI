@@ -80,16 +80,16 @@ static class Program
   [STAThread]
   static void Main()
   {
-    Application.EnableVisualStyles();
-    Application.SetCompatibleTextRenderingDefault(false);
+	Application.EnableVisualStyles();
+	Application.SetCompatibleTextRenderingDefault(false);
 
-    HtmlUILauncher.EnableFlashSupport = true;	//开启Flash支持
+	HtmlUILauncher.EnableFlashSupport = true;	//开启Flash支持
 
-    if (HtmlUILauncher.InitializeChromium())	//初始化CEF环境
-    {
-      //启动主窗体
-      Application.Run(new MainFrame());
-    }
+	if (HtmlUILauncher.InitializeChromium())	//初始化CEF环境
+	{
+	  //启动主窗体
+	  Application.Run(new MainFrame());
+	}
   }
 }
 ```
@@ -101,60 +101,59 @@ static class Program
 public class MainFrame : HtmlUIForm
 {
 	public MainFrame()
-		: base("<页面地址>
-	")
+		: base("<页面地址>")
 	{
-	InitializeComponent();
-	//... 各种初始化代码
+		InitializeComponent();
+		//... 各种初始化代码
 	}
-	}
+}
 
-	```
+```
 
-	只需如上简单的三步，就完成了对NanUI的加载。其他界面设计的工作就交给美工吧！
+只需如上简单的三步，就完成了对NanUI的加载。其他界面设计的工作就交给美工吧！
 
-	代码示例中，将详细展示NanUI的使用方法。当然你也可以通过WIKI来了解更多信息。
+代码示例中，将详细展示NanUI的使用方法。当然你也可以通过WIKI来了解更多信息。
 
-	**注意**
+**注意**
 
-	如果加载窗口后一片空白，请按照下述方法解决：
+如果加载窗口后一片空白，请按照下述方法解决：
 
-	项目属性->调试->取消勾选“启用 Visual Studio 承载进程”
+项目属性->调试->取消勾选“启用 Visual Studio 承载进程”
 
-	另外，请勾选“启用本机代码调试”选项来解决中文输入法状态启动调试时软件崩溃的问题。
+另外，请勾选“启用本机代码调试”选项来解决中文输入法状态启动调试时软件崩溃的问题。
 
-	### 演示项目
+### 演示项目
 
-	**MarkdownDotNet**
+**MarkdownDotNet**
 
-	NanUI.Demo.MarkdownDotNet
+NanUI.Demo.MarkdownDotNet
 
-	一个功能简单的Markdown编辑器，主要展示NonclientMode。
+一个功能简单的Markdown编辑器，主要展示NonclientMode。
 
-	**CodeEditor**
+**CodeEditor**
 
-	NanUI.Demo.CodeEditor
-	NanUI.Demo.CodeEditor.Resources
+NanUI.Demo.CodeEditor
+NanUI.Demo.CodeEditor.Resources
 
-	该项目使用强大的JS项目CodeMirror，配合Bootstrap库进行界面布局，实现了一个简单的代码编辑器功能。
+该项目使用强大的JS项目CodeMirror，配合Bootstrap库进行界面布局，实现了一个简单的代码编辑器功能。
 
-	**Welcome**
+**Welcome**
 
-	NanUI.Demo.Welcome
+NanUI.Demo.Welcome
 
-	该项目使用jQuery及Bootstrap构建界面，主要演示了NanUI对HTML5、CSS3、Flash、WebGL等技术的支持程度。
+该项目使用jQuery及Bootstrap构建界面，主要演示了NanUI对HTML5、CSS3、Flash、WebGL等技术的支持程度。
 
-	### CEF运行库下载
-	| 说明           | 大小  | 说明  | 下载                                                           |
-	| -------------- |------:|:-----:|:-------------------------------------------------------------:|
-	| 完整安装包      | 73.0M | 推荐  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/all.exe)             |
-	| 资源文件        | 3.53M | 必要  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/resources.exe)       |
-	| 32位CEF运行库   | 24.4M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/cef_x86.exe.exe)  |
-	| 32位Flash支持库 | 7.46M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/flash_x86.exe)    |
-	| 64位CEF运行库   | 29.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/cef_x64.exe.exe)  |
-	| 64位Flash支持库 | 10.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/flash_x64.exe)    |
+### CEF运行库下载
+| 说明           | 大小  | 说明  | 下载                                                           |
+| -------------- |------:|:-----:|:-------------------------------------------------------------:|
+| 完整安装包      | 73.0M | 推荐  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/all.exe)             |
+| 资源文件        | 3.53M | 必要  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/resources.exe)       |
+| 32位CEF运行库   | 24.4M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/cef_x86.exe.exe)  |
+| 32位Flash支持库 | 7.46M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/flash_x86.exe)    |
+| 64位CEF运行库   | 29.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/cef_x64.exe.exe)  |
+| 64位Flash支持库 | 10.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/flash_x64.exe)    |
 
-	**当前CEF运行库版本：3.2526.1373.gb660893**
+**当前CEF运行库版本：3.2526.1373.gb660893**
 
-	### 参考
-	暂无，等我慢慢写。要想写得快，记得打赏我几杯咖啡：）
+### 参考
+暂无，等我慢慢写。要想写得快，记得打赏我几杯咖啡：）
