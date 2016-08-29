@@ -34,7 +34,7 @@ QQ群：
 > 版本0.4.1
 
  - 新增了NonclientMode下窗口投影的开关NonclientModeDropShadow，现在在无边框模式下面窗口有阴影了（WinXP暂时没测试）。
- - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。CEF目录结构为：【应用目录】\fx\3.2526.1366.g8617e7c\【CEF】，其中【CEF】部分的目录结构与[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/all.exe)自解压包中的目录一致。
+ - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。将[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/all.exe)自解压包中的问价解压到软件目录的fx文件夹，就可以达到CEF随软件分发的目的。
 
 
 > 版本0.4

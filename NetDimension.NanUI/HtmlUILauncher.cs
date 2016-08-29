@@ -123,12 +123,12 @@ namespace NetDimension.NanUI
 
 
 			if (PlatformArch == RuntimeArch.x64)
-				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x64");
+				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"x64");
 			else
-				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x86");
+				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"x86");
 
-			LocalesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources\locales");
-			ResourcesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources");
+			LocalesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"Resources\locales");
+			ResourcesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"Resources");
 
 			var cfxDllFile = System.IO.Path.Combine(FrameworkDir, libCfxName);
 
