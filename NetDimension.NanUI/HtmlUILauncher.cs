@@ -310,7 +310,6 @@ namespace NetDimension.NanUI
 			var libPath = System.IO.Path.Combine(flashSupportPath, "pepflashplayer.dll");
 			if (!System.IO.File.Exists(manifestPath) || !System.IO.File.Exists(libPath))
 			{
-				//TODO:加入下载逻辑
 				return;
 			}
 

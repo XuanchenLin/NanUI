@@ -34,7 +34,7 @@ QQ群：
 > 版本0.4.1
 
  - 新增了NonclientMode下窗口投影的开关NonclientModeDropShadow，现在在无边框模式下面窗口有阴影了（WinXP暂时没测试）。
- - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。将[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/all.exe)自解压包中的问价解压到软件目录的fx文件夹，就可以达到CEF随软件分发的目的。
+ - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。将[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/all.exe)自解压包中的问价解压到软件目录的fx文件夹，就可以达到CEF随软件分发的目的。
 
 
 > 版本0.4
@@ -43,7 +43,7 @@ QQ群：
 
 - 重新优化了CEF运行库自动下载的逻辑，现在CEF运行库带有版本号了，因此采用不同CEF版本的NanUI软件理论上不会因为版本不同造成无法启动的问题。
 
-- 现在CEF运行库的版本从3.2623.1401.gb90a3be（Chromium 49）降回到3.2526.1366.g8617e7c（Chromium 47），因为CEF 3.2623.1401在使用EvalJavascript方法时有概率无法接收到回调参数。
+- 现在CEF运行库的版本从3.2623.1401.gb90a3be（Chromium 49）降回到3.2526.1373.gb660893（Chromium 47），因为CEF 3.2623.1401在使用EvalJavascript方法时有概率无法接收到回调参数。
 
 - 现版本把内部脚本移到了Resources\InitalScripts.js中，不再作为const string，方便修改。
 
@@ -61,7 +61,7 @@ NanUI版本
 > .NET Framework 4.0 Client Profile
 
 当前CEF版本
-> CEF 3.2526.1366.g8617e7c Chromium 47.0.2526.80
+> CEF 3.2526.1373.gb660893 Chromium 47.0.2526.80
 
 ### 如何使用
 **引用NanUI库**
@@ -147,14 +147,14 @@ public class MainFrame : HtmlUIForm
 	### CEF运行库下载
 	| 说明           | 大小  | 说明  | 下载                                                           |
 	| -------------- |------:|:-----:|:-------------------------------------------------------------:|
-	| 完整安装包      | 73.0M | 推荐  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/all.exe)             |
-	| 资源文件        | 3.53M | 必要  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/resources.exe)       |
-	| 32位CEF运行库   | 24.4M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/x86/cef_x86.exe.exe)  |
-	| 32位Flash支持库 | 7.46M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/x86/flash_x86.exe)    |
-	| 64位CEF运行库   | 29.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/x64/cef_x64.exe.exe)  |
-	| 64位Flash支持库 | 10.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1366.g8617e7c/x64/flash_x64.exe)    |
+	| 完整安装包      | 73.0M | 推荐  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/all.exe)             |
+	| 资源文件        | 3.53M | 必要  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/resources.exe)       |
+	| 32位CEF运行库   | 24.4M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/cef_x86.exe.exe)  |
+	| 32位Flash支持库 | 7.46M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/flash_x86.exe)    |
+	| 64位CEF运行库   | 29.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/cef_x64.exe.exe)  |
+	| 64位Flash支持库 | 10.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/flash_x64.exe)    |
 
-	** 当前CEF运行库版本：3.2526.1366.g8617e7c **
+	**当前CEF运行库版本：3.2526.1373.gb660893**
 
 	### 参考
 	暂无，等我慢慢写。要想写得快，记得打赏我几杯咖啡：）
