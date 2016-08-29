@@ -14,7 +14,7 @@ namespace NetDimension.NanUI
 {
 	public class HtmlUILauncher
 	{
-		private const string CURRENT_CEF_VERSION = "3.2526.1366.g8617e7c";
+		private const string CURRENT_CEF_VERSION = "3.2526.1366.gb660893";
 
 		private static List<GCHandle> SchemeHandlerGCHandles = new List<GCHandle>();
 		public static string FrameworkDownloadUrl { get; set; } = null;
@@ -291,6 +291,9 @@ namespace NetDimension.NanUI
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine(ex);
+
+				Console.WriteLine(ex.InnerException);
 				MessageBox.Show(string.Format("初始化系统失败。\r\n{0}", ex.Message), "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 
