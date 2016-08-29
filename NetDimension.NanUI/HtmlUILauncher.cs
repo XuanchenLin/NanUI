@@ -23,7 +23,7 @@ namespace NetDimension.NanUI
 		private static string FrameworkDir = null;
 		private static string LocalesDir = null;
 		private static string ResourcesDir = null;
-		private static readonly string ApplicationDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI\");
+		private static readonly string ApplicationDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
 		private static readonly string CommonRuntimeDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI\");
 
 		private static readonly RuntimeArch PlatformArch = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? RuntimeArch.x64 : RuntimeArch.x86;
@@ -111,6 +111,50 @@ namespace NetDimension.NanUI
 		}
 
 
+		private static bool IsLocalRuntimeExisits()
+		{
+			var localRuntimeDir = Application.StartupPath;
+
+			var libCfxName = "libcfx.dll";
+
+			if (PlatformArch == RuntimeArch.x64)
+				libCfxName = "libcfx64.dll";
+
+
+
+			if (PlatformArch == RuntimeArch.x64)
+				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x64");
+			else
+				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x86");
+
+			LocalesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources\locales");
+			ResourcesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources");
+
+			var cfxDllFile = System.IO.Path.Combine(FrameworkDir, libCfxName);
+
+			var environmentDetectResults = new Dictionary<string, bool>()
+			{
+				["en-US.pak"] = System.IO.File.Exists(System.IO.Path.Combine(LocalesDir, "en-US.pak")),
+				["zh-CN.pak"] = System.IO.File.Exists(System.IO.Path.Combine(LocalesDir, "zh-CN.pak")),
+				["cef.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "cef.pak")),
+				["cef_extensions.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "cef_extensions.pak")),
+				["devtools_resources.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "devtools_resources.pak")),
+				["icudtl.dat"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "icudtl.dat")),
+				["libcfx"] = System.IO.File.Exists(cfxDllFile),
+				["libcef.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "libcef.dll")),
+				["natives_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "natives_blob.bin")),
+				["snapshot_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "snapshot_blob.bin"))
+			};
+
+			if (EnableFlashSupport)
+			{
+				environmentDetectResults["manifest.json"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\manifest.json"));
+				environmentDetectResults["pepflashplayer.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\pepflashplayer.dll"));
+			}
+
+			return environmentDetectResults.Count(p => p.Value == true) == environmentDetectResults.Count;
+
+		}
 
 
 
@@ -168,17 +212,20 @@ namespace NetDimension.NanUI
 				System.IO.Directory.CreateDirectory(CommonRuntimeDir);
 			}
 
-			if (IsRuntimeExists() == false)
+			if (IsLocalRuntimeExisits() == false)
 			{
-				var downloadForm = new RuntimeDownloadForm(CommonRuntimeDir, CURRENT_CEF_VERSION, FrameworkDownloadUrl, PlatformArch, EnableFlashSupport);
-
-				if (downloadForm.ShowDialog() != DialogResult.OK || !IsRuntimeExists())
+				if (IsRuntimeExists() == false)
 				{
-					return false;
+					var downloadForm = new RuntimeDownloadForm(CommonRuntimeDir, CURRENT_CEF_VERSION, FrameworkDownloadUrl, PlatformArch, EnableFlashSupport);
+
+					if (downloadForm.ShowDialog() != DialogResult.OK || !IsRuntimeExists())
+					{
+						return false;
+					}
+
 				}
 
 			}
-
 			CfxRuntime.LibCefDirPath = FrameworkDir;
 
 			Application.ApplicationExit += (sender, args) =>
