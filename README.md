@@ -26,6 +26,8 @@ QQ群：
 ### 更新日志
 > 版本0.4.1
 
+**0.4.1更新后无法下载CEF库的问题紧急修复了，这是我没有仔细核对版本号造成的问题，现在已修正。请下载了0.4.1 release的朋友重新下载Release**
+
  - 新增了NonclientMode下窗口投影的开关NonclientModeDropShadow，现在在无边框模式下面窗口有阴影了（WinXP暂时没测试）。
  - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。将[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/all.exe)自解压包中的问价解压到软件目录的fx文件夹，就可以达到CEF随软件分发的目的。
 
