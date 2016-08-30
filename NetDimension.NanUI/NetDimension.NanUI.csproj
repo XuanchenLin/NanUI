@@ -81,6 +81,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CefStartupSettings.cs" />
     <Compile Include="ChromiumBrowser.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\BrowserClient.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\BrowserProcess.cs" />

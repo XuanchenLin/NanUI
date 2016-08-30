@@ -8,13 +8,6 @@ NanUI打破了传统的Winform界面设计方式，通过NanUI你能够使用Htm
 
 ![NanUI](http://images2015.cnblogs.com/blog/352785/201605/352785-20160518180435701-1461536015.png)
 
-### 愿景
-NanUI在发布第一个预览版的时候是支持将CEF的各种支持文件放置在程序集目录下面的，但是经过很长时间的思考，在新版本的NanUI中剔除了对此项功能的支持。CEF运行支持文件都需要被放置到“%APPDATA%\Net Dimension Studio\NanUI”下面。
-
-为何我要这样做？因为我希望NanUI能够坚强的发展，有朝一日很多.Net程序都是用NanUI来开发界面，那么这个时候NanUI的CEF运行支持文件就如同.Net Framework一样与系统同在。没有人会在意几十上百兆的.Net Framework，因为它与系统同在，所有的.Net程序都调用它，它是共享的，没有人愿意自己发布的软件随时带着.Net Framework走。
-
-所以，我希望NanUI CEF Runtime有那么一天能够被很多.Net程序共享使用。
-
 
 ### 赞助作者
 如果你喜欢NanUI项目，你可以参与到NanUI的开发中来，当然你也可以更直接了当的支持我的工作，使用支付宝或微信扫描下面二维码请我喝一杯热腾腾的咖啡。
@@ -34,7 +27,7 @@ QQ群：
 > 版本0.4.1
 
  - 新增了NonclientMode下窗口投影的开关NonclientModeDropShadow，现在在无边框模式下面窗口有阴影了（WinXP暂时没测试）。
- - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。将[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/all.exe)自解压包中的问价解压到软件目录的fx文件夹，就可以达到CEF随软件分发的目的。
+ - 应大家的要求，从这个版本开始支持本地打包CEF运行框架了。将[all.exe](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/all.exe)自解压包中的问价解压到软件目录的fx文件夹，就可以达到CEF随软件分发的目的。
 
 
 > 版本0.4
@@ -146,12 +139,12 @@ NanUI.Demo.Welcome
 ### CEF运行库下载
 | 说明           | 大小  | 说明  | 下载                                                           |
 | -------------- |------:|:-----:|:-------------------------------------------------------------:|
-| 完整安装包      | 73.0M | 推荐  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/all.exe)             |
-| 资源文件        | 3.53M | 必要  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/resources.exe)       |
-| 32位CEF运行库   | 24.4M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/cef_x86.exe.exe)  |
-| 32位Flash支持库 | 7.46M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x86/flash_x86.exe)    |
-| 64位CEF运行库   | 29.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/cef_x64.exe.exe)  |
-| 64位Flash支持库 | 10.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373.gb660893/x64/flash_x64.exe)    |
+| 完整安装包      | 73.0M | 推荐  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/all.exe)             |
+| 资源文件        | 3.53M | 必要  | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/resources.exe)       |
+| 32位CEF运行库   | 24.4M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/x86/cef_x86.exe.exe)  |
+| 32位Flash支持库 | 7.46M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/x86/flash_x86.exe)    |
+| 64位CEF运行库   | 29.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/x64/cef_x64.exe.exe)  |
+| 64位Flash支持库 | 10.2M |      | [下载](http://www.ohtrip.cn/NanUI/NanUIPackages/3.2526.1373/x64/flash_x64.exe)    |
 
 **当前CEF运行库版本：3.2526.1373.gb660893**
 

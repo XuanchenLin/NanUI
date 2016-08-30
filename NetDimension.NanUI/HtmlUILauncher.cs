@@ -14,19 +14,7 @@ namespace NetDimension.NanUI
 {
 	public class HtmlUILauncher
 	{
-		private const string CURRENT_CEF_VERSION = "3.2526.1366.gb660893";
 
-		private static List<GCHandle> SchemeHandlerGCHandles = new List<GCHandle>();
-		public static string FrameworkDownloadUrl { get; set; } = null;
-		public static bool EnableFlashSupport { get; set; } = false;
-
-		private static string FrameworkDir = null;
-		private static string LocalesDir = null;
-		private static string ResourcesDir = null;
-		private static readonly string ApplicationDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
-		private static readonly string CommonRuntimeDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI\");
-
-		private static readonly RuntimeArch PlatformArch = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? RuntimeArch.x64 : RuntimeArch.x86;
 
 		private static CfxBrowserSettings defaultBrowserSettings;
 
@@ -45,6 +33,17 @@ namespace NetDimension.NanUI
 			}
 		}
 
+		public static bool EnableFlashSupport
+		{
+			get
+			{
+				return CefStartupSettings.EnableFlashSupport;
+			}
+			set
+			{
+				CefStartupSettings.EnableFlashSupport = value;
+			}
+		}
 
 		internal static event OnBeforeCfxInitializeEventHandler OnBeforeCfxInitialize;
 		internal static void RaiseOnBeforeCfxInitialize(CfxSettings settings, CfxBrowserProcessHandler processHandler)
@@ -81,6 +80,8 @@ namespace NetDimension.NanUI
 			BrowserProcess.Initialize();
 		}
 
+
+
 		public static void Shutdown()
 		{
 			CfxRuntime.Shutdown();
@@ -111,197 +112,84 @@ namespace NetDimension.NanUI
 		}
 
 
-		private static bool IsLocalRuntimeExisits()
-		{
-			var localRuntimeDir = Application.StartupPath;
 
-			var libCfxName = "libcfx.dll";
-
-			if (PlatformArch == RuntimeArch.x64)
-				libCfxName = "libcfx64.dll";
-
-
-
-			if (PlatformArch == RuntimeArch.x64)
-				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"x64");
-			else
-				FrameworkDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"x86");
-
-			LocalesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"Resources\locales");
-			ResourcesDir = System.IO.Path.Combine(localRuntimeDir, @"fx\", @"Resources");
-
-			var cfxDllFile = System.IO.Path.Combine(FrameworkDir, libCfxName);
-
-			var environmentDetectResults = new Dictionary<string, bool>()
-			{
-				["en-US.pak"] = System.IO.File.Exists(System.IO.Path.Combine(LocalesDir, "en-US.pak")),
-				["zh-CN.pak"] = System.IO.File.Exists(System.IO.Path.Combine(LocalesDir, "zh-CN.pak")),
-				["cef.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "cef.pak")),
-				["cef_extensions.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "cef_extensions.pak")),
-				["devtools_resources.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "devtools_resources.pak")),
-				["icudtl.dat"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "icudtl.dat")),
-				["libcfx"] = System.IO.File.Exists(cfxDllFile),
-				["libcef.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "libcef.dll")),
-				["natives_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "natives_blob.bin")),
-				["snapshot_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "snapshot_blob.bin"))
-			};
-
-			if (EnableFlashSupport)
-			{
-				environmentDetectResults["manifest.json"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\manifest.json"));
-				environmentDetectResults["pepflashplayer.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\pepflashplayer.dll"));
-			}
-
-			return environmentDetectResults.Count(p => p.Value == true) == environmentDetectResults.Count;
-
-		}
-
-
-
-		private static bool IsRuntimeExists()
-		{
-
-			var libCfxName = "libcfx.dll";
-
-			if (PlatformArch == RuntimeArch.x64)
-				libCfxName = "libcfx64.dll";
-
-
-
-			if (PlatformArch == RuntimeArch.x64)
-				FrameworkDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x64");
-			else
-				FrameworkDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"x86");
-
-			LocalesDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources\locales");
-			ResourcesDir = System.IO.Path.Combine(CommonRuntimeDir, @"fx\", CURRENT_CEF_VERSION, @"Resources");
-
-			var cfxDllFile = System.IO.Path.Combine(FrameworkDir, libCfxName);
-
-			var environmentDetectResults = new Dictionary<string, bool>()
-			{
-				["en-US.pak"] = System.IO.File.Exists(System.IO.Path.Combine(LocalesDir, "en-US.pak")),
-				["zh-CN.pak"] = System.IO.File.Exists(System.IO.Path.Combine(LocalesDir, "zh-CN.pak")),
-				["cef.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "cef.pak")),
-				["cef_extensions.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "cef_extensions.pak")),
-				["devtools_resources.pak"] = System.IO.File.Exists(System.IO.Path.Combine(ResourcesDir, "devtools_resources.pak")),
-				["icudtl.dat"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "icudtl.dat")),
-				["libcfx"] = System.IO.File.Exists(cfxDllFile),
-				["libcef.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "libcef.dll")),
-				["natives_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "natives_blob.bin")),
-				["snapshot_blob.bin"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "snapshot_blob.bin"))
-			};
-
-			if (EnableFlashSupport)
-			{
-				environmentDetectResults["manifest.json"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\manifest.json"));
-				environmentDetectResults["pepflashplayer.dll"] = System.IO.File.Exists(System.IO.Path.Combine(FrameworkDir, "PepperFlash\\pepflashplayer.dll"));
-			}
-
-			return environmentDetectResults.Count(p => p.Value == true) == environmentDetectResults.Count;
-
-		}
 
 
 		public static bool InitializeChromium(Action<OnBeforeCfxInitializeEventArgs> BeforeChromiumInitialize = null, Action<CfxOnBeforeCommandLineProcessingEventArgs> BeforeCommandLineProcessing = null)
 		{
 
-
-			if (!System.IO.Directory.Exists(CommonRuntimeDir))
+			if (CefStartupSettings.PrepareCEF())
 			{
-				System.IO.Directory.CreateDirectory(CommonRuntimeDir);
-			}
 
-			if (IsLocalRuntimeExisits() == false)
-			{
-				if (IsRuntimeExists() == false)
+
+
+				OnBeforeCfxInitialize += (args) =>
 				{
-					var downloadForm = new RuntimeDownloadForm(CommonRuntimeDir, CURRENT_CEF_VERSION, FrameworkDownloadUrl, PlatformArch, EnableFlashSupport);
+					var cachePath = System.IO.Path.Combine(CefStartupSettings.ApplicationDataDir, Application.ProductName, "Cache");
+					if (!System.IO.Directory.Exists(cachePath))
+						System.IO.Directory.CreateDirectory(cachePath);
 
-					if (downloadForm.ShowDialog() != DialogResult.OK || !IsRuntimeExists())
+					args.Settings.LocalesDirPath = CefStartupSettings.LocalesDir;
+					args.Settings.ResourcesDirPath = CefStartupSettings.ResourcesDir;
+					args.Settings.Locale = "zh-CN";
+					args.Settings.CachePath = cachePath;
+					args.Settings.LogSeverity = CfxLogSeverity.Disable;
+
+
+					BeforeChromiumInitialize?.Invoke(args);
+				};
+
+				OnBeforeCommandLineProcessing += (args) =>
+				{
+					Console.WriteLine("处理命令行参数。。。");
+
+
+					BeforeCommandLineProcessing?.Invoke(args);
+
+
+
+					if (CefStartupSettings.EnableFlashSupport)
 					{
-						return false;
+						SetFlashSupport(args);
 					}
 
-				}
+					Console.WriteLine(args.CommandLine.CommandLineString);
 
-			}
-			CfxRuntime.LibCefDirPath = FrameworkDir;
+				};
 
-			Application.ApplicationExit += (sender, args) =>
-			{
-				foreach (var handle in SchemeHandlerGCHandles)
+
+
+				OnRegisterCustomSchemes += args =>
 				{
-					handle.Free();
-				}
-
-				CfxRuntime.Shutdown();
-			};
+					args.Registrar.AddCustomScheme("embedded", false, false, false);
+				};
 
 
-			OnBeforeCfxInitialize += (args) =>
-			{
-				var cachePath = System.IO.Path.Combine(ApplicationDataDir, Application.ProductName, "Cache");
-				if (!System.IO.Directory.Exists(cachePath))
-					System.IO.Directory.CreateDirectory(cachePath);
-
-				args.Settings.LocalesDirPath = LocalesDir;
-				args.Settings.ResourcesDirPath = ResourcesDir;
-				args.Settings.Locale = "zh-CN";
-				args.Settings.CachePath = cachePath;
-				args.Settings.LogSeverity = CfxLogSeverity.Disable;
-
-
-				BeforeChromiumInitialize?.Invoke(args);
-			};
-
-			OnBeforeCommandLineProcessing += (args) =>
-			{
-				Console.WriteLine("处理命令行参数。。。");
-
-
-				BeforeCommandLineProcessing?.Invoke(args);
-
-
-
-				if (EnableFlashSupport)
+				OnRegisterCustomSchemes += args =>
 				{
-					SetFlashSupport(args);
+					args.Registrar.AddCustomScheme("embedded", false, false, false);
+				};
+
+
+				try
+				{
+					Initialize();
+
+					return true;
+
 				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex);
 
-				Console.WriteLine(args.CommandLine.CommandLineString);
-
-			};
-
-
-
-			OnRegisterCustomSchemes += args =>
-			{
-				args.Registrar.AddCustomScheme("embedded", false, false, false);
-			};
-
-
-
-			try
-			{
-				Initialize();
-
-				return true;
-
+					Console.WriteLine(ex.InnerException);
+					MessageBox.Show(string.Format("初始化系统失败。\r\n{0}", ex.Message), "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex);
-
-				Console.WriteLine(ex.InnerException);
-				MessageBox.Show(string.Format("初始化系统失败。\r\n{0}", ex.Message), "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-
-
-
-
 			return false;
 		}
+
+
 
 		private static void SetFlashSupport(CfxOnBeforeCommandLineProcessingEventArgs args)
 		{
@@ -340,7 +228,7 @@ namespace NetDimension.NanUI
 			var embedded = new EmbeddedSchemeHandlerFactory(schemeName, assembly);
 			var gchandle = GCHandle.Alloc(embedded);
 
-			SchemeHandlerGCHandles.Add(gchandle);
+			CefStartupSettings.SchemeHandlerGCHandles.Add(gchandle);
 
 
 			RegisterScheme(embedded.SchemeName, domainName, embedded);
