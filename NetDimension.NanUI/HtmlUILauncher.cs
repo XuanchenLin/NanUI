@@ -37,11 +37,11 @@ namespace NetDimension.NanUI
 		{
 			get
 			{
-				return CefStartupSettings.EnableFlashSupport;
+				return ChromiumStartupSettings.EnableFlashSupport;
 			}
 			set
 			{
-				CefStartupSettings.EnableFlashSupport = value;
+				ChromiumStartupSettings.EnableFlashSupport = value;
 			}
 		}
 
@@ -118,19 +118,19 @@ namespace NetDimension.NanUI
 		public static bool InitializeChromium(Action<OnBeforeCfxInitializeEventArgs> BeforeChromiumInitialize = null, Action<CfxOnBeforeCommandLineProcessingEventArgs> BeforeCommandLineProcessing = null)
 		{
 
-			if (CefStartupSettings.PrepareCEF())
+			if (ChromiumStartupSettings.PrepareRuntime())
 			{
 
 
 
 				OnBeforeCfxInitialize += (args) =>
 				{
-					var cachePath = System.IO.Path.Combine(CefStartupSettings.ApplicationDataDir, Application.ProductName, "Cache");
+					var cachePath = System.IO.Path.Combine(ChromiumStartupSettings.ApplicationDataDir, Application.ProductName, "Cache");
 					if (!System.IO.Directory.Exists(cachePath))
 						System.IO.Directory.CreateDirectory(cachePath);
 
-					args.Settings.LocalesDirPath = CefStartupSettings.LocalesDir;
-					args.Settings.ResourcesDirPath = CefStartupSettings.ResourcesDir;
+					args.Settings.LocalesDirPath = ChromiumStartupSettings.LocalesDir;
+					args.Settings.ResourcesDirPath = ChromiumStartupSettings.ResourcesDir;
 					args.Settings.Locale = "zh-CN";
 					args.Settings.CachePath = cachePath;
 					args.Settings.LogSeverity = CfxLogSeverity.Disable;
@@ -148,7 +148,7 @@ namespace NetDimension.NanUI
 
 
 
-					if (CefStartupSettings.EnableFlashSupport)
+					if (ChromiumStartupSettings.EnableFlashSupport)
 					{
 						SetFlashSupport(args);
 					}
@@ -158,11 +158,6 @@ namespace NetDimension.NanUI
 				};
 
 
-
-				OnRegisterCustomSchemes += args =>
-				{
-					args.Registrar.AddCustomScheme("embedded", false, false, false);
-				};
 
 
 				OnRegisterCustomSchemes += args =>
@@ -228,7 +223,7 @@ namespace NetDimension.NanUI
 			var embedded = new EmbeddedSchemeHandlerFactory(schemeName, assembly);
 			var gchandle = GCHandle.Alloc(embedded);
 
-			CefStartupSettings.SchemeHandlerGCHandles.Add(gchandle);
+			ChromiumStartupSettings.SchemeHandlerGCHandles.Add(gchandle);
 
 
 			RegisterScheme(embedded.SchemeName, domainName, embedded);

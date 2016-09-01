@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace NetDimension.NanUI
 {
-	public class CefStartupSettings
+	public class ChromiumStartupSettings
 	{
 
 		public const string CURRENT_CEF_VERSION = "3.2526.1373";
@@ -28,7 +28,7 @@ namespace NetDimension.NanUI
 		internal static readonly RuntimeArch PlatformArch = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? RuntimeArch.x64 : RuntimeArch.x86;
 		internal static bool EnableFlashSupport { get; set; } = false;
 
-		public static bool PrepareCEF()
+		public static bool PrepareRuntime()
 		{
 
 			if (!System.IO.Directory.Exists(CommonRuntimeDir))

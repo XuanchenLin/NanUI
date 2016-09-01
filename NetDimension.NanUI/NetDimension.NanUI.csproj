@@ -81,7 +81,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CefStartupSettings.cs" />
+    <Compile Include="ChromiumStartupSettings.cs" />
     <Compile Include="ChromiumBrowser.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\BrowserClient.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\BrowserProcess.cs" />
@@ -338,6 +338,10 @@
     <Compile Include="HtmlUIForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HtmlWidgetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HtmlWidgetLauncher.cs" />
     <Compile Include="IChromiumWebBrowser.cs" />
     <Compile Include="Internal\BrowserWidgetHandleFinder.cs" />
     <Compile Include="Internal\BrowserWidgetMessageInterceptor.cs" />

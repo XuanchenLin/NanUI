@@ -32,6 +32,7 @@ namespace NetDimension.NanUI
 
 		private bool dwmMarginHandled;
 
+		private bool isFormResizing = false;
 
 
 		private NativeMethods.MARGINS dwmMargins;
@@ -512,7 +513,7 @@ namespace NetDimension.NanUI
 						break;
 					default:
 						ResizeDirection = ResizeDirection.None;
-						this.Cursor = Cursors.Default;
+						//this.Cursor = Cursors.Default;
 						break;
 				}
 
@@ -902,11 +903,17 @@ namespace NetDimension.NanUI
 			if (m.Msg == NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT && Resizable && WindowState == FormWindowState.Normal)
 			{
 				NativeMethods.ReleaseCapture();
+				isFormResizing = true;
+
 				SetResizeMethod(m.WParam.ToInt32());
+
+
 				NativeMethods.SendMessage(Handle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, m.WParam, (IntPtr)0);
+
+				isFormResizing = false;
 			}
 
-			if (m.Msg == NativeMethods.DefMessages.WM_CEF_EDGE_MOVE && Resizable && WindowState == FormWindowState.Normal)
+			if (m.Msg == NativeMethods.DefMessages.WM_CEF_EDGE_MOVE && Resizable && WindowState == FormWindowState.Normal && !isFormResizing)
 			{
 				SetResizeMethod(m.WParam.ToInt32());
 			}

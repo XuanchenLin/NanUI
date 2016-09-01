@@ -11,6 +11,11 @@ namespace NetDimension.NanUI.Internal
 
 		internal static readonly IntPtr MESSAGE_HANDLED = new IntPtr(1);
 		internal static readonly IntPtr MESSAGE_PROCESS = new IntPtr(0);
+		public enum Bool
+		{
+			False = 0,
+			True
+		};
 
 		[StructLayout(LayoutKind.Explicit)]
 		internal struct RECT
@@ -151,6 +156,116 @@ namespace NetDimension.NanUI.Internal
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int x, int y, int cx, int cy, uint flags);
+		[DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+		public static extern IntPtr CreateRoundRectRgn
+		(
+		int nLeftRect, // x-coordinate of upper-left corner
+		int nTopRect, // y-coordinate of upper-left corner
+		int nRightRect, // x-coordinate of lower-right corner
+		int nBottomRect, // y-coordinate of lower-right corner
+		int nWidthEllipse, // height of ellipse
+		int nHeightEllipse // width of ellipse
+		);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+		/// <summary>
+		///     Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified
+		///     offset into the extra window memory.
+		/// </summary>
+		/// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs..</param>
+		/// <param name="nIndex">
+		///     The zero-based offset to the value to be set. Valid values are in the range zero through the
+		///     number of bytes of extra window memory, minus the size of an integer. To set any other value, specify one of the
+		///     following values: GWL_EXSTYLE, GWL_HINSTANCE, GWL_ID, GWL_STYLE, GWL_USERDATA, GWL_WNDPROC
+		/// </param>
+		/// <param name="dwNewLong">The replacement value.</param>
+		/// <returns>
+		///     If the function succeeds, the return value is the previous value of the specified 32-bit integer.
+		///     If the function fails, the return value is zero. To get extended error information, call GetLastError.
+		/// </returns>
+		[DllImport("user32.dll")]
+		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+
+		[DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
+		public static extern Bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref Point pptDst, ref Size psize,
+			IntPtr hdcSrc, ref Point pprSrc, Int32 crKey, ref BLENDFUNCTION pblend, Int32 dwFlags);
+
+		[DllImport("user32.dll", ExactSpelling = true, SetLastError = true)]
+		public static extern IntPtr GetDC(IntPtr hWnd);
+
+
+
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		public static extern Bool DeleteDC(IntPtr hdc);
+
+		[DllImport("gdi32.dll", ExactSpelling = true)]
+		public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+
+		[DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
+		public static extern Bool DeleteObject(IntPtr hObject);
+
+		[StructLayout(LayoutKind.Sequential, Pack = 1)]
+		private struct ARGB
+		{
+			public readonly byte Blue;
+			public readonly byte Green;
+			public readonly byte Red;
+			public readonly byte Alpha;
+		}
+
+
+		[StructLayout(LayoutKind.Sequential, Pack = 1)]
+		public struct BLENDFUNCTION
+		{
+			public byte BlendOp;
+			public byte BlendFlags;
+			public byte SourceConstantAlpha;
+			public byte AlphaFormat;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct Point
+		{
+			public Int32 x;
+			public Int32 y;
+
+			public Point(Int32 x, Int32 y)
+			{
+				this.x = x;
+				this.y = y;
+			}
+		}
+
+		public const int WS_EX_LAYERED = 0x80000;
+		public const int WS_EX_TRANSPARENT = 0x20;
+		public const int WS_EX_NOACTIVATE = 0x08000000;
+
+
+		public const int ULW_COLORKEY = 0x00000001;
+		public const int ULW_ALPHA = 0x00000002;
+		public const int ULW_OPAQUE = 0x00000004;
+
+		public const byte AC_SRC_OVER = 0x00;
+		public const byte AC_SRC_ALPHA = 0x01;
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct Size
+		{
+			public Int32 cx;
+			public Int32 cy;
+
+			public Size(Int32 cx, Int32 cy)
+			{
+				this.cx = cx;
+				this.cy = cy;
+			}
+		}
 
 		internal static int MAKEPARAM(int l, int h)
 		{
