@@ -209,8 +209,8 @@ namespace NetDimension.NanUI
 
 				UpdateStyles();
 
-				BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
-				BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
+				BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
+				BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
 
 				maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
 
