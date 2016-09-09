@@ -1,15 +1,14 @@
 ﻿using Chromium;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Text;
 
 namespace NetDimension.NanUI.Resource
 {
-	internal class EmbeddedResourceHandler : CfxResourceHandler
+	internal class LocalResourceHandler : CfxResourceHandler
 	{
-
 		private int readResponseStreamOffset;
-		private Assembly resourceAssembly;
 
 		string requestFile = null;
 
@@ -18,24 +17,25 @@ namespace NetDimension.NanUI.Resource
 		private WebResource webResource;
 		private IChromiumWebBrowser browser;
 
+
 		private System.Runtime.InteropServices.GCHandle gcHandle;
-		internal EmbeddedResourceHandler(Assembly resourceAssembly, IChromiumWebBrowser browser)
+
+		internal LocalResourceHandler(IChromiumWebBrowser browser)
 		{
 			gcHandle = System.Runtime.InteropServices.GCHandle.Alloc(this);
 
 
 			this.browser = browser;
 
-			this.resourceAssembly = resourceAssembly;
-			this.GetResponseHeaders += EmbeddedResourceHandler_GetResponseHeaders;
-			this.ProcessRequest += EmbeddedResourceHandler_ProcessRequest;
-			this.ReadResponse += EmbeddedResourceHandler_ReadResponse;
+			this.GetResponseHeaders += LocalResourceHandler_GetResponseHeaders;
+			this.ProcessRequest += LocalResourceHandler_ProcessRequest;
+			this.ReadResponse += LocalResourceHandler_ReadResponse;
 			this.CanGetCookie += (s, e) => e.SetReturnValue(false);
 			this.CanSetCookie += (s, e) => e.SetReturnValue(false);
+
 		}
 
-
-		private void EmbeddedResourceHandler_ProcessRequest(object sender, Chromium.Event.CfxProcessRequestEventArgs e)
+		private void LocalResourceHandler_ProcessRequest(object sender, Chromium.Event.CfxProcessRequestEventArgs e)
 		{
 
 			readResponseStreamOffset = 0;
@@ -45,49 +45,41 @@ namespace NetDimension.NanUI.Resource
 			var uri = new Uri(request.Url);
 
 			requestUrl = request.Url;
+			var localPath = uri.LocalPath;
+			if (localPath.StartsWith("/"))
+				localPath = $".{localPath}";
 
-			var fileName = string.Format("{0}{1}", uri.Authority, uri.AbsolutePath);
+			var fileName = System.IO.Path.GetFullPath(localPath);
 
-			requestFile = uri.AbsolutePath;
 
-			var ass = resourceAssembly;
-			var resourcePath = string.Format("{0}.{1}", ass.GetName().Name, fileName.Replace('/', '.'));
-			var resourceName = ass.GetManifestResourceNames().SingleOrDefault(p => p.Equals(resourcePath, StringComparison.CurrentCultureIgnoreCase));
+			requestFile = request.Url;
 
-			if (!string.IsNullOrEmpty(resourceName) && ass.GetManifestResourceInfo(resourceName) != null)
+
+			if (System.IO.File.Exists(fileName))
 			{
-				using (var reader = new System.IO.BinaryReader(ass.GetManifestResourceStream(resourceName)))
+				using (var stream = System.IO.File.OpenRead(fileName))
+				using (var reader = new System.IO.BinaryReader(stream))
 				{
 					var buff = reader.ReadBytes((int)reader.BaseStream.Length);
-
 					webResource = new WebResource(buff, MimeHelper.GetMimeType(System.IO.Path.GetExtension(fileName)));
 
 					reader.Close();
-
-					if (!browser.WebResources.ContainsKey(requestUrl))
-					{
-						browser.SetWebResource(requestUrl, webResource);
-					}
+					stream.Close();
 				}
 
-
-				Console.WriteLine($"[加载]:\t{requestUrl}");
-
-
-
+				Console.WriteLine($"[加载]:\t{requestUrl}\t->\t{fileName}");
 			}
 			else
 			{
 				Console.WriteLine($"[未找到]:\t{requestUrl}");
 			}
 
-
 			callback.Continue();
 			e.SetReturnValue(true);
 
 		}
 
-		private void EmbeddedResourceHandler_GetResponseHeaders(object sender, Chromium.Event.CfxGetResponseHeadersEventArgs e)
+		private void LocalResourceHandler_GetResponseHeaders(object sender, Chromium.Event.CfxGetResponseHeadersEventArgs e)
 		{
 
 			if (webResource == null)
@@ -110,7 +102,7 @@ namespace NetDimension.NanUI.Resource
 		}
 
 
-		private void EmbeddedResourceHandler_ReadResponse(object sender, Chromium.Event.CfxReadResponseEventArgs e)
+		private void LocalResourceHandler_ReadResponse(object sender, Chromium.Event.CfxReadResponseEventArgs e)
 		{
 			int bytesToCopy = webResource.data.Length - readResponseStreamOffset;
 			if (bytesToCopy > e.BytesToRead)

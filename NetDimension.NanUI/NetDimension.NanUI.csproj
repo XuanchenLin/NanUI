@@ -357,6 +357,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource\EmbeddedResourceHandler.cs" />
     <Compile Include="Resource\EmbeddedSchemeHandlerFactory.cs" />
+    <Compile Include="Resource\LocalResourceHandler.cs" />
+    <Compile Include="Resource\LocalSchemeHandlerFactory.cs" />
     <Compile Include="Resource\MimeHelper.cs" />
     <Compile Include="Resource\WebResource.cs" />
     <Compile Include="RuntimeDownloadForm.cs">

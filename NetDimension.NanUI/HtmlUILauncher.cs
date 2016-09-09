@@ -170,6 +170,8 @@ namespace NetDimension.NanUI
 				{
 					Initialize();
 
+
+					RegisterLocalScheme();
 					return true;
 
 				}
@@ -209,6 +211,14 @@ namespace NetDimension.NanUI
 
 		}
 
+		private static void RegisterLocalScheme()
+		{
+			var scheme = new LocalSchemeHandlerFactory();
+			var gchandle = GCHandle.Alloc(scheme);
+			ChromiumStartupSettings.SchemeHandlerGCHandles.Add(gchandle);
+
+			RegisterScheme("local", null, scheme);
+		}
 
 
 

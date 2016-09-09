@@ -580,8 +580,6 @@ namespace NetDimension.NanUI
 			{
 				if (IsNonclientMode)
 				{
-					NativeMethods.DisableProcessWindowsGhosting();
-					NativeMethods.SetWindowTheme(Handle, string.Empty, string.Empty);
 					nativeForm = new NonclientNativeWindow(this);
 				}
 				else
@@ -871,6 +869,12 @@ namespace NetDimension.NanUI
 		{
 			switch (m.Msg)
 			{
+				case NativeMethods.WindowsMessage.WM_NCUAHDRAWCAPTION:
+				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
+					{
+						Invalidate();
+						return;
+					}
 				default:
 					base.WndProc(ref m);
 					break;

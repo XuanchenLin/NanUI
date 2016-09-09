@@ -29,6 +29,11 @@ namespace NetDimension.NanUI.Internal
 		}
 		public NonclientNativeWindow(HtmlUIForm form)
 		{
+			NativeMethods.DisableProcessWindowsGhosting();
+			NativeMethods.SetWindowTheme(form.Handle, "", "");
+
+
+
 			ParentForm = form;
 			FormHandle = form.Handle;
 			AssignHandle(FormHandle);
@@ -46,10 +51,19 @@ namespace NetDimension.NanUI.Internal
 		{
 			switch (m.Msg)
 			{
+				//case NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN:
+
+				//	if (m.WParam == IntPtr.Zero)
+				//		m.Result = NativeMethods.MESSAGE_HANDLED;
+
+				//	InvalidateWindow();
+				//	break;
 				case NativeMethods.WindowsMessage.WM_NCACTIVATE:
-					if (m.WParam == IntPtr.Zero)
-						m.Result = NativeMethods.MESSAGE_HANDLED;
+					//if (m.WParam == IntPtr.Zero)
+					//	m.Result = NativeMethods.MESSAGE_HANDLED;
+
 					InvalidateWindow();
+
 					break;
 				case NativeMethods.WindowsMessage.WM_SETCURSOR:
 				case NativeMethods.WindowsMessage.WM_ACTIVATEAPP:
@@ -64,8 +78,8 @@ namespace NetDimension.NanUI.Internal
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
 					{
 						InvalidateWindow();
+						return;
 					}
-					break;
 				case NativeMethods.WindowsMessage.WM_NCPAINT:
 					if (NativeMethods.IsWindowVisible(FormHandle))
 					{
