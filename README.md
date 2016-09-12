@@ -2,7 +2,7 @@
 ### 前言
 NanUI是一个基于ChromiumFX开源项目的.Net Winform界面库，ChromiumFX是Chromium Embedded Framework的.Net实现。众所周知，Chromium Embedded Framework (CEF)是由 Marshall Greenblatt 在2008年创办的开源项目，致力于基于Google Chromium项目开发一个Web控件。可以将Chrome浏览器的功能（页面渲染，JS 执行）嵌入到其他应用程序的框架。CEF 作为嵌入式浏览器框架最适合的应用场景应该是Html页面渲染，所以很多程序都基于CEF来为应用程序提供 HTML 页面渲染的功能，如有道笔记，微信Windows客户端，网易云音乐，Evernote，GitHub Window Client，Q+，Adobe Brackets 等。
 
-在此之前CEF应用大多使用C++来进行开发，对于.Net项目和.Net程序原来说只能是望梅止渴。基于ChromiumFX项目的诞生，.Net项目终于能够与CEF来一次请密接触，但ChromiumFX项目主要注重于浏览器核心的实现，对Winform界面开发并无太大作用。在此背景下，NanUI孕育而生。
+在此之前CEF应用大多使用C++来进行开发，对于.Net项目和.Net程序原来说只能是望梅止渴。基于ChromiumFX项目的诞生，.Net项目终于能够与CEF来一次亲密接触，但ChromiumFX项目主要注重于浏览器核心的实现，对Winform界面开发并无太大作用。在此背景下，NanUI孕育而生。
 
 NanUI打破了传统的Winform界面设计方式，通过NanUI你能够使用Html5、CSS3和javascript来构建你的Winform界面。如果你熟悉诸如bootstrap、jQuery、WinJS等各类CSS或JS库的话，你能够根据喜好或客户要求设计出各种漂亮的Winform界面。所以，使用NanUI，你的Winform软件界面将有无限可能。
 
