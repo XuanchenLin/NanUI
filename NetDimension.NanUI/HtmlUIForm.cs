@@ -28,7 +28,7 @@ namespace NetDimension.NanUI
 
 		private Size? windowOriginalSize = null;
 
-		private readonly bool IsWindowsXP, ForceNonclientMode;
+		private readonly bool IsWindowsXP, ForceNonclientMode, IsDwmDisabled=false;
 
 		private bool dwmMarginHandled;
 
@@ -175,7 +175,7 @@ namespace NetDimension.NanUI
 		{
 			get
 			{
-				return IsWindowsXP || ForceNonclientMode;
+				return IsWindowsXP || ForceNonclientMode || IsDwmDisabled;
 			}
 		}
 
@@ -190,6 +190,15 @@ namespace NetDimension.NanUI
 		{
 			this.initialUrl = initialUrl;
 			IsWindowsXP = Environment.OSVersion.Version.Major < 6;
+			if(!IsWindowsXP)
+			{
+				bool result ;
+				NativeMethods.DwmIsCompositionEnabled(out result);
+
+				IsDwmDisabled = !result;
+			}
+
+
 			ForceNonclientMode = forceNonclientMode;
 			splashPicture = new PictureBox()
 			{
@@ -614,6 +623,7 @@ namespace NetDimension.NanUI
 			if (Resizable && ResizeDirection != ResizeDirection.None)
 			{
 				NativeMethods.SendMessage(Handle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)ResizeDirectionState, (IntPtr)0);
+				NativeMethods.InvalidateWindow(Handle);
 			}
 		}
 		protected override void OnClosed(EventArgs e)
@@ -885,7 +895,7 @@ namespace NetDimension.NanUI
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWCAPTION:
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
 					{
-						Invalidate();
+						NativeMethods.InvalidateWindow(Handle);
 						return;
 					}
 				default:
@@ -935,7 +945,7 @@ namespace NetDimension.NanUI
 				SetResizeMethod(m.WParam.ToInt32());
 			}
 
-
+			//NativeMethods.InvalidateWindow(Handle);
 
 			base.DefWndProc(ref m);
 		}
