@@ -17,6 +17,42 @@ namespace NetDimension.NanUI.Internal
 			True
 		};
 
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		internal class MONITORINFO
+		{
+			public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+			public RECT rcMonitor;
+			public RECT rcWork;
+			public int dwFlags;
+		}
+
+
+		[DllImport("user32")]
+		internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+		[DllImport("User32")]
+		internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+		[StructLayout(LayoutKind.Sequential)]
+		internal struct MINMAXINFO
+		{
+			public POINT ptReserved;
+			public POINT ptMaxSize;
+			public POINT ptMaxPosition;
+			public POINT ptMinTrackSize;
+			public POINT ptMaxTrackSize;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		internal struct POINT
+		{
+			public int x;
+			public int y;
+			public POINT(int x, int y)
+			{
+				this.x = x;
+				this.y = y;
+			}
+		}
+
 		[StructLayout(LayoutKind.Explicit)]
 		internal struct RECT
 		{
