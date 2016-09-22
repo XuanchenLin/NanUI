@@ -9,7 +9,7 @@ namespace NanUI.Demo.MarkdownDotNet
 
 
 		public frmMain()
-			: base("res://assets/main.html", true)
+			: base("res://assets/main.html",true)
 		{
 			InitializeComponent();
 

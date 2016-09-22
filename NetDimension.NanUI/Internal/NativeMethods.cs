@@ -345,7 +345,10 @@ namespace NetDimension.NanUI.Internal
 			return (int)dwValue & 0xffff;
 		}
 
-
+		internal static void InvalidateWindow(IntPtr hwnd)
+		{
+			NativeMethods.RedrawWindow(hwnd, IntPtr.Zero, IntPtr.Zero, NativeMethods.RedrawWindowFlags.RDW_FRAME | NativeMethods.RedrawWindowFlags.RDW_UPDATENOW | NativeMethods.RedrawWindowFlags.RDW_INVALIDATE | NativeMethods.RedrawWindowFlags.RDW_ERASE);
+		}
 
 
 		internal static int HiWord(IntPtr dwValue)
@@ -1759,6 +1762,8 @@ namespace NetDimension.NanUI.Internal
 
 		internal const int WM_DWMCOMPOSITIONCHANGED = 0x31e;
 		// Methods
+		[DllImport("dwmapi.dll")]
+		internal static extern int DwmIsCompositionEnabled(out bool enabled);
 		[DllImport("dwmapi.dll")]
 		internal static extern int DwmDefWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref IntPtr result);
 		[DllImport("dwmapi.dll")]

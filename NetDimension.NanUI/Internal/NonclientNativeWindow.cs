@@ -38,7 +38,7 @@ namespace NetDimension.NanUI.Internal
 			FormHandle = form.Handle;
 			AssignHandle(FormHandle);
 			RecalculateSize();
-			InvalidateWindow();
+			NativeMethods.InvalidateWindow(FormHandle);
 			RecalculateSize();
 
 			if (form.Borderless && form.NonclientModeDropShadow)
@@ -51,18 +51,11 @@ namespace NetDimension.NanUI.Internal
 		{
 			switch (m.Msg)
 			{
-				//case NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN:
-
-				//	if (m.WParam == IntPtr.Zero)
-				//		m.Result = NativeMethods.MESSAGE_HANDLED;
-
-				//	InvalidateWindow();
-				//	break;
 				case NativeMethods.WindowsMessage.WM_NCACTIVATE:
-					//if (m.WParam == IntPtr.Zero)
-					//	m.Result = NativeMethods.MESSAGE_HANDLED;
+					if (m.WParam == IntPtr.Zero)
+						m.Result = NativeMethods.MESSAGE_HANDLED;
 
-					InvalidateWindow();
+					NativeMethods.InvalidateWindow(FormHandle);
 
 					break;
 				case NativeMethods.WindowsMessage.WM_SETCURSOR:
@@ -71,20 +64,20 @@ namespace NetDimension.NanUI.Internal
 				case NativeMethods.WindowsMessage.WM_MOVE:
 					{
 						base.WndProc(ref m);
-						InvalidateWindow();
+						NativeMethods.InvalidateWindow(FormHandle);
 					}
 					break;
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWCAPTION:
 				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
 					{
-						InvalidateWindow();
+						NativeMethods.InvalidateWindow(FormHandle);
 						return;
 					}
 				case NativeMethods.WindowsMessage.WM_NCPAINT:
 					if (NativeMethods.IsWindowVisible(FormHandle))
 					{
-						DrawWindow(m.WParam);
 						m.Result = NativeMethods.MESSAGE_HANDLED;
+						DrawWindow(m.WParam);
 					}
 					break;
 				case NativeMethods.WindowsMessage.WM_NCCALCSIZE:
@@ -147,10 +140,7 @@ namespace NetDimension.NanUI.Internal
 			return windowRect;
 		}
 
-		private void InvalidateWindow()
-		{
-			NativeMethods.RedrawWindow(FormHandle, IntPtr.Zero, IntPtr.Zero, NativeMethods.RedrawWindowFlags.RDW_FRAME | NativeMethods.RedrawWindowFlags.RDW_UPDATENOW | NativeMethods.RedrawWindowFlags.RDW_INVALIDATE | NativeMethods.RedrawWindowFlags.RDW_ERASE);
-		}
+
 
 		private void RecalculateSize()
 		{
