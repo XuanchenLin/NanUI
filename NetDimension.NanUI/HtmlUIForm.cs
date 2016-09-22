@@ -17,14 +17,14 @@ namespace NetDimension.NanUI
 	using System.Threading.Tasks;
 	public class HtmlUIForm : Form, IChromiumWebBrowser
 	{
-		private const int BORDER_WIDTH = 6;
+		private const int BORDER_WIDTH = 8;
 
 		NonclientNativeWindow nativeForm;
 		private Padding? fullClientModePadding = null;
 
-		private readonly int BORDER_X;
-		private readonly int BORDER_Y;
-		private readonly Padding maxPadding;
+		private int BORDER_X;
+		private int BORDER_Y;
+		private Padding maxPadding;
 
 		private Size? windowOriginalSize = null;
 
@@ -209,10 +209,10 @@ namespace NetDimension.NanUI
 
 				UpdateStyles();
 
-				BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
-				BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
+				//BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
+				//BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
 
-				maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
+				//maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
 
 				this.Controls.Add(splashPicture);
 				splashPicture.BringToFront();
@@ -678,6 +678,19 @@ namespace NetDimension.NanUI
 
 				switch (m.Msg)
 				{
+					case NativeMethods.WindowsMessage.WM_GETMINMAXINFO:
+						{
+							var mmi = (NativeMethods.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.MINMAXINFO));
+
+							BORDER_X = -mmi.ptMaxPosition.x - BorderSize;
+							BORDER_Y = -mmi.ptMaxPosition.y - BorderSize;
+
+
+							maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
+
+							base.WndProc(ref m);
+						}
+						break;
 					case NativeMethods.WindowsMessage.WM_SHOWWINDOW:
 						{
 
