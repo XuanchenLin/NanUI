@@ -778,7 +778,12 @@ namespace NetDimension.NanUI
 
 						}
 						break;
-
+					case NativeMethods.WindowsMessage.WM_MOVE:
+						{
+							browser?.BrowserHost?.NotifyScreenInfoChanged();
+							base.WndProc(ref m);
+						}
+						break;
 					default:
 						{
 							if (Borderless)
