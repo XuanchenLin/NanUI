@@ -60,19 +60,28 @@ namespace NetDimension.NanUI
 		internal static event OnBeforeCommandLineProcessingEventHandler OnBeforeCommandLineProcessing;
 		internal static void RaiseOnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
 		{
-			OnBeforeCommandLineProcessing?.Invoke(e);
+            if(OnBeforeCommandLineProcessing != null)
+            {
+			    OnBeforeCommandLineProcessing.Invoke(e);
+            }
 		}
 
 		internal static event OnRegisterCustomSchemesEventHandler OnRegisterCustomSchemes;
 		internal static void RaiseOnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
 		{
-			OnRegisterCustomSchemes?.Invoke(e);
+            if(OnRegisterCustomSchemes != null)
+            {
+			    OnRegisterCustomSchemes.Invoke(e);
+            }
 		}
 
 		internal static event RemoteProcessCreatedEventHandler RemoteProcessCreated;
 		internal static void RaiseRemoteProcessCreated(CfrRenderProcessHandler renderProcessHandler)
 		{
-			RemoteProcessCreated?.Invoke(new RemoteProcessCreatedEventArgs(renderProcessHandler));
+            if(RemoteProcessCreated != null)
+            {
+			    RemoteProcessCreated.Invoke(new RemoteProcessCreatedEventArgs(renderProcessHandler));
+            }
 		}
 
 		internal static void Initialize()
@@ -115,7 +124,7 @@ namespace NetDimension.NanUI
 
 
 
-		public static bool InitializeChromium(Action<OnBeforeCfxInitializeEventArgs> BeforeChromiumInitialize = null, Action<CfxOnBeforeCommandLineProcessingEventArgs> BeforeCommandLineProcessing = null)
+		public static bool InitializeChromium(Action<OnBeforeCfxInitializeEventArgs> BeforeChromiumInitialize, Action<CfxOnBeforeCommandLineProcessingEventArgs> BeforeCommandLineProcessing)
 		{
 
 			if (ChromiumStartupSettings.PrepareRuntime())
@@ -125,7 +134,7 @@ namespace NetDimension.NanUI
 
 				OnBeforeCfxInitialize += (args) =>
 				{
-					var cachePath = System.IO.Path.Combine(ChromiumStartupSettings.ApplicationDataDir, Application.ProductName, "Cache");
+					var cachePath = System.IO.Path.Combine(ChromiumStartupSettings.ApplicationDataDir, System.IO.Path.Combine(Application.ProductName, "Cache"));
 					if (!System.IO.Directory.Exists(cachePath))
 						System.IO.Directory.CreateDirectory(cachePath);
 
@@ -135,16 +144,20 @@ namespace NetDimension.NanUI
 					args.Settings.CachePath = cachePath;
 					args.Settings.LogSeverity = CfxLogSeverity.Disable;
 
-
-					BeforeChromiumInitialize?.Invoke(args);
+                    if(BeforeChromiumInitialize != null)
+                    {
+					    BeforeChromiumInitialize.Invoke(args);
+                    }
 				};
 
 				OnBeforeCommandLineProcessing += (args) =>
 				{
 					Console.WriteLine("处理命令行参数。。。");
 
-
-					BeforeCommandLineProcessing?.Invoke(args);
+                    if(BeforeCommandLineProcessing != null)
+                    {
+					    BeforeCommandLineProcessing.Invoke(args);
+                    }
 
 
 
@@ -223,7 +236,7 @@ namespace NetDimension.NanUI
 
 
 
-		public static void RegisterEmbeddedScheme(System.Reflection.Assembly assembly, string schemeName = "embedded", string domainName = null)
+		public static void RegisterEmbeddedScheme(System.Reflection.Assembly assembly, string schemeName, string domainName)
 		{
 			if (string.IsNullOrEmpty(schemeName))
 			{

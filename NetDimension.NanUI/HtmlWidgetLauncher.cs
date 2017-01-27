@@ -17,7 +17,10 @@ namespace NetDimension.NanUI
 		internal static event OnRegisterCustomSchemesEventHandler OnRegisterCustomSchemes;
 		internal static void RaiseOnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
 		{
-			OnRegisterCustomSchemes?.Invoke(e);
+            if(OnRegisterCustomSchemes != null)
+            {
+			    OnRegisterCustomSchemes.Invoke(e);
+            }
 		}
 
 		public static bool InitializeChromium()
@@ -35,7 +38,7 @@ namespace NetDimension.NanUI
 				settings.WindowlessRenderingEnabled = true;
 				settings.NoSandbox = true;
 
-				var cachePath = System.IO.Path.Combine(ChromiumStartupSettings.ApplicationDataDir, Application.ProductName, "Cache");
+                var cachePath = System.IO.Path.Combine(ChromiumStartupSettings.ApplicationDataDir, System.IO.Path.Combine(Application.ProductName, "Cache"));
 				if (!System.IO.Directory.Exists(cachePath))
 					System.IO.Directory.CreateDirectory(cachePath);
 
@@ -95,7 +98,7 @@ namespace NetDimension.NanUI
 			return false;
 		}
 
-		public static void RegisterEmbeddedScheme(System.Reflection.Assembly assembly, string schemeName = "embedded", string domainName = null)
+		public static void RegisterEmbeddedScheme(System.Reflection.Assembly assembly, string schemeName, string domainName)
 		{
 			if (string.IsNullOrEmpty(schemeName))
 			{

@@ -7,7 +7,7 @@ namespace NanUI.Demo.Welcome
 	{
 		frmAbout aboutForm = null;
 		public frmWelcome()
-			: base("embedded://www/index.html") //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
+			: base("embedded://www/index.html", false) //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
 		{
 			InitializeComponent();
 
@@ -43,8 +43,9 @@ namespace NanUI.Demo.Welcome
 					//ShowDevTools();
 
 					//执行JS，将当前的CEF运行版本等信息通过JS加载到网页上
-					var js = $"$client.setRuntimeInfo({{ api: ['{CfxRuntime.ApiHash(0)}', '{CfxRuntime.ApiHash(1)}'], cef:'{CfxRuntime.GetCefVersion()}', chrome:'{CfxRuntime.GetChromeVersion()}',os:'{CfxRuntime.PlatformOS}', arch:'{CfxRuntime.PlatformArch}'}});";
-					ExecuteJavascript(js);
+                    //var js = $"$client.setRuntimeInfo({{ api: ['{CfxRuntime.ApiHash(0)}', '{CfxRuntime.ApiHash(1)}'], cef:'{CfxRuntime.GetCefVersion()}', chrome:'{CfxRuntime.GetChromeVersion()}',os:'{CfxRuntime.PlatformOS}', arch:'{CfxRuntime.PlatformArch}'}});";
+                    var js = string.Format("$client.setRuntimeInfo({{ api: ['{0}', '{1}'], cef:'{2}', chrome:'{3}',os:'{4}', arch:'{5}'}});", CfxRuntime.ApiHash(0), CfxRuntime.ApiHash(1), CfxRuntime.GetCefVersion(), CfxRuntime.GetChromeVersion(), CfxRuntime.PlatformOS, CfxRuntime.PlatformArch);
+                    ExecuteJavascript(js);
 				}
 
 

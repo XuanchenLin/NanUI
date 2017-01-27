@@ -204,7 +204,10 @@ namespace NetDimension.NanUI.Internal
 						}
 					}
 
-					formBorder?.RefreshShadow(width, height);
+                    if(formBorder!=null)
+                    {
+					    formBorder.RefreshShadow(width, height);
+                    }
 
 
 

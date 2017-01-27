@@ -70,8 +70,7 @@ namespace Chromium.Remote {
                         // Lock with timeout: attempting a simple lock
                         // could hang forever in the browser process
                         // if the render process crashes or hangs.
-                        bool lockTaken = false;
-                        System.Threading.Monitor.TryEnter(call.waitLock, 100, ref lockTaken);
+                        bool lockTaken = System.Threading.Monitor.TryEnter(call.waitLock, 100);
                         if(lockTaken) {
                             try {
                                 System.Threading.Monitor.PulseAll(call.waitLock);

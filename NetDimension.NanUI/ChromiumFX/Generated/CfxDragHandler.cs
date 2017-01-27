@@ -339,7 +339,7 @@ namespace Chromium {
                     if(m_regions_managed == null) {
                         m_regions_managed = new CfxDraggableRegion[m_regionsCount];
                         for(int i = 0; i < m_regionsCount; ++i) {
-                            m_regions_managed[i] = CfxDraggableRegion.Wrap(m_regions + (i * m_regions_structsize));
+                            m_regions_managed[i] = CfxDraggableRegion.Wrap((IntPtr)((int)m_regions + (i * m_regions_structsize)));
                         }
                     }
                     return m_regions_managed;

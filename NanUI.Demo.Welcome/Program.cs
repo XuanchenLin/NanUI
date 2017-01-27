@@ -19,10 +19,10 @@ namespace NanUI.Demo.Welcome
 
 			if (HtmlUILauncher.InitializeChromium((args=> {
 				args.Settings.LogSeverity = Chromium.CfxLogSeverity.Default;
-			})))
+			}), null))
 			{
 				//初始化成功，加载程序集内嵌的资源到运行时中
-				HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly());
+                HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly(), "embedded", null);
 
 				//启动主窗体
 				Application.Run(new frmWelcome());

@@ -144,7 +144,11 @@ namespace NanUI.Demo.MarkdownDotNet
 				var p = t.GetProperty(name);
 
 				var value = p.GetValue(item, null);
-				var valueType = value?.GetType();
+				var valueType = typeof(Nullable);
+                if (value != null)
+                {
+                    valueType = value.GetType();
+                }
 
 
 

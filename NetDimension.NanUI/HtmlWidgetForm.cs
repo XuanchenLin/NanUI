@@ -58,11 +58,11 @@ namespace NetDimension.NanUI
 				}
 
 				_shadowBitmap = value;
-				SetBitmap(_shadowBitmap);
+				SetBitmap(_shadowBitmap,255);
 			}
 		}
 
-		private void SetBitmap(Bitmap bitmap, byte opacity = 255)
+		private void SetBitmap(Bitmap bitmap, byte opacity)
 		{
 			if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
 				throw new ApplicationException("The bitmap must be 32ppp with alpha-channel.");
@@ -221,7 +221,8 @@ namespace NetDimension.NanUI
 
 		void renderHandler_OnPaint(object sender, Chromium.Event.CfxOnPaintEventArgs e)
 		{
-			Console.WriteLine($"[{DateTime.Now}] PAINT_CALLED");
+            //Console.WriteLine($"[{DateTime.Now}] PAINT_CALLED");
+            Console.WriteLine(string.Format("[{0}] PAINT_CALLED", DateTime.Now));
 
 			//lock (pbLock)
 			//{

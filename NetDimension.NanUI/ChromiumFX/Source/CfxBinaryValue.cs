@@ -67,7 +67,7 @@ namespace Chromium {
 
             var po = new PinnedObject(buffer);
 
-            var retval = CfxApi.cfx_binary_value_get_data(NativePtr, po.PinnedPtr + bufferOffset, maxBytes, dataOffset);
+            var retval = CfxApi.cfx_binary_value_get_data(NativePtr, (IntPtr)((int)po.PinnedPtr + bufferOffset), maxBytes, dataOffset);
             po.Free();
             return retval;
         }
