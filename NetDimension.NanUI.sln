@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanUI.Demo.WidgetWindow", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "离屏渲染例子", "离屏渲染例子", "{DF2D2DAD-1AB5-4067-9E48-97884DF5C6F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanUI.BrowserSubprocess", "NanUI.BrowserSubprocess\NanUI.BrowserSubprocess.csproj", "{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,12 @@ Global
 		{66BA63F0-2A45-4783-BD57-FC8BE7D6CFEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{66BA63F0-2A45-4783-BD57-FC8BE7D6CFEC}.Release|x86.ActiveCfg = Release|x86
 		{66BA63F0-2A45-4783-BD57-FC8BE7D6CFEC}.Release|x86.Build.0 = Release|x86
+		{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FE28CCA-EFE6-4051-975F-BE0397DB36E8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

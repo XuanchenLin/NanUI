@@ -17,9 +17,11 @@ namespace NanUI.Demo.Welcome
 
 			HtmlUILauncher.EnableFlashSupport = true;
 
-			if (HtmlUILauncher.InitializeChromium((args=> {
-				args.Settings.LogSeverity = Chromium.CfxLogSeverity.Default;
-			}), null))
+            if (HtmlUILauncher.InitializeChromium((args =>
+            {
+                args.Settings.LogSeverity = Chromium.CfxLogSeverity.Default;
+                args.Settings.BrowserSubprocessPath = "NanUI.BrowserSubprocess.exe";
+            }), null))
 			{
 				//初始化成功，加载程序集内嵌的资源到运行时中
                 HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly(), "embedded", null);
