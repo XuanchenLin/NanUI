@@ -18,7 +18,7 @@ namespace NanUI.Demo.CodeEditor
 			if (HtmlUILauncher.InitializeChromium(null, null))
 			{
 				//初始化成功，加载程序集内嵌的资源到运行时中
-				HtmlUILauncher.RegisterEmbeddedScheme(Resources.SchemeHelper.GetSchemeAssembley(), "embedded", null);
+                HtmlUILauncher.RegisterEmbeddedScheme(Resources.SchemeHelper.GetSchemeAssembley(), "embedded", null);
 
 				//启动主窗体
 				Application.Run(new EditorForm());

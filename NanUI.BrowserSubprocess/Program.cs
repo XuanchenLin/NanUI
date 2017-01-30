@@ -6,9 +6,9 @@ using NetDimension.NanUI;
 
 /**
  * 项目说明:
- * cef3是多进程的架构，默认情况下它会使用当前进程再启动另外2个后台进程(与当前进程一模一样)
+ * cef3采用的是多进程架构，默认情况下它会使用当前进程再启动另外2个后台进程(与当前进程一模一样)
  * 如果是将cef3以"动态链接库(DLL)或.net程序集"的方式嵌入其它的UI程序里(比如cad、word等)，那么UI主程序将会被多次启动！！！
- * 当然，google的工程师也考虑到这种情况了，进行如下的修改即可：
+ * 当然，google的工程师也考虑到这种情况了，只需要进行如下的修改即可：
  * (1) 在初始化cef的时候，指定CefSettings类的browser_subprocess_path参数，比如:
  *      browser_subprocess_path = "NanUI.BrowserSubprocess.exe"
  * 参考1:CefSettings中的browser_subprocess_path参数说明

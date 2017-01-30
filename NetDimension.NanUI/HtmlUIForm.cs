@@ -180,9 +180,8 @@ namespace NetDimension.NanUI
 		}
 
 
-
-        public HtmlUIForm()/* : this(null)*/
-		{
+        private void InitDefaultValues()
+        {
             this.ResizeDirection = ResizeDirection.None;
             this.ResizeDirectionState = 0;
             this.NonclientModeDropShadow = true;
@@ -191,10 +190,16 @@ namespace NetDimension.NanUI
             this.Resizable = true;
             this.BorderSize = 1;
             this.BorderColor = Color.DarkGray;
+        }
+        public HtmlUIForm() : this(null, false)
+		{
 		}
 
 		public HtmlUIForm(string initialUrl, bool forceNonclientMode)
 		{
+            // 初始化一些默认参数(使用该函数来代替C# 6.0语法)
+            InitDefaultValues();
+
 			this.initialUrl = initialUrl;
 			IsWindowsXP = Environment.OSVersion.Version.Major < 6;
 			if(!IsWindowsXP)

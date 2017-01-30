@@ -76,8 +76,9 @@ namespace NetDimension.NanUI
 
 		private static bool IsLocalRuntimeExisits()
 		{
-			var localRuntimeDir = Application.StartupPath;
-
+            //var localRuntimeDir = Application.StartupPath;
+            var localRuntimeDir = Environment.CurrentDirectory;
+            
 			var libCfxName = "libcfx.dll";
 
 			if (PlatformArch == RuntimeArch.x64)
