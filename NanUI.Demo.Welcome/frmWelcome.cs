@@ -15,8 +15,8 @@ namespace NanUI.Demo.Welcome
 			//在js中注册一个方法来打开About窗口
 			GlobalObject.AddFunction("showAboutForm").Execute += (sender, args) =>
 			{
-				ShowAboutNanUI();
-				//ShowAboutWindow();
+                //ShowAboutNanUI();
+                ShowAboutWindow();
 			};
 
 			GlobalObject.AddFunction("showDevTools").Execute += (sender, args) =>

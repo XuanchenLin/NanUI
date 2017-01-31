@@ -7,7 +7,8 @@ namespace NanUI.Demo.Welcome
 
 	{
 		public frmAbout()
-			: base("embedded://www/about.html", false)
+            //: base("embedded://www/about.html", false)
+            : base("local:///www/about.html", false)
 		{
 			InitializeComponent();
 			this.ShowInTaskbar = false;
