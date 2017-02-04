@@ -45,7 +45,8 @@ namespace NetDimension.NanUI.Resource
 			var uri = new Uri(request.Url);
 
 			requestUrl = request.Url;
-			var localPath = uri.LocalPath;
+			//var localPath = uri.LocalPath;
+			var localPath = uri.Host + uri.LocalPath;
 			if (localPath.StartsWith("/"))
 				localPath = $".{localPath}";
 
