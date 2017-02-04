@@ -15,10 +15,10 @@ namespace NanUI.Demo.CodeEditor
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			if (HtmlUILauncher.InitializeChromium())
+			if (HtmlUILauncher.InitializeChromium(null, null))
 			{
 				//初始化成功，加载程序集内嵌的资源到运行时中
-				HtmlUILauncher.RegisterEmbeddedScheme(Resources.SchemeHelper.GetSchemeAssembley());
+                HtmlUILauncher.RegisterEmbeddedScheme(Resources.SchemeHelper.GetSchemeAssembley(), "http", "www");
 
 				//启动主窗体
 				Application.Run(new EditorForm());

@@ -15,9 +15,9 @@ namespace NanUI.Demo.MarkdownDotNet
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			if (HtmlUILauncher.InitializeChromium())
+			if (HtmlUILauncher.InitializeChromium(null, null))
 			{
-				HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly(),"res");
+				HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly(),"http", "assets");
 				Application.Run(new frmMain());
 			}
 		}

@@ -45,9 +45,10 @@ namespace NetDimension.NanUI.Resource
 			var uri = new Uri(request.Url);
 
 			requestUrl = request.Url;
-			var localPath = uri.LocalPath;
+			var localPath = uri.Host + uri.LocalPath;
 			if (localPath.StartsWith("/"))
-				localPath = $".{localPath}";
+                //localPath = $".{localPath}";
+                localPath = string.Format(".{0}",localPath);
 
 			var fileName = System.IO.Path.GetFullPath(localPath);
 
@@ -67,11 +68,13 @@ namespace NetDimension.NanUI.Resource
 					stream.Close();
 				}
 
-				Console.WriteLine($"[加载]:\t{requestUrl}\t->\t{fileName}");
+                //Console.WriteLine($"[加载]:\t{requestUrl}\t->\t{fileName}");
+                Console.WriteLine(string.Format("[加载]:\t{0}\t->\t{1}",requestUrl,fileName));
 			}
 			else
 			{
-				Console.WriteLine($"[未找到]:\t{requestUrl}");
+                //Console.WriteLine($"[未找到]:\t{requestUrl}");
+                Console.WriteLine(string.Format("[未找到]:\t{0}",requestUrl));
 			}
 
 			callback.Continue();
@@ -116,7 +119,8 @@ namespace NetDimension.NanUI.Resource
 			if (readResponseStreamOffset == webResource.data.Length)
 			{
 				gcHandle.Free();
-				Console.WriteLine($"[完成]:\t{requestUrl}");
+                //Console.WriteLine($"[完成]:\t{requestUrl}");
+                Console.WriteLine(string.Format("[完成]:\t{0}",requestUrl));
 			}
 		}
 	}

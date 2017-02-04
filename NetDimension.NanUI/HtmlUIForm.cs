@@ -60,13 +60,13 @@ namespace NetDimension.NanUI
 		{
 			get;
 			set;
-		} = ResizeDirection.None;
+		}
 
 		protected int ResizeDirectionState
 		{
 			get;
 			set;
-		} = 0;
+		}
 
 		protected readonly bool IsDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
 		/// <summary>
@@ -76,7 +76,7 @@ namespace NetDimension.NanUI
 		public bool NonclientModeDropShadow
 		{
 			get; set;
-		} = true;
+		}
 
 		/// <summary>
 		/// 设置或获取NanUI是否为无边窗口
@@ -85,7 +85,7 @@ namespace NetDimension.NanUI
 		public bool Borderless
 		{
 			get; set;
-		} = true;
+		}
 		/// <summary>
 		/// 设置或获取NanUI窗口加载等待画面使用的图片
 		/// </summary>
@@ -138,7 +138,7 @@ namespace NetDimension.NanUI
 		{
 			get;
 			set;
-		} = Color.White;
+		}
 
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace NetDimension.NanUI
 		{
 			get;
 			set;
-		} = true;
+		}
 
 		/// <summary>
 		/// 设置或获取NanUI窗口边框线条粗细
@@ -158,7 +158,7 @@ namespace NetDimension.NanUI
 		public int BorderSize
 		{
 			get; set;
-		} = 1;
+		}
 
 
 
@@ -170,7 +170,7 @@ namespace NetDimension.NanUI
 		{
 			get;
 			set;
-		} = Color.DarkGray;
+		}
 		private bool IsNonclientMode
 		{
 			get
@@ -180,14 +180,26 @@ namespace NetDimension.NanUI
 		}
 
 
-
-		public HtmlUIForm() : this(null)
+        private void InitDefaultValues()
+        {
+            this.ResizeDirection = ResizeDirection.None;
+            this.ResizeDirectionState = 0;
+            this.NonclientModeDropShadow = true;
+            this.Borderless = true;
+            this.BackColor = Color.White;
+            this.Resizable = true;
+            this.BorderSize = 1;
+            this.BorderColor = Color.DarkGray;
+        }
+        public HtmlUIForm() : this(null, false)
 		{
-
 		}
 
-		public HtmlUIForm(string initialUrl, bool forceNonclientMode = false)
+		public HtmlUIForm(string initialUrl, bool forceNonclientMode)
 		{
+            // 初始化一些默认参数(使用该函数来代替C# 6.0语法)
+            InitDefaultValues();
+
 			this.initialUrl = initialUrl;
 			IsWindowsXP = Environment.OSVersion.Version.Major < 6;
 			if(!IsWindowsXP)
@@ -628,15 +640,21 @@ namespace NetDimension.NanUI
 		}
 		protected override void OnClosed(EventArgs e)
 		{
-			messageInterceptor?.ReleaseHandle();
-			messageInterceptor?.DestroyHandle();
+            if(messageInterceptor != null)
+            {
+			    messageInterceptor.ReleaseHandle();
+			    messageInterceptor.DestroyHandle();
+            }
 			messageInterceptor = null;
 
 
 			base.OnClosed(e);
 
-			nativeForm?.ReleaseHandle();
-			nativeForm?.DestroyHandle();
+            if(nativeForm != null)
+            {
+			    nativeForm.ReleaseHandle();
+			    nativeForm.DestroyHandle();
+            }
 
 
 		}
@@ -803,7 +821,10 @@ namespace NetDimension.NanUI
 						break;
 					case NativeMethods.WindowsMessage.WM_MOVE:
 						{
-							browser?.BrowserHost?.NotifyScreenInfoChanged();
+                            if(browser != null && browser.BrowserHost != null)
+                            {
+							    browser.BrowserHost.NotifyScreenInfoChanged();
+                            }
 							base.WndProc(ref m);
 						}
 						break;

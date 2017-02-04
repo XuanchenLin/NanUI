@@ -1227,7 +1227,7 @@ namespace Chromium {
                     if(m_dirtyRects_managed == null) {
                         m_dirtyRects_managed = new CfxRect[m_dirtyRectsCount];
                         for(int i = 0; i < m_dirtyRectsCount; ++i) {
-                            m_dirtyRects_managed[i] = CfxRect.Wrap(m_dirtyRects + (i * m_dirtyRects_structsize));
+                            m_dirtyRects_managed[i] = CfxRect.Wrap((IntPtr)((int)m_dirtyRects + (i * m_dirtyRects_structsize)));
                         }
                     }
                     return m_dirtyRects_managed;

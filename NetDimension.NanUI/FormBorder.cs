@@ -52,7 +52,7 @@ namespace NetDimension.NanUI
 				}
 
 				_shadowBitmap = value;
-				SetBitmap(_shadowBitmap);
+				SetBitmap(_shadowBitmap, 255);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace NetDimension.NanUI
 					closeFlag = true;
 
 					mutex.Close();
-					mutex.Dispose();
+                    //mutex.Dispose();
 				}
 			};
 			Owner.VisibleChanged += (sender, eventArgs) =>
@@ -150,7 +150,7 @@ namespace NetDimension.NanUI
 				}
 			});
 		}
-		private void UpdateLocation(object sender = null, EventArgs e = null)
+		private void UpdateLocation(object sender, EventArgs e)
 		{
 			Point pos = Owner.Location;
 
@@ -175,7 +175,7 @@ namespace NetDimension.NanUI
 				watchHeight = height;
 			}
 
-			UpdateLocation();
+			UpdateLocation(null, null);
 
 			Task.Factory.StartNew(() =>
 			{
@@ -239,7 +239,7 @@ namespace NetDimension.NanUI
 
 		}
 
-		public void SetBitmap(Bitmap bitmap, byte opacity = 255)
+		public void SetBitmap(Bitmap bitmap, byte opacity)
 		{
 			if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
 				throw new ApplicationException("The bitmap must be 32ppp with alpha-channel.");

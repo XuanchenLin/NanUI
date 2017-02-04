@@ -15,9 +15,6 @@ namespace NetDimension.NanUI.Resource
 
 		internal EmbeddedSchemeHandlerFactory(string schemeName, Assembly resourceAssembly)
 		{
-
-
-
 			this.resourceAssembly = resourceAssembly;
 			this.SchemeName = schemeName;
 
@@ -26,20 +23,13 @@ namespace NetDimension.NanUI.Resource
 
 		private void EmbeddedSchemeHandlerFactory_Create(object sender, Chromium.Event.CfxSchemeHandlerFactoryCreateEventArgs e)
 		{
-
-
 			if (e.SchemeName == SchemeName && e.Browser != null)
 			{
 				var browser = HtmlUILauncher.GetBrowser(e.Browser.Identifier);
 				var handler = new EmbeddedResourceHandler(resourceAssembly, browser);
 				e.SetReturnValue(handler);
 			}
-
-
-
-
 		}
-
 
 	}
 }

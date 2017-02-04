@@ -71,14 +71,16 @@ namespace NetDimension.NanUI.Resource
 				}
 
 
-				Console.WriteLine($"[加载]:\t{requestUrl}");
+                //Console.WriteLine($"[加载]:\t{requestUrl}");
+                Console.WriteLine(string.Format("[加载]:\t{0}",requestUrl));
 
 
 
 			}
 			else
 			{
-				Console.WriteLine($"[未找到]:\t{requestUrl}");
+                //Console.WriteLine($"[未找到]:\t{requestUrl}");
+                Console.WriteLine(string.Format("[未找到]:\t{0}",requestUrl));
 			}
 
 
@@ -124,7 +126,8 @@ namespace NetDimension.NanUI.Resource
 			if (readResponseStreamOffset == webResource.data.Length)
 			{
 				gcHandle.Free();
-				Console.WriteLine($"[完成]:\t{requestUrl}");
+                //Console.WriteLine($"[完成]:\t{requestUrl}");
+                Console.WriteLine(string.Format("[完成]:\t{0}",requestUrl));
 			}
 		}
 	}
