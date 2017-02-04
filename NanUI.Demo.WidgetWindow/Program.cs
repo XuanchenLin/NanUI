@@ -19,7 +19,7 @@ namespace NanUI.Demo.WidgetWindow
 
 			if (HtmlWidgetLauncher.InitializeChromium())
 			{
-				//HtmlWidgetLauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly());
+				//HtmlWidgetLauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly(), "http", "www");
 				Application.Run(new Form1());
 			}
 

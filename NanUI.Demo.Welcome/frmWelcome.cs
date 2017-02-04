@@ -7,7 +7,7 @@ namespace NanUI.Demo.Welcome
 	{
 		frmAbout aboutForm = null;
 		public frmWelcome()
-			: base("embedded://www/index.html") //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
+			: base("http://www/index.html") //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
 		{
 			InitializeComponent();
 
