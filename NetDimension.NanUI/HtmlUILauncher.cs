@@ -175,7 +175,7 @@ namespace NetDimension.NanUI
 
 				OnRegisterCustomSchemes += args =>
 				{
-					args.Registrar.AddCustomScheme("embedded", false, false, false);
+                    //args.Registrar.AddCustomScheme("embedded", false, false, false);
 				};
 
 
@@ -183,8 +183,6 @@ namespace NetDimension.NanUI
 				{
 					Initialize();
 
-
-					RegisterLocalScheme();
 					return true;
 
 				}
@@ -224,15 +222,19 @@ namespace NetDimension.NanUI
 
 		}
 
-		private static void RegisterLocalScheme()
+        public static void RegisterLocalScheme(string schemeName, string domainName)
 		{
-			var scheme = new LocalSchemeHandlerFactory();
+            if (string.IsNullOrEmpty(schemeName))
+            {
+                throw new ArgumentNullException("schemeName", "必须为scheme指定名称。");
+            }
+
+			var scheme = new LocalSchemeHandlerFactory(schemeName);
 			var gchandle = GCHandle.Alloc(scheme);
 			ChromiumStartupSettings.SchemeHandlerGCHandles.Add(gchandle);
 
-			RegisterScheme("local", null, scheme);
+            RegisterScheme(schemeName, domainName, scheme);
 		}
-
 
 
 

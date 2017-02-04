@@ -7,8 +7,7 @@ namespace NanUI.Demo.Welcome
 	{
 		frmAbout aboutForm = null;
 		public frmWelcome()
-            : base("local:///www/index.html", false) //设定启示页面，scheme是local表示我们使用本地文件资源(不是嵌入到程序集的资源)
-            //: base("embedded://www/index.html", false) //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
+            : base("http://www/index.html", false) //设定启示页面，scheme是local表示我们使用本地文件资源(不是嵌入到程序集的资源)
         {
 			InitializeComponent();
 

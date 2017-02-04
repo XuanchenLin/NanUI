@@ -140,9 +140,6 @@
     <EmbeddedResource Include="www\fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="www\Content\base.css" />
     <EmbeddedResource Include="www\Content\bootstrap.min.css" />
     <EmbeddedResource Include="www\Content\font-awesome.min.css" />
