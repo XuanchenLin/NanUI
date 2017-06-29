@@ -12,30 +12,21 @@ namespace NetDimension.NanUI
 	using Chromium.Event;
 	using Chromium.Remote;
 	using Chromium.Remote.Event;
+	using NetDimension.NanUI.Internal.Imports;
 	using Resource;
+	using System.Diagnostics;
 	using System.Drawing;
 	using System.Threading.Tasks;
-	public class HtmlUIForm : Form, IChromiumWebBrowser
+	public class HtmlUIForm : BorderlessForm, IChromiumWebBrowser
 	{
-		private const int BORDER_WIDTH = 8;
 
-		NonclientNativeWindow nativeForm;
-		private Padding? fullClientModePadding = null;
 
-		private int BORDER_X;
-		private int BORDER_Y;
-		private Padding maxPadding;
+		private bool IsDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime || this.DesignMode || Process.GetCurrentProcess().ProcessName == "devenv";
 
-		private Size? windowOriginalSize = null;
-
-		private readonly bool IsWindowsXP, ForceNonclientMode, IsDwmDisabled=false;
-
-		private bool dwmMarginHandled;
 
 		private bool isFormResizing = false;
 
 
-		private NativeMethods.MARGINS dwmMargins;
 
 		/// <summary>
 		/// NanUI窗口状态变化时，发送JS事件通知网页端
@@ -52,40 +43,42 @@ namespace NetDimension.NanUI
 
 		private bool isSplashShown = true;
 		private bool isFirstTimeSplashShown = true;
+		private bool isResizable = true;
+		private bool isEnableDropShadow = true;
+
+
 
 		private string initialUrl;
-
-
-		protected ResizeDirection ResizeDirection
+		private int CornerAreaSize
 		{
-			get;
-			set;
-		} = ResizeDirection.None;
+			get
+			{
+				return BorderSize < 3 ? 3 : BorderSize;
+			}
+		}
 
-		protected int ResizeDirectionState
-		{
-			get;
-			set;
-		} = 0;
 
-		protected readonly bool IsDesignMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
 		/// <summary>
 		/// 设置或获取NanUI在Nonclient模式下是否显示投影
 		/// </summary>
 		[Category("NanUI")]
-		public bool NonclientModeDropShadow
+		public bool EnableDropShadow
 		{
-			get; set;
-		} = true;
+			get
+			{
+				return isEnableDropShadow;
+			}
+			set
+			{
+				isEnableDropShadow = value;
+				if (!IsDesignMode)
+				{
+					FormShadowDecorator.Enable(value);
+				}
+			}
+		}
 
-		/// <summary>
-		/// 设置或获取NanUI是否为无边窗口
-		/// </summary>
-		[Category("NanUI")]
-		public bool Borderless
-		{
-			get; set;
-		} = true;
+
 		/// <summary>
 		/// 设置或获取NanUI窗口加载等待画面使用的图片
 		/// </summary>
@@ -147,20 +140,43 @@ namespace NetDimension.NanUI
 		[Category("NanUI")]
 		public bool Resizable
 		{
-			get;
-			set;
-		} = true;
+			get
+			{
+				return isResizable;
+			}
+			set
+			{
+				isResizable = value;
+				//if (!IsDesignMode)
+				//{
+				//	FormShadowDecorator.EnableResize(value);
+				//}
+			}
+		}
 
+		int borderSize = 1;
 		/// <summary>
 		/// 设置或获取NanUI窗口边框线条粗细
 		/// </summary>
 		[Category("NanUI")]
 		public int BorderSize
 		{
-			get; set;
-		} = 1;
+			get
+			{
+				return borderSize;
+			}
+			set
+			{
+				borderSize = value;
+				if (!IsDesignMode)
+				{
+					FormNonclientAreaDecorator.BorderSize = borderSize;
+				}
+			}
+		}
 
 
+		Color borderColor = Color.Gray;
 
 		/// <summary>
 		/// 设置或获取NanUI窗口边框颜色
@@ -168,16 +184,21 @@ namespace NetDimension.NanUI
 		[Category("NanUI")]
 		public Color BorderColor
 		{
-			get;
-			set;
-		} = Color.DarkGray;
-		private bool IsNonclientMode
-		{
 			get
 			{
-				return IsWindowsXP || ForceNonclientMode || IsDwmDisabled;
+				return borderColor;
+			}
+			set
+			{
+				borderColor = value;
+				if (!IsDesignMode)
+				{
+					FormNonclientAreaDecorator.BorderColor = borderColor;
+				}
+
 			}
 		}
+
 
 
 
@@ -186,20 +207,12 @@ namespace NetDimension.NanUI
 
 		}
 
-		public HtmlUIForm(string initialUrl, bool forceNonclientMode = false)
+		public HtmlUIForm(string initialUrl)
 		{
 			this.initialUrl = initialUrl;
-			IsWindowsXP = Environment.OSVersion.Version.Major < 6;
-			if(!IsWindowsXP)
-			{
-				bool result ;
-				NativeMethods.DwmIsCompositionEnabled(out result);
-
-				IsDwmDisabled = !result;
-			}
 
 
-			ForceNonclientMode = forceNonclientMode;
+
 			splashPicture = new PictureBox()
 			{
 				Dock = DockStyle.Fill,
@@ -209,26 +222,25 @@ namespace NetDimension.NanUI
 
 			if (!IsDesignMode)
 			{
+				//SetStyle(ControlStyles.ResizeRedraw, true);
+				//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+				//SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 
-				SetStyle(ControlStyles.ResizeRedraw, true);
-				SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-				SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+				//DoubleBuffered = true;
 
-				DoubleBuffered = true;
+				//UpdateStyles();
 
-				UpdateStyles();
 
-				//BORDER_X = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXSIZEFRAME) - BorderSize;
-				//BORDER_Y = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYDLGFRAME) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYEDGE) + NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYSIZEFRAME) - BorderSize;
-
-				//maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
+				FormNonclientAreaDecorator.BorderSize = borderSize;
+				FormNonclientAreaDecorator.BorderColor = borderColor;
+				//FormShadowDecorator.EnableResize(isResizable);
 
 				this.Controls.Add(splashPicture);
 				splashPicture.BringToFront();
 
+
+
 				InitializeChromium(initialUrl);
-
-
 			}
 
 
@@ -358,70 +370,75 @@ namespace NetDimension.NanUI
 		#region Protected
 		protected virtual bool OnWebBroswerMessage(Message message)
 		{
-			if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEACTIVATE)
+
+			if (message.Msg == (int)WindowsMessages.WM_MOUSEACTIVATE)
 			{
 				var topLevelWindowHandle = message.WParam;
-				NativeMethods.PostMessage(topLevelWindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
+				User32.PostMessage(topLevelWindowHandle, (int)WindowsMessages.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+				User32.SendMessage(topLevelWindowHandle, (int)WindowsMessages.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
 			}
 
-			if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDOWN)
+
+			if (message.Msg == (int)WindowsMessages.WM_LBUTTONDOWN)
 			{
 
-				var x = NativeMethods.LoWord(message.LParam.ToInt32());
-				var y = NativeMethods.HiWord(message.LParam.ToInt32());
+				var x = (int)User32.LoWord(message.LParam);
+				var y = (int)User32.HiWord(message.LParam);
 
 				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(x, y)));
 
-				var dir = GetDirection(x, y);
+				var dir = GetSizeMode(new POINT(x, y));
 
-				if (dir != NativeMethods.HitTest.HTCLIENT && Borderless)
+				if (dir != HitTest.HTCLIENT/* && BorderSize == 0*/)
 				{
-					NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT, (IntPtr)dir, message.LParam);
+					User32.PostMessage(FormHandle, (uint)DefMessages.WM_CEF_RESIZE_CLIENT, (IntPtr)dir, message.LParam);
 					return true;
 				}
 				else if (dragable)
 				{
-					NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_DRAG_APP, message.WParam, message.LParam);
+					User32.PostMessage(FormHandle, (uint)DefMessages.WM_CEF_DRAG_APP, message.WParam, message.LParam);
 					return true;
 				}
 
 
 			}
 
-			if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK && Resizable)
+			if (message.Msg == (int)WindowsMessages.WM_LBUTTONDBLCLK && Resizable)
 			{
-				var x = NativeMethods.LoWord(message.LParam.ToInt32());
-				var y = NativeMethods.HiWord(message.LParam.ToInt32());
+				var x = (int)User32.LoWord(message.LParam);
+				var y = (int)User32.HiWord(message.LParam);
 
 				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(x, y)));
 
 				if (dragable)
 				{
-					NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_TITLEBAR_LBUTTONDBCLICK, message.WParam, message.LParam);
+					User32.PostMessage(FormHandle, (uint)DefMessages.WM_CEF_TITLEBAR_LBUTTONDBCLICK, message.WParam, message.LParam);
 
 					return true;
 				}
 
 			}
 
-			if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEMOVE)
+			if (message.Msg == (int)WindowsMessages.WM_MOUSEMOVE/* &&  BorderSize == 0*/)
 			{
-				var x = NativeMethods.LoWord(message.LParam.ToInt32());
-				var y = NativeMethods.HiWord(message.LParam.ToInt32());
+				var x = (int)User32.LoWord(message.LParam);
+				var y = (int)User32.HiWord(message.LParam);
 
-				if (Resizable && Borderless)
+
+				if (Resizable)
 				{
-					var dir = GetDirection(x, y);
+					var dir = GetSizeMode(new POINT(x, y));
 
-					if (dir != NativeMethods.HitTest.HTCLIENT)
+
+					if (dir != HitTest.HTCLIENT)
 					{
-						NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_EDGE_MOVE, (IntPtr)dir, message.LParam);
-
+						User32.PostMessage(FormHandle, (uint)DefMessages.WM_CEF_EDGE_MOVE, (IntPtr)dir, message.LParam);
 						return true;
 					}
+
 				}
 
-				NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_MOUSEMOVE, message.WParam, message.LParam);
+				User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_MOUSEMOVE, message.WParam, message.LParam);
 
 			}
 
@@ -430,108 +447,89 @@ namespace NetDimension.NanUI
 
 		}
 
-		protected virtual int GetDirection(int x, int y)
+		private HitTest GetSizeMode(POINT point)
 		{
-			var dir = NativeMethods.HitTest.HTCLIENT;
+			HitTest mode = HitTest.HTCLIENT;
+
+			int x = point.x, y = point.y;
 
 			if (WindowState == FormWindowState.Normal)
 			{
-				if (x < BORDER_WIDTH & y < BORDER_WIDTH)
+				if (x < CornerAreaSize & y < CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTTOPLEFT;
+					mode = HitTest.HTTOPLEFT;
+				}
+				else if (x < CornerAreaSize & y + CornerAreaSize > this.Height - CornerAreaSize)
+				{
+					mode = HitTest.HTBOTTOMLEFT;
 
 				}
-				else if (x < BORDER_WIDTH & y > this.Height - BORDER_WIDTH)
+				else if (x + CornerAreaSize > this.Width - CornerAreaSize & y + CornerAreaSize > this.Height - CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTBOTTOMLEFT;
+					mode = HitTest.HTBOTTOMRIGHT;
 
 				}
-				else if (x > this.Width - BORDER_WIDTH & y > this.Height - BORDER_WIDTH)
+				else if (x + CornerAreaSize > this.Width - CornerAreaSize & y < CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTBOTTOMRIGHT;
+					mode = HitTest.HTTOPRIGHT;
 
 				}
-				else if (x > this.Width - BORDER_WIDTH & y < BORDER_WIDTH)
+				else if (x < CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTTOPRIGHT;
+					mode = HitTest.HTLEFT;
 
 				}
-				else if (x < BORDER_WIDTH)
+				else if (x + CornerAreaSize > this.Width - CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTLEFT;
+					mode = HitTest.HTRIGHT;
 
 				}
-				else if (x > this.Width - BORDER_WIDTH)
+				else if (y < CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTRIGHT;
+					mode = HitTest.HTTOP;
 
 				}
-				else if (y < BORDER_WIDTH)
+				else if (y + CornerAreaSize > this.Height - CornerAreaSize)
 				{
-					dir = NativeMethods.HitTest.HTTOP;
-
-				}
-				else if (y > this.Height - BORDER_WIDTH)
-				{
-					dir = NativeMethods.HitTest.HTBOTTOM;
+					mode = HitTest.HTBOTTOM;
 
 				}
 
 			}
 
 
-			return dir;
+			return mode;
 		}
-		protected virtual void SetResizeMethod(int direction)
+
+		private void SetCursor(HitTest mode)
 		{
-			if (WindowState == FormWindowState.Normal)
-			{
-				switch (direction)
-				{
-					case NativeMethods.HitTest.HTLEFT:
-						ResizeDirection = ResizeDirection.Left;
-						this.Cursor = Cursors.SizeWE;
-						break;
-					case NativeMethods.HitTest.HTRIGHT:
-						ResizeDirection = ResizeDirection.Right;
-						this.Cursor = Cursors.SizeWE;
-						break;
-					case NativeMethods.HitTest.HTTOP:
-						ResizeDirection = ResizeDirection.Top;
-						this.Cursor = Cursors.SizeNS;
-						break;
-					case NativeMethods.HitTest.HTBOTTOM:
-						ResizeDirection = ResizeDirection.Bottom;
-						this.Cursor = Cursors.SizeNS;
-						break;
-					case NativeMethods.HitTest.HTBOTTOMLEFT:
-						ResizeDirection = ResizeDirection.BottomLeft;
-						this.Cursor = Cursors.SizeNESW;
-						break;
-					case NativeMethods.HitTest.HTTOPRIGHT:
-						ResizeDirection = ResizeDirection.TopRight;
-						this.Cursor = Cursors.SizeNESW;
-						break;
-					case NativeMethods.HitTest.HTBOTTOMRIGHT:
-						ResizeDirection = ResizeDirection.BottomRight;
-						this.Cursor = Cursors.SizeNWSE;
-						break;
-					case NativeMethods.HitTest.HTTOPLEFT:
-						ResizeDirection = ResizeDirection.TopLeft;
-						this.Cursor = Cursors.SizeNWSE;
-						break;
-					default:
-						ResizeDirection = ResizeDirection.None;
-						//this.Cursor = Cursors.Default;
-						break;
-				}
 
+
+			IntPtr handle = IntPtr.Zero;
+
+			switch (mode)
+			{
+				case HitTest.HTTOP:
+				case HitTest.HTBOTTOM:
+					handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZENS);
+					break;
+				case HitTest.HTLEFT:
+				case HitTest.HTRIGHT:
+					handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZEWE);
+					break;
+				case HitTest.HTTOPLEFT:
+				case HitTest.HTBOTTOMRIGHT:
+					handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZENWSE);
+					break;
+				case HitTest.HTTOPRIGHT:
+				case HitTest.HTBOTTOMLEFT:
+					handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZENESW);
+					break;
 			}
-			else
-			{
-				ResizeDirection = ResizeDirection.None;
-				this.Cursor = Cursors.Default;
 
+			if (handle != IntPtr.Zero)
+			{
+				User32.SetCursor(handle);
 			}
 		}
 		public virtual void ShowDevTools()
@@ -583,49 +581,16 @@ namespace NetDimension.NanUI
 
 		}
 
-		protected override void OnLoad(EventArgs e)
-		{
-			if (!IsDesignMode && Borderless)
-			{
-				if (IsNonclientMode)
-				{
-					nativeForm = new NonclientNativeWindow(this);
-				}
-				else
-				{
-					IntPtr dwAttr = new IntPtr(1);
-					NativeMethods.DwmSetWindowAttribute(Handle, 2, dwAttr, 4);
+		//protected override void OnMouseDown(MouseEventArgs e)
+		//{
+		//	base.OnMouseDown(e);
 
-					Padding = new Padding(Padding.Left + BorderSize, Padding.Top + BorderSize, Padding.Right + BorderSize, Padding.Bottom + BorderSize);
-				}
-
-			}
-			base.OnLoad(e);
-		}
-
-		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
-		{
-
-			if (windowOriginalSize.HasValue && !IsDesignMode)
-			{
-				base.SetBoundsCore(x, y, windowOriginalSize.Value.Width, windowOriginalSize.Value.Height, specified);
-			}
-			else
-			{
-				base.SetBoundsCore(x, y, width, height, specified);
-			}
-		}
-
-		protected override void OnMouseDown(MouseEventArgs e)
-		{
-			base.OnMouseDown(e);
-
-			if (Resizable && ResizeDirection != ResizeDirection.None)
-			{
-				NativeMethods.SendMessage(Handle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)ResizeDirectionState, (IntPtr)0);
-				NativeMethods.InvalidateWindow(Handle);
-			}
-		}
+		//	if (Resizable && ResizeDirection != HitTest.HTNOWHERE)
+		//	{
+		//		User32.SendMessage(Handle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)ResizeDirection, (IntPtr)0);
+		//		User32.InvalidateWindow(Handle);
+		//	}
+		//}
 		protected override void OnClosed(EventArgs e)
 		{
 			messageInterceptor?.ReleaseHandle();
@@ -633,52 +598,11 @@ namespace NetDimension.NanUI
 			messageInterceptor = null;
 
 
+			browser.Dispose();
+
 			base.OnClosed(e);
-
-			nativeForm?.ReleaseHandle();
-			nativeForm?.DestroyHandle();
-
-
 		}
 
-		protected override void OnPaintBackground(PaintEventArgs e)
-		{
-
-			if (!IsDesignMode && Borderless)
-			{
-				if (IsNonclientMode)
-				{
-					using (var brush = new SolidBrush(BackColor))
-					{
-						e.Graphics.FillRectangle(brush, e.ClipRectangle);
-					}
-				}
-				else
-				{
-					using (var brush = new SolidBrush(BackColor))
-					{
-
-						var rect = new Rectangle(BorderSize, BorderSize, ClientRectangle.Width - BorderSize * 2, ClientRectangle.Height - BorderSize * 2);
-						e.Graphics.FillRectangle(brush, rect);
-
-						using (var pen = new Pen(BorderColor, BorderSize))
-						{
-							e.Graphics.DrawLine(pen, 0, 0, 0, Height);
-							e.Graphics.DrawLine(pen, 0, 0, Width, 0);
-							e.Graphics.DrawLine(pen, Width - BorderSize, 0, Width - BorderSize, Height);
-							e.Graphics.DrawLine(pen, 0, Height - BorderSize, Width, Height - BorderSize);
-						}
-
-						e.Graphics.FillRectangle(brush, rect);
-					}
-				}
-
-			}
-			else
-			{
-				base.OnPaintBackground(e);
-			}
-		}
 
 
 		protected override void WndProc(ref Message m)
@@ -688,20 +612,7 @@ namespace NetDimension.NanUI
 
 				switch (m.Msg)
 				{
-					case NativeMethods.WindowsMessage.WM_GETMINMAXINFO:
-						{
-							var mmi = (NativeMethods.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.MINMAXINFO));
-
-							BORDER_X = -mmi.ptMaxPosition.x - BorderSize;
-							BORDER_Y = -mmi.ptMaxPosition.y - BorderSize;
-
-
-							maxPadding = new Padding(BORDER_X, BORDER_Y, BORDER_X, BORDER_Y);
-
-							base.WndProc(ref m);
-						}
-						break;
-					case NativeMethods.WindowsMessage.WM_SHOWWINDOW:
+					case (int)WindowsMessages.WM_SHOWWINDOW:
 						{
 
 
@@ -725,83 +636,7 @@ namespace NetDimension.NanUI
 							base.WndProc(ref m);
 						}
 						break;
-					case NativeMethods.WindowsMessage.WM_NCHITTEST:
-						{
-							if (m.Result == NativeMethods.FALSE && Resizable && Borderless)
-							{
-								Point p = PointToClient(new Point(NativeMethods.LoWord(m.LParam.ToInt32()), NativeMethods.HiWord(m.LParam.ToInt32())));
-								var hit = GetDirection(p.X, p.Y);
-
-								SetResizeMethod(hit);
-
-								m.Result = (IntPtr)hit;
-							}
-							else
-							{
-								base.WndProc(ref m);
-							}
-						}
-						break;
-					case NativeMethods.WindowsMessage.WM_SIZE:
-						{
-							if (Borderless)
-							{
-								var msg = m.WParam.ToInt32();
-
-								if (msg == 0 && fullClientModePadding.HasValue)
-								{
-									Padding = fullClientModePadding.Value;
-									fullClientModePadding = null;
-								}
-								else if (msg == 2)
-								{
-
-									if (fullClientModePadding == null)
-									{
-										fullClientModePadding = Padding;
-									}
-
-									Padding = maxPadding;
-
-								}
-							}
-
-
-							if (browser != null && browser.IsHandleCreated)
-							{
-								var x = NativeMethods.LoWord(m.LParam.ToInt32());
-								var y = NativeMethods.HiWord(m.LParam.ToInt32());
-
-								var js = string.Format(JS_WINDOW_STATE_CHANGED, m.WParam, x, y);
-								browser.ExecuteJavascript(js);
-							}
-
-							base.WndProc(ref m);
-
-						}
-
-						break;
-					case NativeMethods.WindowsMessage.WM_SYSCOMMAND:
-						{
-							if (Borderless)
-							{
-								var msg = m.WParam.ToInt32();
-
-								if (msg == NativeMethods.SysCommand.SC_MINIMIZE || msg == NativeMethods.SysCommand.SC_MAXIMIZE)
-								{
-									if (WindowState != FormWindowState.Minimized && WindowState != FormWindowState.Maximized)
-									{
-										windowOriginalSize = ClientSize;
-									}
-								}
-							}
-
-
-							base.WndProc(ref m);
-
-						}
-						break;
-					case NativeMethods.WindowsMessage.WM_MOVE:
+					case (int)WindowsMessages.WM_MOVE:
 						{
 							browser?.BrowserHost?.NotifyScreenInfoChanged();
 							base.WndProc(ref m);
@@ -809,23 +644,7 @@ namespace NetDimension.NanUI
 						break;
 					default:
 						{
-							if (Borderless)
-							{
-								if (IsNonclientMode)
-								{
-									NonclientModeWndProc(ref m);
-								}
-								else
-								{
-									DwmModeWndProc(ref m);
-								}
-							}
-							else
-							{
-								base.WndProc(ref m);
-							}
-
-
+							base.WndProc(ref m);
 						}
 						break;
 				}
@@ -840,117 +659,48 @@ namespace NetDimension.NanUI
 
 		}
 
-		private void DwmModeWndProc(ref Message m)
-		{
-			IntPtr result = IntPtr.Zero;
-
-			var dwmHandled = NativeMethods.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, ref result);
-
-			if (dwmHandled == 1)
-			{
-				m.Result = result;
-				return;
-			}
-
-			switch (m.Msg)
-			{
-				case NativeMethods.WindowsMessage.WM_ACTIVATE:
-					NativeMethods.DwmExtendFrameIntoClientArea(Handle, ref dwmMargins);
-					break;
-				case NativeMethods.WindowsMessage.WM_NCCALCSIZE:
-					{
-						if (m.WParam == NativeMethods.TRUE)
-						{
-							var nccsp = (NativeMethods.NCCALCSIZE_PARAMS)System.Runtime.InteropServices.Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.NCCALCSIZE_PARAMS));
-
-							if (!dwmMarginHandled)
-							{
-
-								dwmMargins.cyTopHeight = BorderSize;
-								dwmMargins.cxLeftWidth = BorderSize;
-								dwmMargins.cyBottomHeight = BorderSize;
-								dwmMargins.cxRightWidth = BorderSize;
-								dwmMarginHandled = true;
-							}
-
-							Marshal.StructureToPtr(nccsp, m.LParam, false);
-
-							m.Result = IntPtr.Zero;
-
-						}
-						else
-						{
-							base.WndProc(ref m);
-						}
-					}
-					break;
-				default:
-					base.WndProc(ref m);
-					break;
-			}
-
-
-		}
-
-
-		private void NonclientModeWndProc(ref Message m)
-		{
-			switch (m.Msg)
-			{
-				case NativeMethods.WindowsMessage.WM_NCUAHDRAWCAPTION:
-				case NativeMethods.WindowsMessage.WM_NCUAHDRAWFRAME:
-					{
-						NativeMethods.InvalidateWindow(Handle);
-						return;
-					}
-				default:
-					base.WndProc(ref m);
-					break;
-			}
-		}
 
 		protected override void DefWndProc(ref Message m)
 		{
-			if (m.Msg == NativeMethods.DefMessages.WM_CEF_TITLEBAR_LBUTTONDBCLICK)
+			if (m.Msg == (int)DefMessages.WM_CEF_TITLEBAR_LBUTTONDBCLICK)
 			{
-				NativeMethods.ReleaseCapture();
+				User32.ReleaseCapture();
 
 				if (WindowState == FormWindowState.Maximized)
 				{
-					NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_SYSCOMMAND, (IntPtr)NativeMethods.SysCommand.SC_RESTORE, IntPtr.Zero);
+					User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_SYSCOMMAND, (IntPtr)SystemCommandFlags.SC_RESTORE, IntPtr.Zero);
 				}
 				else
 				{
-					NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_SYSCOMMAND, (IntPtr)NativeMethods.SysCommand.SC_MAXIMIZE, IntPtr.Zero);
+					User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_SYSCOMMAND, (IntPtr)SystemCommandFlags.SC_MAXIMIZE, IntPtr.Zero);
 				}
 
 
 			}
 
-			if (m.Msg == NativeMethods.DefMessages.WM_CEF_DRAG_APP && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
+			if (m.Msg == (int)DefMessages.WM_CEF_DRAG_APP && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
 			{
-				NativeMethods.ReleaseCapture();
-				NativeMethods.SendMessage(Handle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HitTest.HTCAPTION, (IntPtr)0);
+				User32.ReleaseCapture();
+				User32.SendMessage(Handle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)HitTest.HTCAPTION, (IntPtr)0);
 			}
-			if (m.Msg == NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT && Resizable && WindowState == FormWindowState.Normal)
+			if (m.Msg == (int)DefMessages.WM_CEF_RESIZE_CLIENT && Resizable && WindowState == FormWindowState.Normal)
 			{
-				NativeMethods.ReleaseCapture();
+				User32.ReleaseCapture();
 				isFormResizing = true;
 
-				SetResizeMethod(m.WParam.ToInt32());
+				SetCursor((HitTest)m.WParam.ToInt32());
 
 
-				NativeMethods.SendMessage(Handle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, m.WParam, (IntPtr)0);
+				User32.SendMessage(Handle, (int)WindowsMessages.WM_NCLBUTTONDOWN, m.WParam, (IntPtr)0);
 
 				isFormResizing = false;
 			}
 
-			if (m.Msg == NativeMethods.DefMessages.WM_CEF_EDGE_MOVE && Resizable && WindowState == FormWindowState.Normal && !isFormResizing)
+			if (m.Msg == (int)DefMessages.WM_CEF_EDGE_MOVE && Resizable && WindowState == FormWindowState.Normal)
 			{
-				SetResizeMethod(m.WParam.ToInt32());
+				SetCursor((HitTest)m.WParam.ToInt32());
 			}
 
-			//NativeMethods.InvalidateWindow(Handle);
 
 			base.DefWndProc(ref m);
 		}

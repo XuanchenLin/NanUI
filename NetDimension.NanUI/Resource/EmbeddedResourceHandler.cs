@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace NetDimension.NanUI.Resource
 {
@@ -11,7 +12,7 @@ namespace NetDimension.NanUI.Resource
 		private int readResponseStreamOffset;
 		private Assembly resourceAssembly;
 
-		string requestFile = null;
+		//string requestFile = null;
 
 		string requestUrl = null;
 
@@ -19,10 +20,13 @@ namespace NetDimension.NanUI.Resource
 		private IChromiumWebBrowser browser;
 
 		private System.Runtime.InteropServices.GCHandle gcHandle;
-		internal EmbeddedResourceHandler(Assembly resourceAssembly, IChromiumWebBrowser browser)
+
+		private string domain = null;
+
+		internal EmbeddedResourceHandler(Assembly resourceAssembly, IChromiumWebBrowser browser, string domain = null)
 		{
 			gcHandle = System.Runtime.InteropServices.GCHandle.Alloc(this);
-
+			this.domain = domain;
 
 			this.browser = browser;
 
@@ -46,12 +50,32 @@ namespace NetDimension.NanUI.Resource
 
 			requestUrl = request.Url;
 
-			var fileName = string.Format("{0}{1}", uri.Authority, uri.AbsolutePath);
+			var fileName = string.IsNullOrEmpty(domain) ? string.Format("{0}{1}", uri.Authority, uri.AbsolutePath) : uri.AbsolutePath;
 
-			requestFile = uri.AbsolutePath;
+			//requestFile = uri.LocalPath;
+			if (fileName.StartsWith("/") && fileName.Length > 1)
+			{
+				fileName = fileName.Substring(1);
+			}
 
 			var ass = resourceAssembly;
+			var endTrimIndex = fileName.LastIndexOf('/');
+
+			if (endTrimIndex > -1)
+			{
+				var tmp = fileName.Substring(0, endTrimIndex);
+				tmp = tmp.Replace("-", "_");
+
+				fileName = string.Format("{0}{1}", tmp, fileName.Substring(endTrimIndex));
+			}
+
 			var resourcePath = string.Format("{0}.{1}", ass.GetName().Name, fileName.Replace('/', '.'));
+
+
+
+
+
+
 			var resourceName = ass.GetManifestResourceNames().SingleOrDefault(p => p.Equals(resourcePath, StringComparison.CurrentCultureIgnoreCase));
 
 			if (!string.IsNullOrEmpty(resourceName) && ass.GetManifestResourceInfo(resourceName) != null)
@@ -74,16 +98,21 @@ namespace NetDimension.NanUI.Resource
 				Console.WriteLine($"[加载]:\t{requestUrl}");
 
 
-
+				callback.Continue();
+				e.SetReturnValue(true);
 			}
 			else
 			{
 				Console.WriteLine($"[未找到]:\t{requestUrl}");
+
+				callback.Continue();
+				e.SetReturnValue(false);
+
+
 			}
 
 
-			callback.Continue();
-			e.SetReturnValue(true);
+
 
 		}
 

@@ -5,6 +5,7 @@ using Chromium.Remote.Event;
 using NetDimension.NanUI.ChromiumCore;
 using NetDimension.NanUI.ChromiumCore.Event;
 using NetDimension.NanUI.Internal;
+using NetDimension.NanUI.Internal.Imports;
 using NetDimension.NanUI.Resource;
 using System;
 using System.Collections.Generic;
@@ -242,6 +243,8 @@ namespace NetDimension.NanUI
 
 			if (!CfxBrowserHost.CreateBrowser(windowInfo, client, initialUrl, HtmlUILauncher.DefaultBrowserSettings, requestContext))
 				throw new HtmlUIException("Failed to create browser instance.");
+
+
 		}
 
 
@@ -1031,10 +1034,10 @@ namespace NetDimension.NanUI
 		{
 
 
-			if (m.Msg == NativeMethods.WindowsMessage.WM_SIZE)
+			if (m.Msg == (int)WindowsMessages.WM_SIZE)
 			{
-				var w = NativeMethods.LoWord(m.LParam);
-				var h = NativeMethods.HiWord(m.LParam);
+				var w = (int)User32.LoWord(m.LParam);
+				var h = (int)User32.HiWord(m.LParam);
 
 				if (browserWindowHandle != IntPtr.Zero && w > 0 && h > 0)
 				{
@@ -1043,9 +1046,9 @@ namespace NetDimension.NanUI
 
 			}
 
-			if (m.Msg == NativeMethods.WindowsMessage.WM_WINDOWPOSCHANGING)
+			if (m.Msg == (int)WindowsMessages.WM_WINDOWPOSCHANGING)
 			{
-				var pos = (NativeMethods.WINDOWPOS)System.Runtime.InteropServices.Marshal.PtrToStructure(m.LParam, typeof(NativeMethods.WINDOWPOS));
+				var pos = (WINDOWPOS)System.Runtime.InteropServices.Marshal.PtrToStructure(m.LParam, typeof(WINDOWPOS));
 
 				if (browserWindowHandle != IntPtr.Zero)
 				{
@@ -1103,5 +1106,28 @@ namespace NetDimension.NanUI
 		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 		private const uint SWP_NOMOVE = 0x2;
 		private const uint SWP_NOZORDER = 0x4;
+
+		protected override void Dispose(bool disposing)
+		{
+
+			if (disposing)
+			{
+				foreach (var item in webResources)
+				{
+					item.Value.GetResourceHandler().Dispose();
+				}
+
+				webResources.Clear();
+
+
+
+
+			}
+
+			base.Dispose(disposing);
+
+			GC.SuppressFinalize(this);
+
+		}
 	}
 }

@@ -33,9 +33,10 @@
 			// 
 			// frmWelcome
 			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(183)))), ((int)(((byte)(85)))), ((int)(((byte)(142)))));
-			this.ClientSize = new System.Drawing.Size(704, 441);
+			this.ClientSize = new System.Drawing.Size(1002, 712);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(720, 480);
 			this.Name = "frmWelcome";

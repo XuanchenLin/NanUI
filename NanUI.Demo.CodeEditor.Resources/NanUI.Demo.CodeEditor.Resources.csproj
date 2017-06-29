@@ -150,6 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="www\addon\edit\continuelist.js" />
+    <EmbeddedResource Include="www\HTMLPage1.html" />
+    <EmbeddedResource Include="www\Content\Test-Test\bootstrap_theme.min.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

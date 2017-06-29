@@ -5,9 +5,8 @@ namespace NanUI.Demo.Welcome
 {
 	public partial class frmWelcome : HtmlUIForm    //继承HtmlUIForm
 	{
-		frmAbout aboutForm = null;
 		public frmWelcome()
-			: base("embedded://www/index.html") //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
+			: base("http://res.welcome.local/www/index.html") //设定启示页面，scheme是embedded就是我们在Main里注册的当前程序集资源
 		{
 			InitializeComponent();
 
@@ -52,23 +51,6 @@ namespace NanUI.Demo.Welcome
 
 		}
 
-		private void ShowAboutWindow()
-		{
-			//因为当前环境中的JS代码跑在另外的线程上，所以在Control上扩展个UpdateUI方法，简化InvokeRequired流程
-			this.UpdateUI(() =>
-			{
-				//显示字窗体的过程，不解释
-				if (aboutForm == null || aboutForm.IsDisposed)
-				{
-					aboutForm = new frmAbout();
-					aboutForm.Show(this);
-				}
-				else
-				{
-					aboutForm.Activate();
-				}
 
-			});
-		}
 	}
 }

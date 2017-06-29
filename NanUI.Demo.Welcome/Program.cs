@@ -17,12 +17,13 @@ namespace NanUI.Demo.Welcome
 
 			HtmlUILauncher.EnableFlashSupport = true;
 
-			if (HtmlUILauncher.InitializeChromium((args=> {
+			if (HtmlUILauncher.InitializeChromium((args =>
+			{
 				args.Settings.LogSeverity = Chromium.CfxLogSeverity.Default;
 			})))
 			{
 				//初始化成功，加载程序集内嵌的资源到运行时中
-				HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly());
+				HtmlUILauncher.RegisterEmbeddedScheme(System.Reflection.Assembly.GetExecutingAssembly(), domainName: "res.welcome.local");
 
 				//启动主窗体
 				Application.Run(new frmWelcome());

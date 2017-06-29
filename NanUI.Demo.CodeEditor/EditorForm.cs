@@ -18,7 +18,7 @@ namespace NanUI.Demo.CodeEditor
 		//当然，也可以在Win7等支持DWM的系统中禁用DWM窗口绘制，如下，构造第二个参数设置为true
 		//将强制窗口使用Nanclient区域重绘。
 		public EditorForm()
-			: base("embedded://www/main.html")
+			: base("http://www/main.html")
 		{
 			InitializeComponent();
 
@@ -105,6 +105,10 @@ namespace NanUI.Demo.CodeEditor
 		//新建文件逻辑
 		internal void NewFile()
 		{
+
+			//var x = new EditorForm();
+			//x.ShowDialog();
+			//return;
 			var continueFlag = true;
 
 			if (!isClean)

@@ -331,22 +331,25 @@
     <Compile Include="ChromiumFX\Source\WindowStyle.cs" />
     <Compile Include="ControlExtended.cs" />
     <Compile Include="enum.cs" />
-    <Compile Include="FormBorder.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="HtmlUIException.cs" />
     <Compile Include="HtmlUIForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HtmlWidgetForm.cs">
+    <Compile Include="IChromiumWebBrowser.cs" />
+    <Compile Include="Internal\BorderlessForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HtmlWidgetLauncher.cs" />
-    <Compile Include="IChromiumWebBrowser.cs" />
     <Compile Include="Internal\BrowserWidgetHandleFinder.cs" />
     <Compile Include="Internal\BrowserWidgetMessageInterceptor.cs" />
-    <Compile Include="Internal\NativeMethods.cs" />
-    <Compile Include="Internal\NonclientNativeWindow.cs" />
+    <Compile Include="Internal\Extensions\HitTestExtension.cs" />
+    <Compile Include="Internal\Extensions\IntegerExtension.cs" />
+    <Compile Include="Internal\FormNCAreaDecorator.cs" />
+    <Compile Include="Internal\FormShadowDecorator.cs" />
+    <Compile Include="Internal\FormShadowElement.cs" />
+    <Compile Include="Internal\Imports\DefMessages.cs" />
+    <Compile Include="Internal\Imports\Win32APIs.cs" />
+    <Compile Include="Internal\Imports\Win32Types.cs" />
+    <Compile Include="Internal\Imports\WindowMessages.cs" />
     <Compile Include="JsHostWindowObject.cs" />
     <Compile Include="HtmlUILauncher.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -361,23 +364,17 @@
     <Compile Include="Resource\LocalSchemeHandlerFactory.cs" />
     <Compile Include="Resource\MimeHelper.cs" />
     <Compile Include="Resource\WebResource.cs" />
-    <Compile Include="RuntimeDownloadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RuntimeDownloadForm.Designer.cs">
-      <DependentUpon>RuntimeDownloadForm.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Internal\BorderlessForm.resx">
+      <DependentUpon>BorderlessForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RuntimeDownloadForm.resx">
-      <DependentUpon>RuntimeDownloadForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

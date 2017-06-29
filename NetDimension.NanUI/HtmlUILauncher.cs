@@ -32,7 +32,7 @@ namespace NetDimension.NanUI
 				return defaultBrowserSettings;
 			}
 		}
-
+		[Obsolete("FLASH的支持还有必要吗？")]
 		public static bool EnableFlashSupport
 		{
 			get
@@ -187,6 +187,7 @@ namespace NetDimension.NanUI
 		}
 
 
+		[Obsolete("FLASH的支持还有必要吗？")]
 
 		private static void SetFlashSupport(CfxOnBeforeCommandLineProcessingEventArgs args)
 		{
@@ -223,14 +224,14 @@ namespace NetDimension.NanUI
 
 
 
-		public static void RegisterEmbeddedScheme(System.Reflection.Assembly assembly, string schemeName = "embedded", string domainName = null)
+		public static void RegisterEmbeddedScheme(System.Reflection.Assembly assembly, string schemeName = "http", string domainName = null)
 		{
 			if (string.IsNullOrEmpty(schemeName))
 			{
 				throw new ArgumentNullException("schemeName", "必须为scheme指定名称。");
 			}
 
-			var embedded = new EmbeddedSchemeHandlerFactory(schemeName, assembly);
+			var embedded = new EmbeddedSchemeHandlerFactory(schemeName, domainName, assembly);
 			var gchandle = GCHandle.Alloc(embedded);
 
 			ChromiumStartupSettings.SchemeHandlerGCHandles.Add(gchandle);
