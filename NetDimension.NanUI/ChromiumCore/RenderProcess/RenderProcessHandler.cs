@@ -48,6 +48,7 @@ namespace NetDimension.NanUI.ChromiumCore
 			this.OnContextCreated += RenderProcessHandler_OnContextCreated;
 			this.OnBrowserCreated += RenderProcessHandler_OnBrowserCreated;
 			this.OnWebKitInitialized += RenderProcessHandler_OnWebKitInitialized;
+
 		}
 
 		private void RenderProcessHandler_OnWebKitInitialized(object sender, CfrEventArgs e)

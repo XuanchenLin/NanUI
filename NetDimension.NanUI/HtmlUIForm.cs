@@ -46,7 +46,7 @@ namespace NetDimension.NanUI
 		private bool isResizable = true;
 		private bool isEnableDropShadow = true;
 
-
+		float scaleFactor = 1.0f;
 
 		private string initialUrl;
 		private int CornerAreaSize
@@ -233,6 +233,8 @@ namespace NetDimension.NanUI
 
 				FormNonclientAreaDecorator.BorderSize = borderSize;
 				FormNonclientAreaDecorator.BorderColor = borderColor;
+
+				scaleFactor = 1.0f / User32.GetOriginalDeviceScaleFactor(FormHandle);
 				//FormShadowDecorator.EnableResize(isResizable);
 
 				this.Controls.Add(splashPicture);
@@ -274,15 +276,28 @@ namespace NetDimension.NanUI
 
 			};
 
+			KeyboardHandler.OnPreKeyEvent += (sender, args) =>
+			{
+				if (args.Event.IsSystemKey)
+					args.SetReturnValue(true);
+			};
+
+
+
 			DragHandler.OnDraggableRegionsChanged += (sender, args) =>
 			{
 				var regions = args.Regions;
+
+
 
 				if (regions.Length > 0)
 				{
 					foreach (var region in regions)
 					{
 						var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
+
+						Debug.WriteLine("Dragable RECT:");
+						Debug.WriteLine(rect);
 
 						if (draggableRegion == null)
 						{
@@ -382,10 +397,27 @@ namespace NetDimension.NanUI
 			if (message.Msg == (int)WindowsMessages.WM_LBUTTONDOWN)
 			{
 
+
+
+
+
 				var x = (int)User32.LoWord(message.LParam);
 				var y = (int)User32.HiWord(message.LParam);
 
-				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(x, y)));
+				var sx = (int)((int)User32.LoWord(message.LParam) * scaleFactor);
+				var sy = (int)((int)User32.HiWord(message.LParam) * scaleFactor);
+
+				var ax = x;
+				var ay = y;
+
+				if (scaleFactor != 1.0f)
+				{
+					ax = sx;
+					ay = sy;
+				}
+
+
+				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(sx, sy)));
 
 				var dir = GetSizeMode(new POINT(x, y));
 
@@ -408,7 +440,20 @@ namespace NetDimension.NanUI
 				var x = (int)User32.LoWord(message.LParam);
 				var y = (int)User32.HiWord(message.LParam);
 
-				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(x, y)));
+				var sx = (int)((int)User32.LoWord(message.LParam) * scaleFactor);
+				var sy = (int)((int)User32.HiWord(message.LParam) * scaleFactor);
+
+				var ax = x;
+				var ay = y;
+
+				if (scaleFactor != 1.0f)
+				{
+					ax = sx;
+					ay = sy;
+				}
+
+
+				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(sx, sy)));
 
 				if (dragable)
 				{
@@ -421,8 +466,26 @@ namespace NetDimension.NanUI
 
 			if (message.Msg == (int)WindowsMessages.WM_MOUSEMOVE/* &&  BorderSize == 0*/)
 			{
+
 				var x = (int)User32.LoWord(message.LParam);
 				var y = (int)User32.HiWord(message.LParam);
+
+				var sx = (int)((int)User32.LoWord(message.LParam) * scaleFactor);
+				var sy = (int)((int)User32.HiWord(message.LParam) * scaleFactor);
+
+				var ax = x;
+				var ay = y;
+
+				if (scaleFactor != 1.0f)
+				{
+					ax = sx;
+					ay = sy;
+				}
+
+
+				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(sx, sy)));
+
+				Debug.WriteLine($"x:{x}\ty:{y}\t|\tax:{ax}\tay:{ay}");
 
 
 				if (Resizable)
@@ -612,6 +675,13 @@ namespace NetDimension.NanUI
 
 				switch (m.Msg)
 				{
+					//case (int)WindowsMessages.WM_WINDOWPOSCHANGED:
+					//	var lastLocation = (WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(WINDOWPOS));
+					//	Debug.WriteLine(lastLocation);
+					//	base.WndProc(ref m);
+					//	break;
+
+
 					case (int)WindowsMessages.WM_SHOWWINDOW:
 						{
 
@@ -638,7 +708,10 @@ namespace NetDimension.NanUI
 						break;
 					case (int)WindowsMessages.WM_MOVE:
 						{
+
 							browser?.BrowserHost?.NotifyScreenInfoChanged();
+
+
 							base.WndProc(ref m);
 						}
 						break;

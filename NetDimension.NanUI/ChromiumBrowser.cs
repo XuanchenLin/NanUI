@@ -189,6 +189,7 @@ namespace NetDimension.NanUI
 			}
 		}
 
+
 		/// <summary>
 		/// Creates the underlying CfxBrowser with the default CfxRequestContext.
 		/// This method should only be called if this ChromiumWebBrowser

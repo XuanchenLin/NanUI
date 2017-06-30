@@ -314,7 +314,7 @@ namespace NetDimension.NanUI.Internal
 
 		private void ShowBorder(bool show)
 		{
-			void action()
+			var action = new Action(() =>
 			{
 
 				foreach (FormShadowElement sideShadow in shadows)
@@ -328,7 +328,8 @@ namespace NetDimension.NanUI.Internal
 
 
 				}
-			}
+			});
+
 			if (show == true && isWindowMinimized)
 			{
 				if (isAnimationDelayed)

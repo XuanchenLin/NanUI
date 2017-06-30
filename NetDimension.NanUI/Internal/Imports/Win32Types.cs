@@ -64,6 +64,14 @@ namespace NetDimension.NanUI.Internal.Imports
 		PS_TYPE_MASK = 0x000F0000
 	};
 
+	public enum MonitorFromWindowFlags : uint
+	{
+		MONITOR_DEFAULTTONULL = 0x0,
+		MONITORINFOF_PRIMARY = 0x1,
+		MONITOR_DEFAULTTONEAREST = 0x2,
+		MONITOR_DEFAULTTOPRIMARY = 0x1
+	}
+
 
 	internal struct SystemCommandFlags
 	{
@@ -89,6 +97,26 @@ namespace NetDimension.NanUI.Internal.Imports
 		internal const int SC_SEPARATOR = 0xF00F;
 		internal const int SCF_ISSECURE = 0x00000001;
 	}
+
+	public enum MonitorDpiType : int
+	{
+		MDT_EFFECTIVE_DPI = 0,
+		MDT_ANGULAR_DPI = 1,
+		MDT_RAW_DPI = 2,
+		MDT_DEFAULT = MDT_EFFECTIVE_DPI
+	}
+
+	public enum DeviceScaleFactor
+	{
+		SCALE_100_PERCENT = 100,
+		SCALE_120_PERCENT = 120,
+		SCALE_140_PERCENT = 140,
+		SCALE_150_PERCENT = 150,
+		SCALE_160_PERCENT = 160,
+		SCALE_180_PERCENT = 180,
+		SCALE_225_PERCENT = 225
+	}
+
 	public enum SystemMetricFlags : int
 	{
 		/// <summary>

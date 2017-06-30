@@ -146,6 +146,8 @@ namespace NetDimension.NanUI
 
 					BeforeCommandLineProcessing?.Invoke(args);
 
+					//args.CommandLine.AppendSwitchWithValue("force-device-scale-factor", "1");
+
 
 
 					if (ChromiumStartupSettings.EnableFlashSupport)
