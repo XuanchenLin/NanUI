@@ -20,9 +20,18 @@ namespace NetDimension.NanUI.Internal.Imports
 		public static float GetOriginalDeviceScaleFactor(IntPtr hWnd)
 		{
 			var hMonitor = MonitorFromWindow(hWnd, (uint)MonitorFromWindowFlags.MONITOR_DEFAULTTONEAREST);
-			GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int x, out int y);
 
-			return x /96f;
+			if ((System.Environment.OSVersion.Version.Major >= 8 && System.Environment.OSVersion.Version.Minor >= 1) || System.Environment.OSVersion.Version.Major > 8)
+			{
+				GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int x, out int y);
+				return x / 96f;
+			}
+			else
+			{
+				return 1.0f;
+			}
+
+
 		}
 		[DllImport("Shcore.dll")]
 		public static extern int GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType, out int dpiX, out int dpiY);
@@ -30,11 +39,11 @@ namespace NetDimension.NanUI.Internal.Imports
 		[DllImport("user32.dll")]
 		public static extern IntPtr MonitorFromWindow(IntPtr hWnd, uint dwFlags);
 
-		[DllImport("Shcore.dll")]
-		public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref DeviceScaleFactor pScale);
+		//[DllImport("Shcore.dll")]
+		//public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref DeviceScaleFactor pScale);
 
-		[DllImport("Shcore.dll")]
-		public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref int pScale);
+		//[DllImport("Shcore.dll")]
+		//public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref int pScale);
 
 		[DllImport("user32.dll")]
 		public static extern int FillRect(IntPtr hDC, [In] ref RECT lprc, IntPtr hbr);
