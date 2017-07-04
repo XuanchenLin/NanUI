@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDimension.NanUI", "NetDimension.NanUI\NetDimension.NanUI.csproj", "{F08BB3EC-8BD4-4AF0-AC3F-49AF44917324}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{36C72042-840E-4C1A-B697-02AFAB117CC8}"
 	ProjectSection(SolutionItems) = preProject
+		Icon.png = Icon.png
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
