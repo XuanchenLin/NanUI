@@ -30,7 +30,7 @@ namespace NetDimension.NanUI.Internal
 
 		private readonly List<FormShadowElement> shadows = new List<FormShadowElement>();
 		private Color activeColor = Color.Black;
-		private Color inactiveColor = Color.LightGray;
+		private Color inactiveColor = Color.Black;
 		private bool isEnabled;
 		private bool setTopMost;
 		private bool isFocused = false;

@@ -53,7 +53,7 @@ namespace NetDimension.NanUI
 		{
 			get
 			{
-				return BorderSize < 3 ? 3 : BorderSize;
+				return (int)Math.Round((BorderSize < 3 ? 3 : BorderSize) / scaleFactor);
 			}
 		}
 
@@ -222,17 +222,19 @@ namespace NetDimension.NanUI
 
 			if (!IsDesignMode)
 			{
-				//SetStyle(ControlStyles.ResizeRedraw, true);
-				//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-				//SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+				SetStyle(ControlStyles.ResizeRedraw, true);
+				SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+				SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 
-				//DoubleBuffered = true;
+				DoubleBuffered = true;
 
-				//UpdateStyles();
+				UpdateStyles();
 
 
 				FormNonclientAreaDecorator.BorderSize = borderSize;
 				FormNonclientAreaDecorator.BorderColor = borderColor;
+
+				
 
 				scaleFactor = 1.0f / User32.GetOriginalDeviceScaleFactor(FormHandle);
 				//FormShadowDecorator.EnableResize(isResizable);
@@ -240,7 +242,7 @@ namespace NetDimension.NanUI
 				this.Controls.Add(splashPicture);
 				splashPicture.BringToFront();
 
-
+				//FormShadowDecorator.Enable(false);
 
 				InitializeChromium(initialUrl);
 			}
@@ -296,8 +298,6 @@ namespace NetDimension.NanUI
 					{
 						var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
 
-						Debug.WriteLine("Dragable RECT:");
-						Debug.WriteLine(rect);
 
 						if (draggableRegion == null)
 						{
@@ -390,16 +390,12 @@ namespace NetDimension.NanUI
 			{
 				var topLevelWindowHandle = message.WParam;
 				User32.PostMessage(topLevelWindowHandle, (int)WindowsMessages.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
-				User32.SendMessage(topLevelWindowHandle, (int)WindowsMessages.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
+				User32.PostMessage(topLevelWindowHandle, (int)WindowsMessages.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
 			}
 
 
 			if (message.Msg == (int)WindowsMessages.WM_LBUTTONDOWN)
 			{
-
-
-
-
 
 				var x = (int)User32.LoWord(message.LParam);
 				var y = (int)User32.HiWord(message.LParam);
@@ -485,7 +481,7 @@ namespace NetDimension.NanUI
 
 				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(sx, sy)));
 
-				Debug.WriteLine($"x:{x}\ty:{y}\t|\tax:{ax}\tay:{ay}");
+				//Debug.WriteLine($"x:{x}\ty:{y}\t|\tax:{ax}\tay:{ay}");
 
 
 				if (Resizable)
@@ -501,7 +497,7 @@ namespace NetDimension.NanUI
 
 				}
 
-				User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_MOUSEMOVE, message.WParam, message.LParam);
+				//User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_MOUSEMOVE, message.WParam, message.LParam);
 
 			}
 
@@ -640,8 +636,6 @@ namespace NetDimension.NanUI
 		{
 			FormHandle = this.Handle;
 			base.OnHandleCreated(e);
-
-
 		}
 
 		//protected override void OnMouseDown(MouseEventArgs e)
@@ -675,13 +669,6 @@ namespace NetDimension.NanUI
 
 				switch (m.Msg)
 				{
-					//case (int)WindowsMessages.WM_WINDOWPOSCHANGED:
-					//	var lastLocation = (WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(WINDOWPOS));
-					//	Debug.WriteLine(lastLocation);
-					//	base.WndProc(ref m);
-					//	break;
-
-
 					case (int)WindowsMessages.WM_SHOWWINDOW:
 						{
 
@@ -760,8 +747,6 @@ namespace NetDimension.NanUI
 			{
 				User32.ReleaseCapture();
 				isFormResizing = true;
-
-				SetCursor((HitTest)m.WParam.ToInt32());
 
 
 				User32.SendMessage(Handle, (int)WindowsMessages.WM_NCLBUTTONDOWN, m.WParam, (IntPtr)0);
@@ -1051,6 +1036,11 @@ namespace NetDimension.NanUI
 		public void OnBrowserCreated(CfxOnAfterCreatedEventArgs e)
 		{
 			((IChromiumWebBrowser)browser).OnBrowserCreated(e);
+		}
+
+		public void RemoteProcessExited(RenderProcess process)
+		{
+			((IChromiumWebBrowser)browser).RemoteProcessExited(process);
 		}
 
 

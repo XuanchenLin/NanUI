@@ -607,6 +607,7 @@ namespace NetDimension.NanUI
 			}
 		}
 
+
 		/// <summary>
 		/// Evaluate a string of javascript code in the browser's main frame.
 		/// Evaluation is done asynchronously in the render process.
@@ -622,6 +623,11 @@ namespace NetDimension.NanUI
 		/// of the evaluated script, if any. On failure the CfrV8Exception argument of the callback
 		/// will be set to the exception thrown by the evaluated script, if any.
 		/// Do not block the callback since it blocks the render thread.
+		/// 
+		/// *** WARNING ***
+		/// In CEF 3.2623 and higher, the return value of the evaluation 
+		/// seems to be broken in some cases (see also issue #65).
+		/// 
 		/// </summary>
 		public bool EvaluateJavascript(string code, Action<CfrV8Value, CfrV8Exception> callback)
 		{
@@ -645,6 +651,11 @@ namespace NetDimension.NanUI
 		/// of the evaluated script, if any. On failure the CfrV8Exception argument of the callback
 		/// will be set to the exception thrown by the evaluated script, if any.
 		/// Do not block the callback since it blocks the render thread.
+		/// 
+		/// *** WARNING ***
+		/// In CEF 3.2623 and higher, the return value of the evaluation 
+		/// seems to be broken in some cases (see also issue #65).
+		/// 
 		/// </summary>
 		public bool EvaluateJavascript(string code, JSInvokeMode invokeMode, Action<CfrV8Value, CfrV8Exception> callback)
 		{
@@ -669,6 +680,54 @@ namespace NetDimension.NanUI
 			catch (CfxRemotingException)
 			{
 				return false;
+			}
+		}
+
+		private class EvaluateTask : CfrTask
+		{
+
+			IChromiumWebBrowser wb;
+			string code;
+			JSInvokeMode invokeMode;
+			Action<CfrV8Value, CfrV8Exception> callback;
+
+			internal EvaluateTask(IChromiumWebBrowser wb, string code, JSInvokeMode invokeMode, Action<CfrV8Value, CfrV8Exception> callback)
+			{
+				this.wb = wb;
+				this.code = code;
+				this.invokeMode = invokeMode;
+				this.callback = callback;
+				Execute += (s, e) => {
+					if (invokeMode == JSInvokeMode.Invoke || (invokeMode == JSInvokeMode.Inherit && wb.RemoteCallbacksWillInvoke))
+						wb.RenderThreadInvoke(() => Task_Execute(e));
+					else
+						Task_Execute(e);
+				};
+			}
+
+			void Task_Execute(CfrEventArgs e)
+			{
+				CfrV8Value retval;
+				CfrV8Exception ex;
+				bool result = false;
+				try
+				{
+					var context = wb.RemoteBrowser.MainFrame.V8Context;
+					result = context.Eval(code, null, 0, out retval, out ex);
+				}
+				catch
+				{
+					callback(null, null);
+					return;
+				}
+				if (result)
+				{
+					callback(retval, null);
+				}
+				else
+				{
+					callback(null, ex);
+				}
 			}
 		}
 
@@ -721,6 +780,7 @@ namespace NetDimension.NanUI
 		/// The callback may never be called if the render process gets killed prematurely.
 		/// Do not keep a reference to the remote DOM or remote browser object after returning from the callback.
 		/// Do not block the callback since it blocks the renderer thread.
+		/// Explicitly Dispose() all CfrDomNode objects, otherwise the render process may become unstable and crash.
 		/// </summary>
 		/// <param name="callback"></param>
 		/// <returns></returns>
@@ -749,6 +809,34 @@ namespace NetDimension.NanUI
 				return false;
 			}
 		}
+
+		private class VisitDomTask : CfrTask
+		{
+
+			IChromiumWebBrowser wb;
+			Action<CfrDomDocument, CfrBrowser> callback;
+			CfrDomVisitor visitor;
+
+			internal VisitDomTask(IChromiumWebBrowser wb, Action<CfrDomDocument, CfrBrowser> callback)
+			{
+				this.wb = wb;
+				this.callback = callback;
+				this.Execute += Task_Execute;
+				visitor = new CfrDomVisitor();
+				visitor.Visit += (s, e) => {
+					if (wb.RemoteCallbacksWillInvoke)
+						wb.RenderThreadInvoke((MethodInvoker)(() => { callback(e.Document, wb.RemoteBrowser); }));
+					else
+						callback(e.Document, wb.RemoteBrowser);
+				};
+			}
+
+			void Task_Execute(object sender, CfrEventArgs e)
+			{
+				wb.RemoteBrowser.MainFrame.VisitDom(visitor);
+			}
+		}
+
 
 
 		// Callbacks from the associated render process handler
@@ -1005,7 +1093,7 @@ namespace NetDimension.NanUI
 		{
 			this.remoteBrowser = remoteBrowser;
 			this.remoteProcess = remoteProcess;
-			remoteProcess.OnExit += new Action<RenderProcess>(remoteProcess_OnExit);
+			remoteProcess.AddBrowserReference(this);
 			var h = RemoteBrowserCreated;
 			if (h != null)
 			{
@@ -1129,6 +1217,15 @@ namespace NetDimension.NanUI
 
 			GC.SuppressFinalize(this);
 
+		}
+
+		public void RemoteProcessExited(RenderProcess process)
+		{
+			if (process == this.remoteProcess)
+			{
+				this.remoteBrowser = null;
+				this.remoteProcess = null;
+			}
 		}
 	}
 }

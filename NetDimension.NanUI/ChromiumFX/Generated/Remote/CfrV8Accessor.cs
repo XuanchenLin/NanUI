@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -46,46 +22,14 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
     /// </remarks>
-    public class CfrV8Accessor : CfrBase {
+    public class CfrV8Accessor : CfrBaseClient {
 
-        internal static CfrV8Accessor Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
-            var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrV8Accessor)weakCache.Get(proxyId);
-                if(cfrObj == null) {
-                    cfrObj = new CfrV8Accessor(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
-                }
-                return cfrObj;
+
+        private CfrV8Accessor(RemotePtr remotePtr) : base(remotePtr) {}
+        public CfrV8Accessor() : base(new CfxV8AccessorCtorWithGCHandleRemoteCall()) {
+            lock(RemotePtr.connection.weakCache) {
+                RemotePtr.connection.weakCache.Add(RemotePtr.ptr, this);
             }
-        }
-
-
-        internal static IntPtr CreateRemote() {
-            var call = new CfxV8AccessorCtorRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return call.__retval;
-        }
-
-        internal void raise_Get(object sender, CfrV8AccessorGetEventArgs e) {
-            var handler = m_Get;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-        internal void raise_Set(object sender, CfrV8AccessorSetEventArgs e) {
-            var handler = m_Set;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-
-        private CfrV8Accessor(IntPtr proxyId) : base(proxyId) {}
-        public CfrV8Accessor() : base(CreateRemote()) {
-            connection.weakCache.Add(proxyId, this);
         }
 
         /// <summary>
@@ -102,23 +46,27 @@ namespace Chromium.Remote {
         public event CfrV8AccessorGetEventHandler Get {
             add {
                 if(m_Get == null) {
-                    var call = new CfxV8AccessorGetActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxV8AccessorSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_Get += value;
             }
             remove {
                 m_Get -= value;
                 if(m_Get == null) {
-                    var call = new CfxV8AccessorGetDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxV8AccessorSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrV8AccessorGetEventHandler m_Get;
+        internal CfrV8AccessorGetEventHandler m_Get;
 
 
         /// <summary>
@@ -135,28 +83,29 @@ namespace Chromium.Remote {
         public event CfrV8AccessorSetEventHandler Set {
             add {
                 if(m_Set == null) {
-                    var call = new CfxV8AccessorSetActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxV8AccessorSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 1;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_Set += value;
             }
             remove {
                 m_Set -= value;
                 if(m_Set == null) {
-                    var call = new CfxV8AccessorSetDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxV8AccessorSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 1;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrV8AccessorSetEventHandler m_Set;
+        internal CfrV8AccessorSetEventHandler m_Set;
 
 
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
-        }
     }
 
     namespace Event {
@@ -187,16 +136,18 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrV8AccessorGetEventArgs : CfrEventArgs {
 
-            bool NameFetched;
-            string m_Name;
-            bool ObjectFetched;
-            CfrV8Value m_Object;
-            bool ExceptionFetched;
-            string m_Exception;
+            private CfxV8AccessorGetRemoteEventCall call;
 
+            internal string m_name;
+            internal bool m_name_fetched;
+            internal CfrV8Value m_object_wrapped;
+            internal CfrV8Value m_retval_wrapped;
+            internal string m_exception_wrapped;
+
+            internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfrV8AccessorGetEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrV8AccessorGetEventArgs(CfxV8AccessorGetRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfrV8Accessor.Get"/> render process callback.
@@ -204,14 +155,11 @@ namespace Chromium.Remote {
             public string Name {
                 get {
                     CheckAccess();
-                    if(!NameFetched) {
-                        NameFetched = true;
-                        var call = new CfxV8AccessorGetGetNameRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Name = call.value;
+                    if(!m_name_fetched) {
+                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.name_str), call.name_length));
+                        m_name_fetched = true;
                     }
-                    return m_Name;
+                    return m_name;
                 }
             }
             /// <summary>
@@ -220,14 +168,8 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(!ObjectFetched) {
-                        ObjectFetched = true;
-                        var call = new CfxV8AccessorGetGetObjectRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Object = CfrV8Value.Wrap(call.value);
-                    }
-                    return m_Object;
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    return m_object_wrapped;
                 }
             }
             /// <summary>
@@ -236,35 +178,16 @@ namespace Chromium.Remote {
             public CfrV8Value Retval {
                 set {
                     CheckAccess();
-                    var call = new CfxV8AccessorGetSetRetvalRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = CfrV8Value.Unwrap(value);
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    m_retval_wrapped = value;
                 }
             }
             /// <summary>
-            /// Get or set the Exception parameter for the <see cref="CfrV8Accessor.Get"/> render process callback.
+            /// Set the Exception out parameter for the <see cref="CfrV8Accessor.Get"/> render process callback.
             /// </summary>
             public string Exception {
-                get {
-                    CheckAccess();
-                    if(!ExceptionFetched) {
-                        ExceptionFetched = true;
-                        var call = new CfxV8AccessorGetGetExceptionRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Exception = call.value;
-                    }
-                    return m_Exception;
-                }
                 set {
                     CheckAccess();
-                    m_Exception = value;
-                    ExceptionFetched = true;
-                    var call = new CfxV8AccessorGetSetExceptionRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    m_exception_wrapped = value;
                 }
             }
             /// <summary>
@@ -275,15 +198,12 @@ namespace Chromium.Remote {
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");
                 }
-                var call = new CfxV8AccessorGetSetReturnValueRenderProcessCall();
-                call.eventArgsId = eventArgsId;
-                call.value = returnValue;
-                call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                m_returnValue = returnValue;
                 returnValueSet = true;
             }
 
             public override string ToString() {
-                return String.Format("Name={{{0}}}, Object={{{1}}}, Exception={{{2}}}", Name, Object, Exception);
+                return String.Format("Name={{{0}}}, Object={{{1}}}", Name, Object);
             }
         }
 
@@ -313,18 +233,18 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrV8AccessorSetEventArgs : CfrEventArgs {
 
-            bool NameFetched;
-            string m_Name;
-            bool ObjectFetched;
-            CfrV8Value m_Object;
-            bool ValueFetched;
-            CfrV8Value m_Value;
-            bool ExceptionFetched;
-            string m_Exception;
+            private CfxV8AccessorSetRemoteEventCall call;
 
+            internal string m_name;
+            internal bool m_name_fetched;
+            internal CfrV8Value m_object_wrapped;
+            internal CfrV8Value m_value_wrapped;
+            internal string m_exception_wrapped;
+
+            internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfrV8AccessorSetEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrV8AccessorSetEventArgs(CfxV8AccessorSetRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfrV8Accessor.Set"/> render process callback.
@@ -332,14 +252,11 @@ namespace Chromium.Remote {
             public string Name {
                 get {
                     CheckAccess();
-                    if(!NameFetched) {
-                        NameFetched = true;
-                        var call = new CfxV8AccessorSetGetNameRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Name = call.value;
+                    if(!m_name_fetched) {
+                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.name_str), call.name_length));
+                        m_name_fetched = true;
                     }
-                    return m_Name;
+                    return m_name;
                 }
             }
             /// <summary>
@@ -348,14 +265,8 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(!ObjectFetched) {
-                        ObjectFetched = true;
-                        var call = new CfxV8AccessorSetGetObjectRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Object = CfrV8Value.Wrap(call.value);
-                    }
-                    return m_Object;
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    return m_object_wrapped;
                 }
             }
             /// <summary>
@@ -364,39 +275,17 @@ namespace Chromium.Remote {
             public CfrV8Value Value {
                 get {
                     CheckAccess();
-                    if(!ValueFetched) {
-                        ValueFetched = true;
-                        var call = new CfxV8AccessorSetGetValueRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Value = CfrV8Value.Wrap(call.value);
-                    }
-                    return m_Value;
+                    if(m_value_wrapped == null) m_value_wrapped = CfrV8Value.Wrap(new RemotePtr(call.value));
+                    return m_value_wrapped;
                 }
             }
             /// <summary>
-            /// Get or set the Exception parameter for the <see cref="CfrV8Accessor.Set"/> render process callback.
+            /// Set the Exception out parameter for the <see cref="CfrV8Accessor.Set"/> render process callback.
             /// </summary>
             public string Exception {
-                get {
-                    CheckAccess();
-                    if(!ExceptionFetched) {
-                        ExceptionFetched = true;
-                        var call = new CfxV8AccessorSetGetExceptionRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Exception = call.value;
-                    }
-                    return m_Exception;
-                }
                 set {
                     CheckAccess();
-                    m_Exception = value;
-                    ExceptionFetched = true;
-                    var call = new CfxV8AccessorSetSetExceptionRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    m_exception_wrapped = value;
                 }
             }
             /// <summary>
@@ -407,15 +296,12 @@ namespace Chromium.Remote {
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");
                 }
-                var call = new CfxV8AccessorSetSetReturnValueRenderProcessCall();
-                call.eventArgsId = eventArgsId;
-                call.value = returnValue;
-                call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                m_returnValue = returnValue;
                 returnValueSet = true;
             }
 
             public override string ToString() {
-                return String.Format("Name={{{0}}}, Object={{{1}}}, Value={{{2}}}, Exception={{{3}}}", Name, Object, Value, Exception);
+                return String.Format("Name={{{0}}}, Object={{{1}}}, Value={{{2}}}", Name, Object, Value);
             }
         }
 

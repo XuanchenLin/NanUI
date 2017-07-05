@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,115 +21,125 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_urlrequest_capi.h">cef/include/capi/cef_urlrequest_capi.h</see>.
     /// </remarks>
-    public class CfxUrlRequestClient : CfxBase {
-
-        static CfxUrlRequestClient () {
-            CfxApiLoader.LoadCfxUrlRequestClientApi();
-        }
+    public class CfxUrlRequestClient : CfxBaseClient {
 
         internal static CfxUrlRequestClient Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_urlrequest_client_get_gc_handle(nativePtr);
+            var handlePtr = CfxApi.UrlRequestClient.cfx_urlrequest_client_get_gc_handle(nativePtr);
             return (CfxUrlRequestClient)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
         }
 
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            on_request_complete_native = on_request_complete;
+            on_upload_progress_native = on_upload_progress;
+            on_download_progress_native = on_download_progress;
+            on_download_data_native = on_download_data;
+            get_auth_credentials_native = get_auth_credentials;
+
+            on_request_complete_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_request_complete_native);
+            on_upload_progress_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_upload_progress_native);
+            on_download_progress_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_download_progress_native);
+            on_download_data_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_download_data_native);
+            get_auth_credentials_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_auth_credentials_native);
+        }
+
         // on_request_complete
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_urlrequest_client_on_request_complete_delegate(IntPtr gcHandlePtr, IntPtr request);
-        private static cfx_urlrequest_client_on_request_complete_delegate cfx_urlrequest_client_on_request_complete;
-        private static IntPtr cfx_urlrequest_client_on_request_complete_ptr;
+        private delegate void on_request_complete_delegate(IntPtr gcHandlePtr, IntPtr request, out int request_release);
+        private static on_request_complete_delegate on_request_complete_native;
+        private static IntPtr on_request_complete_native_ptr;
 
-        internal static void on_request_complete(IntPtr gcHandlePtr, IntPtr request) {
+        internal static void on_request_complete(IntPtr gcHandlePtr, IntPtr request, out int request_release) {
             var self = (CfxUrlRequestClient)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                request_release = 1;
                 return;
             }
             var e = new CfxOnRequestCompleteEventArgs(request);
-            var eventHandler = self.m_OnRequestComplete;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnRequestComplete?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_request_wrapped == null) CfxApi.cfx_release(e.m_request);
+            request_release = e.m_request_wrapped == null? 1 : 0;
         }
 
         // on_upload_progress
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_urlrequest_client_on_upload_progress_delegate(IntPtr gcHandlePtr, IntPtr request, long current, long total);
-        private static cfx_urlrequest_client_on_upload_progress_delegate cfx_urlrequest_client_on_upload_progress;
-        private static IntPtr cfx_urlrequest_client_on_upload_progress_ptr;
+        private delegate void on_upload_progress_delegate(IntPtr gcHandlePtr, IntPtr request, out int request_release, long current, long total);
+        private static on_upload_progress_delegate on_upload_progress_native;
+        private static IntPtr on_upload_progress_native_ptr;
 
-        internal static void on_upload_progress(IntPtr gcHandlePtr, IntPtr request, long current, long total) {
+        internal static void on_upload_progress(IntPtr gcHandlePtr, IntPtr request, out int request_release, long current, long total) {
             var self = (CfxUrlRequestClient)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                request_release = 1;
                 return;
             }
             var e = new CfxOnUploadProgressEventArgs(request, current, total);
-            var eventHandler = self.m_OnUploadProgress;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnUploadProgress?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_request_wrapped == null) CfxApi.cfx_release(e.m_request);
+            request_release = e.m_request_wrapped == null? 1 : 0;
         }
 
         // on_download_progress
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_urlrequest_client_on_download_progress_delegate(IntPtr gcHandlePtr, IntPtr request, long current, long total);
-        private static cfx_urlrequest_client_on_download_progress_delegate cfx_urlrequest_client_on_download_progress;
-        private static IntPtr cfx_urlrequest_client_on_download_progress_ptr;
+        private delegate void on_download_progress_delegate(IntPtr gcHandlePtr, IntPtr request, out int request_release, long current, long total);
+        private static on_download_progress_delegate on_download_progress_native;
+        private static IntPtr on_download_progress_native_ptr;
 
-        internal static void on_download_progress(IntPtr gcHandlePtr, IntPtr request, long current, long total) {
+        internal static void on_download_progress(IntPtr gcHandlePtr, IntPtr request, out int request_release, long current, long total) {
             var self = (CfxUrlRequestClient)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                request_release = 1;
                 return;
             }
             var e = new CfxOnDownloadProgressEventArgs(request, current, total);
-            var eventHandler = self.m_OnDownloadProgress;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnDownloadProgress?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_request_wrapped == null) CfxApi.cfx_release(e.m_request);
+            request_release = e.m_request_wrapped == null? 1 : 0;
         }
 
         // on_download_data
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_urlrequest_client_on_download_data_delegate(IntPtr gcHandlePtr, IntPtr request, IntPtr data, int data_length);
-        private static cfx_urlrequest_client_on_download_data_delegate cfx_urlrequest_client_on_download_data;
-        private static IntPtr cfx_urlrequest_client_on_download_data_ptr;
+        private delegate void on_download_data_delegate(IntPtr gcHandlePtr, IntPtr request, out int request_release, IntPtr data, UIntPtr data_length);
+        private static on_download_data_delegate on_download_data_native;
+        private static IntPtr on_download_data_native_ptr;
 
-        internal static void on_download_data(IntPtr gcHandlePtr, IntPtr request, IntPtr data, int data_length) {
+        internal static void on_download_data(IntPtr gcHandlePtr, IntPtr request, out int request_release, IntPtr data, UIntPtr data_length) {
             var self = (CfxUrlRequestClient)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                request_release = 1;
                 return;
             }
             var e = new CfxOnDownloadDataEventArgs(request, data, data_length);
-            var eventHandler = self.m_OnDownloadData;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnDownloadData?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_request_wrapped == null) CfxApi.cfx_release(e.m_request);
+            request_release = e.m_request_wrapped == null? 1 : 0;
         }
 
         // get_auth_credentials
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_urlrequest_client_get_auth_credentials_delegate(IntPtr gcHandlePtr, out int __retval, int isProxy, IntPtr host_str, int host_length, int port, IntPtr realm_str, int realm_length, IntPtr scheme_str, int scheme_length, IntPtr callback);
-        private static cfx_urlrequest_client_get_auth_credentials_delegate cfx_urlrequest_client_get_auth_credentials;
-        private static IntPtr cfx_urlrequest_client_get_auth_credentials_ptr;
+        private delegate void get_auth_credentials_delegate(IntPtr gcHandlePtr, out int __retval, int isProxy, IntPtr host_str, int host_length, int port, IntPtr realm_str, int realm_length, IntPtr scheme_str, int scheme_length, IntPtr callback, out int callback_release);
+        private static get_auth_credentials_delegate get_auth_credentials_native;
+        private static IntPtr get_auth_credentials_native_ptr;
 
-        internal static void get_auth_credentials(IntPtr gcHandlePtr, out int __retval, int isProxy, IntPtr host_str, int host_length, int port, IntPtr realm_str, int realm_length, IntPtr scheme_str, int scheme_length, IntPtr callback) {
+        internal static void get_auth_credentials(IntPtr gcHandlePtr, out int __retval, int isProxy, IntPtr host_str, int host_length, int port, IntPtr realm_str, int realm_length, IntPtr scheme_str, int scheme_length, IntPtr callback, out int callback_release) {
             var self = (CfxUrlRequestClient)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                callback_release = 1;
                 return;
             }
             var e = new CfxUrlRequestClientGetAuthCredentialsEventArgs(isProxy, host_str, host_length, port, realm_str, realm_length, scheme_str, scheme_length, callback);
-            var eventHandler = self.m_GetAuthCredentials;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_GetAuthCredentials?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_callback_wrapped == null) CfxApi.cfx_release(e.m_callback);
+            callback_release = e.m_callback_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         internal CfxUrlRequestClient(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxUrlRequestClient() : base(CfxApi.cfx_urlrequest_client_ctor) {}
+        public CfxUrlRequestClient() : base(CfxApi.UrlRequestClient.cfx_urlrequest_client_ctor) {}
 
         /// <summary>
         /// Notifies the client that the request has completed. Use the
@@ -168,11 +154,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnRequestComplete == null) {
-                        if(cfx_urlrequest_client_on_request_complete == null) {
-                            cfx_urlrequest_client_on_request_complete = on_request_complete;
-                            cfx_urlrequest_client_on_request_complete_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_urlrequest_client_on_request_complete);
-                        }
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 0, cfx_urlrequest_client_on_request_complete_ptr);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 0, on_request_complete_native_ptr);
                     }
                     m_OnRequestComplete += value;
                 }
@@ -181,7 +163,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnRequestComplete -= value;
                     if(m_OnRequestComplete == null) {
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -203,11 +185,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnUploadProgress == null) {
-                        if(cfx_urlrequest_client_on_upload_progress == null) {
-                            cfx_urlrequest_client_on_upload_progress = on_upload_progress;
-                            cfx_urlrequest_client_on_upload_progress_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_urlrequest_client_on_upload_progress);
-                        }
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 1, cfx_urlrequest_client_on_upload_progress_ptr);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 1, on_upload_progress_native_ptr);
                     }
                     m_OnUploadProgress += value;
                 }
@@ -216,7 +194,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnUploadProgress -= value;
                     if(m_OnUploadProgress == null) {
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -237,11 +215,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnDownloadProgress == null) {
-                        if(cfx_urlrequest_client_on_download_progress == null) {
-                            cfx_urlrequest_client_on_download_progress = on_download_progress;
-                            cfx_urlrequest_client_on_download_progress_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_urlrequest_client_on_download_progress);
-                        }
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 2, cfx_urlrequest_client_on_download_progress_ptr);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 2, on_download_progress_native_ptr);
                     }
                     m_OnDownloadProgress += value;
                 }
@@ -250,7 +224,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnDownloadProgress -= value;
                     if(m_OnDownloadProgress == null) {
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 2, IntPtr.Zero);
                     }
                 }
             }
@@ -271,11 +245,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnDownloadData == null) {
-                        if(cfx_urlrequest_client_on_download_data == null) {
-                            cfx_urlrequest_client_on_download_data = on_download_data;
-                            cfx_urlrequest_client_on_download_data_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_urlrequest_client_on_download_data);
-                        }
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 3, cfx_urlrequest_client_on_download_data_ptr);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 3, on_download_data_native_ptr);
                     }
                     m_OnDownloadData += value;
                 }
@@ -284,7 +254,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnDownloadData -= value;
                     if(m_OnDownloadData == null) {
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 3, IntPtr.Zero);
                     }
                 }
             }
@@ -309,11 +279,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_GetAuthCredentials == null) {
-                        if(cfx_urlrequest_client_get_auth_credentials == null) {
-                            cfx_urlrequest_client_get_auth_credentials = get_auth_credentials;
-                            cfx_urlrequest_client_get_auth_credentials_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_urlrequest_client_get_auth_credentials);
-                        }
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 4, cfx_urlrequest_client_get_auth_credentials_ptr);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 4, get_auth_credentials_native_ptr);
                     }
                     m_GetAuthCredentials += value;
                 }
@@ -322,7 +288,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetAuthCredentials -= value;
                     if(m_GetAuthCredentials == null) {
-                        CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                        CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 4, IntPtr.Zero);
                     }
                 }
             }
@@ -333,23 +299,23 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_OnRequestComplete != null) {
                 m_OnRequestComplete = null;
-                CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_OnUploadProgress != null) {
                 m_OnUploadProgress = null;
-                CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             if(m_OnDownloadProgress != null) {
                 m_OnDownloadProgress = null;
-                CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 2, IntPtr.Zero);
             }
             if(m_OnDownloadData != null) {
                 m_OnDownloadData = null;
-                CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 3, IntPtr.Zero);
             }
             if(m_GetAuthCredentials != null) {
                 m_GetAuthCredentials = null;
-                CfxApi.cfx_urlrequest_client_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                CfxApi.UrlRequestClient.cfx_urlrequest_client_set_callback(NativePtr, 4, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -564,9 +530,9 @@ namespace Chromium {
             internal IntPtr m_request;
             internal CfxUrlRequest m_request_wrapped;
             internal IntPtr m_data;
-            internal int m_data_length;
+            internal UIntPtr m_data_length;
 
-            internal CfxOnDownloadDataEventArgs(IntPtr request, IntPtr data, int data_length) {
+            internal CfxOnDownloadDataEventArgs(IntPtr request, IntPtr data, UIntPtr data_length) {
                 m_request = request;
                 m_data = data;
                 m_data_length = data_length;
@@ -594,10 +560,10 @@ namespace Chromium {
             /// <summary>
             /// Get the DataLength parameter for the <see cref="CfxUrlRequestClient.OnDownloadData"/> callback.
             /// </summary>
-            public int DataLength {
+            public ulong DataLength {
                 get {
                     CheckAccess();
-                    return m_data_length;
+                    return (ulong)m_data_length;
                 }
             }
 

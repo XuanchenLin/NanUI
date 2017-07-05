@@ -162,10 +162,10 @@ namespace NetDimension.NanUI
 
 
 
-				OnRegisterCustomSchemes += args =>
-				{
-					args.Registrar.AddCustomScheme("embedded", false, false, false);
-				};
+				//OnRegisterCustomSchemes += args =>
+				//{
+				//	args.Registrar.AddCustomScheme("embedded", false, false, false);
+				//};
 
 
 				try

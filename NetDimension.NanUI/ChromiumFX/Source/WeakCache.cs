@@ -1,41 +1,20 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 using System;
 using System.Collections.Generic;
 
 namespace Chromium {
-    internal class WeakCacheBase {
+    internal abstract class WeakCacheBase {
 
         protected readonly Dictionary<IntPtr, WeakReference> cache = new Dictionary<IntPtr, WeakReference>();
 
+        /// <summary>
+        /// Always acquire a lock on this weak cache before calling this method.
+        /// </summary>
         internal object Get(IntPtr key) {
             // always locked by caller
             WeakReference r;
@@ -65,7 +44,10 @@ namespace Chromium {
             CfxRuntime.OnCfxShutdown += this.OnShutdown;
         }
 
-        internal void Add(CfxBase obj) {
+        /// <summary>
+        /// Always acquire a lock on this weak cache before calling this method.
+        /// </summary>
+        internal void Add(CfxBaseRefCounted obj) {
             // always locked by caller
             cache.Add(obj.nativePtrUnchecked, new WeakReference(obj, false));
         }
@@ -77,7 +59,7 @@ namespace Chromium {
                 WeakReference[] refs = new WeakReference[cache.Count];
                 cache.Values.CopyTo(refs, 0);
                 foreach(WeakReference r in refs) {
-                    var obj = (CfxBase)r.Target;
+                    var obj = (CfxBaseRefCounted)r.Target;
                     if(obj != null) obj.Dispose();
                 }
             }
@@ -86,6 +68,9 @@ namespace Chromium {
 
     namespace Remote {
         internal class RemoteWeakCache : WeakCacheBase {
+            /// <summary>
+            /// Always acquire a lock on this weak cache before calling this method.
+            /// </summary>
             internal void Add(IntPtr key, object obj) {
                 // always locked by caller
                 cache.Add(key, new WeakReference(obj, false));

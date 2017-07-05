@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,39 +21,23 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
     /// </remarks>
-    public class CfrV8Handler : CfrBase {
+    public class CfrV8Handler : CfrBaseClient {
 
-        internal static CfrV8Handler Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
-            var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrV8Handler)weakCache.Get(proxyId);
-                if(cfrObj == null) {
-                    cfrObj = new CfrV8Handler(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
-                }
-                return cfrObj;
+        internal static CfrV8Handler Wrap(RemotePtr remotePtr) {
+            if(remotePtr == RemotePtr.Zero) return null;
+            var call = new CfxV8HandlerGetGcHandleRemoteCall();
+            call.self = remotePtr.ptr;
+            call.RequestExecution(remotePtr.connection);
+            return (CfrV8Handler)System.Runtime.InteropServices.GCHandle.FromIntPtr(call.gc_handle).Target;
+        }
+
+
+
+        private CfrV8Handler(RemotePtr remotePtr) : base(remotePtr) {}
+        public CfrV8Handler() : base(new CfxV8HandlerCtorWithGCHandleRemoteCall()) {
+            lock(RemotePtr.connection.weakCache) {
+                RemotePtr.connection.weakCache.Add(RemotePtr.ptr, this);
             }
-        }
-
-
-        internal static IntPtr CreateRemote() {
-            var call = new CfxV8HandlerCtorRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return call.__retval;
-        }
-
-        internal void raise_Execute(object sender, CfrV8HandlerExecuteEventArgs e) {
-            var handler = m_Execute;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-
-        private CfrV8Handler(IntPtr proxyId) : base(proxyId) {}
-        public CfrV8Handler() : base(CreateRemote()) {
-            connection.weakCache.Add(proxyId, this);
         }
 
         /// <summary>
@@ -94,28 +54,29 @@ namespace Chromium.Remote {
         public event CfrV8HandlerExecuteEventHandler Execute {
             add {
                 if(m_Execute == null) {
-                    var call = new CfxV8HandlerExecuteActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxV8HandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_Execute += value;
             }
             remove {
                 m_Execute -= value;
                 if(m_Execute == null) {
-                    var call = new CfxV8HandlerExecuteDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxV8HandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrV8HandlerExecuteEventHandler m_Execute;
+        internal CfrV8HandlerExecuteEventHandler m_Execute;
 
 
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
-        }
     }
 
     namespace Event {
@@ -146,16 +107,18 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrV8HandlerExecuteEventArgs : CfrEventArgs {
 
-            bool NameFetched;
-            string m_Name;
-            bool ObjectFetched;
-            CfrV8Value m_Object;
-            bool ArgumentsFetched;
-            CfrV8Value[] m_Arguments;
+            private CfxV8HandlerExecuteRemoteEventCall call;
 
+            internal string m_name;
+            internal bool m_name_fetched;
+            internal CfrV8Value m_object_wrapped;
+            internal CfrV8Value[] m_arguments_managed;
+            internal string m_exception_wrapped;
+
+            internal CfrV8Value m_returnValue;
             private bool returnValueSet;
 
-            internal CfrV8HandlerExecuteEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrV8HandlerExecuteEventArgs(CfxV8HandlerExecuteRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfrV8Handler.Execute"/> render process callback.
@@ -163,14 +126,11 @@ namespace Chromium.Remote {
             public string Name {
                 get {
                     CheckAccess();
-                    if(!NameFetched) {
-                        NameFetched = true;
-                        var call = new CfxV8HandlerExecuteGetNameRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Name = call.value;
+                    if(!m_name_fetched) {
+                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.name_str), call.name_length));
+                        m_name_fetched = true;
                     }
-                    return m_Name;
+                    return m_name;
                 }
             }
             /// <summary>
@@ -179,14 +139,8 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(!ObjectFetched) {
-                        ObjectFetched = true;
-                        var call = new CfxV8HandlerExecuteGetObjectRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Object = CfrV8Value.Wrap(call.value);
-                    }
-                    return m_Object;
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    return m_object_wrapped;
                 }
             }
             /// <summary>
@@ -195,14 +149,17 @@ namespace Chromium.Remote {
             public CfrV8Value[] Arguments {
                 get {
                     CheckAccess();
-                    if(!ArgumentsFetched) {
-                        ArgumentsFetched = true;
-                        var call = new CfxV8HandlerExecuteGetArgumentsRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Arguments = CfxArray.GetCfrObjects<CfrV8Value>(call.value, CfrV8Value.Wrap);
+                    if(m_arguments_managed == null) {
+                        var arguments = new RemotePtr[(ulong)call.argumentsCount];
+                        m_arguments_managed = new CfrV8Value[arguments.Length];
+                        if(arguments.Length > 0) {
+                            CfrRuntime.Marshal.Copy(new RemotePtr(call.arguments), arguments, 0, arguments.Length);
+                            for(int i = 0; i < arguments.Length; ++i) {
+                                m_arguments_managed[i] = CfrV8Value.Wrap(arguments[i]);
+                            }
+                        }
                     }
-                    return m_Arguments;
+                    return m_arguments_managed;
                 }
             }
             /// <summary>
@@ -211,10 +168,7 @@ namespace Chromium.Remote {
             public string Exception {
                 set {
                     CheckAccess();
-                    var call = new CfxV8HandlerExecuteSetExceptionRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    m_exception_wrapped = value;
                 }
             }
             /// <summary>
@@ -225,10 +179,7 @@ namespace Chromium.Remote {
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");
                 }
-                var call = new CfxV8HandlerExecuteSetReturnValueRenderProcessCall();
-                call.eventArgsId = eventArgsId;
-                call.value = CfrObject.Unwrap(returnValue);
-                call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                m_returnValue = returnValue;
                 returnValueSet = true;
             }
 

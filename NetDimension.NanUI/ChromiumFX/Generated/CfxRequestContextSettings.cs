@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,11 +20,7 @@ namespace Chromium {
     /// </remarks>
     public sealed class CfxRequestContextSettings : CfxStructure {
 
-        static CfxRequestContextSettings () {
-            CfxApiLoader.LoadCfxRequestContextSettingsApi();
-        }
-
-        public CfxRequestContextSettings() : base(CfxApi.cfx_request_context_settings_ctor, CfxApi.cfx_request_context_settings_dtor) {}
+        public CfxRequestContextSettings() : base(CfxApi.RequestContextSettings.cfx_request_context_settings_ctor, CfxApi.RequestContextSettings.cfx_request_context_settings_dtor) {}
 
         /// <summary>
         /// The location where cache data will be stored on disk. If empty then
@@ -66,12 +38,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_request_context_settings_get_cache_path(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_get_cache_path(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_request_context_settings_set_cache_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_set_cache_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -91,11 +63,11 @@ namespace Chromium {
         public bool PersistSessionCookies {
             get {
                 int value;
-                CfxApi.cfx_request_context_settings_get_persist_session_cookies(nativePtrUnchecked, out value);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_get_persist_session_cookies(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_request_context_settings_set_persist_session_cookies(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_set_persist_session_cookies(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -112,11 +84,11 @@ namespace Chromium {
         public bool PersistUserPreferences {
             get {
                 int value;
-                CfxApi.cfx_request_context_settings_get_persist_user_preferences(nativePtrUnchecked, out value);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_get_persist_user_preferences(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_request_context_settings_set_persist_user_preferences(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_set_persist_user_preferences(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -135,11 +107,35 @@ namespace Chromium {
         public bool IgnoreCertificateErrors {
             get {
                 int value;
-                CfxApi.cfx_request_context_settings_get_ignore_certificate_errors(nativePtrUnchecked, out value);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_get_ignore_certificate_errors(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_request_context_settings_set_ignore_certificate_errors(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_set_ignore_certificate_errors(nativePtrUnchecked, value ? 1 : 0);
+            }
+        }
+
+        /// <summary>
+        /// Set to true (1) to enable date-based expiration of built in network
+        /// security information (i.e. certificate transparency logs, HSTS preloading
+        /// and pinning information). Enabling this option improves network security
+        /// but may cause HTTPS load failures when using CEF binaries built more than
+        /// 10 weeks in the past. See https://www.certificate-transparency.org/ and
+        /// https://www.chromium.org/hsts for details. Can be set globally using the
+        /// CfxSettings.EnableNetSecurityExpiration value.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+        /// </remarks>
+        public bool EnableNetSecurityExpiration {
+            get {
+                int value;
+                CfxApi.RequestContextSettings.cfx_request_context_settings_get_enable_net_security_expiration(nativePtrUnchecked, out value);
+                return 0 != value;
+            }
+            set {
+                CfxApi.RequestContextSettings.cfx_request_context_settings_set_enable_net_security_expiration(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -159,12 +155,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_request_context_settings_get_accept_language_list(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_get_accept_language_list(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_request_context_settings_set_accept_language_list(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.RequestContextSettings.cfx_request_context_settings_set_accept_language_list(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }

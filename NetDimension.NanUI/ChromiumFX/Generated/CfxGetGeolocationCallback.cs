@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,40 +20,33 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_geolocation_capi.h">cef/include/capi/cef_geolocation_capi.h</see>.
     /// </remarks>
-    public class CfxGetGeolocationCallback : CfxBase {
-
-        static CfxGetGeolocationCallback () {
-            CfxApiLoader.LoadCfxGetGeolocationCallbackApi();
-        }
-
-        internal static CfxGetGeolocationCallback Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_get_geolocation_callback_get_gc_handle(nativePtr);
-            return (CfxGetGeolocationCallback)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxGetGeolocationCallback : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            on_location_update_native = on_location_update;
+
+            on_location_update_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_location_update_native);
+        }
+
         // on_location_update
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_get_geolocation_callback_on_location_update_delegate(IntPtr gcHandlePtr, IntPtr position);
-        private static cfx_get_geolocation_callback_on_location_update_delegate cfx_get_geolocation_callback_on_location_update;
-        private static IntPtr cfx_get_geolocation_callback_on_location_update_ptr;
+        private delegate void on_location_update_delegate(IntPtr gcHandlePtr, IntPtr position);
+        private static on_location_update_delegate on_location_update_native;
+        private static IntPtr on_location_update_native_ptr;
 
         internal static void on_location_update(IntPtr gcHandlePtr, IntPtr position) {
             var self = (CfxGetGeolocationCallback)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 return;
             }
             var e = new CfxGetGeolocationCallbackOnLocationUpdateEventArgs(position);
-            var eventHandler = self.m_OnLocationUpdate;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnLocationUpdate?.Invoke(self, e);
             e.m_isInvalid = true;
         }
 
-        internal CfxGetGeolocationCallback(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxGetGeolocationCallback() : base(CfxApi.cfx_get_geolocation_callback_ctor) {}
+        public CfxGetGeolocationCallback() : base(CfxApi.GetGeolocationCallback.cfx_get_geolocation_callback_ctor) {}
 
         /// <summary>
         /// Called with the 'best available' location information or, if the location
@@ -91,11 +60,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnLocationUpdate == null) {
-                        if(cfx_get_geolocation_callback_on_location_update == null) {
-                            cfx_get_geolocation_callback_on_location_update = on_location_update;
-                            cfx_get_geolocation_callback_on_location_update_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_get_geolocation_callback_on_location_update);
-                        }
-                        CfxApi.cfx_get_geolocation_callback_set_managed_callback(NativePtr, 0, cfx_get_geolocation_callback_on_location_update_ptr);
+                        CfxApi.GetGeolocationCallback.cfx_get_geolocation_callback_set_callback(NativePtr, 0, on_location_update_native_ptr);
                     }
                     m_OnLocationUpdate += value;
                 }
@@ -104,7 +69,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnLocationUpdate -= value;
                     if(m_OnLocationUpdate == null) {
-                        CfxApi.cfx_get_geolocation_callback_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.GetGeolocationCallback.cfx_get_geolocation_callback_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -115,7 +80,7 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_OnLocationUpdate != null) {
                 m_OnLocationUpdate = null;
-                CfxApi.cfx_get_geolocation_callback_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.GetGeolocationCallback.cfx_get_geolocation_callback_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }

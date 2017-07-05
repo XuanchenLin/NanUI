@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -46,16 +22,16 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
     /// </remarks>
-    public class CfrV8Context : CfrBase {
+    public class CfrV8Context : CfrBaseLibrary {
 
-        internal static CfrV8Context Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
+        internal static CfrV8Context Wrap(RemotePtr remotePtr) {
+            if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
             lock(weakCache) {
-                var cfrObj = (CfrV8Context)weakCache.Get(proxyId);
+                var cfrObj = (CfrV8Context)weakCache.Get(remotePtr.ptr);
                 if(cfrObj == null) {
-                    cfrObj = new CfrV8Context(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
+                    cfrObj = new CfrV8Context(remotePtr);
+                    weakCache.Add(remotePtr.ptr, cfrObj);
                 }
                 return cfrObj;
             }
@@ -70,9 +46,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public static CfrV8Context GetCurrentContext() {
-            var call = new CfxV8ContextGetCurrentContextRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return CfrV8Context.Wrap(call.__retval);
+            var call = new CfxV8ContextGetCurrentContextRemoteCall();
+            call.RequestExecution();
+            return CfrV8Context.Wrap(new RemotePtr(call.__retval));
         }
 
         /// <summary>
@@ -83,9 +59,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public static CfrV8Context GetEnteredContext() {
-            var call = new CfxV8ContextGetEnteredContextRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return CfrV8Context.Wrap(call.__retval);
+            var call = new CfxV8ContextGetEnteredContextRemoteCall();
+            call.RequestExecution();
+            return CfrV8Context.Wrap(new RemotePtr(call.__retval));
         }
 
         /// <summary>
@@ -96,13 +72,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public static bool InContext() {
-            var call = new CfxV8ContextInContextRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+            var call = new CfxV8ContextInContextRemoteCall();
+            call.RequestExecution();
             return call.__retval;
         }
 
 
-        private CfrV8Context(IntPtr proxyId) : base(proxyId) {}
+        private CfrV8Context(RemotePtr remotePtr) : base(remotePtr) {}
 
         /// <summary>
         /// Returns the task runner associated with this context. V8 handles can only
@@ -115,10 +91,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrTaskRunner TaskRunner {
             get {
-                var call = new CfxV8ContextGetTaskRunnerRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrTaskRunner.Wrap(call.__retval);
+                var call = new CfxV8ContextGetTaskRunnerRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrTaskRunner.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -133,9 +109,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsValid {
             get {
-                var call = new CfxV8ContextIsValidRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxV8ContextIsValidRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -150,10 +126,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrBrowser Browser {
             get {
-                var call = new CfxV8ContextGetBrowserRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrBrowser.Wrap(call.__retval);
+                var call = new CfxV8ContextGetBrowserRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrBrowser.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -167,10 +143,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrFrame Frame {
             get {
-                var call = new CfxV8ContextGetFrameRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrFrame.Wrap(call.__retval);
+                var call = new CfxV8ContextGetFrameRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrFrame.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -184,10 +160,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrV8Value Global {
             get {
-                var call = new CfxV8ContextGetGlobalRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrV8Value.Wrap(call.__retval);
+                var call = new CfxV8ContextGetGlobalRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrV8Value.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -203,9 +179,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public bool Enter() {
-            var call = new CfxV8ContextEnterRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.RequestExecution(this);
+            var call = new CfxV8ContextEnterRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
@@ -218,9 +194,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public bool Exit() {
-            var call = new CfxV8ContextExitRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.RequestExecution(this);
+            var call = new CfxV8ContextExitRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
@@ -233,15 +209,17 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfrV8Context that) {
-            var call = new CfxV8ContextIsSameRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.that = CfrObject.Unwrap(that);
-            call.RequestExecution(this);
+            var call = new CfxV8ContextIsSameRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.that = CfrObject.Unwrap(that).ptr;
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
         /// <summary>
-        /// Evaluates the specified JavaScript code using this context's global object.
+        /// Execute a string of JavaScript code in this V8 context. The |scriptUrl|
+        /// parameter is the URL where the script in question can be found, if any. The
+        /// |startLine| parameter is the base line number to use for error reporting.
         /// On success |retval| will be set to the return value, if any, and the
         /// function will return true (1). On failure |exception| will be set to the
         /// exception, if any, and the function will return false (0).
@@ -250,18 +228,16 @@ namespace Chromium.Remote {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
-        public bool Eval(string code, out CfrV8Value retval, out CfrV8Exception exception) {
-            var call = new CfxV8ContextEvalRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+        public bool Eval(string code, string scriptUrl, int startLine, out CfrV8Value retval, out CfrV8Exception exception) {
+            var call = new CfxV8ContextEvalRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.code = code;
-            call.RequestExecution(this);
-            retval = CfrV8Value.Wrap(call.retval);
-            exception = CfrV8Exception.Wrap(call.exception);
+            call.scriptUrl = scriptUrl;
+            call.startLine = startLine;
+            call.RequestExecution(RemotePtr.connection);
+            retval = CfrV8Value.Wrap(new RemotePtr(connection, call.retval));
+            exception = CfrV8Exception.Wrap(new RemotePtr(connection, call.exception));
             return call.__retval;
-        }
-
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
         }
     }
 }

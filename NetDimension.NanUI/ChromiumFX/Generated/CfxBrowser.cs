@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,13 +20,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
     /// </remarks>
-    public class CfxBrowser : CfxBase {
-
-        static CfxBrowser () {
-            CfxApiLoader.LoadCfxBrowserApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxBrowser : CfxBaseLibrary {
 
         internal static CfxBrowser Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -79,7 +49,7 @@ namespace Chromium {
         /// </remarks>
         public CfxBrowserHost Host {
             get {
-                return CfxBrowserHost.Wrap(CfxApi.cfx_browser_get_host(NativePtr));
+                return CfxBrowserHost.Wrap(CfxApi.Browser.cfx_browser_get_host(NativePtr));
             }
         }
 
@@ -92,7 +62,7 @@ namespace Chromium {
         /// </remarks>
         public bool CanGoBack {
             get {
-                return 0 != CfxApi.cfx_browser_can_go_back(NativePtr);
+                return 0 != CfxApi.Browser.cfx_browser_can_go_back(NativePtr);
             }
         }
 
@@ -105,7 +75,7 @@ namespace Chromium {
         /// </remarks>
         public bool CanGoForward {
             get {
-                return 0 != CfxApi.cfx_browser_can_go_forward(NativePtr);
+                return 0 != CfxApi.Browser.cfx_browser_can_go_forward(NativePtr);
             }
         }
 
@@ -118,7 +88,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsLoading {
             get {
-                return 0 != CfxApi.cfx_browser_is_loading(NativePtr);
+                return 0 != CfxApi.Browser.cfx_browser_is_loading(NativePtr);
             }
         }
 
@@ -131,7 +101,7 @@ namespace Chromium {
         /// </remarks>
         public int Identifier {
             get {
-                return CfxApi.cfx_browser_get_identifier(NativePtr);
+                return CfxApi.Browser.cfx_browser_get_identifier(NativePtr);
             }
         }
 
@@ -144,7 +114,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsPopup {
             get {
-                return 0 != CfxApi.cfx_browser_is_popup(NativePtr);
+                return 0 != CfxApi.Browser.cfx_browser_is_popup(NativePtr);
             }
         }
 
@@ -157,7 +127,7 @@ namespace Chromium {
         /// </remarks>
         public bool HasDocument {
             get {
-                return 0 != CfxApi.cfx_browser_has_document(NativePtr);
+                return 0 != CfxApi.Browser.cfx_browser_has_document(NativePtr);
             }
         }
 
@@ -170,7 +140,7 @@ namespace Chromium {
         /// </remarks>
         public CfxFrame MainFrame {
             get {
-                return CfxFrame.Wrap(CfxApi.cfx_browser_get_main_frame(NativePtr));
+                return CfxFrame.Wrap(CfxApi.Browser.cfx_browser_get_main_frame(NativePtr));
             }
         }
 
@@ -183,7 +153,7 @@ namespace Chromium {
         /// </remarks>
         public CfxFrame FocusedFrame {
             get {
-                return CfxFrame.Wrap(CfxApi.cfx_browser_get_focused_frame(NativePtr));
+                return CfxFrame.Wrap(CfxApi.Browser.cfx_browser_get_focused_frame(NativePtr));
             }
         }
 
@@ -194,9 +164,9 @@ namespace Chromium {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
-        public int FrameCount {
+        public ulong FrameCount {
             get {
-                return CfxApi.cfx_browser_get_frame_count(NativePtr);
+                return (ulong)CfxApi.Browser.cfx_browser_get_frame_count(NativePtr);
             }
         }
 
@@ -209,11 +179,11 @@ namespace Chromium {
         /// </remarks>
         public long[] FrameIdentifiers {
             get {
-                int identifiersCount = FrameCount;
+                var identifiersCount = FrameCount;
                 if(identifiersCount == 0) return new long[0];
                 long[] retval = new long[identifiersCount];
                 var retval_p = new PinnedObject(retval);
-                CfxApi.cfx_browser_get_frame_identifiers(NativePtr, identifiersCount, retval_p.PinnedPtr);
+                CfxApi.Browser.cfx_browser_get_frame_identifiers(NativePtr, (UIntPtr)identifiersCount, retval_p.PinnedPtr);
                 retval_p.Free();
                 return retval;
             }
@@ -227,7 +197,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void GoBack() {
-            CfxApi.cfx_browser_go_back(NativePtr);
+            CfxApi.Browser.cfx_browser_go_back(NativePtr);
         }
 
         /// <summary>
@@ -238,7 +208,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void GoForward() {
-            CfxApi.cfx_browser_go_forward(NativePtr);
+            CfxApi.Browser.cfx_browser_go_forward(NativePtr);
         }
 
         /// <summary>
@@ -249,7 +219,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void Reload() {
-            CfxApi.cfx_browser_reload(NativePtr);
+            CfxApi.Browser.cfx_browser_reload(NativePtr);
         }
 
         /// <summary>
@@ -260,7 +230,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void ReloadIgnoreCache() {
-            CfxApi.cfx_browser_reload_ignore_cache(NativePtr);
+            CfxApi.Browser.cfx_browser_reload_ignore_cache(NativePtr);
         }
 
         /// <summary>
@@ -271,7 +241,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void StopLoad() {
-            CfxApi.cfx_browser_stop_load(NativePtr);
+            CfxApi.Browser.cfx_browser_stop_load(NativePtr);
         }
 
         /// <summary>
@@ -283,7 +253,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfxBrowser that) {
-            return 0 != CfxApi.cfx_browser_is_same(NativePtr, CfxBrowser.Unwrap(that));
+            return 0 != CfxApi.Browser.cfx_browser_is_same(NativePtr, CfxBrowser.Unwrap(that));
         }
 
         /// <summary>
@@ -294,7 +264,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public CfxFrame GetFrame(long identifier) {
-            return CfxFrame.Wrap(CfxApi.cfx_browser_get_frame_byident(NativePtr, identifier));
+            return CfxFrame.Wrap(CfxApi.Browser.cfx_browser_get_frame_byident(NativePtr, identifier));
         }
 
         /// <summary>
@@ -306,7 +276,7 @@ namespace Chromium {
         /// </remarks>
         public CfxFrame GetFrame(string name) {
             var name_pinned = new PinnedString(name);
-            var __retval = CfxApi.cfx_browser_get_frame(NativePtr, name_pinned.Obj.PinnedPtr, name_pinned.Length);
+            var __retval = CfxApi.Browser.cfx_browser_get_frame(NativePtr, name_pinned.Obj.PinnedPtr, name_pinned.Length);
             name_pinned.Obj.Free();
             return CfxFrame.Wrap(__retval);
         }
@@ -322,10 +292,10 @@ namespace Chromium {
             System.Collections.Generic.List<string> names = new System.Collections.Generic.List<string>();
             PinnedString[] names_handles;
             var names_unwrapped = StringFunctions.UnwrapCfxStringList(names, out names_handles);
-            CfxApi.cfx_browser_get_frame_names(NativePtr, names_unwrapped);
+            CfxApi.Browser.cfx_browser_get_frame_names(NativePtr, names_unwrapped);
             StringFunctions.FreePinnedStrings(names_handles);
             StringFunctions.CfxStringListCopyToManaged(names_unwrapped, names);
-            CfxApi.cfx_string_list_free(names_unwrapped);
+            CfxApi.Runtime.cfx_string_list_free(names_unwrapped);
             return names;
         }
 
@@ -338,12 +308,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public bool SendProcessMessage(CfxProcessId targetProcess, CfxProcessMessage message) {
-            return 0 != CfxApi.cfx_browser_send_process_message(NativePtr, (int)targetProcess, CfxProcessMessage.Unwrap(message));
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            return 0 != CfxApi.Browser.cfx_browser_send_process_message(NativePtr, (int)targetProcess, CfxProcessMessage.Unwrap(message));
         }
     }
 }

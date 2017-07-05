@@ -79,8 +79,8 @@ namespace NetDimension.NanUI.Internal
 		private readonly List<Color> _activeColors = new List<Color>();
 		private readonly List<Color> _inactiveColors = new List<Color>();
 		private readonly List<byte> _alphas = new List<byte>();
-		private Color _activeColor = Color.DimGray;
-		private Color _inactiveColor = Color.LightGray;
+		private Color _activeColor = Color.DarkGray;
+		private Color _inactiveColor = Color.DarkGray;
 		private Color _borderColor;
 		private BLENDFUNCTION _blend;
 		private POINT _ptZero = new POINT(0, 0);
@@ -308,7 +308,7 @@ namespace NetDimension.NanUI.Internal
 			}
 
 			uint styles = User32.GetWindowLong(_handle, GetWindowLongFlags.GWL_EXSTYLE);
-			styles = styles | (int)WindowExStyles.WS_EX_LAYERED;
+			styles = styles | (int)WindowExStyles.WS_EX_LAYERED | (int)WindowExStyles.WS_EX_NOACTIVATE | (int)WindowExStyles.WS_EX_TRANSPARENT;
 			User32.SetWindowLong(_handle, GetWindowLongFlags.GWL_EXSTYLE, styles);
 		}
 

@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,53 +21,14 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_bundle_handler_capi.h">cef/include/capi/cef_resource_bundle_handler_capi.h</see>.
     /// </remarks>
-    public class CfrResourceBundleHandler : CfrBase {
+    public class CfrResourceBundleHandler : CfrBaseClient {
 
-        internal static CfrResourceBundleHandler Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
-            var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrResourceBundleHandler)weakCache.Get(proxyId);
-                if(cfrObj == null) {
-                    cfrObj = new CfrResourceBundleHandler(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
-                }
-                return cfrObj;
+
+        private CfrResourceBundleHandler(RemotePtr remotePtr) : base(remotePtr) {}
+        public CfrResourceBundleHandler() : base(new CfxResourceBundleHandlerCtorWithGCHandleRemoteCall()) {
+            lock(RemotePtr.connection.weakCache) {
+                RemotePtr.connection.weakCache.Add(RemotePtr.ptr, this);
             }
-        }
-
-
-        internal static IntPtr CreateRemote() {
-            var call = new CfxResourceBundleHandlerCtorRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return call.__retval;
-        }
-
-        internal void raise_GetLocalizedString(object sender, CfrGetLocalizedStringEventArgs e) {
-            var handler = m_GetLocalizedString;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-        internal void raise_GetDataResource(object sender, CfrGetDataResourceEventArgs e) {
-            var handler = m_GetDataResource;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-        internal void raise_GetDataResourceForScale(object sender, CfrGetDataResourceForScaleEventArgs e) {
-            var handler = m_GetDataResourceForScale;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-
-        private CfrResourceBundleHandler(IntPtr proxyId) : base(proxyId) {}
-        public CfrResourceBundleHandler() : base(CreateRemote()) {
-            connection.weakCache.Add(proxyId, this);
         }
 
         /// <summary>
@@ -107,23 +44,27 @@ namespace Chromium.Remote {
         public event CfrGetLocalizedStringEventHandler GetLocalizedString {
             add {
                 if(m_GetLocalizedString == null) {
-                    var call = new CfxGetLocalizedStringActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxResourceBundleHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_GetLocalizedString += value;
             }
             remove {
                 m_GetLocalizedString -= value;
                 if(m_GetLocalizedString == null) {
-                    var call = new CfxGetLocalizedStringDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxResourceBundleHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrGetLocalizedStringEventHandler m_GetLocalizedString;
+        internal CfrGetLocalizedStringEventHandler m_GetLocalizedString;
 
 
         /// <summary>
@@ -141,23 +82,27 @@ namespace Chromium.Remote {
         public event CfrGetDataResourceEventHandler GetDataResource {
             add {
                 if(m_GetDataResource == null) {
-                    var call = new CfxGetDataResourceActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxResourceBundleHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 1;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_GetDataResource += value;
             }
             remove {
                 m_GetDataResource -= value;
                 if(m_GetDataResource == null) {
-                    var call = new CfxGetDataResourceDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxResourceBundleHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 1;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrGetDataResourceEventHandler m_GetDataResource;
+        internal CfrGetDataResourceEventHandler m_GetDataResource;
 
 
         /// <summary>
@@ -175,28 +120,29 @@ namespace Chromium.Remote {
         public event CfrGetDataResourceForScaleEventHandler GetDataResourceForScale {
             add {
                 if(m_GetDataResourceForScale == null) {
-                    var call = new CfxGetDataResourceForScaleActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxResourceBundleHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 2;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_GetDataResourceForScale += value;
             }
             remove {
                 m_GetDataResourceForScale -= value;
                 if(m_GetDataResourceForScale == null) {
-                    var call = new CfxGetDataResourceForScaleDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxResourceBundleHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 2;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrGetDataResourceForScaleEventHandler m_GetDataResourceForScale;
+        internal CfrGetDataResourceForScaleEventHandler m_GetDataResourceForScale;
 
 
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
-        }
     }
 
     namespace Event {
@@ -225,14 +171,14 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrGetLocalizedStringEventArgs : CfrEventArgs {
 
-            bool StringIdFetched;
-            int m_StringId;
-            bool StringFetched;
-            string m_String;
+            private CfxResourceBundleHandlerGetLocalizedStringRemoteEventCall call;
 
+            internal string m_string_wrapped;
+
+            internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfrGetLocalizedStringEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrGetLocalizedStringEventArgs(CfxResourceBundleHandlerGetLocalizedStringRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the StringId parameter for the <see cref="CfrResourceBundleHandler.GetLocalizedString"/> render process callback.
@@ -240,39 +186,16 @@ namespace Chromium.Remote {
             public int StringId {
                 get {
                     CheckAccess();
-                    if(!StringIdFetched) {
-                        StringIdFetched = true;
-                        var call = new CfxGetLocalizedStringGetStringIdRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_StringId = call.value;
-                    }
-                    return m_StringId;
+                    return call.string_id;
                 }
             }
             /// <summary>
-            /// Get or set the String parameter for the <see cref="CfrResourceBundleHandler.GetLocalizedString"/> render process callback.
+            /// Set the String out parameter for the <see cref="CfrResourceBundleHandler.GetLocalizedString"/> render process callback.
             /// </summary>
             public string String {
-                get {
-                    CheckAccess();
-                    if(!StringFetched) {
-                        StringFetched = true;
-                        var call = new CfxGetLocalizedStringGetStringRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_String = call.value;
-                    }
-                    return m_String;
-                }
                 set {
                     CheckAccess();
-                    m_String = value;
-                    StringFetched = true;
-                    var call = new CfxGetLocalizedStringSetStringRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    m_string_wrapped = value;
                 }
             }
             /// <summary>
@@ -283,15 +206,12 @@ namespace Chromium.Remote {
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");
                 }
-                var call = new CfxGetLocalizedStringSetReturnValueRenderProcessCall();
-                call.eventArgsId = eventArgsId;
-                call.value = returnValue;
-                call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                m_returnValue = returnValue;
                 returnValueSet = true;
             }
 
             public override string ToString() {
-                return String.Format("StringId={{{0}}}, String={{{1}}}", StringId, String);
+                return String.Format("StringId={{{0}}}", StringId);
             }
         }
 
@@ -323,12 +243,13 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrGetDataResourceEventArgs : CfrEventArgs {
 
-            bool ResourceIdFetched;
-            int m_ResourceId;
+            private CfxResourceBundleHandlerGetDataResourceRemoteEventCall call;
 
+
+            internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfrGetDataResourceEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrGetDataResourceEventArgs(CfxResourceBundleHandlerGetDataResourceRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the ResourceId parameter for the <see cref="CfrResourceBundleHandler.GetDataResource"/> render process callback.
@@ -336,14 +257,7 @@ namespace Chromium.Remote {
             public int ResourceId {
                 get {
                     CheckAccess();
-                    if(!ResourceIdFetched) {
-                        ResourceIdFetched = true;
-                        var call = new CfxGetDataResourceGetResourceIdRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_ResourceId = call.value;
-                    }
-                    return m_ResourceId;
+                    return call.resource_id;
                 }
             }
             /// <summary>
@@ -352,22 +266,16 @@ namespace Chromium.Remote {
             public RemotePtr Data {
                 set {
                     CheckAccess();
-                    var call = new CfxGetDataResourceSetDataRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value.ptr;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    call.data = value.ptr;
                 }
             }
             /// <summary>
             /// Set the DataSize out parameter for the <see cref="CfrResourceBundleHandler.GetDataResource"/> render process callback.
             /// </summary>
-            public int DataSize {
+            public ulong DataSize {
                 set {
                     CheckAccess();
-                    var call = new CfxGetDataResourceSetDataSizeRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    call.data_size = (UIntPtr)value;
                 }
             }
             /// <summary>
@@ -378,10 +286,7 @@ namespace Chromium.Remote {
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");
                 }
-                var call = new CfxGetDataResourceSetReturnValueRenderProcessCall();
-                call.eventArgsId = eventArgsId;
-                call.value = returnValue;
-                call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                m_returnValue = returnValue;
                 returnValueSet = true;
             }
 
@@ -418,14 +323,13 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrGetDataResourceForScaleEventArgs : CfrEventArgs {
 
-            bool ResourceIdFetched;
-            int m_ResourceId;
-            bool ScaleFactorFetched;
-            CfxScaleFactor m_ScaleFactor;
+            private CfxResourceBundleHandlerGetDataResourceForScaleRemoteEventCall call;
 
+
+            internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfrGetDataResourceForScaleEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrGetDataResourceForScaleEventArgs(CfxResourceBundleHandlerGetDataResourceForScaleRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the ResourceId parameter for the <see cref="CfrResourceBundleHandler.GetDataResourceForScale"/> render process callback.
@@ -433,14 +337,7 @@ namespace Chromium.Remote {
             public int ResourceId {
                 get {
                     CheckAccess();
-                    if(!ResourceIdFetched) {
-                        ResourceIdFetched = true;
-                        var call = new CfxGetDataResourceForScaleGetResourceIdRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_ResourceId = call.value;
-                    }
-                    return m_ResourceId;
+                    return call.resource_id;
                 }
             }
             /// <summary>
@@ -449,14 +346,7 @@ namespace Chromium.Remote {
             public CfxScaleFactor ScaleFactor {
                 get {
                     CheckAccess();
-                    if(!ScaleFactorFetched) {
-                        ScaleFactorFetched = true;
-                        var call = new CfxGetDataResourceForScaleGetScaleFactorRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_ScaleFactor = (CfxScaleFactor)call.value;
-                    }
-                    return m_ScaleFactor;
+                    return (CfxScaleFactor)call.scale_factor;
                 }
             }
             /// <summary>
@@ -465,22 +355,16 @@ namespace Chromium.Remote {
             public RemotePtr Data {
                 set {
                     CheckAccess();
-                    var call = new CfxGetDataResourceForScaleSetDataRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value.ptr;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    call.data = value.ptr;
                 }
             }
             /// <summary>
             /// Set the DataSize out parameter for the <see cref="CfrResourceBundleHandler.GetDataResourceForScale"/> render process callback.
             /// </summary>
-            public int DataSize {
+            public ulong DataSize {
                 set {
                     CheckAccess();
-                    var call = new CfxGetDataResourceForScaleSetDataSizeRenderProcessCall();
-                    call.eventArgsId = eventArgsId;
-                    call.value = value;
-                    call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                    call.data_size = (UIntPtr)value;
                 }
             }
             /// <summary>
@@ -491,10 +375,7 @@ namespace Chromium.Remote {
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");
                 }
-                var call = new CfxGetDataResourceForScaleSetReturnValueRenderProcessCall();
-                call.eventArgsId = eventArgsId;
-                call.value = returnValue;
-                call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
+                m_returnValue = returnValue;
                 returnValueSet = true;
             }
 

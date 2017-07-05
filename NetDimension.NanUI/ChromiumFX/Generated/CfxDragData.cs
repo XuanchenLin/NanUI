@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
     /// </remarks>
-    public class CfxDragData : CfxBase {
-
-        static CfxDragData () {
-            CfxApiLoader.LoadCfxDragDataApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxDragData : CfxBaseLibrary {
 
         internal static CfxDragData Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -75,7 +45,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
         /// </remarks>
         public static CfxDragData Create() {
-            return CfxDragData.Wrap(CfxApi.cfx_drag_data_create());
+            return CfxDragData.Wrap(CfxApi.DragData.cfx_drag_data_create());
         }
 
         /// <summary>
@@ -87,7 +57,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsReadOnly {
             get {
-                return 0 != CfxApi.cfx_drag_data_is_read_only(NativePtr);
+                return 0 != CfxApi.DragData.cfx_drag_data_is_read_only(NativePtr);
             }
         }
 
@@ -100,7 +70,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsLink {
             get {
-                return 0 != CfxApi.cfx_drag_data_is_link(NativePtr);
+                return 0 != CfxApi.DragData.cfx_drag_data_is_link(NativePtr);
             }
         }
 
@@ -113,7 +83,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsFragment {
             get {
-                return 0 != CfxApi.cfx_drag_data_is_fragment(NativePtr);
+                return 0 != CfxApi.DragData.cfx_drag_data_is_fragment(NativePtr);
             }
         }
 
@@ -126,7 +96,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsFile {
             get {
-                return 0 != CfxApi.cfx_drag_data_is_file(NativePtr);
+                return 0 != CfxApi.DragData.cfx_drag_data_is_file(NativePtr);
             }
         }
 
@@ -141,11 +111,11 @@ namespace Chromium {
         /// </remarks>
         public string LinkUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_link_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_link_url(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_drag_data_set_link_url(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.DragData.cfx_drag_data_set_link_url(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -161,11 +131,11 @@ namespace Chromium {
         /// </remarks>
         public string LinkTitle {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_link_title(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_link_title(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_drag_data_set_link_title(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.DragData.cfx_drag_data_set_link_title(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -181,11 +151,11 @@ namespace Chromium {
         /// </remarks>
         public string LinkMetadata {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_link_metadata(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_link_metadata(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_drag_data_set_link_metadata(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.DragData.cfx_drag_data_set_link_metadata(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -201,11 +171,11 @@ namespace Chromium {
         /// </remarks>
         public string FragmentText {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_fragment_text(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_fragment_text(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_drag_data_set_fragment_text(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.DragData.cfx_drag_data_set_fragment_text(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -221,11 +191,11 @@ namespace Chromium {
         /// </remarks>
         public string FragmentHtml {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_fragment_html(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_fragment_html(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_drag_data_set_fragment_html(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.DragData.cfx_drag_data_set_fragment_html(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -242,11 +212,11 @@ namespace Chromium {
         /// </remarks>
         public string FragmentBaseUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_fragment_base_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_fragment_base_url(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_drag_data_set_fragment_base_url(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.DragData.cfx_drag_data_set_fragment_base_url(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -260,7 +230,7 @@ namespace Chromium {
         /// </remarks>
         public string FileName {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_drag_data_get_file_name(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_file_name(NativePtr));
             }
         }
 
@@ -272,7 +242,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
         /// </remarks>
         public CfxDragData Clone() {
-            return CfxDragData.Wrap(CfxApi.cfx_drag_data_clone(NativePtr));
+            return CfxDragData.Wrap(CfxApi.DragData.cfx_drag_data_clone(NativePtr));
         }
 
         /// <summary>
@@ -285,8 +255,8 @@ namespace Chromium {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
         /// </remarks>
-        public int GetFileContents(CfxStreamWriter writer) {
-            return CfxApi.cfx_drag_data_get_file_contents(NativePtr, CfxStreamWriter.Unwrap(writer));
+        public ulong GetFileContents(CfxStreamWriter writer) {
+            return (ulong)CfxApi.DragData.cfx_drag_data_get_file_contents(NativePtr, CfxStreamWriter.Unwrap(writer));
         }
 
         /// <summary>
@@ -300,10 +270,10 @@ namespace Chromium {
         public bool GetFileNames(System.Collections.Generic.List<string> names) {
             PinnedString[] names_handles;
             var names_unwrapped = StringFunctions.UnwrapCfxStringList(names, out names_handles);
-            var __retval = CfxApi.cfx_drag_data_get_file_names(NativePtr, names_unwrapped);
+            var __retval = CfxApi.DragData.cfx_drag_data_get_file_names(NativePtr, names_unwrapped);
             StringFunctions.FreePinnedStrings(names_handles);
             StringFunctions.CfxStringListCopyToManaged(names_unwrapped, names);
-            CfxApi.cfx_string_list_free(names_unwrapped);
+            CfxApi.Runtime.cfx_string_list_free(names_unwrapped);
             return 0 != __retval;
         }
 
@@ -317,7 +287,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
         /// </remarks>
         public void ResetFileContents() {
-            CfxApi.cfx_drag_data_reset_file_contents(NativePtr);
+            CfxApi.DragData.cfx_drag_data_reset_file_contents(NativePtr);
         }
 
         /// <summary>
@@ -330,14 +300,9 @@ namespace Chromium {
         public void AddFile(string path, string displayName) {
             var path_pinned = new PinnedString(path);
             var displayName_pinned = new PinnedString(displayName);
-            CfxApi.cfx_drag_data_add_file(NativePtr, path_pinned.Obj.PinnedPtr, path_pinned.Length, displayName_pinned.Obj.PinnedPtr, displayName_pinned.Length);
+            CfxApi.DragData.cfx_drag_data_add_file(NativePtr, path_pinned.Obj.PinnedPtr, path_pinned.Length, displayName_pinned.Obj.PinnedPtr, displayName_pinned.Length);
             path_pinned.Obj.Free();
             displayName_pinned.Obj.Free();
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
         }
     }
 }

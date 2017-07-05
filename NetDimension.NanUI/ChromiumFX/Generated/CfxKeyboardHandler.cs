@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,65 +20,61 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_keyboard_handler_capi.h">cef/include/capi/cef_keyboard_handler_capi.h</see>.
     /// </remarks>
-    public class CfxKeyboardHandler : CfxBase {
-
-        static CfxKeyboardHandler () {
-            CfxApiLoader.LoadCfxKeyboardHandlerApi();
-        }
-
-        internal static CfxKeyboardHandler Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_keyboard_handler_get_gc_handle(nativePtr);
-            return (CfxKeyboardHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxKeyboardHandler : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            on_pre_key_event_native = on_pre_key_event;
+            on_key_event_native = on_key_event;
+
+            on_pre_key_event_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_pre_key_event_native);
+            on_key_event_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_key_event_native);
+        }
+
         // on_pre_key_event
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_keyboard_handler_on_pre_key_event_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr @event, IntPtr os_event, out int is_keyboard_shortcut);
-        private static cfx_keyboard_handler_on_pre_key_event_delegate cfx_keyboard_handler_on_pre_key_event;
-        private static IntPtr cfx_keyboard_handler_on_pre_key_event_ptr;
+        private delegate void on_pre_key_event_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr @event, IntPtr os_event, out int is_keyboard_shortcut);
+        private static on_pre_key_event_delegate on_pre_key_event_native;
+        private static IntPtr on_pre_key_event_native_ptr;
 
-        internal static void on_pre_key_event(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr @event, IntPtr os_event, out int is_keyboard_shortcut) {
+        internal static void on_pre_key_event(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr @event, IntPtr os_event, out int is_keyboard_shortcut) {
             var self = (CfxKeyboardHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 is_keyboard_shortcut = default(int);
                 return;
             }
             var e = new CfxOnPreKeyEventEventArgs(browser, @event, os_event);
-            var eventHandler = self.m_OnPreKeyEvent;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnPreKeyEvent?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             is_keyboard_shortcut = e.m_is_keyboard_shortcut;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // on_key_event
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_keyboard_handler_on_key_event_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr @event, IntPtr os_event);
-        private static cfx_keyboard_handler_on_key_event_delegate cfx_keyboard_handler_on_key_event;
-        private static IntPtr cfx_keyboard_handler_on_key_event_ptr;
+        private delegate void on_key_event_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr @event, IntPtr os_event);
+        private static on_key_event_delegate on_key_event_native;
+        private static IntPtr on_key_event_native_ptr;
 
-        internal static void on_key_event(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr @event, IntPtr os_event) {
+        internal static void on_key_event(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr @event, IntPtr os_event) {
             var self = (CfxKeyboardHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnKeyEventEventArgs(browser, @event, os_event);
-            var eventHandler = self.m_OnKeyEvent;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnKeyEvent?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
-        internal CfxKeyboardHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxKeyboardHandler() : base(CfxApi.cfx_keyboard_handler_ctor) {}
+        public CfxKeyboardHandler() : base(CfxApi.KeyboardHandler.cfx_keyboard_handler_ctor) {}
 
         /// <summary>
         /// Called before a keyboard event is sent to the renderer. |Event| contains
@@ -119,11 +91,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnPreKeyEvent == null) {
-                        if(cfx_keyboard_handler_on_pre_key_event == null) {
-                            cfx_keyboard_handler_on_pre_key_event = on_pre_key_event;
-                            cfx_keyboard_handler_on_pre_key_event_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_keyboard_handler_on_pre_key_event);
-                        }
-                        CfxApi.cfx_keyboard_handler_set_managed_callback(NativePtr, 0, cfx_keyboard_handler_on_pre_key_event_ptr);
+                        CfxApi.KeyboardHandler.cfx_keyboard_handler_set_callback(NativePtr, 0, on_pre_key_event_native_ptr);
                     }
                     m_OnPreKeyEvent += value;
                 }
@@ -132,7 +100,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnPreKeyEvent -= value;
                     if(m_OnPreKeyEvent == null) {
-                        CfxApi.cfx_keyboard_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.KeyboardHandler.cfx_keyboard_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -154,11 +122,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnKeyEvent == null) {
-                        if(cfx_keyboard_handler_on_key_event == null) {
-                            cfx_keyboard_handler_on_key_event = on_key_event;
-                            cfx_keyboard_handler_on_key_event_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_keyboard_handler_on_key_event);
-                        }
-                        CfxApi.cfx_keyboard_handler_set_managed_callback(NativePtr, 1, cfx_keyboard_handler_on_key_event_ptr);
+                        CfxApi.KeyboardHandler.cfx_keyboard_handler_set_callback(NativePtr, 1, on_key_event_native_ptr);
                     }
                     m_OnKeyEvent += value;
                 }
@@ -167,7 +131,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnKeyEvent -= value;
                     if(m_OnKeyEvent == null) {
-                        CfxApi.cfx_keyboard_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.KeyboardHandler.cfx_keyboard_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -178,11 +142,11 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_OnPreKeyEvent != null) {
                 m_OnPreKeyEvent = null;
-                CfxApi.cfx_keyboard_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.KeyboardHandler.cfx_keyboard_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_OnKeyEvent != null) {
                 m_OnKeyEvent = null;
-                CfxApi.cfx_keyboard_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.KeyboardHandler.cfx_keyboard_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }

@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -35,20 +11,20 @@ using System;
 
 namespace Chromium.Remote {
 
-    internal class CfxBrowserCanGoBackRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserCanGoBackRemoteCall : RemoteCall {
 
-        internal CfxBrowserCanGoBackRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserCanGoBackRenderProcessCall) {}
+        internal CfxBrowserCanGoBackRemoteCall()
+            : base(RemoteCallId.CfxBrowserCanGoBackRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -59,47 +35,45 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.CanGoBack;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_can_go_back(@this);
         }
     }
 
-    internal class CfxBrowserGoBackRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGoBackRemoteCall : RemoteCall {
 
-        internal CfxBrowserGoBackRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGoBackRenderProcessCall) {}
+        internal CfxBrowserGoBackRemoteCall()
+            : base(RemoteCallId.CfxBrowserGoBackRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            self_local.GoBack();
+        protected override void RemoteProcedure() {
+            CfxApi.Browser.cfx_browser_go_back(@this);
         }
     }
 
-    internal class CfxBrowserCanGoForwardRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserCanGoForwardRemoteCall : RemoteCall {
 
-        internal CfxBrowserCanGoForwardRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserCanGoForwardRenderProcessCall) {}
+        internal CfxBrowserCanGoForwardRemoteCall()
+            : base(RemoteCallId.CfxBrowserCanGoForwardRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -110,47 +84,45 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.CanGoForward;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_can_go_forward(@this);
         }
     }
 
-    internal class CfxBrowserGoForwardRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGoForwardRemoteCall : RemoteCall {
 
-        internal CfxBrowserGoForwardRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGoForwardRenderProcessCall) {}
+        internal CfxBrowserGoForwardRemoteCall()
+            : base(RemoteCallId.CfxBrowserGoForwardRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            self_local.GoForward();
+        protected override void RemoteProcedure() {
+            CfxApi.Browser.cfx_browser_go_forward(@this);
         }
     }
 
-    internal class CfxBrowserIsLoadingRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserIsLoadingRemoteCall : RemoteCall {
 
-        internal CfxBrowserIsLoadingRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserIsLoadingRenderProcessCall) {}
+        internal CfxBrowserIsLoadingRemoteCall()
+            : base(RemoteCallId.CfxBrowserIsLoadingRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -161,89 +133,85 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsLoading;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_is_loading(@this);
         }
     }
 
-    internal class CfxBrowserReloadRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserReloadRemoteCall : RemoteCall {
 
-        internal CfxBrowserReloadRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserReloadRenderProcessCall) {}
+        internal CfxBrowserReloadRemoteCall()
+            : base(RemoteCallId.CfxBrowserReloadRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            self_local.Reload();
+        protected override void RemoteProcedure() {
+            CfxApi.Browser.cfx_browser_reload(@this);
         }
     }
 
-    internal class CfxBrowserReloadIgnoreCacheRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserReloadIgnoreCacheRemoteCall : RemoteCall {
 
-        internal CfxBrowserReloadIgnoreCacheRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserReloadIgnoreCacheRenderProcessCall) {}
+        internal CfxBrowserReloadIgnoreCacheRemoteCall()
+            : base(RemoteCallId.CfxBrowserReloadIgnoreCacheRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            self_local.ReloadIgnoreCache();
+        protected override void RemoteProcedure() {
+            CfxApi.Browser.cfx_browser_reload_ignore_cache(@this);
         }
     }
 
-    internal class CfxBrowserStopLoadRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserStopLoadRemoteCall : RemoteCall {
 
-        internal CfxBrowserStopLoadRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserStopLoadRenderProcessCall) {}
+        internal CfxBrowserStopLoadRemoteCall()
+            : base(RemoteCallId.CfxBrowserStopLoadRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            self_local.StopLoad();
+        protected override void RemoteProcedure() {
+            CfxApi.Browser.cfx_browser_stop_load(@this);
         }
     }
 
-    internal class CfxBrowserGetIdentifierRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetIdentifierRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetIdentifierRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetIdentifierRenderProcessCall) {}
+        internal CfxBrowserGetIdentifierRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetIdentifierRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal int __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -254,28 +222,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.Identifier;
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Browser.cfx_browser_get_identifier(@this);
         }
     }
 
-    internal class CfxBrowserIsSameRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserIsSameRemoteCall : RemoteCall {
 
-        internal CfxBrowserIsSameRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserIsSameRenderProcessCall) {}
+        internal CfxBrowserIsSameRemoteCall()
+            : base(RemoteCallId.CfxBrowserIsSameRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr that;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(that);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out that);
         }
 
@@ -287,26 +254,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsSame((CfxBrowser)RemoteProxy.Unwrap(that));
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_is_same(@this, that);
         }
     }
 
-    internal class CfxBrowserIsPopupRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserIsPopupRemoteCall : RemoteCall {
 
-        internal CfxBrowserIsPopupRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserIsPopupRenderProcessCall) {}
+        internal CfxBrowserIsPopupRemoteCall()
+            : base(RemoteCallId.CfxBrowserIsPopupRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -317,26 +283,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsPopup;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_is_popup(@this);
         }
     }
 
-    internal class CfxBrowserHasDocumentRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserHasDocumentRemoteCall : RemoteCall {
 
-        internal CfxBrowserHasDocumentRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserHasDocumentRenderProcessCall) {}
+        internal CfxBrowserHasDocumentRemoteCall()
+            : base(RemoteCallId.CfxBrowserHasDocumentRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -347,26 +312,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.HasDocument;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_has_document(@this);
         }
     }
 
-    internal class CfxBrowserGetMainFrameRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetMainFrameRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetMainFrameRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetMainFrameRenderProcessCall) {}
+        internal CfxBrowserGetMainFrameRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetMainFrameRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -377,26 +341,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.MainFrame);
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Browser.cfx_browser_get_main_frame(@this);
         }
     }
 
-    internal class CfxBrowserGetFocusedFrameRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetFocusedFrameRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetFocusedFrameRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetFocusedFrameRenderProcessCall) {}
+        internal CfxBrowserGetFocusedFrameRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetFocusedFrameRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -407,28 +370,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.FocusedFrame);
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Browser.cfx_browser_get_focused_frame(@this);
         }
     }
 
-    internal class CfxBrowserGetFrameByIdentifierRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetFrameByIdentifierRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetFrameByIdentifierRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetFrameByIdentifierRenderProcessCall) {}
+        internal CfxBrowserGetFrameByIdentifierRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetFrameByIdentifierRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal long identifier;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(identifier);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out identifier);
         }
 
@@ -440,28 +402,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.GetFrame(identifier));
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Browser.cfx_browser_get_frame_byident(@this, identifier);
         }
     }
 
-    internal class CfxBrowserGetFrameRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetFrameRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetFrameRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetFrameRenderProcessCall) {}
+        internal CfxBrowserGetFrameRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetFrameRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal string name;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(name);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out name);
         }
 
@@ -473,26 +434,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.GetFrame(name));
+        protected override void RemoteProcedure() {
+            var name_pinned = new PinnedString(name);
+            __retval = CfxApi.Browser.cfx_browser_get_frame(@this, name_pinned.Obj.PinnedPtr, name_pinned.Length);
+            name_pinned.Obj.Free();
         }
     }
 
-    internal class CfxBrowserGetFrameCountRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetFrameCountRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetFrameCountRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetFrameCountRenderProcessCall) {}
+        internal CfxBrowserGetFrameCountRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetFrameCountRemoteCall) {}
 
-        internal IntPtr self;
-        internal int __retval;
+        internal IntPtr @this;
+        internal ulong __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -503,26 +465,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.FrameCount;
+        protected override void RemoteProcedure() {
+            __retval = (ulong)CfxApi.Browser.cfx_browser_get_frame_count(@this);
         }
     }
 
-    internal class CfxBrowserGetFrameIdentifiersRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetFrameIdentifiersRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetFrameIdentifiersRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetFrameIdentifiersRenderProcessCall) {}
+        internal CfxBrowserGetFrameIdentifiersRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetFrameIdentifiersRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal long[] __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -533,26 +494,30 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.FrameIdentifiers;
+        protected override void RemoteProcedure() {
+            var identifiersCount = CfxApi.Browser.cfx_browser_get_frame_count(@this);
+            __retval = new long[(ulong)identifiersCount];
+            if(identifiersCount == UIntPtr.Zero) return;
+            var retval_p = new PinnedObject(__retval);
+            CfxApi.Browser.cfx_browser_get_frame_identifiers(@this, identifiersCount, retval_p.PinnedPtr);
+            retval_p.Free();
         }
     }
 
-    internal class CfxBrowserGetFrameNamesRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserGetFrameNamesRemoteCall : RemoteCall {
 
-        internal CfxBrowserGetFrameNamesRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserGetFrameNamesRenderProcessCall) {}
+        internal CfxBrowserGetFrameNamesRemoteCall()
+            : base(RemoteCallId.CfxBrowserGetFrameNamesRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal System.Collections.Generic.List<string> __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -563,30 +528,33 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.GetFrameNames();
+        protected override void RemoteProcedure() {
+            __retval = new System.Collections.Generic.List<string>();
+            var list = StringFunctions.AllocCfxStringList();
+            CfxApi.Browser.cfx_browser_get_frame_names(@this, list);
+            StringFunctions.CfxStringListCopyToManaged(list, __retval);
+            StringFunctions.FreeCfxStringList(list);
         }
     }
 
-    internal class CfxBrowserSendProcessMessageRenderProcessCall : RenderProcessCall {
+    internal class CfxBrowserSendProcessMessageRemoteCall : RemoteCall {
 
-        internal CfxBrowserSendProcessMessageRenderProcessCall()
-            : base(RemoteCallId.CfxBrowserSendProcessMessageRenderProcessCall) {}
+        internal CfxBrowserSendProcessMessageRemoteCall()
+            : base(RemoteCallId.CfxBrowserSendProcessMessageRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal int targetProcess;
         internal IntPtr message;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(targetProcess);
             h.Write(message);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out targetProcess);
             h.Read(out message);
         }
@@ -599,9 +567,8 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxBrowser)RemoteProxy.Unwrap(self);
-            __retval = self_local.SendProcessMessage((CfxProcessId)targetProcess, (CfxProcessMessage)RemoteProxy.Unwrap(message));
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Browser.cfx_browser_send_process_message(@this, (int)targetProcess, message);
         }
     }
 

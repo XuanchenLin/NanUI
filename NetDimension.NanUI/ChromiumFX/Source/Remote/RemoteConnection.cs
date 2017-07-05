@@ -1,40 +1,15 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace Chromium.Remote {
     internal class RemoteConnection {
@@ -48,21 +23,19 @@ namespace Chromium.Remote {
         internal int remoteProcessId { get; private set; }
 
         private readonly bool isClient;
+        private bool connected;
 
-        private readonly Queue<Action<StreamHandler>> writeQueue = new Queue<Action<StreamHandler>>();
-
-        private readonly Thread writer;
         private readonly Thread reader;
 
-        private readonly object syncRoot = new object();
+        private readonly object writeSyncRoot = new object();
 
         internal bool ShuttingDown { get; private set; }
         internal Exception connectionLostException { get; private set; }
 
-        internal readonly RemoteCallStack callStack;
+        private readonly BlockingCollection<RemoteCall> newCalls = new BlockingCollection<RemoteCall>();
+        private readonly Dictionary<int, Stack<RemoteCall>> threadCallStack = new Dictionary<int, Stack<RemoteCall>>();
 
         internal readonly RemoteWeakCache weakCache = new RemoteWeakCache();
-
 
         internal RemoteConnection(Stream pipeIn, Stream pipeOut, bool isClient) {
 
@@ -71,7 +44,6 @@ namespace Chromium.Remote {
             this.isClient = isClient;
 
             localProcessId = Process.GetCurrentProcess().Id;
-            callStack = new RemoteCallStack();
 
             streamHandler = new StreamHandler(pipeIn, pipeOut);
 
@@ -79,50 +51,63 @@ namespace Chromium.Remote {
                 CfxRuntime.OnCfxShutdown += new Action(CfxRuntime_OnCfxShutdown);
             }
 
-            writer = new Thread(WriteLoopEntry);
             reader = new Thread(ReadLoopEntry);
-
-            writer.Name = "cfx_rpc_writer";
             reader.Name = "cfx_rpc_reader";
-
-            writer.IsBackground = true;
             reader.IsBackground = true;
-
-            writer.Start();
             reader.Start();
         }
 
         void CfxRuntime_OnCfxShutdown() {
             ShuttingDown = true;
-            callStack.ReleaseAll();
-            // The connection may have already been removed
-            // in OnConnectionLost
-            if(RemoteService.connections.Contains(this))
-                RemoteService.connections.Remove(this);
+            pipeIn.Close();
+            pipeOut.Close();
+            RemoteService.RemoveConnection(this);
         }
 
-        internal void EnqueueWrite(Action<StreamHandler> callback) {
-            lock(syncRoot) {
-                if(writeQueue.Count == 0)
-                    Monitor.PulseAll(syncRoot);
-                writeQueue.Enqueue(callback);
-            }
-        }
-
-        internal void WriteLoopEntry() {
+        internal void Write(Action<StreamHandler> callback) {
+            Monitor.Enter(writeSyncRoot);
             try {
-                Connect(pipeOut);
-                streamHandler.Write(localProcessId);
+                if(!connected) {
+                    Connect(pipeOut);
+                    streamHandler.Write(localProcessId);
+                    streamHandler.Flush();
+                    connected = true;
+                }
+                callback.Invoke(streamHandler);
                 streamHandler.Flush();
-                WriteLoop();
-            } catch(EndOfStreamException ex) {
-                OnConnectionLost(ex);
-            } catch(IOException ex) {
-                OnConnectionLost(ex);
+            } catch(EndOfStreamException) {
+            } catch(IOException) {
+            } catch(ObjectDisposedException) {
+            } finally {
+                Monitor.Exit(writeSyncRoot);
             }
         }
 
-        internal void ReadLoopEntry() {
+
+        internal void SendRequestAndWait(RemoteCall rc) {
+
+            Debug.Assert(!rc.returnImmediately);
+
+            lock(rc) {
+                if(ShuttingDown || connectionLostException != null) return;
+                newCalls.Add(rc);
+                Write(rc.WriteRequest);
+                Monitor.Wait(rc);
+            }
+
+            while(rc.nextCall != null) {
+                var nextCall = rc.nextCall;
+                rc.nextCall = null;
+                nextCall.Execute(this);
+                lock(rc) {
+                    if(!nextCall.returnImmediately)
+                        Write(nextCall.WriteResponse);
+                    Monitor.Wait(rc);
+                }
+            }
+        }
+
+        private void ReadLoopEntry() {
             try {
                 Connect(pipeIn);
                 remoteProcessId = streamHandler.ReadInt32();
@@ -130,6 +115,8 @@ namespace Chromium.Remote {
             } catch(EndOfStreamException ex) {
                 OnConnectionLost(ex);
             } catch(IOException ex) {
+                OnConnectionLost(ex);
+            } catch(ObjectDisposedException ex) {
                 OnConnectionLost(ex);
             }
         }
@@ -142,52 +129,58 @@ namespace Chromium.Remote {
             }
         }
 
-        private void WriteLoop() {
-            for(; ; ) {
-                Action<StreamHandler> writeCallback = null;
-                lock(syncRoot) {
-                    if(writeQueue.Count == 0) {
-                        Monitor.Wait(syncRoot);
-                        if(writeQueue.Count == 0)
-                            return;
-                    }
-                    writeCallback = writeQueue.Dequeue();
-                }
-                writeCallback.Invoke(streamHandler);
-            }
-        }
-
         private void ReadLoop() {
-            for(; ; ) {
+            for(;;) {
                 var callId = streamHandler.ReadUInt16();
+                RemoteCall newCall;
+                while(newCalls.TryTake(out newCall)) {
+                    Stack<RemoteCall> stack;
+                    if(!threadCallStack.TryGetValue(newCall.localThreadId, out stack)) {
+                        stack = new Stack<RemoteCall>();
+                        threadCallStack.Add(newCall.localThreadId, stack);
+                    }
+                    stack.Push(newCall);
+                }
                 if(callId == ushort.MaxValue) {
                     var threadId = streamHandler.ReadInt32();
-                    var call = callStack.Pop(threadId);
-                    call.ReadResponse(streamHandler);
+                    var rc = threadCallStack[threadId].Pop();
+                    rc.ReadResponse(streamHandler);
+                    lock(rc) {
+                        Monitor.PulseAll(rc);
+                    }
                 } else {
                     var call = RemoteCallFactory.ForCallId((RemoteCallId)callId);
-                    call.ReadRequest(this);
+                    call.ReadRequest(streamHandler);
+                    if(call.localThreadId != 0) {
+                        var rc = threadCallStack[call.localThreadId].Peek();
+                        rc.nextCall = call;
+                        lock(rc) {
+                            Monitor.PulseAll(rc);
+                        }
+                    } else {
+                        WorkerPool.EnqueueTask(() => {
+                            call.Execute(this);
+                            if(!call.returnImmediately)
+                                Write(call.WriteResponse);
+                        });
+                    }
                 }
             }
         }
 
-
         private void OnConnectionLost(Exception ex) {
-            // When a connection is lost, both the 
-            // reader and the writer thread can
-            // reach this code under some
-            // conditions.
-            lock(syncRoot) {
-                if(connectionLostException != null)
-                    return;
+            if(!ShuttingDown)
                 connectionLostException = ex;
-                callStack.ReleaseAll();
-                if(!isClient) {
-                    // The connection may have already been removed
-                    // in CfxRuntime_OnCfxShutdown
-                    if(RemoteService.connections.Contains(this))
-                        RemoteService.connections.Remove(this);
+            foreach(var s in threadCallStack.Values) {
+                if(s.Count > 0) {
+                    var c = s.Peek();
+                    lock(c) {
+                        Monitor.PulseAll(c);
+                    }
                 }
+            }
+            if(!isClient) {
+                RemoteService.RemoveConnection(this);
             }
         }
     }

@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
     /// </remarks>
-    public class CfxRequest : CfxBase {
-
-        static CfxRequest () {
-            CfxApiLoader.LoadCfxRequestApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxRequest : CfxBaseLibrary {
 
         internal static CfxRequest Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -75,7 +45,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public static CfxRequest Create() {
-            return CfxRequest.Wrap(CfxApi.cfx_request_create());
+            return CfxRequest.Wrap(CfxApi.Request.cfx_request_create());
         }
 
         /// <summary>
@@ -87,7 +57,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsReadOnly {
             get {
-                return 0 != CfxApi.cfx_request_is_read_only(NativePtr);
+                return 0 != CfxApi.Request.cfx_request_is_read_only(NativePtr);
             }
         }
 
@@ -100,11 +70,11 @@ namespace Chromium {
         /// </remarks>
         public string Url {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_request_get_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.Request.cfx_request_get_url(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_request_set_url(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Request.cfx_request_set_url(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -121,11 +91,11 @@ namespace Chromium {
         /// </remarks>
         public string Method {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_request_get_method(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.Request.cfx_request_get_method(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_request_set_method(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Request.cfx_request_set_method(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -139,7 +109,7 @@ namespace Chromium {
         /// </remarks>
         public string ReferrerUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_request_get_referrer_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.Request.cfx_request_get_referrer_url(NativePtr));
             }
         }
 
@@ -152,7 +122,7 @@ namespace Chromium {
         /// </remarks>
         public CfxReferrerPolicy ReferrerPolicy {
             get {
-                return (CfxReferrerPolicy)CfxApi.cfx_request_get_referrer_policy(NativePtr);
+                return (CfxReferrerPolicy)CfxApi.Request.cfx_request_get_referrer_policy(NativePtr);
             }
         }
 
@@ -165,10 +135,10 @@ namespace Chromium {
         /// </remarks>
         public CfxPostData PostData {
             get {
-                return CfxPostData.Wrap(CfxApi.cfx_request_get_post_data(NativePtr));
+                return CfxPostData.Wrap(CfxApi.Request.cfx_request_get_post_data(NativePtr));
             }
             set {
-                CfxApi.cfx_request_set_post_data(NativePtr, CfxPostData.Unwrap(value));
+                CfxApi.Request.cfx_request_set_post_data(NativePtr, CfxPostData.Unwrap(value));
             }
         }
 
@@ -185,10 +155,10 @@ namespace Chromium {
         /// </remarks>
         public int Flags {
             get {
-                return CfxApi.cfx_request_get_flags(NativePtr);
+                return CfxApi.Request.cfx_request_get_flags(NativePtr);
             }
             set {
-                CfxApi.cfx_request_set_flags(NativePtr, value);
+                CfxApi.Request.cfx_request_set_flags(NativePtr, value);
             }
         }
 
@@ -205,11 +175,11 @@ namespace Chromium {
         /// </remarks>
         public string FirstPartyForCookies {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_request_get_first_party_for_cookies(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.Request.cfx_request_get_first_party_for_cookies(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_request_set_first_party_for_cookies(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Request.cfx_request_set_first_party_for_cookies(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -224,7 +194,7 @@ namespace Chromium {
         /// </remarks>
         public CfxResourceType ResourceType {
             get {
-                return (CfxResourceType)CfxApi.cfx_request_get_resource_type(NativePtr);
+                return (CfxResourceType)CfxApi.Request.cfx_request_get_resource_type(NativePtr);
             }
         }
 
@@ -239,7 +209,7 @@ namespace Chromium {
         /// </remarks>
         public CfxTransitionType TransitionType {
             get {
-                return (CfxTransitionType)CfxApi.cfx_request_get_transition_type(NativePtr);
+                return (CfxTransitionType)CfxApi.Request.cfx_request_get_transition_type(NativePtr);
             }
         }
 
@@ -254,7 +224,7 @@ namespace Chromium {
         /// </remarks>
         public ulong Identifier {
             get {
-                return CfxApi.cfx_request_get_identifier(NativePtr);
+                return CfxApi.Request.cfx_request_get_identifier(NativePtr);
             }
         }
 
@@ -269,7 +239,7 @@ namespace Chromium {
         /// </remarks>
         public void SetReferrer(string referrerUrl, CfxReferrerPolicy policy) {
             var referrerUrl_pinned = new PinnedString(referrerUrl);
-            CfxApi.cfx_request_set_referrer(NativePtr, referrerUrl_pinned.Obj.PinnedPtr, referrerUrl_pinned.Length, (int)policy);
+            CfxApi.Request.cfx_request_set_referrer(NativePtr, referrerUrl_pinned.Obj.PinnedPtr, referrerUrl_pinned.Length, (int)policy);
             referrerUrl_pinned.Obj.Free();
         }
 
@@ -284,10 +254,10 @@ namespace Chromium {
             System.Collections.Generic.List<string[]> headerMap = new System.Collections.Generic.List<string[]>();
             PinnedString[] headerMap_handles;
             var headerMap_unwrapped = StringFunctions.UnwrapCfxStringMultimap(headerMap, out headerMap_handles);
-            CfxApi.cfx_request_get_header_map(NativePtr, headerMap_unwrapped);
+            CfxApi.Request.cfx_request_get_header_map(NativePtr, headerMap_unwrapped);
             StringFunctions.FreePinnedStrings(headerMap_handles);
             StringFunctions.CfxStringMultimapCopyToManaged(headerMap_unwrapped, headerMap);
-            CfxApi.cfx_string_multimap_free(headerMap_unwrapped);
+            CfxApi.Runtime.cfx_string_multimap_free(headerMap_unwrapped);
             return headerMap;
         }
 
@@ -302,10 +272,10 @@ namespace Chromium {
         public void SetHeaderMap(System.Collections.Generic.List<string[]> headerMap) {
             PinnedString[] headerMap_handles;
             var headerMap_unwrapped = StringFunctions.UnwrapCfxStringMultimap(headerMap, out headerMap_handles);
-            CfxApi.cfx_request_set_header_map(NativePtr, headerMap_unwrapped);
+            CfxApi.Request.cfx_request_set_header_map(NativePtr, headerMap_unwrapped);
             StringFunctions.FreePinnedStrings(headerMap_handles);
             StringFunctions.CfxStringMultimapCopyToManaged(headerMap_unwrapped, headerMap);
-            CfxApi.cfx_string_multimap_free(headerMap_unwrapped);
+            CfxApi.Runtime.cfx_string_multimap_free(headerMap_unwrapped);
         }
 
         /// <summary>
@@ -320,17 +290,12 @@ namespace Chromium {
             var method_pinned = new PinnedString(method);
             PinnedString[] headerMap_handles;
             var headerMap_unwrapped = StringFunctions.UnwrapCfxStringMultimap(headerMap, out headerMap_handles);
-            CfxApi.cfx_request_set(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, method_pinned.Obj.PinnedPtr, method_pinned.Length, CfxPostData.Unwrap(postData), headerMap_unwrapped);
+            CfxApi.Request.cfx_request_set(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, method_pinned.Obj.PinnedPtr, method_pinned.Length, CfxPostData.Unwrap(postData), headerMap_unwrapped);
             url_pinned.Obj.Free();
             method_pinned.Obj.Free();
             StringFunctions.FreePinnedStrings(headerMap_handles);
             StringFunctions.CfxStringMultimapCopyToManaged(headerMap_unwrapped, headerMap);
-            CfxApi.cfx_string_multimap_free(headerMap_unwrapped);
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            CfxApi.Runtime.cfx_string_multimap_free(headerMap_unwrapped);
         }
     }
 }

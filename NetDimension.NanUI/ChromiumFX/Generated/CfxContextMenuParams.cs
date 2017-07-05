@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
     /// </remarks>
-    public class CfxContextMenuParams : CfxBase {
-
-        static CfxContextMenuParams () {
-            CfxApiLoader.LoadCfxContextMenuParamsApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxContextMenuParams : CfxBaseLibrary {
 
         internal static CfxContextMenuParams Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -77,7 +47,7 @@ namespace Chromium {
         /// </remarks>
         public int Xcoord {
             get {
-                return CfxApi.cfx_context_menu_params_get_xcoord(NativePtr);
+                return CfxApi.ContextMenuParams.cfx_context_menu_params_get_xcoord(NativePtr);
             }
         }
 
@@ -91,7 +61,7 @@ namespace Chromium {
         /// </remarks>
         public int Ycoord {
             get {
-                return CfxApi.cfx_context_menu_params_get_ycoord(NativePtr);
+                return CfxApi.ContextMenuParams.cfx_context_menu_params_get_ycoord(NativePtr);
             }
         }
 
@@ -105,7 +75,7 @@ namespace Chromium {
         /// </remarks>
         public CfxContextMenuTypeFlags TypeFlags {
             get {
-                return (CfxContextMenuTypeFlags)CfxApi.cfx_context_menu_params_get_type_flags(NativePtr);
+                return (CfxContextMenuTypeFlags)CfxApi.ContextMenuParams.cfx_context_menu_params_get_type_flags(NativePtr);
             }
         }
 
@@ -119,7 +89,7 @@ namespace Chromium {
         /// </remarks>
         public string LinkUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_link_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_link_url(NativePtr));
             }
         }
 
@@ -133,7 +103,7 @@ namespace Chromium {
         /// </remarks>
         public string UnfilteredLinkUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_unfiltered_link_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_unfiltered_link_url(NativePtr));
             }
         }
 
@@ -147,7 +117,7 @@ namespace Chromium {
         /// </remarks>
         public string SourceUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_source_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_source_url(NativePtr));
             }
         }
 
@@ -161,7 +131,21 @@ namespace Chromium {
         /// </remarks>
         public bool HasImageContents {
             get {
-                return 0 != CfxApi.cfx_context_menu_params_has_image_contents(NativePtr);
+                return 0 != CfxApi.ContextMenuParams.cfx_context_menu_params_has_image_contents(NativePtr);
+            }
+        }
+
+        /// <summary>
+        /// Returns the title text or the alt text if the context menu was invoked on
+        /// an image.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_context_menu_handler_capi.h">cef/include/capi/cef_context_menu_handler_capi.h</see>.
+        /// </remarks>
+        public string TitleText {
+            get {
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_title_text(NativePtr));
             }
         }
 
@@ -174,7 +158,7 @@ namespace Chromium {
         /// </remarks>
         public string PageUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_page_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_page_url(NativePtr));
             }
         }
 
@@ -187,7 +171,7 @@ namespace Chromium {
         /// </remarks>
         public string FrameUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_frame_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_frame_url(NativePtr));
             }
         }
 
@@ -201,7 +185,7 @@ namespace Chromium {
         /// </remarks>
         public string FrameCharset {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_frame_charset(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_frame_charset(NativePtr));
             }
         }
 
@@ -214,7 +198,7 @@ namespace Chromium {
         /// </remarks>
         public CfxContextMenuMediaType MediaType {
             get {
-                return (CfxContextMenuMediaType)CfxApi.cfx_context_menu_params_get_media_type(NativePtr);
+                return (CfxContextMenuMediaType)CfxApi.ContextMenuParams.cfx_context_menu_params_get_media_type(NativePtr);
             }
         }
 
@@ -228,7 +212,7 @@ namespace Chromium {
         /// </remarks>
         public CfxContextMenuMediaStateFlags MediaStateFlags {
             get {
-                return (CfxContextMenuMediaStateFlags)CfxApi.cfx_context_menu_params_get_media_state_flags(NativePtr);
+                return (CfxContextMenuMediaStateFlags)CfxApi.ContextMenuParams.cfx_context_menu_params_get_media_state_flags(NativePtr);
             }
         }
 
@@ -242,7 +226,7 @@ namespace Chromium {
         /// </remarks>
         public string SelectionText {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_selection_text(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_selection_text(NativePtr));
             }
         }
 
@@ -256,7 +240,7 @@ namespace Chromium {
         /// </remarks>
         public string MisspelledWord {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_context_menu_params_get_misspelled_word(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.ContextMenuParams.cfx_context_menu_params_get_misspelled_word(NativePtr));
             }
         }
 
@@ -269,7 +253,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsEditable {
             get {
-                return 0 != CfxApi.cfx_context_menu_params_is_editable(NativePtr);
+                return 0 != CfxApi.ContextMenuParams.cfx_context_menu_params_is_editable(NativePtr);
             }
         }
 
@@ -283,7 +267,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsSpellCheckEnabled {
             get {
-                return 0 != CfxApi.cfx_context_menu_params_is_spell_check_enabled(NativePtr);
+                return 0 != CfxApi.ContextMenuParams.cfx_context_menu_params_is_spell_check_enabled(NativePtr);
             }
         }
 
@@ -297,7 +281,7 @@ namespace Chromium {
         /// </remarks>
         public CfxContextMenuEditStateFlags EditStateFlags {
             get {
-                return (CfxContextMenuEditStateFlags)CfxApi.cfx_context_menu_params_get_edit_state_flags(NativePtr);
+                return (CfxContextMenuEditStateFlags)CfxApi.ContextMenuParams.cfx_context_menu_params_get_edit_state_flags(NativePtr);
             }
         }
 
@@ -312,7 +296,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsCustomMenu {
             get {
-                return 0 != CfxApi.cfx_context_menu_params_is_custom_menu(NativePtr);
+                return 0 != CfxApi.ContextMenuParams.cfx_context_menu_params_is_custom_menu(NativePtr);
             }
         }
 
@@ -325,7 +309,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsPepperMenu {
             get {
-                return 0 != CfxApi.cfx_context_menu_params_is_pepper_menu(NativePtr);
+                return 0 != CfxApi.ContextMenuParams.cfx_context_menu_params_is_pepper_menu(NativePtr);
             }
         }
 
@@ -341,16 +325,11 @@ namespace Chromium {
         public bool GetDictionarySuggestions(System.Collections.Generic.List<string> suggestions) {
             PinnedString[] suggestions_handles;
             var suggestions_unwrapped = StringFunctions.UnwrapCfxStringList(suggestions, out suggestions_handles);
-            var __retval = CfxApi.cfx_context_menu_params_get_dictionary_suggestions(NativePtr, suggestions_unwrapped);
+            var __retval = CfxApi.ContextMenuParams.cfx_context_menu_params_get_dictionary_suggestions(NativePtr, suggestions_unwrapped);
             StringFunctions.FreePinnedStrings(suggestions_handles);
             StringFunctions.CfxStringListCopyToManaged(suggestions_unwrapped, suggestions);
-            CfxApi.cfx_string_list_free(suggestions_unwrapped);
+            CfxApi.Runtime.cfx_string_list_free(suggestions_unwrapped);
             return 0 != __retval;
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
         }
     }
 }

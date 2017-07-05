@@ -35,21 +35,23 @@ using System;
 
 namespace NetDimension.NanUI.ChromiumCore
 {
-	internal class BrowserProcess {
+	internal static class BrowserProcess
+	{
 
 		internal static CfxApp app;
 		internal static CfxBrowserProcessHandler processHandler;
 
 		internal static bool initialized;
 
-		internal static void Initialize() {
+		internal static void Initialize()
+		{
 
-			if(initialized)
+			if (initialized)
 				throw new HtmlUIException("ChromiumWebBrowser library already initialized.");
 
 
 			int retval = CfxRuntime.ExecuteProcess();
-			if(retval >= 0)
+			if (retval >= 0)
 				Environment.Exit(retval);
 
 
@@ -60,14 +62,13 @@ namespace NetDimension.NanUI.ChromiumCore
 			app.OnBeforeCommandLineProcessing += (s, e) => HtmlUILauncher.RaiseOnBeforeCommandLineProcessing(e);
 			app.OnRegisterCustomSchemes += (s, e) => HtmlUILauncher.RaiseOnRegisterCustomSchemes(e);
 
-
 			var settings = new CfxSettings();
 			settings.MultiThreadedMessageLoop = true;
 			settings.NoSandbox = true;
 
 			HtmlUILauncher.RaiseOnBeforeCfxInitialize(settings, processHandler);
 
-			if(!CfxRuntime.Initialize(settings, app, RenderProcess.RenderProcessMain))
+			if (!CfxRuntime.Initialize(settings, app, RenderProcess.RenderProcessMain))
 				throw new HtmlUIException("Failed to initialize CEF library.");
 
 			initialized = true;

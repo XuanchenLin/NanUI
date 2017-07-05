@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,80 +20,97 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
     /// </remarks>
-    public class CfxRenderHandler : CfxBase {
-
-        static CfxRenderHandler () {
-            CfxApiLoader.LoadCfxRenderHandlerApi();
-        }
-
-        internal static CfxRenderHandler Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_render_handler_get_gc_handle(nativePtr);
-            return (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxRenderHandler : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            get_root_screen_rect_native = get_root_screen_rect;
+            get_view_rect_native = get_view_rect;
+            get_screen_point_native = get_screen_point;
+            get_screen_info_native = get_screen_info;
+            on_popup_show_native = on_popup_show;
+            on_popup_size_native = on_popup_size;
+            on_paint_native = on_paint;
+            on_cursor_change_native = on_cursor_change;
+            start_dragging_native = start_dragging;
+            update_drag_cursor_native = update_drag_cursor;
+            on_scroll_offset_changed_native = on_scroll_offset_changed;
+            on_ime_composition_range_changed_native = on_ime_composition_range_changed;
+
+            get_root_screen_rect_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_root_screen_rect_native);
+            get_view_rect_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_view_rect_native);
+            get_screen_point_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_screen_point_native);
+            get_screen_info_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_screen_info_native);
+            on_popup_show_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_popup_show_native);
+            on_popup_size_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_popup_size_native);
+            on_paint_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_paint_native);
+            on_cursor_change_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_cursor_change_native);
+            start_dragging_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(start_dragging_native);
+            update_drag_cursor_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(update_drag_cursor_native);
+            on_scroll_offset_changed_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_scroll_offset_changed_native);
+            on_ime_composition_range_changed_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_ime_composition_range_changed_native);
+        }
+
         // get_root_screen_rect
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_get_root_screen_rect_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr rect);
-        private static cfx_render_handler_get_root_screen_rect_delegate cfx_render_handler_get_root_screen_rect;
-        private static IntPtr cfx_render_handler_get_root_screen_rect_ptr;
+        private delegate void get_root_screen_rect_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr rect);
+        private static get_root_screen_rect_delegate get_root_screen_rect_native;
+        private static IntPtr get_root_screen_rect_native_ptr;
 
-        internal static void get_root_screen_rect(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr rect) {
+        internal static void get_root_screen_rect(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr rect) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 return;
             }
             var e = new CfxGetRootScreenRectEventArgs(browser, rect);
-            var eventHandler = self.m_GetRootScreenRect;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_GetRootScreenRect?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // get_view_rect
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_get_view_rect_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr rect);
-        private static cfx_render_handler_get_view_rect_delegate cfx_render_handler_get_view_rect;
-        private static IntPtr cfx_render_handler_get_view_rect_ptr;
+        private delegate void get_view_rect_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr rect);
+        private static get_view_rect_delegate get_view_rect_native;
+        private static IntPtr get_view_rect_native_ptr;
 
-        internal static void get_view_rect(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr rect) {
+        internal static void get_view_rect(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr rect) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 return;
             }
             var e = new CfxGetViewRectEventArgs(browser, rect);
-            var eventHandler = self.m_GetViewRect;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_GetViewRect?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // get_screen_point
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_get_screen_point_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, int viewX, int viewY, out int screenX, out int screenY);
-        private static cfx_render_handler_get_screen_point_delegate cfx_render_handler_get_screen_point;
-        private static IntPtr cfx_render_handler_get_screen_point_ptr;
+        private delegate void get_screen_point_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, int viewX, int viewY, out int screenX, out int screenY);
+        private static get_screen_point_delegate get_screen_point_native;
+        private static IntPtr get_screen_point_native_ptr;
 
-        internal static void get_screen_point(IntPtr gcHandlePtr, out int __retval, IntPtr browser, int viewX, int viewY, out int screenX, out int screenY) {
+        internal static void get_screen_point(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, int viewX, int viewY, out int screenX, out int screenY) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 screenX = default(int);
                 screenY = default(int);
                 return;
             }
             var e = new CfxGetScreenPointEventArgs(browser, viewX, viewY);
-            var eventHandler = self.m_GetScreenPoint;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_GetScreenPoint?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             screenX = e.m_screenX;
             screenY = e.m_screenY;
             __retval = e.m_returnValue ? 1 : 0;
@@ -125,76 +118,76 @@ namespace Chromium {
 
         // get_screen_info
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_get_screen_info_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr screen_info);
-        private static cfx_render_handler_get_screen_info_delegate cfx_render_handler_get_screen_info;
-        private static IntPtr cfx_render_handler_get_screen_info_ptr;
+        private delegate void get_screen_info_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr screen_info);
+        private static get_screen_info_delegate get_screen_info_native;
+        private static IntPtr get_screen_info_native_ptr;
 
-        internal static void get_screen_info(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr screen_info) {
+        internal static void get_screen_info(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr screen_info) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 return;
             }
             var e = new CfxGetScreenInfoEventArgs(browser, screen_info);
-            var eventHandler = self.m_GetScreenInfo;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_GetScreenInfo?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // on_popup_show
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_on_popup_show_delegate(IntPtr gcHandlePtr, IntPtr browser, int show);
-        private static cfx_render_handler_on_popup_show_delegate cfx_render_handler_on_popup_show;
-        private static IntPtr cfx_render_handler_on_popup_show_ptr;
+        private delegate void on_popup_show_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int show);
+        private static on_popup_show_delegate on_popup_show_native;
+        private static IntPtr on_popup_show_native_ptr;
 
-        internal static void on_popup_show(IntPtr gcHandlePtr, IntPtr browser, int show) {
+        internal static void on_popup_show(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int show) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnPopupShowEventArgs(browser, show);
-            var eventHandler = self.m_OnPopupShow;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnPopupShow?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
         // on_popup_size
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_on_popup_size_delegate(IntPtr gcHandlePtr, IntPtr browser, IntPtr rect);
-        private static cfx_render_handler_on_popup_size_delegate cfx_render_handler_on_popup_size;
-        private static IntPtr cfx_render_handler_on_popup_size_ptr;
+        private delegate void on_popup_size_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr rect);
+        private static on_popup_size_delegate on_popup_size_native;
+        private static IntPtr on_popup_size_native_ptr;
 
-        internal static void on_popup_size(IntPtr gcHandlePtr, IntPtr browser, IntPtr rect) {
+        internal static void on_popup_size(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr rect) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnPopupSizeEventArgs(browser, rect);
-            var eventHandler = self.m_OnPopupSize;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnPopupSize?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
         // on_paint
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_on_paint_delegate(IntPtr gcHandlePtr, IntPtr browser, int type, int dirtyRectsCount, IntPtr dirtyRects, int dirtyRects_structsize, IntPtr buffer, int width, int height);
-        private static cfx_render_handler_on_paint_delegate cfx_render_handler_on_paint;
-        private static IntPtr cfx_render_handler_on_paint_ptr;
+        private delegate void on_paint_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int type, UIntPtr dirtyRectsCount, IntPtr dirtyRects, int dirtyRects_structsize, IntPtr buffer, int width, int height);
+        private static on_paint_delegate on_paint_native;
+        private static IntPtr on_paint_native_ptr;
 
-        internal static void on_paint(IntPtr gcHandlePtr, IntPtr browser, int type, int dirtyRectsCount, IntPtr dirtyRects, int dirtyRects_structsize, IntPtr buffer, int width, int height) {
+        internal static void on_paint(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int type, UIntPtr dirtyRectsCount, IntPtr dirtyRects, int dirtyRects_structsize, IntPtr buffer, int width, int height) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnPaintEventArgs(browser, type, dirtyRects, dirtyRectsCount, dirtyRects_structsize, buffer, width, height);
-            var eventHandler = self.m_OnPaint;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnPaint?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             if(e.m_dirtyRects_managed != null) {
                 for(int i = 0; i < e.m_dirtyRects_managed.Length; ++i) {
                     e.m_dirtyRects_managed[i].Dispose();
@@ -204,81 +197,104 @@ namespace Chromium {
 
         // on_cursor_change
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_on_cursor_change_delegate(IntPtr gcHandlePtr, IntPtr browser, IntPtr cursor, int type, IntPtr custom_cursor_info);
-        private static cfx_render_handler_on_cursor_change_delegate cfx_render_handler_on_cursor_change;
-        private static IntPtr cfx_render_handler_on_cursor_change_ptr;
+        private delegate void on_cursor_change_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr cursor, int type, IntPtr custom_cursor_info);
+        private static on_cursor_change_delegate on_cursor_change_native;
+        private static IntPtr on_cursor_change_native_ptr;
 
-        internal static void on_cursor_change(IntPtr gcHandlePtr, IntPtr browser, IntPtr cursor, int type, IntPtr custom_cursor_info) {
+        internal static void on_cursor_change(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr cursor, int type, IntPtr custom_cursor_info) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnCursorChangeEventArgs(browser, cursor, type, custom_cursor_info);
-            var eventHandler = self.m_OnCursorChange;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnCursorChange?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
         // start_dragging
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_start_dragging_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr drag_data, int allowed_ops, int x, int y);
-        private static cfx_render_handler_start_dragging_delegate cfx_render_handler_start_dragging;
-        private static IntPtr cfx_render_handler_start_dragging_ptr;
+        private delegate void start_dragging_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr drag_data, out int drag_data_release, int allowed_ops, int x, int y);
+        private static start_dragging_delegate start_dragging_native;
+        private static IntPtr start_dragging_native_ptr;
 
-        internal static void start_dragging(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr drag_data, int allowed_ops, int x, int y) {
+        internal static void start_dragging(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr drag_data, out int drag_data_release, int allowed_ops, int x, int y) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
+                drag_data_release = 1;
                 return;
             }
             var e = new CfxStartDraggingEventArgs(browser, drag_data, allowed_ops, x, y);
-            var eventHandler = self.m_StartDragging;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_StartDragging?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
-            if(e.m_drag_data_wrapped == null) CfxApi.cfx_release(e.m_drag_data);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            drag_data_release = e.m_drag_data_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // update_drag_cursor
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_update_drag_cursor_delegate(IntPtr gcHandlePtr, IntPtr browser, int operation);
-        private static cfx_render_handler_update_drag_cursor_delegate cfx_render_handler_update_drag_cursor;
-        private static IntPtr cfx_render_handler_update_drag_cursor_ptr;
+        private delegate void update_drag_cursor_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int operation);
+        private static update_drag_cursor_delegate update_drag_cursor_native;
+        private static IntPtr update_drag_cursor_native_ptr;
 
-        internal static void update_drag_cursor(IntPtr gcHandlePtr, IntPtr browser, int operation) {
+        internal static void update_drag_cursor(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int operation) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxUpdateDragCursorEventArgs(browser, operation);
-            var eventHandler = self.m_UpdateDragCursor;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_UpdateDragCursor?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
         // on_scroll_offset_changed
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_render_handler_on_scroll_offset_changed_delegate(IntPtr gcHandlePtr, IntPtr browser, double x, double y);
-        private static cfx_render_handler_on_scroll_offset_changed_delegate cfx_render_handler_on_scroll_offset_changed;
-        private static IntPtr cfx_render_handler_on_scroll_offset_changed_ptr;
+        private delegate void on_scroll_offset_changed_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, double x, double y);
+        private static on_scroll_offset_changed_delegate on_scroll_offset_changed_native;
+        private static IntPtr on_scroll_offset_changed_native_ptr;
 
-        internal static void on_scroll_offset_changed(IntPtr gcHandlePtr, IntPtr browser, double x, double y) {
+        internal static void on_scroll_offset_changed(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, double x, double y) {
             var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnScrollOffsetChangedEventArgs(browser, x, y);
-            var eventHandler = self.m_OnScrollOffsetChanged;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnScrollOffsetChanged?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
-        internal CfxRenderHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxRenderHandler() : base(CfxApi.cfx_render_handler_ctor) {}
+        // on_ime_composition_range_changed
+        [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
+        private delegate void on_ime_composition_range_changed_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr selected_range, UIntPtr character_boundsCount, IntPtr character_bounds, int character_bounds_structsize);
+        private static on_ime_composition_range_changed_delegate on_ime_composition_range_changed_native;
+        private static IntPtr on_ime_composition_range_changed_native_ptr;
+
+        internal static void on_ime_composition_range_changed(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr selected_range, UIntPtr character_boundsCount, IntPtr character_bounds, int character_bounds_structsize) {
+            var self = (CfxRenderHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
+                return;
+            }
+            var e = new CfxOnImeCompositionRangeChangedEventArgs(browser, selected_range, character_bounds, character_boundsCount, character_bounds_structsize);
+            self.m_OnImeCompositionRangeChanged?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            if(e.m_character_bounds_managed != null) {
+                for(int i = 0; i < e.m_character_bounds_managed.Length; ++i) {
+                    e.m_character_bounds_managed[i].Dispose();
+                }
+            }
+        }
+
+        public CfxRenderHandler() : base(CfxApi.RenderHandler.cfx_render_handler_ctor) {}
 
         /// <summary>
         /// Called to retrieve the root window rectangle in screen coordinates. Return
@@ -292,11 +308,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_GetRootScreenRect == null) {
-                        if(cfx_render_handler_get_root_screen_rect == null) {
-                            cfx_render_handler_get_root_screen_rect = get_root_screen_rect;
-                            cfx_render_handler_get_root_screen_rect_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_get_root_screen_rect);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 0, cfx_render_handler_get_root_screen_rect_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 0, get_root_screen_rect_native_ptr);
                     }
                     m_GetRootScreenRect += value;
                 }
@@ -305,7 +317,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetRootScreenRect -= value;
                     if(m_GetRootScreenRect == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -325,11 +337,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_GetViewRect == null) {
-                        if(cfx_render_handler_get_view_rect == null) {
-                            cfx_render_handler_get_view_rect = get_view_rect;
-                            cfx_render_handler_get_view_rect_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_get_view_rect);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 1, cfx_render_handler_get_view_rect_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 1, get_view_rect_native_ptr);
                     }
                     m_GetViewRect += value;
                 }
@@ -338,7 +346,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetViewRect -= value;
                     if(m_GetViewRect == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -358,11 +366,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_GetScreenPoint == null) {
-                        if(cfx_render_handler_get_screen_point == null) {
-                            cfx_render_handler_get_screen_point = get_screen_point;
-                            cfx_render_handler_get_screen_point_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_get_screen_point);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 2, cfx_render_handler_get_screen_point_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 2, get_screen_point_native_ptr);
                     }
                     m_GetScreenPoint += value;
                 }
@@ -371,7 +375,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetScreenPoint -= value;
                     if(m_GetScreenPoint == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 2, IntPtr.Zero);
                     }
                 }
             }
@@ -383,6 +387,7 @@ namespace Chromium {
         /// Called to allow the client to fill in the CfxScreenInfo object with
         /// appropriate values. Return true (1) if the |ScreenInfo| structure has been
         /// modified.
+        /// 
         /// If the screen info rectangle is left NULL the rectangle from GetViewRect
         /// will be used. If the rectangle is still NULL or invalid popups may not be
         /// drawn correctly.
@@ -395,11 +400,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_GetScreenInfo == null) {
-                        if(cfx_render_handler_get_screen_info == null) {
-                            cfx_render_handler_get_screen_info = get_screen_info;
-                            cfx_render_handler_get_screen_info_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_get_screen_info);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 3, cfx_render_handler_get_screen_info_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 3, get_screen_info_native_ptr);
                     }
                     m_GetScreenInfo += value;
                 }
@@ -408,7 +409,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetScreenInfo -= value;
                     if(m_GetScreenInfo == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 3, IntPtr.Zero);
                     }
                 }
             }
@@ -428,11 +429,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnPopupShow == null) {
-                        if(cfx_render_handler_on_popup_show == null) {
-                            cfx_render_handler_on_popup_show = on_popup_show;
-                            cfx_render_handler_on_popup_show_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_on_popup_show);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 4, cfx_render_handler_on_popup_show_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 4, on_popup_show_native_ptr);
                     }
                     m_OnPopupShow += value;
                 }
@@ -441,7 +438,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnPopupShow -= value;
                     if(m_OnPopupShow == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 4, IntPtr.Zero);
                     }
                 }
             }
@@ -461,11 +458,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnPopupSize == null) {
-                        if(cfx_render_handler_on_popup_size == null) {
-                            cfx_render_handler_on_popup_size = on_popup_size;
-                            cfx_render_handler_on_popup_size_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_on_popup_size);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 5, cfx_render_handler_on_popup_size_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 5, on_popup_size_native_ptr);
                     }
                     m_OnPopupSize += value;
                 }
@@ -474,7 +467,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnPopupSize -= value;
                     if(m_OnPopupSize == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 5, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 5, IntPtr.Zero);
                     }
                 }
             }
@@ -500,11 +493,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnPaint == null) {
-                        if(cfx_render_handler_on_paint == null) {
-                            cfx_render_handler_on_paint = on_paint;
-                            cfx_render_handler_on_paint_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_on_paint);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 6, cfx_render_handler_on_paint_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 6, on_paint_native_ptr);
                     }
                     m_OnPaint += value;
                 }
@@ -513,7 +502,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnPaint -= value;
                     if(m_OnPaint == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 6, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 6, IntPtr.Zero);
                     }
                 }
             }
@@ -533,11 +522,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnCursorChange == null) {
-                        if(cfx_render_handler_on_cursor_change == null) {
-                            cfx_render_handler_on_cursor_change = on_cursor_change;
-                            cfx_render_handler_on_cursor_change_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_on_cursor_change);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 7, cfx_render_handler_on_cursor_change_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 7, on_cursor_change_native_ptr);
                     }
                     m_OnCursorChange += value;
                 }
@@ -546,7 +531,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnCursorChange -= value;
                     if(m_OnCursorChange == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 7, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 7, IntPtr.Zero);
                     }
                 }
             }
@@ -559,8 +544,10 @@ namespace Chromium {
         /// information about the dragged content is supplied by |DragData|. (|X|,
         /// |Y|) is the drag start location in screen coordinates. OS APIs that run a
         /// system message loop may be used within the StartDragging call.
+        /// 
         /// Return false (0) to abort the drag operation. Don't call any of
         /// CfxBrowserHost.DragSource*Ended* functions after returning false (0).
+        /// 
         /// Return true (1) to handle the drag operation. Call
         /// CfxBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either
         /// synchronously or asynchronously to inform the web view that the drag
@@ -574,11 +561,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_StartDragging == null) {
-                        if(cfx_render_handler_start_dragging == null) {
-                            cfx_render_handler_start_dragging = start_dragging;
-                            cfx_render_handler_start_dragging_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_start_dragging);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 8, cfx_render_handler_start_dragging_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 8, start_dragging_native_ptr);
                     }
                     m_StartDragging += value;
                 }
@@ -587,7 +570,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_StartDragging -= value;
                     if(m_StartDragging == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 8, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 8, IntPtr.Zero);
                     }
                 }
             }
@@ -608,11 +591,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_UpdateDragCursor == null) {
-                        if(cfx_render_handler_update_drag_cursor == null) {
-                            cfx_render_handler_update_drag_cursor = update_drag_cursor;
-                            cfx_render_handler_update_drag_cursor_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_update_drag_cursor);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 9, cfx_render_handler_update_drag_cursor_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 9, update_drag_cursor_native_ptr);
                     }
                     m_UpdateDragCursor += value;
                 }
@@ -621,7 +600,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_UpdateDragCursor -= value;
                     if(m_UpdateDragCursor == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 9, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 9, IntPtr.Zero);
                     }
                 }
             }
@@ -640,11 +619,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnScrollOffsetChanged == null) {
-                        if(cfx_render_handler_on_scroll_offset_changed == null) {
-                            cfx_render_handler_on_scroll_offset_changed = on_scroll_offset_changed;
-                            cfx_render_handler_on_scroll_offset_changed_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_render_handler_on_scroll_offset_changed);
-                        }
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 10, cfx_render_handler_on_scroll_offset_changed_ptr);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 10, on_scroll_offset_changed_native_ptr);
                     }
                     m_OnScrollOffsetChanged += value;
                 }
@@ -653,7 +628,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnScrollOffsetChanged -= value;
                     if(m_OnScrollOffsetChanged == null) {
-                        CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 10, IntPtr.Zero);
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 10, IntPtr.Zero);
                     }
                 }
             }
@@ -661,50 +636,84 @@ namespace Chromium {
 
         private CfxOnScrollOffsetChangedEventHandler m_OnScrollOffsetChanged;
 
+        /// <summary>
+        /// Called when the IME composition range has changed. |SelectedRange| is the
+        /// range of characters that have been selected. |CharacterBounds| is the
+        /// bounds of each character in view coordinates.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
+        /// </remarks>
+        public event CfxOnImeCompositionRangeChangedEventHandler OnImeCompositionRangeChanged {
+            add {
+                lock(eventLock) {
+                    if(m_OnImeCompositionRangeChanged == null) {
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 11, on_ime_composition_range_changed_native_ptr);
+                    }
+                    m_OnImeCompositionRangeChanged += value;
+                }
+            }
+            remove {
+                lock(eventLock) {
+                    m_OnImeCompositionRangeChanged -= value;
+                    if(m_OnImeCompositionRangeChanged == null) {
+                        CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 11, IntPtr.Zero);
+                    }
+                }
+            }
+        }
+
+        private CfxOnImeCompositionRangeChangedEventHandler m_OnImeCompositionRangeChanged;
+
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_GetRootScreenRect != null) {
                 m_GetRootScreenRect = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_GetViewRect != null) {
                 m_GetViewRect = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             if(m_GetScreenPoint != null) {
                 m_GetScreenPoint = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 2, IntPtr.Zero);
             }
             if(m_GetScreenInfo != null) {
                 m_GetScreenInfo = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 3, IntPtr.Zero);
             }
             if(m_OnPopupShow != null) {
                 m_OnPopupShow = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 4, IntPtr.Zero);
             }
             if(m_OnPopupSize != null) {
                 m_OnPopupSize = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 5, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 5, IntPtr.Zero);
             }
             if(m_OnPaint != null) {
                 m_OnPaint = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 6, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 6, IntPtr.Zero);
             }
             if(m_OnCursorChange != null) {
                 m_OnCursorChange = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 7, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 7, IntPtr.Zero);
             }
             if(m_StartDragging != null) {
                 m_StartDragging = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 8, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 8, IntPtr.Zero);
             }
             if(m_UpdateDragCursor != null) {
                 m_UpdateDragCursor = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 9, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 9, IntPtr.Zero);
             }
             if(m_OnScrollOffsetChanged != null) {
                 m_OnScrollOffsetChanged = null;
-                CfxApi.cfx_render_handler_set_managed_callback(NativePtr, 10, IntPtr.Zero);
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 10, IntPtr.Zero);
+            }
+            if(m_OnImeCompositionRangeChanged != null) {
+                m_OnImeCompositionRangeChanged = null;
+                CfxApi.RenderHandler.cfx_render_handler_set_callback(NativePtr, 11, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -959,6 +968,7 @@ namespace Chromium {
         /// Called to allow the client to fill in the CfxScreenInfo object with
         /// appropriate values. Return true (1) if the |ScreenInfo| structure has been
         /// modified.
+        /// 
         /// If the screen info rectangle is left NULL the rectangle from GetViewRect
         /// will be used. If the rectangle is still NULL or invalid popups may not be
         /// drawn correctly.
@@ -973,6 +983,7 @@ namespace Chromium {
         /// Called to allow the client to fill in the CfxScreenInfo object with
         /// appropriate values. Return true (1) if the |ScreenInfo| structure has been
         /// modified.
+        /// 
         /// If the screen info rectangle is left NULL the rectangle from GetViewRect
         /// will be used. If the rectangle is still NULL or invalid popups may not be
         /// drawn correctly.
@@ -1181,13 +1192,13 @@ namespace Chromium {
             internal int m_type;
             IntPtr m_dirtyRects;
             int m_dirtyRects_structsize;
-            int m_dirtyRectsCount;
+            UIntPtr m_dirtyRectsCount;
             internal CfxRect[] m_dirtyRects_managed;
             internal IntPtr m_buffer;
             internal int m_width;
             internal int m_height;
 
-            internal CfxOnPaintEventArgs(IntPtr browser, int type, IntPtr dirtyRects, int dirtyRectsCount, int dirtyRects_structsize, IntPtr buffer, int width, int height) {
+            internal CfxOnPaintEventArgs(IntPtr browser, int type, IntPtr dirtyRects, UIntPtr dirtyRectsCount, int dirtyRects_structsize, IntPtr buffer, int width, int height) {
                 m_browser = browser;
                 m_type = type;
                 m_dirtyRects = dirtyRects;
@@ -1225,9 +1236,11 @@ namespace Chromium {
                 get {
                     CheckAccess();
                     if(m_dirtyRects_managed == null) {
-                        m_dirtyRects_managed = new CfxRect[m_dirtyRectsCount];
-                        for(int i = 0; i < m_dirtyRectsCount; ++i) {
-                            m_dirtyRects_managed[i] = CfxRect.Wrap(m_dirtyRects + (i * m_dirtyRects_structsize));
+                        m_dirtyRects_managed = new CfxRect[(ulong)m_dirtyRectsCount];
+                        var currentPtr = m_dirtyRects;
+                        for(ulong i = 0; i < (ulong)m_dirtyRectsCount; ++i) {
+                            m_dirtyRects_managed[i] = CfxRect.Wrap(currentPtr);
+                            currentPtr += m_dirtyRects_structsize;
                         }
                     }
                     return m_dirtyRects_managed;
@@ -1349,8 +1362,10 @@ namespace Chromium {
         /// information about the dragged content is supplied by |DragData|. (|X|,
         /// |Y|) is the drag start location in screen coordinates. OS APIs that run a
         /// system message loop may be used within the StartDragging call.
+        /// 
         /// Return false (0) to abort the drag operation. Don't call any of
         /// CfxBrowserHost.DragSource*Ended* functions after returning false (0).
+        /// 
         /// Return true (1) to handle the drag operation. Call
         /// CfxBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either
         /// synchronously or asynchronously to inform the web view that the drag
@@ -1367,8 +1382,10 @@ namespace Chromium {
         /// information about the dragged content is supplied by |DragData|. (|X|,
         /// |Y|) is the drag start location in screen coordinates. OS APIs that run a
         /// system message loop may be used within the StartDragging call.
+        /// 
         /// Return false (0) to abort the drag operation. Don't call any of
         /// CfxBrowserHost.DragSource*Ended* functions after returning false (0).
+        /// 
         /// Return true (1) to handle the drag operation. Call
         /// CfxBrowserHost.DragSourceEndedAt and DragSourceSystemDragEnded either
         /// synchronously or asynchronously to inform the web view that the drag
@@ -1580,6 +1597,89 @@ namespace Chromium {
 
             public override string ToString() {
                 return String.Format("Browser={{{0}}}, X={{{1}}}, Y={{{2}}}", Browser, X, Y);
+            }
+        }
+
+        /// <summary>
+        /// Called when the IME composition range has changed. |SelectedRange| is the
+        /// range of characters that have been selected. |CharacterBounds| is the
+        /// bounds of each character in view coordinates.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnImeCompositionRangeChangedEventHandler(object sender, CfxOnImeCompositionRangeChangedEventArgs e);
+
+        /// <summary>
+        /// Called when the IME composition range has changed. |SelectedRange| is the
+        /// range of characters that have been selected. |CharacterBounds| is the
+        /// bounds of each character in view coordinates.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_render_handler_capi.h">cef/include/capi/cef_render_handler_capi.h</see>.
+        /// </remarks>
+        public class CfxOnImeCompositionRangeChangedEventArgs : CfxEventArgs {
+
+            internal IntPtr m_browser;
+            internal CfxBrowser m_browser_wrapped;
+            internal IntPtr m_selected_range;
+            internal CfxRange m_selected_range_wrapped;
+            IntPtr m_character_bounds;
+            int m_character_bounds_structsize;
+            UIntPtr m_character_boundsCount;
+            internal CfxRect[] m_character_bounds_managed;
+
+            internal CfxOnImeCompositionRangeChangedEventArgs(IntPtr browser, IntPtr selected_range, IntPtr character_bounds, UIntPtr character_boundsCount, int character_bounds_structsize) {
+                m_browser = browser;
+                m_selected_range = selected_range;
+                m_character_bounds = character_bounds;
+                m_character_bounds_structsize = character_bounds_structsize;
+                m_character_boundsCount = character_boundsCount;
+            }
+
+            /// <summary>
+            /// Get the Browser parameter for the <see cref="CfxRenderHandler.OnImeCompositionRangeChanged"/> callback.
+            /// </summary>
+            public CfxBrowser Browser {
+                get {
+                    CheckAccess();
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfxBrowser.Wrap(m_browser);
+                    return m_browser_wrapped;
+                }
+            }
+            /// <summary>
+            /// Get the SelectedRange parameter for the <see cref="CfxRenderHandler.OnImeCompositionRangeChanged"/> callback.
+            /// </summary>
+            public CfxRange SelectedRange {
+                get {
+                    CheckAccess();
+                    if(m_selected_range_wrapped == null) m_selected_range_wrapped = CfxRange.Wrap(m_selected_range);
+                    return m_selected_range_wrapped;
+                }
+            }
+            /// <summary>
+            /// Get the CharacterBounds parameter for the <see cref="CfxRenderHandler.OnImeCompositionRangeChanged"/> callback.
+            /// Do not keep a reference to the elements of this array outside of this function.
+            /// </summary>
+            public CfxRect[] CharacterBounds {
+                get {
+                    CheckAccess();
+                    if(m_character_bounds_managed == null) {
+                        m_character_bounds_managed = new CfxRect[(ulong)m_character_boundsCount];
+                        var currentPtr = m_character_bounds;
+                        for(ulong i = 0; i < (ulong)m_character_boundsCount; ++i) {
+                            m_character_bounds_managed[i] = CfxRect.Wrap(currentPtr);
+                            currentPtr += m_character_bounds_structsize;
+                        }
+                    }
+                    return m_character_bounds_managed;
+                }
+            }
+
+            public override string ToString() {
+                return String.Format("Browser={{{0}}}, SelectedRange={{{1}}}, CharacterBounds={{{2}}}", Browser, SelectedRange, CharacterBounds);
             }
         }
 

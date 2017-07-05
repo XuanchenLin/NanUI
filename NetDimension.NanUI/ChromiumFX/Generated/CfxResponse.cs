@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_capi.h">cef/include/capi/cef_response_capi.h</see>.
     /// </remarks>
-    public class CfxResponse : CfxBase {
-
-        static CfxResponse () {
-            CfxApiLoader.LoadCfxResponseApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxResponse : CfxBaseLibrary {
 
         internal static CfxResponse Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -75,7 +45,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_capi.h">cef/include/capi/cef_response_capi.h</see>.
         /// </remarks>
         public static CfxResponse Create() {
-            return CfxResponse.Wrap(CfxApi.cfx_response_create());
+            return CfxResponse.Wrap(CfxApi.Response.cfx_response_create());
         }
 
         /// <summary>
@@ -87,7 +57,26 @@ namespace Chromium {
         /// </remarks>
         public bool IsReadOnly {
             get {
-                return 0 != CfxApi.cfx_response_is_read_only(NativePtr);
+                return 0 != CfxApi.Response.cfx_response_is_read_only(NativePtr);
+            }
+        }
+
+        /// <summary>
+        /// Get the response error code. Returns ERR_NONE if there was no error.
+        /// 
+        /// Set the response error code. This can be used by custom scheme handlers to
+        /// return errors during initial request processing.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_capi.h">cef/include/capi/cef_response_capi.h</see>.
+        /// </remarks>
+        public CfxErrorCode Error {
+            get {
+                return (CfxErrorCode)CfxApi.Response.cfx_response_get_error(NativePtr);
+            }
+            set {
+                CfxApi.Response.cfx_response_set_error(NativePtr, (int)value);
             }
         }
 
@@ -100,10 +89,10 @@ namespace Chromium {
         /// </remarks>
         public int Status {
             get {
-                return CfxApi.cfx_response_get_status(NativePtr);
+                return CfxApi.Response.cfx_response_get_status(NativePtr);
             }
             set {
-                CfxApi.cfx_response_set_status(NativePtr, value);
+                CfxApi.Response.cfx_response_set_status(NativePtr, value);
             }
         }
 
@@ -116,11 +105,11 @@ namespace Chromium {
         /// </remarks>
         public string StatusText {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_response_get_status_text(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.Response.cfx_response_get_status_text(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_response_set_status_text(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Response.cfx_response_set_status_text(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -134,11 +123,11 @@ namespace Chromium {
         /// </remarks>
         public string MimeType {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_response_get_mime_type(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.Response.cfx_response_get_mime_type(NativePtr));
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_response_set_mime_type(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Response.cfx_response_set_mime_type(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -152,7 +141,7 @@ namespace Chromium {
         /// </remarks>
         public string GetHeader(string name) {
             var name_pinned = new PinnedString(name);
-            var __retval = CfxApi.cfx_response_get_header(NativePtr, name_pinned.Obj.PinnedPtr, name_pinned.Length);
+            var __retval = CfxApi.Response.cfx_response_get_header(NativePtr, name_pinned.Obj.PinnedPtr, name_pinned.Length);
             name_pinned.Obj.Free();
             return StringFunctions.ConvertStringUserfree(__retval);
         }
@@ -168,10 +157,10 @@ namespace Chromium {
             System.Collections.Generic.List<string[]> headerMap = new System.Collections.Generic.List<string[]>();
             PinnedString[] headerMap_handles;
             var headerMap_unwrapped = StringFunctions.UnwrapCfxStringMultimap(headerMap, out headerMap_handles);
-            CfxApi.cfx_response_get_header_map(NativePtr, headerMap_unwrapped);
+            CfxApi.Response.cfx_response_get_header_map(NativePtr, headerMap_unwrapped);
             StringFunctions.FreePinnedStrings(headerMap_handles);
             StringFunctions.CfxStringMultimapCopyToManaged(headerMap_unwrapped, headerMap);
-            CfxApi.cfx_string_multimap_free(headerMap_unwrapped);
+            CfxApi.Runtime.cfx_string_multimap_free(headerMap_unwrapped);
             return headerMap;
         }
 
@@ -185,15 +174,10 @@ namespace Chromium {
         public void SetHeaderMap(System.Collections.Generic.List<string[]> headerMap) {
             PinnedString[] headerMap_handles;
             var headerMap_unwrapped = StringFunctions.UnwrapCfxStringMultimap(headerMap, out headerMap_handles);
-            CfxApi.cfx_response_set_header_map(NativePtr, headerMap_unwrapped);
+            CfxApi.Response.cfx_response_set_header_map(NativePtr, headerMap_unwrapped);
             StringFunctions.FreePinnedStrings(headerMap_handles);
             StringFunctions.CfxStringMultimapCopyToManaged(headerMap_unwrapped, headerMap);
-            CfxApi.cfx_string_multimap_free(headerMap_unwrapped);
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            CfxApi.Runtime.cfx_string_multimap_free(headerMap_unwrapped);
         }
     }
 }

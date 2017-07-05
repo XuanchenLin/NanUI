@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -43,16 +19,16 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
     /// </remarks>
-    public class CfrPostDataElement : CfrBase {
+    public class CfrPostDataElement : CfrBaseLibrary {
 
-        internal static CfrPostDataElement Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
+        internal static CfrPostDataElement Wrap(RemotePtr remotePtr) {
+            if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
             lock(weakCache) {
-                var cfrObj = (CfrPostDataElement)weakCache.Get(proxyId);
+                var cfrObj = (CfrPostDataElement)weakCache.Get(remotePtr.ptr);
                 if(cfrObj == null) {
-                    cfrObj = new CfrPostDataElement(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
+                    cfrObj = new CfrPostDataElement(remotePtr);
+                    weakCache.Add(remotePtr.ptr, cfrObj);
                 }
                 return cfrObj;
             }
@@ -67,13 +43,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public static CfrPostDataElement Create() {
-            var call = new CfxPostDataElementCreateRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return CfrPostDataElement.Wrap(call.__retval);
+            var call = new CfxPostDataElementCreateRemoteCall();
+            call.RequestExecution();
+            return CfrPostDataElement.Wrap(new RemotePtr(call.__retval));
         }
 
 
-        private CfrPostDataElement(IntPtr proxyId) : base(proxyId) {}
+        private CfrPostDataElement(RemotePtr remotePtr) : base(remotePtr) {}
 
         /// <summary>
         /// Returns true (1) if this object is read-only.
@@ -84,9 +60,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsReadOnly {
             get {
-                var call = new CfxPostDataElementIsReadOnlyRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxPostDataElementIsReadOnlyRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -100,9 +76,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfxPostdataElementType Type {
             get {
-                var call = new CfxPostDataElementGetTypeRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxPostDataElementGetTypeRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return (CfxPostdataElementType)call.__retval;
             }
         }
@@ -116,9 +92,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public string File {
             get {
-                var call = new CfxPostDataElementGetFileRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxPostDataElementGetFileRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -130,11 +106,11 @@ namespace Chromium.Remote {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
-        public int BytesCount {
+        public ulong BytesCount {
             get {
-                var call = new CfxPostDataElementGetBytesCountRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxPostDataElementGetBytesCountRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -147,9 +123,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public void SetToEmpty() {
-            var call = new CfxPostDataElementSetToEmptyRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.RequestExecution(this);
+            var call = new CfxPostDataElementSetToEmptyRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.RequestExecution(RemotePtr.connection);
         }
 
         /// <summary>
@@ -160,10 +136,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public void SetToFile(string fileName) {
-            var call = new CfxPostDataElementSetToFileRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+            var call = new CfxPostDataElementSetToFileRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.fileName = fileName;
-            call.RequestExecution(this);
+            call.RequestExecution(RemotePtr.connection);
         }
 
         /// <summary>
@@ -174,12 +150,12 @@ namespace Chromium.Remote {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
-        public void SetToBytes(int size, RemotePtr bytes) {
-            var call = new CfxPostDataElementSetToBytesRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+        public void SetToBytes(ulong size, RemotePtr bytes) {
+            var call = new CfxPostDataElementSetToBytesRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.size = size;
             call.bytes = bytes.ptr;
-            call.RequestExecution(this);
+            call.RequestExecution(RemotePtr.connection);
         }
 
         /// <summary>
@@ -190,17 +166,13 @@ namespace Chromium.Remote {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
-        public int GetBytes(int size, RemotePtr bytes) {
-            var call = new CfxPostDataElementGetBytesRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+        public ulong GetBytes(ulong size, RemotePtr bytes) {
+            var call = new CfxPostDataElementGetBytesRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.size = size;
             call.bytes = bytes.ptr;
-            call.RequestExecution(this);
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
-        }
-
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
         }
     }
 }

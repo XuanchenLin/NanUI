@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -43,10 +19,6 @@ namespace Chromium {
     /// </remarks>
     public sealed class CfxKeyEvent : CfxStructure {
 
-        static CfxKeyEvent () {
-            CfxApiLoader.LoadCfxKeyEventApi();
-        }
-
         internal static CfxKeyEvent Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
             return new CfxKeyEvent(nativePtr);
@@ -54,10 +26,10 @@ namespace Chromium {
 
         internal static CfxKeyEvent WrapOwned(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            return new CfxKeyEvent(nativePtr, CfxApi.cfx_key_event_dtor);
+            return new CfxKeyEvent(nativePtr, CfxApi.KeyEvent.cfx_key_event_dtor);
         }
 
-        public CfxKeyEvent() : base(CfxApi.cfx_key_event_ctor, CfxApi.cfx_key_event_dtor) {}
+        public CfxKeyEvent() : base(CfxApi.KeyEvent.cfx_key_event_ctor, CfxApi.KeyEvent.cfx_key_event_dtor) {}
         internal CfxKeyEvent(IntPtr nativePtr) : base(nativePtr) {}
         internal CfxKeyEvent(IntPtr nativePtr, CfxApi.cfx_dtor_delegate cfx_dtor) : base(nativePtr, cfx_dtor) {}
 
@@ -71,11 +43,11 @@ namespace Chromium {
         public CfxKeyEventType Type {
             get {
                 int value;
-                CfxApi.cfx_key_event_get_type(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_type(nativePtrUnchecked, out value);
                 return (CfxKeyEventType)value;
             }
             set {
-                CfxApi.cfx_key_event_set_type(nativePtrUnchecked, (int)value);
+                CfxApi.KeyEvent.cfx_key_event_set_type(nativePtrUnchecked, (int)value);
             }
         }
 
@@ -90,11 +62,11 @@ namespace Chromium {
         public uint Modifiers {
             get {
                 uint value;
-                CfxApi.cfx_key_event_get_modifiers(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_modifiers(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_key_event_set_modifiers(nativePtrUnchecked, value);
+                CfxApi.KeyEvent.cfx_key_event_set_modifiers(nativePtrUnchecked, value);
             }
         }
 
@@ -111,11 +83,11 @@ namespace Chromium {
         public int WindowsKeyCode {
             get {
                 int value;
-                CfxApi.cfx_key_event_get_windows_key_code(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_windows_key_code(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_key_event_set_windows_key_code(nativePtrUnchecked, value);
+                CfxApi.KeyEvent.cfx_key_event_set_windows_key_code(nativePtrUnchecked, value);
             }
         }
 
@@ -129,11 +101,11 @@ namespace Chromium {
         public int NativeKeyCode {
             get {
                 int value;
-                CfxApi.cfx_key_event_get_native_key_code(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_native_key_code(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_key_event_set_native_key_code(nativePtrUnchecked, value);
+                CfxApi.KeyEvent.cfx_key_event_set_native_key_code(nativePtrUnchecked, value);
             }
         }
 
@@ -149,11 +121,11 @@ namespace Chromium {
         public bool IsSystemKey {
             get {
                 int value;
-                CfxApi.cfx_key_event_get_is_system_key(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_is_system_key(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_key_event_set_is_system_key(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.KeyEvent.cfx_key_event_set_is_system_key(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -167,11 +139,11 @@ namespace Chromium {
         public short Character {
             get {
                 short value;
-                CfxApi.cfx_key_event_get_character(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_character(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_key_event_set_character(nativePtrUnchecked, value);
+                CfxApi.KeyEvent.cfx_key_event_set_character(nativePtrUnchecked, value);
             }
         }
 
@@ -186,11 +158,11 @@ namespace Chromium {
         public short UnmodifiedCharacter {
             get {
                 short value;
-                CfxApi.cfx_key_event_get_unmodified_character(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_unmodified_character(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_key_event_set_unmodified_character(nativePtrUnchecked, value);
+                CfxApi.KeyEvent.cfx_key_event_set_unmodified_character(nativePtrUnchecked, value);
             }
         }
 
@@ -205,11 +177,11 @@ namespace Chromium {
         public int FocusOnEditableField {
             get {
                 int value;
-                CfxApi.cfx_key_event_get_focus_on_editable_field(nativePtrUnchecked, out value);
+                CfxApi.KeyEvent.cfx_key_event_get_focus_on_editable_field(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_key_event_set_focus_on_editable_field(nativePtrUnchecked, value);
+                CfxApi.KeyEvent.cfx_key_event_set_focus_on_editable_field(nativePtrUnchecked, value);
             }
         }
 

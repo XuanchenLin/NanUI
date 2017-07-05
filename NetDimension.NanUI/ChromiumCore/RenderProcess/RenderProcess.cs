@@ -33,43 +33,69 @@
 using Chromium;
 using Chromium.Remote;
 using System;
+using System.Collections.Generic;
 
 namespace NetDimension.NanUI.ChromiumCore
 {
-	public class RenderProcess {
+	public class RenderProcess
+	{
 
-		internal static int RenderProcessMain() {
-			try {
+		internal static int RenderProcessMain()
+		{
+			try
+			{
 				var rp = new RenderProcess();
 				HtmlUILauncher.RaiseRemoteProcessCreated(rp.processHandler);
 				return rp.RemoteMain();
-			} catch(CfxRemotingException) {
+			}
+			catch (CfxRemotingException)
+			{
 				return -1;
 			}
 		}
-		
+
 		private readonly CfrApp app;
 		private readonly RenderProcessHandler processHandler;
 
-		internal event Action<RenderProcess> OnExit;
+		private List<WeakReference> browserReferences = new List<WeakReference>();
 
 		internal int RemoteProcessId { get; private set; }
 
-		private RenderProcess() {
+		private RenderProcess()
+		{
 			RemoteProcessId = CfxRemoteCallContext.CurrentContext.ProcessId;
 			app = new CfrApp();
 			processHandler = new RenderProcessHandler(this);
 			app.GetRenderProcessHandler += (s, e) => e.SetReturnValue(processHandler);
 		}
 
-		private int RemoteMain() {
-			try {
+		internal void AddBrowserReference(IChromiumWebBrowser browser)
+		{
+			for (int i = 0; i < browserReferences.Count; ++i)
+			{
+				if (browserReferences[i].Target == null)
+				{
+					browserReferences[i] = new WeakReference(browser);
+					return;
+				}
+			}
+			browserReferences.Add(new WeakReference(browser));
+		}
+
+		private int RemoteMain()
+		{
+			try
+			{
 				var retval = CfrRuntime.ExecuteProcess(app);
 				return retval;
-			} finally {
-				var handler = OnExit;
-				if(handler != null)
-					handler(this);
+			}
+			finally
+			{
+				foreach (var br in browserReferences)
+				{
+					var b = (IChromiumWebBrowser)br.Target;
+					b?.RemoteProcessExited(this);
+				}
 			}
 		}
 

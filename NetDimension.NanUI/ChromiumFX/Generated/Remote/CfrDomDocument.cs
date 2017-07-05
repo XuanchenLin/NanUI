@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -43,16 +19,16 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
     /// </remarks>
-    public class CfrDomDocument : CfrBase {
+    public class CfrDomDocument : CfrBaseLibrary {
 
-        internal static CfrDomDocument Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
+        internal static CfrDomDocument Wrap(RemotePtr remotePtr) {
+            if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
             lock(weakCache) {
-                var cfrObj = (CfrDomDocument)weakCache.Get(proxyId);
+                var cfrObj = (CfrDomDocument)weakCache.Get(remotePtr.ptr);
                 if(cfrObj == null) {
-                    cfrObj = new CfrDomDocument(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
+                    cfrObj = new CfrDomDocument(remotePtr);
+                    weakCache.Add(remotePtr.ptr, cfrObj);
                 }
                 return cfrObj;
             }
@@ -60,7 +36,7 @@ namespace Chromium.Remote {
 
 
 
-        private CfrDomDocument(IntPtr proxyId) : base(proxyId) {}
+        private CfrDomDocument(RemotePtr remotePtr) : base(remotePtr) {}
 
         /// <summary>
         /// Returns the document type.
@@ -71,9 +47,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfxDomDocumentType Type {
             get {
-                var call = new CfxDomDocumentGetTypeRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetTypeRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return (CfxDomDocumentType)call.__retval;
             }
         }
@@ -87,10 +63,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrDomNode Document {
             get {
-                var call = new CfxDomDocumentGetDocumentRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrDomNode.Wrap(call.__retval);
+                var call = new CfxDomDocumentGetDocumentRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrDomNode.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -103,10 +79,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrDomNode Body {
             get {
-                var call = new CfxDomDocumentGetBodyRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrDomNode.Wrap(call.__retval);
+                var call = new CfxDomDocumentGetBodyRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrDomNode.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -119,10 +95,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrDomNode Head {
             get {
-                var call = new CfxDomDocumentGetHeadRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrDomNode.Wrap(call.__retval);
+                var call = new CfxDomDocumentGetHeadRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrDomNode.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -135,9 +111,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public string Title {
             get {
-                var call = new CfxDomDocumentGetTitleRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetTitleRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -151,10 +127,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfrDomNode FocusedNode {
             get {
-                var call = new CfxDomDocumentGetFocusedNodeRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
-                return CfrDomNode.Wrap(call.__retval);
+                var call = new CfxDomDocumentGetFocusedNodeRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
+                return CfrDomNode.Wrap(new RemotePtr(call.__retval));
             }
         }
 
@@ -167,9 +143,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool HasSelection {
             get {
-                var call = new CfxDomDocumentHasSelectionRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentHasSelectionRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -183,9 +159,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public int SelectionStartOffset {
             get {
-                var call = new CfxDomDocumentGetSelectionStartOffsetRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetSelectionStartOffsetRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -199,9 +175,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public int SelectionEndOffset {
             get {
-                var call = new CfxDomDocumentGetSelectionEndOffsetRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetSelectionEndOffsetRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -215,9 +191,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public string SelectionAsMarkup {
             get {
-                var call = new CfxDomDocumentGetSelectionAsMarkupRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetSelectionAsMarkupRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -231,9 +207,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public string SelectionAsText {
             get {
-                var call = new CfxDomDocumentGetSelectionAsTextRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetSelectionAsTextRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -247,9 +223,9 @@ namespace Chromium.Remote {
         /// </remarks>
         public string BaseUrl {
             get {
-                var call = new CfxDomDocumentGetBaseUrlRenderProcessCall();
-                call.self = CfrObject.Unwrap(this);
-                call.RequestExecution(this);
+                var call = new CfxDomDocumentGetBaseUrlRemoteCall();
+                call.@this = RemotePtr.ptr;
+                call.RequestExecution(RemotePtr.connection);
                 return call.__retval;
             }
         }
@@ -262,11 +238,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
         /// </remarks>
         public CfrDomNode GetElementById(string id) {
-            var call = new CfxDomDocumentGetElementByIdRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+            var call = new CfxDomDocumentGetElementByIdRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.id = id;
-            call.RequestExecution(this);
-            return CfrDomNode.Wrap(call.__retval);
+            call.RequestExecution(RemotePtr.connection);
+            return CfrDomNode.Wrap(new RemotePtr(call.__retval));
         }
 
         /// <summary>
@@ -278,15 +254,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
         /// </remarks>
         public string GetCompleteUrl(string partialURL) {
-            var call = new CfxDomDocumentGetCompleteUrlRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+            var call = new CfxDomDocumentGetCompleteUrlRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.partialURL = partialURL;
-            call.RequestExecution(this);
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
-        }
-
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
         }
     }
 }

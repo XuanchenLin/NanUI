@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,104 +21,108 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
     /// </remarks>
-    public class CfxLoadHandler : CfxBase {
-
-        static CfxLoadHandler () {
-            CfxApiLoader.LoadCfxLoadHandlerApi();
-        }
-
-        internal static CfxLoadHandler Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_load_handler_get_gc_handle(nativePtr);
-            return (CfxLoadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxLoadHandler : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            on_loading_state_change_native = on_loading_state_change;
+            on_load_start_native = on_load_start;
+            on_load_end_native = on_load_end;
+            on_load_error_native = on_load_error;
+
+            on_loading_state_change_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_loading_state_change_native);
+            on_load_start_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_load_start_native);
+            on_load_end_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_load_end_native);
+            on_load_error_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_load_error_native);
+        }
+
         // on_loading_state_change
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_load_handler_on_loading_state_change_delegate(IntPtr gcHandlePtr, IntPtr browser, int isLoading, int canGoBack, int canGoForward);
-        private static cfx_load_handler_on_loading_state_change_delegate cfx_load_handler_on_loading_state_change;
-        private static IntPtr cfx_load_handler_on_loading_state_change_ptr;
+        private delegate void on_loading_state_change_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int isLoading, int canGoBack, int canGoForward);
+        private static on_loading_state_change_delegate on_loading_state_change_native;
+        private static IntPtr on_loading_state_change_native_ptr;
 
-        internal static void on_loading_state_change(IntPtr gcHandlePtr, IntPtr browser, int isLoading, int canGoBack, int canGoForward) {
+        internal static void on_loading_state_change(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, int isLoading, int canGoBack, int canGoForward) {
             var self = (CfxLoadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnLoadingStateChangeEventArgs(browser, isLoading, canGoBack, canGoForward);
-            var eventHandler = self.m_OnLoadingStateChange;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnLoadingStateChange?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
         // on_load_start
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_load_handler_on_load_start_delegate(IntPtr gcHandlePtr, IntPtr browser, IntPtr frame);
-        private static cfx_load_handler_on_load_start_delegate cfx_load_handler_on_load_start;
-        private static IntPtr cfx_load_handler_on_load_start_ptr;
+        private delegate void on_load_start_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr frame, out int frame_release, int transition_type);
+        private static on_load_start_delegate on_load_start_native;
+        private static IntPtr on_load_start_native_ptr;
 
-        internal static void on_load_start(IntPtr gcHandlePtr, IntPtr browser, IntPtr frame) {
+        internal static void on_load_start(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr frame, out int frame_release, int transition_type) {
             var self = (CfxLoadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
+                frame_release = 1;
                 return;
             }
-            var e = new CfxOnLoadStartEventArgs(browser, frame);
-            var eventHandler = self.m_OnLoadStart;
-            if(eventHandler != null) eventHandler(self, e);
+            var e = new CfxOnLoadStartEventArgs(browser, frame, transition_type);
+            self.m_OnLoadStart?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
-            if(e.m_frame_wrapped == null) CfxApi.cfx_release(e.m_frame);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
         }
 
         // on_load_end
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_load_handler_on_load_end_delegate(IntPtr gcHandlePtr, IntPtr browser, IntPtr frame, int httpStatusCode);
-        private static cfx_load_handler_on_load_end_delegate cfx_load_handler_on_load_end;
-        private static IntPtr cfx_load_handler_on_load_end_ptr;
+        private delegate void on_load_end_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr frame, out int frame_release, int httpStatusCode);
+        private static on_load_end_delegate on_load_end_native;
+        private static IntPtr on_load_end_native_ptr;
 
-        internal static void on_load_end(IntPtr gcHandlePtr, IntPtr browser, IntPtr frame, int httpStatusCode) {
+        internal static void on_load_end(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr frame, out int frame_release, int httpStatusCode) {
             var self = (CfxLoadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
+                frame_release = 1;
                 return;
             }
             var e = new CfxOnLoadEndEventArgs(browser, frame, httpStatusCode);
-            var eventHandler = self.m_OnLoadEnd;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnLoadEnd?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
-            if(e.m_frame_wrapped == null) CfxApi.cfx_release(e.m_frame);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
         }
 
         // on_load_error
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_load_handler_on_load_error_delegate(IntPtr gcHandlePtr, IntPtr browser, IntPtr frame, int errorCode, IntPtr errorText_str, int errorText_length, IntPtr failedUrl_str, int failedUrl_length);
-        private static cfx_load_handler_on_load_error_delegate cfx_load_handler_on_load_error;
-        private static IntPtr cfx_load_handler_on_load_error_ptr;
+        private delegate void on_load_error_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr frame, out int frame_release, int errorCode, IntPtr errorText_str, int errorText_length, IntPtr failedUrl_str, int failedUrl_length);
+        private static on_load_error_delegate on_load_error_native;
+        private static IntPtr on_load_error_native_ptr;
 
-        internal static void on_load_error(IntPtr gcHandlePtr, IntPtr browser, IntPtr frame, int errorCode, IntPtr errorText_str, int errorText_length, IntPtr failedUrl_str, int failedUrl_length) {
+        internal static void on_load_error(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr frame, out int frame_release, int errorCode, IntPtr errorText_str, int errorText_length, IntPtr failedUrl_str, int failedUrl_length) {
             var self = (CfxLoadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
+                frame_release = 1;
                 return;
             }
             var e = new CfxOnLoadErrorEventArgs(browser, frame, errorCode, errorText_str, errorText_length, failedUrl_str, failedUrl_length);
-            var eventHandler = self.m_OnLoadError;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnLoadError?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
-            if(e.m_frame_wrapped == null) CfxApi.cfx_release(e.m_frame);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
         }
 
-        internal CfxLoadHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxLoadHandler() : base(CfxApi.cfx_load_handler_ctor) {}
+        public CfxLoadHandler() : base(CfxApi.LoadHandler.cfx_load_handler_ctor) {}
 
         /// <summary>
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure.
+        /// of failure. It will be called before any calls to OnLoadStart and after all
+        /// calls to OnLoadError and/or OnLoadEnd.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -152,11 +132,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnLoadingStateChange == null) {
-                        if(cfx_load_handler_on_loading_state_change == null) {
-                            cfx_load_handler_on_loading_state_change = on_loading_state_change;
-                            cfx_load_handler_on_loading_state_change_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_load_handler_on_loading_state_change);
-                        }
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 0, cfx_load_handler_on_loading_state_change_ptr);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 0, on_loading_state_change_native_ptr);
                     }
                     m_OnLoadingStateChange += value;
                 }
@@ -165,7 +141,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnLoadingStateChange -= value;
                     if(m_OnLoadingStateChange == null) {
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -176,10 +152,12 @@ namespace Chromium {
         /// <summary>
         /// Called when the browser begins loading a frame. The |Frame| value will
         /// never be NULL -- call the is_main() function to check if this frame is the
-        /// main frame. Multiple frames may be loading at the same time. Sub-frames may
-        /// start or continue loading after the main frame load has ended. This
-        /// function may not be called for a particular frame if the load request for
-        /// that frame fails. For notification of overall browser load status use
+        /// main frame. |TransitionType| provides information about the source of the
+        /// navigation and an accurate value is only available in the browser process.
+        /// Multiple frames may be loading at the same time. Sub-frames may start or
+        /// continue loading after the main frame load has ended. This function will
+        /// always be called for all frames irrespective of whether the request
+        /// completes successfully. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
@@ -190,11 +168,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnLoadStart == null) {
-                        if(cfx_load_handler_on_load_start == null) {
-                            cfx_load_handler_on_load_start = on_load_start;
-                            cfx_load_handler_on_load_start_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_load_handler_on_load_start);
-                        }
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 1, cfx_load_handler_on_load_start_ptr);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 1, on_load_start_native_ptr);
                     }
                     m_OnLoadStart += value;
                 }
@@ -203,7 +177,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnLoadStart -= value;
                     if(m_OnLoadStart == null) {
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -217,7 +191,8 @@ namespace Chromium {
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully.
+        /// request completes successfully. For notification of overall browser load
+        /// status use OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -227,11 +202,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnLoadEnd == null) {
-                        if(cfx_load_handler_on_load_end == null) {
-                            cfx_load_handler_on_load_end = on_load_end;
-                            cfx_load_handler_on_load_end_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_load_handler_on_load_end);
-                        }
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 2, cfx_load_handler_on_load_end_ptr);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 2, on_load_end_native_ptr);
                     }
                     m_OnLoadEnd += value;
                 }
@@ -240,7 +211,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnLoadEnd -= value;
                     if(m_OnLoadEnd == null) {
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 2, IntPtr.Zero);
                     }
                 }
             }
@@ -262,11 +233,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnLoadError == null) {
-                        if(cfx_load_handler_on_load_error == null) {
-                            cfx_load_handler_on_load_error = on_load_error;
-                            cfx_load_handler_on_load_error_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_load_handler_on_load_error);
-                        }
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 3, cfx_load_handler_on_load_error_ptr);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 3, on_load_error_native_ptr);
                     }
                     m_OnLoadError += value;
                 }
@@ -275,7 +242,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnLoadError -= value;
                     if(m_OnLoadError == null) {
-                        CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                        CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 3, IntPtr.Zero);
                     }
                 }
             }
@@ -286,19 +253,19 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_OnLoadingStateChange != null) {
                 m_OnLoadingStateChange = null;
-                CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_OnLoadStart != null) {
                 m_OnLoadStart = null;
-                CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             if(m_OnLoadEnd != null) {
                 m_OnLoadEnd = null;
-                CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 2, IntPtr.Zero);
             }
             if(m_OnLoadError != null) {
                 m_OnLoadError = null;
-                CfxApi.cfx_load_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                CfxApi.LoadHandler.cfx_load_handler_set_callback(NativePtr, 3, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -311,7 +278,8 @@ namespace Chromium {
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure.
+        /// of failure. It will be called before any calls to OnLoadStart and after all
+        /// calls to OnLoadError and/or OnLoadEnd.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -323,7 +291,8 @@ namespace Chromium {
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure.
+        /// of failure. It will be called before any calls to OnLoadStart and after all
+        /// calls to OnLoadError and/or OnLoadEnd.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -390,10 +359,12 @@ namespace Chromium {
         /// <summary>
         /// Called when the browser begins loading a frame. The |Frame| value will
         /// never be NULL -- call the is_main() function to check if this frame is the
-        /// main frame. Multiple frames may be loading at the same time. Sub-frames may
-        /// start or continue loading after the main frame load has ended. This
-        /// function may not be called for a particular frame if the load request for
-        /// that frame fails. For notification of overall browser load status use
+        /// main frame. |TransitionType| provides information about the source of the
+        /// navigation and an accurate value is only available in the browser process.
+        /// Multiple frames may be loading at the same time. Sub-frames may start or
+        /// continue loading after the main frame load has ended. This function will
+        /// always be called for all frames irrespective of whether the request
+        /// completes successfully. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
@@ -405,10 +376,12 @@ namespace Chromium {
         /// <summary>
         /// Called when the browser begins loading a frame. The |Frame| value will
         /// never be NULL -- call the is_main() function to check if this frame is the
-        /// main frame. Multiple frames may be loading at the same time. Sub-frames may
-        /// start or continue loading after the main frame load has ended. This
-        /// function may not be called for a particular frame if the load request for
-        /// that frame fails. For notification of overall browser load status use
+        /// main frame. |TransitionType| provides information about the source of the
+        /// navigation and an accurate value is only available in the browser process.
+        /// Multiple frames may be loading at the same time. Sub-frames may start or
+        /// continue loading after the main frame load has ended. This function will
+        /// always be called for all frames irrespective of whether the request
+        /// completes successfully. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
@@ -421,10 +394,12 @@ namespace Chromium {
             internal CfxBrowser m_browser_wrapped;
             internal IntPtr m_frame;
             internal CfxFrame m_frame_wrapped;
+            internal int m_transition_type;
 
-            internal CfxOnLoadStartEventArgs(IntPtr browser, IntPtr frame) {
+            internal CfxOnLoadStartEventArgs(IntPtr browser, IntPtr frame, int transition_type) {
                 m_browser = browser;
                 m_frame = frame;
+                m_transition_type = transition_type;
             }
 
             /// <summary>
@@ -447,9 +422,18 @@ namespace Chromium {
                     return m_frame_wrapped;
                 }
             }
+            /// <summary>
+            /// Get the TransitionType parameter for the <see cref="CfxLoadHandler.OnLoadStart"/> callback.
+            /// </summary>
+            public CfxTransitionType TransitionType {
+                get {
+                    CheckAccess();
+                    return (CfxTransitionType)m_transition_type;
+                }
+            }
 
             public override string ToString() {
-                return String.Format("Browser={{{0}}}, Frame={{{1}}}", Browser, Frame);
+                return String.Format("Browser={{{0}}}, Frame={{{1}}}, TransitionType={{{2}}}", Browser, Frame, TransitionType);
             }
         }
 
@@ -459,7 +443,8 @@ namespace Chromium {
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully.
+        /// request completes successfully. For notification of overall browser load
+        /// status use OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -473,7 +458,8 @@ namespace Chromium {
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully.
+        /// request completes successfully. For notification of overall browser load
+        /// status use OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in

@@ -63,7 +63,7 @@ namespace NetDimension.NanUI
 
 		void SetRemoteBrowser(CfrBrowser remoteBrowser, RenderProcess remoteProcess);
 
-
+		void RemoteProcessExited(RenderProcess process);
 		/// <summary>
 		/// Returns the context menu handler for this browser. If this is never accessed the default
 		/// implementation will be used.

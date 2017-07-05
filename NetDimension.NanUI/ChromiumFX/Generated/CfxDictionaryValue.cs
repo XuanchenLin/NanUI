@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
     /// </remarks>
-    public class CfxDictionaryValue : CfxBase {
-
-        static CfxDictionaryValue () {
-            CfxApiLoader.LoadCfxDictionaryValueApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxDictionaryValue : CfxBaseLibrary {
 
         internal static CfxDictionaryValue Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -75,7 +45,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public static CfxDictionaryValue Create() {
-            return CfxDictionaryValue.Wrap(CfxApi.cfx_dictionary_value_create());
+            return CfxDictionaryValue.Wrap(CfxApi.DictionaryValue.cfx_dictionary_value_create());
         }
 
         /// <summary>
@@ -90,7 +60,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsValid {
             get {
-                return 0 != CfxApi.cfx_dictionary_value_is_valid(NativePtr);
+                return 0 != CfxApi.DictionaryValue.cfx_dictionary_value_is_valid(NativePtr);
             }
         }
 
@@ -103,7 +73,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsOwned {
             get {
-                return 0 != CfxApi.cfx_dictionary_value_is_owned(NativePtr);
+                return 0 != CfxApi.DictionaryValue.cfx_dictionary_value_is_owned(NativePtr);
             }
         }
 
@@ -117,7 +87,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsReadOnly {
             get {
-                return 0 != CfxApi.cfx_dictionary_value_is_read_only(NativePtr);
+                return 0 != CfxApi.DictionaryValue.cfx_dictionary_value_is_read_only(NativePtr);
             }
         }
 
@@ -128,9 +98,9 @@ namespace Chromium {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
-        public int Size {
+        public ulong Size {
             get {
-                return CfxApi.cfx_dictionary_value_get_size(NativePtr);
+                return (ulong)CfxApi.DictionaryValue.cfx_dictionary_value_get_size(NativePtr);
             }
         }
 
@@ -144,7 +114,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfxDictionaryValue that) {
-            return 0 != CfxApi.cfx_dictionary_value_is_same(NativePtr, CfxDictionaryValue.Unwrap(that));
+            return 0 != CfxApi.DictionaryValue.cfx_dictionary_value_is_same(NativePtr, CfxDictionaryValue.Unwrap(that));
         }
 
         /// <summary>
@@ -156,7 +126,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool IsEqual(CfxDictionaryValue that) {
-            return 0 != CfxApi.cfx_dictionary_value_is_equal(NativePtr, CfxDictionaryValue.Unwrap(that));
+            return 0 != CfxApi.DictionaryValue.cfx_dictionary_value_is_equal(NativePtr, CfxDictionaryValue.Unwrap(that));
         }
 
         /// <summary>
@@ -168,7 +138,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfxDictionaryValue Copy(bool excludeEmptyChildren) {
-            return CfxDictionaryValue.Wrap(CfxApi.cfx_dictionary_value_copy(NativePtr, excludeEmptyChildren ? 1 : 0));
+            return CfxDictionaryValue.Wrap(CfxApi.DictionaryValue.cfx_dictionary_value_copy(NativePtr, excludeEmptyChildren ? 1 : 0));
         }
 
         /// <summary>
@@ -179,7 +149,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool Clear() {
-            return 0 != CfxApi.cfx_dictionary_value_clear(NativePtr);
+            return 0 != CfxApi.DictionaryValue.cfx_dictionary_value_clear(NativePtr);
         }
 
         /// <summary>
@@ -191,7 +161,7 @@ namespace Chromium {
         /// </remarks>
         public bool HasKey(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_has_key(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_has_key(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -206,10 +176,10 @@ namespace Chromium {
         public bool GetKeys(System.Collections.Generic.List<string> keys) {
             PinnedString[] keys_handles;
             var keys_unwrapped = StringFunctions.UnwrapCfxStringList(keys, out keys_handles);
-            var __retval = CfxApi.cfx_dictionary_value_get_keys(NativePtr, keys_unwrapped);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_keys(NativePtr, keys_unwrapped);
             StringFunctions.FreePinnedStrings(keys_handles);
             StringFunctions.CfxStringListCopyToManaged(keys_unwrapped, keys);
-            CfxApi.cfx_string_list_free(keys_unwrapped);
+            CfxApi.Runtime.cfx_string_list_free(keys_unwrapped);
             return 0 != __retval;
         }
 
@@ -223,7 +193,7 @@ namespace Chromium {
         /// </remarks>
         public bool Remove(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_remove(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_remove(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -237,7 +207,7 @@ namespace Chromium {
         /// </remarks>
         public CfxValueType GetType(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_type(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_type(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return (CfxValueType)__retval;
         }
@@ -255,7 +225,7 @@ namespace Chromium {
         /// </remarks>
         public CfxValue GetValue(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_value(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_value(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return CfxValue.Wrap(__retval);
         }
@@ -269,7 +239,7 @@ namespace Chromium {
         /// </remarks>
         public bool GetBool(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_bool(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_bool(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -283,7 +253,7 @@ namespace Chromium {
         /// </remarks>
         public int GetInt(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_int(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_int(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return __retval;
         }
@@ -297,7 +267,7 @@ namespace Chromium {
         /// </remarks>
         public double GetDouble(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_double(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_double(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return __retval;
         }
@@ -311,7 +281,7 @@ namespace Chromium {
         /// </remarks>
         public string GetString(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_string(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_string(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return StringFunctions.ConvertStringUserfree(__retval);
         }
@@ -326,7 +296,7 @@ namespace Chromium {
         /// </remarks>
         public CfxBinaryValue GetBinary(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_binary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_binary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return CfxBinaryValue.Wrap(__retval);
         }
@@ -342,7 +312,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDictionaryValue GetDictionary(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_dictionary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_dictionary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return CfxDictionaryValue.Wrap(__retval);
         }
@@ -358,7 +328,7 @@ namespace Chromium {
         /// </remarks>
         public CfxListValue GetList(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_get_list(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_get_list(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return CfxListValue.Wrap(__retval);
         }
@@ -377,7 +347,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetValue(string key, CfxValue value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_value(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxValue.Unwrap(value));
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_value(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxValue.Unwrap(value));
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -392,7 +362,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetNull(string key) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_null(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_null(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -407,7 +377,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetBool(string key, bool value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_bool(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value ? 1 : 0);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_bool(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value ? 1 : 0);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -422,7 +392,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetInt(string key, int value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_int(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_int(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -437,7 +407,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetDouble(string key, double value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_double(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_double(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value);
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -453,7 +423,7 @@ namespace Chromium {
         public bool SetString(string key, string value) {
             var key_pinned = new PinnedString(key);
             var value_pinned = new PinnedString(value);
-            var __retval = CfxApi.cfx_dictionary_value_set_string(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_string(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, value_pinned.Obj.PinnedPtr, value_pinned.Length);
             key_pinned.Obj.Free();
             value_pinned.Obj.Free();
             return 0 != __retval;
@@ -472,7 +442,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetBinary(string key, CfxBinaryValue value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_binary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxBinaryValue.Unwrap(value));
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_binary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxBinaryValue.Unwrap(value));
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -490,7 +460,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetDictionary(string key, CfxDictionaryValue value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_dictionary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxDictionaryValue.Unwrap(value));
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_dictionary(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxDictionaryValue.Unwrap(value));
             key_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -508,14 +478,9 @@ namespace Chromium {
         /// </remarks>
         public bool SetList(string key, CfxListValue value) {
             var key_pinned = new PinnedString(key);
-            var __retval = CfxApi.cfx_dictionary_value_set_list(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxListValue.Unwrap(value));
+            var __retval = CfxApi.DictionaryValue.cfx_dictionary_value_set_list(NativePtr, key_pinned.Obj.PinnedPtr, key_pinned.Length, CfxListValue.Unwrap(value));
             key_pinned.Obj.Free();
             return 0 != __retval;
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
         }
     }
 }

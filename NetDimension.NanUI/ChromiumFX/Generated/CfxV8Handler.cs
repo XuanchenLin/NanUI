@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,31 +21,35 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
     /// </remarks>
-    public class CfxV8Handler : CfxBase {
-
-        static CfxV8Handler () {
-            CfxApiLoader.LoadCfxV8HandlerApi();
-        }
+    public class CfxV8Handler : CfxBaseClient {
 
         internal static CfxV8Handler Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_v8handler_get_gc_handle(nativePtr);
+            var handlePtr = CfxApi.V8Handler.cfx_v8handler_get_gc_handle(nativePtr);
             return (CfxV8Handler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
         }
 
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            execute_native = execute;
+
+            execute_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(execute_native);
+        }
+
         // execute
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_v8handler_execute_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, int argumentsCount, IntPtr arguments, out IntPtr retval, out IntPtr exception_str, out int exception_length, out IntPtr exception_gc_handle);
-        private static cfx_v8handler_execute_delegate cfx_v8handler_execute;
-        private static IntPtr cfx_v8handler_execute_ptr;
+        private delegate void execute_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, out int object_release, UIntPtr argumentsCount, IntPtr arguments, out int arguments_release, out IntPtr retval, out IntPtr exception_str, out int exception_length, out IntPtr exception_gc_handle);
+        private static execute_delegate execute_native;
+        private static IntPtr execute_native_ptr;
 
-        internal static void execute(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, int argumentsCount, IntPtr arguments, out IntPtr retval, out IntPtr exception_str, out int exception_length, out IntPtr exception_gc_handle) {
+        internal static void execute(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, out int object_release, UIntPtr argumentsCount, IntPtr arguments, out int arguments_release, out IntPtr retval, out IntPtr exception_str, out int exception_length, out IntPtr exception_gc_handle) {
             var self = (CfxV8Handler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                object_release = 1;
+                arguments_release = 1;
                 retval = default(IntPtr);
                 exception_str = IntPtr.Zero;
                 exception_length = 0;
@@ -77,20 +57,15 @@ namespace Chromium {
                 return;
             }
             var e = new CfxV8HandlerExecuteEventArgs(name_str, name_length, @object, arguments, argumentsCount);
-            var eventHandler = self.m_Execute;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Execute?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_object_wrapped == null) CfxApi.cfx_release(e.m_object);
-            if(e.m_arguments_managed == null) {
-                for(int i = 0; i < argumentsCount; ++i) {
-                    CfxApi.cfx_release(e.m_arguments[i]);
-                }
-            }
+            object_release = e.m_object_wrapped == null? 1 : 0;
+            arguments_release = e.m_arguments_managed == null? 1 : 0;
             if(e.m_exception_wrapped != null && e.m_exception_wrapped.Length > 0) {
                 var exception_pinned = new PinnedString(e.m_exception_wrapped);
                 exception_str = exception_pinned.Obj.PinnedPtr;
                 exception_length = exception_pinned.Length;
-                exception_gc_handle = exception_pinned.Obj.ToIntPtr();
+                exception_gc_handle = exception_pinned.Obj.GCHandlePtr();
             } else {
                 exception_str = IntPtr.Zero;
                 exception_length = 0;
@@ -101,7 +76,7 @@ namespace Chromium {
         }
 
         internal CfxV8Handler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxV8Handler() : base(CfxApi.cfx_v8handler_ctor) {}
+        public CfxV8Handler() : base(CfxApi.V8Handler.cfx_v8handler_ctor) {}
 
         /// <summary>
         /// Handle execution of the function identified by |Name|. |Object| is the
@@ -118,11 +93,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Execute == null) {
-                        if(cfx_v8handler_execute == null) {
-                            cfx_v8handler_execute = execute;
-                            cfx_v8handler_execute_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_v8handler_execute);
-                        }
-                        CfxApi.cfx_v8handler_set_managed_callback(NativePtr, 0, cfx_v8handler_execute_ptr);
+                        CfxApi.V8Handler.cfx_v8handler_set_callback(NativePtr, 0, execute_native_ptr);
                     }
                     m_Execute += value;
                 }
@@ -131,7 +102,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Execute -= value;
                     if(m_Execute == null) {
-                        CfxApi.cfx_v8handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.V8Handler.cfx_v8handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -142,7 +113,7 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_Execute != null) {
                 m_Execute = null;
-                CfxApi.cfx_v8handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.V8Handler.cfx_v8handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -189,13 +160,13 @@ namespace Chromium {
             internal CfxV8Value m_returnValue;
             private bool returnValueSet;
 
-            internal CfxV8HandlerExecuteEventArgs(IntPtr name_str, int name_length, IntPtr @object, IntPtr arguments, int argumentsCount) {
+            internal CfxV8HandlerExecuteEventArgs(IntPtr name_str, int name_length, IntPtr @object, IntPtr arguments, UIntPtr argumentsCount) {
                 m_name_str = name_str;
                 m_name_length = name_length;
                 m_object = @object;
-                m_arguments = new IntPtr[argumentsCount];
-                if(argumentsCount > 0) {
-                    System.Runtime.InteropServices.Marshal.Copy(arguments, m_arguments, 0, argumentsCount);
+                m_arguments = new IntPtr[(ulong)argumentsCount];
+                if(m_arguments.Length > 0) {
+                    System.Runtime.InteropServices.Marshal.Copy(arguments, m_arguments, 0, (int)argumentsCount);
                 }
             }
 

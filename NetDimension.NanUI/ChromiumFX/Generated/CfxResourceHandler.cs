@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,146 +20,156 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_resource_handler_capi.h">cef/include/capi/cef_resource_handler_capi.h</see>.
     /// </remarks>
-    public class CfxResourceHandler : CfxBase {
-
-        static CfxResourceHandler () {
-            CfxApiLoader.LoadCfxResourceHandlerApi();
-        }
-
-        internal static CfxResourceHandler Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_resource_handler_get_gc_handle(nativePtr);
-            return (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxResourceHandler : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            process_request_native = process_request;
+            get_response_headers_native = get_response_headers;
+            read_response_native = read_response;
+            can_get_cookie_native = can_get_cookie;
+            can_set_cookie_native = can_set_cookie;
+            cancel_native = cancel;
+
+            process_request_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(process_request_native);
+            get_response_headers_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_response_headers_native);
+            read_response_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(read_response_native);
+            can_get_cookie_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(can_get_cookie_native);
+            can_set_cookie_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(can_set_cookie_native);
+            cancel_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cancel_native);
+        }
+
         // process_request
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_resource_handler_process_request_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr request, IntPtr callback);
-        private static cfx_resource_handler_process_request_delegate cfx_resource_handler_process_request;
-        private static IntPtr cfx_resource_handler_process_request_ptr;
+        private delegate void process_request_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr request, out int request_release, IntPtr callback, out int callback_release);
+        private static process_request_delegate process_request_native;
+        private static IntPtr process_request_native_ptr;
 
-        internal static void process_request(IntPtr gcHandlePtr, out int __retval, IntPtr request, IntPtr callback) {
+        internal static void process_request(IntPtr gcHandlePtr, out int __retval, IntPtr request, out int request_release, IntPtr callback, out int callback_release) {
             var self = (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                request_release = 1;
+                callback_release = 1;
                 return;
             }
             var e = new CfxProcessRequestEventArgs(request, callback);
-            var eventHandler = self.m_ProcessRequest;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_ProcessRequest?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_request_wrapped == null) CfxApi.cfx_release(e.m_request);
-            if(e.m_callback_wrapped == null) CfxApi.cfx_release(e.m_callback);
+            request_release = e.m_request_wrapped == null? 1 : 0;
+            callback_release = e.m_callback_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // get_response_headers
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_resource_handler_get_response_headers_delegate(IntPtr gcHandlePtr, IntPtr response, out long response_length, ref IntPtr redirectUrl_str, ref int redirectUrl_length);
-        private static cfx_resource_handler_get_response_headers_delegate cfx_resource_handler_get_response_headers;
-        private static IntPtr cfx_resource_handler_get_response_headers_ptr;
+        private delegate void get_response_headers_delegate(IntPtr gcHandlePtr, IntPtr response, out int response_release, out long response_length, out IntPtr redirectUrl_str, out int redirectUrl_length, out IntPtr redirectUrl_gc_handle);
+        private static get_response_headers_delegate get_response_headers_native;
+        private static IntPtr get_response_headers_native_ptr;
 
-        internal static void get_response_headers(IntPtr gcHandlePtr, IntPtr response, out long response_length, ref IntPtr redirectUrl_str, ref int redirectUrl_length) {
+        internal static void get_response_headers(IntPtr gcHandlePtr, IntPtr response, out int response_release, out long response_length, out IntPtr redirectUrl_str, out int redirectUrl_length, out IntPtr redirectUrl_gc_handle) {
             var self = (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                response_release = 1;
                 response_length = default(long);
+                redirectUrl_str = IntPtr.Zero;
+                redirectUrl_length = 0;
+                redirectUrl_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxGetResponseHeadersEventArgs(response, redirectUrl_str, redirectUrl_length);
-            var eventHandler = self.m_GetResponseHeaders;
-            if(eventHandler != null) eventHandler(self, e);
+            var e = new CfxGetResponseHeadersEventArgs(response);
+            self.m_GetResponseHeaders?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_response_wrapped == null) CfxApi.cfx_release(e.m_response);
+            response_release = e.m_response_wrapped == null? 1 : 0;
             response_length = e.m_response_length;
-            if(e.m_redirectUrl_changed) {
+            if(e.m_redirectUrl_wrapped != null && e.m_redirectUrl_wrapped.Length > 0) {
                 var redirectUrl_pinned = new PinnedString(e.m_redirectUrl_wrapped);
                 redirectUrl_str = redirectUrl_pinned.Obj.PinnedPtr;
                 redirectUrl_length = redirectUrl_pinned.Length;
+                redirectUrl_gc_handle = redirectUrl_pinned.Obj.GCHandlePtr();
+            } else {
+                redirectUrl_str = IntPtr.Zero;
+                redirectUrl_length = 0;
+                redirectUrl_gc_handle = IntPtr.Zero;
             }
         }
 
         // read_response
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_resource_handler_read_response_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr data_out, int bytes_to_read, out int bytes_read, IntPtr callback);
-        private static cfx_resource_handler_read_response_delegate cfx_resource_handler_read_response;
-        private static IntPtr cfx_resource_handler_read_response_ptr;
+        private delegate void read_response_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr data_out, int bytes_to_read, out int bytes_read, IntPtr callback, out int callback_release);
+        private static read_response_delegate read_response_native;
+        private static IntPtr read_response_native_ptr;
 
-        internal static void read_response(IntPtr gcHandlePtr, out int __retval, IntPtr data_out, int bytes_to_read, out int bytes_read, IntPtr callback) {
+        internal static void read_response(IntPtr gcHandlePtr, out int __retval, IntPtr data_out, int bytes_to_read, out int bytes_read, IntPtr callback, out int callback_release) {
             var self = (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 bytes_read = default(int);
+                callback_release = 1;
                 return;
             }
             var e = new CfxReadResponseEventArgs(data_out, bytes_to_read, callback);
-            var eventHandler = self.m_ReadResponse;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_ReadResponse?.Invoke(self, e);
             e.m_isInvalid = true;
             bytes_read = e.m_bytes_read;
-            if(e.m_callback_wrapped == null) CfxApi.cfx_release(e.m_callback);
+            callback_release = e.m_callback_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // can_get_cookie
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_resource_handler_can_get_cookie_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr cookie);
-        private static cfx_resource_handler_can_get_cookie_delegate cfx_resource_handler_can_get_cookie;
-        private static IntPtr cfx_resource_handler_can_get_cookie_ptr;
+        private delegate void can_get_cookie_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr cookie);
+        private static can_get_cookie_delegate can_get_cookie_native;
+        private static IntPtr can_get_cookie_native_ptr;
 
         internal static void can_get_cookie(IntPtr gcHandlePtr, out int __retval, IntPtr cookie) {
             var self = (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 return;
             }
             var e = new CfxCanGetCookieEventArgs(cookie);
-            var eventHandler = self.m_CanGetCookie;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_CanGetCookie?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // can_set_cookie
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_resource_handler_can_set_cookie_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr cookie);
-        private static cfx_resource_handler_can_set_cookie_delegate cfx_resource_handler_can_set_cookie;
-        private static IntPtr cfx_resource_handler_can_set_cookie_ptr;
+        private delegate void can_set_cookie_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr cookie);
+        private static can_set_cookie_delegate can_set_cookie_native;
+        private static IntPtr can_set_cookie_native_ptr;
 
         internal static void can_set_cookie(IntPtr gcHandlePtr, out int __retval, IntPtr cookie) {
             var self = (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 return;
             }
             var e = new CfxCanSetCookieEventArgs(cookie);
-            var eventHandler = self.m_CanSetCookie;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_CanSetCookie?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // cancel
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_resource_handler_cancel_delegate(IntPtr gcHandlePtr);
-        private static cfx_resource_handler_cancel_delegate cfx_resource_handler_cancel;
-        private static IntPtr cfx_resource_handler_cancel_ptr;
+        private delegate void cancel_delegate(IntPtr gcHandlePtr);
+        private static cancel_delegate cancel_native;
+        private static IntPtr cancel_native_ptr;
 
         internal static void cancel(IntPtr gcHandlePtr) {
             var self = (CfxResourceHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 return;
             }
             var e = new CfxEventArgs();
-            var eventHandler = self.m_Cancel;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Cancel?.Invoke(self, e);
             e.m_isInvalid = true;
         }
 
-        internal CfxResourceHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxResourceHandler() : base(CfxApi.cfx_resource_handler_ctor) {}
+        public CfxResourceHandler() : base(CfxApi.ResourceHandler.cfx_resource_handler_ctor) {}
 
         /// <summary>
         /// Begin processing the request. To handle the request return true (1) and
@@ -200,11 +186,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_ProcessRequest == null) {
-                        if(cfx_resource_handler_process_request == null) {
-                            cfx_resource_handler_process_request = process_request;
-                            cfx_resource_handler_process_request_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_resource_handler_process_request);
-                        }
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 0, cfx_resource_handler_process_request_ptr);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 0, process_request_native_ptr);
                     }
                     m_ProcessRequest += value;
                 }
@@ -213,7 +195,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_ProcessRequest -= value;
                     if(m_ProcessRequest == null) {
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -229,7 +211,8 @@ namespace Chromium {
         /// (0) or the specified number of bytes have been read. Use the |Response|
         /// object to set the mime type, http status code and other optional header
         /// values. To redirect the request to a new URL set |RedirectUrl| to the new
-        /// URL.
+        /// URL. If an error occured while setting up the request you can call
+        /// set_error() on |Response| to indicate the error condition.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -239,11 +222,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_GetResponseHeaders == null) {
-                        if(cfx_resource_handler_get_response_headers == null) {
-                            cfx_resource_handler_get_response_headers = get_response_headers;
-                            cfx_resource_handler_get_response_headers_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_resource_handler_get_response_headers);
-                        }
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 1, cfx_resource_handler_get_response_headers_ptr);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 1, get_response_headers_native_ptr);
                     }
                     m_GetResponseHeaders += value;
                 }
@@ -252,7 +231,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetResponseHeaders -= value;
                     if(m_GetResponseHeaders == null) {
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -275,11 +254,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_ReadResponse == null) {
-                        if(cfx_resource_handler_read_response == null) {
-                            cfx_resource_handler_read_response = read_response;
-                            cfx_resource_handler_read_response_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_resource_handler_read_response);
-                        }
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 2, cfx_resource_handler_read_response_ptr);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 2, read_response_native_ptr);
                     }
                     m_ReadResponse += value;
                 }
@@ -288,7 +263,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_ReadResponse -= value;
                     if(m_ReadResponse == null) {
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 2, IntPtr.Zero);
                     }
                 }
             }
@@ -309,11 +284,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_CanGetCookie == null) {
-                        if(cfx_resource_handler_can_get_cookie == null) {
-                            cfx_resource_handler_can_get_cookie = can_get_cookie;
-                            cfx_resource_handler_can_get_cookie_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_resource_handler_can_get_cookie);
-                        }
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 3, cfx_resource_handler_can_get_cookie_ptr);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 3, can_get_cookie_native_ptr);
                     }
                     m_CanGetCookie += value;
                 }
@@ -322,7 +293,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_CanGetCookie -= value;
                     if(m_CanGetCookie == null) {
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 3, IntPtr.Zero);
                     }
                 }
             }
@@ -342,11 +313,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_CanSetCookie == null) {
-                        if(cfx_resource_handler_can_set_cookie == null) {
-                            cfx_resource_handler_can_set_cookie = can_set_cookie;
-                            cfx_resource_handler_can_set_cookie_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_resource_handler_can_set_cookie);
-                        }
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 4, cfx_resource_handler_can_set_cookie_ptr);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 4, can_set_cookie_native_ptr);
                     }
                     m_CanSetCookie += value;
                 }
@@ -355,7 +322,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_CanSetCookie -= value;
                     if(m_CanSetCookie == null) {
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 4, IntPtr.Zero);
                     }
                 }
             }
@@ -374,11 +341,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Cancel == null) {
-                        if(cfx_resource_handler_cancel == null) {
-                            cfx_resource_handler_cancel = cancel;
-                            cfx_resource_handler_cancel_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_resource_handler_cancel);
-                        }
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 5, cfx_resource_handler_cancel_ptr);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 5, cancel_native_ptr);
                     }
                     m_Cancel += value;
                 }
@@ -387,7 +350,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Cancel -= value;
                     if(m_Cancel == null) {
-                        CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 5, IntPtr.Zero);
+                        CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 5, IntPtr.Zero);
                     }
                 }
             }
@@ -398,27 +361,27 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_ProcessRequest != null) {
                 m_ProcessRequest = null;
-                CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_GetResponseHeaders != null) {
                 m_GetResponseHeaders = null;
-                CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             if(m_ReadResponse != null) {
                 m_ReadResponse = null;
-                CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 2, IntPtr.Zero);
             }
             if(m_CanGetCookie != null) {
                 m_CanGetCookie = null;
-                CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 3, IntPtr.Zero);
             }
             if(m_CanSetCookie != null) {
                 m_CanSetCookie = null;
-                CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 4, IntPtr.Zero);
             }
             if(m_Cancel != null) {
                 m_Cancel = null;
-                CfxApi.cfx_resource_handler_set_managed_callback(NativePtr, 5, IntPtr.Zero);
+                CfxApi.ResourceHandler.cfx_resource_handler_set_callback(NativePtr, 5, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -512,7 +475,8 @@ namespace Chromium {
         /// (0) or the specified number of bytes have been read. Use the |Response|
         /// object to set the mime type, http status code and other optional header
         /// values. To redirect the request to a new URL set |RedirectUrl| to the new
-        /// URL.
+        /// URL. If an error occured while setting up the request you can call
+        /// set_error() on |Response| to indicate the error condition.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -528,7 +492,8 @@ namespace Chromium {
         /// (0) or the specified number of bytes have been read. Use the |Response|
         /// object to set the mime type, http status code and other optional header
         /// values. To redirect the request to a new URL set |RedirectUrl| to the new
-        /// URL.
+        /// URL. If an error occured while setting up the request you can call
+        /// set_error() on |Response| to indicate the error condition.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -539,15 +504,10 @@ namespace Chromium {
             internal IntPtr m_response;
             internal CfxResponse m_response_wrapped;
             internal long m_response_length;
-            internal IntPtr m_redirectUrl_str;
-            internal int m_redirectUrl_length;
             internal string m_redirectUrl_wrapped;
-            internal bool m_redirectUrl_changed;
 
-            internal CfxGetResponseHeadersEventArgs(IntPtr response, IntPtr redirectUrl_str, int redirectUrl_length) {
+            internal CfxGetResponseHeadersEventArgs(IntPtr response) {
                 m_response = response;
-                m_redirectUrl_str = redirectUrl_str;
-                m_redirectUrl_length = redirectUrl_length;
             }
 
             /// <summary>
@@ -570,25 +530,17 @@ namespace Chromium {
                 }
             }
             /// <summary>
-            /// Get or set the RedirectUrl parameter for the <see cref="CfxResourceHandler.GetResponseHeaders"/> callback.
+            /// Set the RedirectUrl out parameter for the <see cref="CfxResourceHandler.GetResponseHeaders"/> callback.
             /// </summary>
             public string RedirectUrl {
-                get {
-                    CheckAccess();
-                    if(!m_redirectUrl_changed && m_redirectUrl_wrapped == null) {
-                        m_redirectUrl_wrapped = StringFunctions.PtrToStringUni(m_redirectUrl_str, m_redirectUrl_length);
-                    }
-                    return m_redirectUrl_wrapped;
-                }
                 set {
                     CheckAccess();
                     m_redirectUrl_wrapped = value;
-                    m_redirectUrl_changed = true;
                 }
             }
 
             public override string ToString() {
-                return String.Format("Response={{{0}}}, RedirectUrl={{{1}}}", Response, RedirectUrl);
+                return String.Format("Response={{{0}}}", Response);
             }
         }
 

@@ -37,21 +37,26 @@ using NetDimension.NanUI.Resource;
 
 namespace NetDimension.NanUI.ChromiumCore
 {
-	internal class RequestHandler : CfxRequestHandler {
+	internal class RequestHandler : CfxRequestHandler
+	{
 
-        internal BrowserClient client;
+		internal BrowserClient client;
 
-        internal RequestHandler(BrowserClient client) {
-            this.client = client;
+		internal RequestHandler(BrowserClient client)
+		{
+			this.client = client;
 
-            this.GetResourceHandler += new CfxGetResourceHandlerEventHandler(RequestHandler_GetResourceHandler);
-        }
+			this.GetResourceHandler += new CfxGetResourceHandlerEventHandler(RequestHandler_GetResourceHandler);
 
-        void RequestHandler_GetResourceHandler(object sender, CfxGetResourceHandlerEventArgs e) {
-            WebResource resource;
-            if(client.browser.WebResources.TryGetValue(e.Request.Url, out resource)) {
-                e.SetReturnValue(resource.GetResourceHandler());
-            }
-        }
-    }
+		}
+
+		void RequestHandler_GetResourceHandler(object sender, CfxGetResourceHandlerEventArgs e)
+		{
+			WebResource resource;
+			if (client.browser.WebResources.TryGetValue(e.Request.Url, out resource))
+			{
+				e.SetReturnValue(resource.GetResourceHandler());
+			}
+		}
+	}
 }

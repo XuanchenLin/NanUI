@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -35,1302 +11,543 @@ using System;
 
 namespace Chromium.Remote {
     using Event;
-    using Chromium.Event;
 
-    internal class CfxRenderProcessHandlerCtorRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerCtorWithGCHandleRemoteCall : CtorWithGCHandleRemoteCall {
 
-        internal CfxRenderProcessHandlerCtorRenderProcessCall()
-            : base(RemoteCallId.CfxRenderProcessHandlerCtorRenderProcessCall) {}
+        internal CfxRenderProcessHandlerCtorWithGCHandleRemoteCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerCtorWithGCHandleRemoteCall) {}
+
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.RenderProcessHandler.cfx_render_process_handler_ctor(gcHandlePtr, 1);
+        }
+    }
+
+    internal class CfxRenderProcessHandlerSetCallbackRemoteCall : SetCallbackRemoteCall {
+
+        internal CfxRenderProcessHandlerSetCallbackRemoteCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerSetCallbackRemoteCall) {}
+
+        protected override void RemoteProcedure() {
+            CfxRenderProcessHandlerRemoteClient.SetCallback(self, index, active);
+        }
+    }
+
+    internal class CfxRenderProcessHandlerOnRenderThreadCreatedRemoteEventCall : RemoteEventCall {
+
+        internal CfxRenderProcessHandlerOnRenderThreadCreatedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnRenderThreadCreatedRemoteEventCall) {}
+
+        internal IntPtr extra_info;
+        internal int extra_info_release;
+
+        protected override void WriteArgs(StreamHandler h) {
+            h.Write(gcHandlePtr);
+            h.Write(extra_info);
+        }
+
+        protected override void ReadArgs(StreamHandler h) {
+            h.Read(out gcHandlePtr);
+            h.Read(out extra_info);
+        }
+
+        protected override void WriteReturn(StreamHandler h) {
+            h.Write(extra_info_release);
+        }
+
+        protected override void ReadReturn(StreamHandler h) {
+            h.Read(out extra_info_release);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnRenderThreadCreatedEventArgs(this);
+            self.m_OnRenderThreadCreated?.Invoke(self, e);
+            e.m_isInvalid = true;
+            extra_info_release = e.m_extra_info_wrapped == null? 1 : 0;
+        }
+    }
+
+    internal class CfxRenderProcessHandlerOnWebKitInitializedRemoteEventCall : RemoteEventCall {
+
+        internal CfxRenderProcessHandlerOnWebKitInitializedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnWebKitInitializedRemoteEventCall) {}
+
+
+        protected override void WriteArgs(StreamHandler h) {
+            h.Write(gcHandlePtr);
+        }
+
+        protected override void ReadArgs(StreamHandler h) {
+            h.Read(out gcHandlePtr);
+        }
+
+        protected override void WriteReturn(StreamHandler h) {
+        }
+
+        protected override void ReadReturn(StreamHandler h) {
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrEventArgs();
+            self.m_OnWebKitInitialized?.Invoke(self, e);
+            e.m_isInvalid = true;
+        }
+    }
+
+    internal class CfxRenderProcessHandlerOnBrowserCreatedRemoteEventCall : RemoteEventCall {
+
+        internal CfxRenderProcessHandlerOnBrowserCreatedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnBrowserCreatedRemoteEventCall) {}
+
+        internal IntPtr browser;
+        internal int browser_release;
+
+        protected override void WriteArgs(StreamHandler h) {
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+        }
+
+        protected override void ReadArgs(StreamHandler h) {
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+        }
+
+        protected override void WriteReturn(StreamHandler h) {
+            h.Write(browser_release);
+        }
+
+        protected override void ReadReturn(StreamHandler h) {
+            h.Read(out browser_release);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnBrowserCreatedEventArgs(this);
+            self.m_OnBrowserCreated?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+        }
+    }
+
+    internal class CfxRenderProcessHandlerOnBrowserDestroyedRemoteEventCall : RemoteEventCall {
+
+        internal CfxRenderProcessHandlerOnBrowserDestroyedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnBrowserDestroyedRemoteEventCall) {}
+
+        internal IntPtr browser;
+        internal int browser_release;
+
+        protected override void WriteArgs(StreamHandler h) {
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+        }
+
+        protected override void ReadArgs(StreamHandler h) {
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+        }
+
+        protected override void WriteReturn(StreamHandler h) {
+            h.Write(browser_release);
+        }
+
+        protected override void ReadReturn(StreamHandler h) {
+            h.Read(out browser_release);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnBrowserDestroyedEventArgs(this);
+            self.m_OnBrowserDestroyed?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+        }
+    }
+
+    internal class CfxRenderProcessHandlerGetLoadHandlerRemoteEventCall : RemoteEventCall {
+
+        internal CfxRenderProcessHandlerGetLoadHandlerRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerGetLoadHandlerRemoteEventCall) {}
+
 
         internal IntPtr __retval;
-        protected override void WriteReturn(StreamHandler h) { h.Write(__retval); }
-        protected override void ReadReturn(StreamHandler h) { h.Read(out __retval); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            __retval = RemoteProxy.Wrap(new CfxRenderProcessHandler());
-        }
-    }
-
-    internal class CfxOnRenderThreadCreatedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnRenderThreadCreatedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnRenderThreadCreatedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnRenderThreadCreatedEventArgs e) {
-            var call = new CfxOnRenderThreadCreatedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnRenderThreadCreatedEventArgs(eventArgsId);
-            sender.raise_OnRenderThreadCreated(sender, e);
-        }
-    }
-
-    internal class CfxOnRenderThreadCreatedActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnRenderThreadCreatedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnRenderThreadCreatedActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnRenderThreadCreated += CfxOnRenderThreadCreatedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnRenderThreadCreatedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnRenderThreadCreatedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnRenderThreadCreatedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnRenderThreadCreated -= CfxOnRenderThreadCreatedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnRenderThreadCreatedGetExtraInfoRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnRenderThreadCreatedGetExtraInfoRenderProcessCall()
-            : base(RemoteCallId.CfxOnRenderThreadCreatedGetExtraInfoRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
+            h.Write(gcHandlePtr);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
+            h.Read(out gcHandlePtr);
         }
+
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
+            h.Write(__retval);
         }
+
         protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
+            h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnRenderThreadCreatedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.ExtraInfo);
-        }
-    }
-
-    internal class CfxOnWebKitInitializedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnWebKitInitializedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnWebKitInitializedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxEventArgs e) {
-            var call = new CfxOnWebKitInitializedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrEventArgs(eventArgsId);
-            sender.raise_OnWebKitInitialized(sender, e);
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrGetLoadHandlerEventArgs(this);
+            self.m_GetLoadHandler?.Invoke(self, e);
+            e.m_isInvalid = true;
+            __retval = CfrObject.Unwrap(e.m_returnValue).ptr;
         }
     }
 
-    internal class CfxOnWebKitInitializedActivateRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerOnBeforeNavigationRemoteEventCall : RemoteEventCall {
 
-        internal CfxOnWebKitInitializedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnWebKitInitializedActivateRenderProcessCall) {}
+        internal CfxRenderProcessHandlerOnBeforeNavigationRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnBeforeNavigationRemoteEventCall) {}
 
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
+        internal IntPtr browser;
+        internal int browser_release;
+        internal IntPtr frame;
+        internal int frame_release;
+        internal IntPtr request;
+        internal int request_release;
+        internal int navigation_type;
+        internal int is_redirect;
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnWebKitInitialized += CfxOnWebKitInitializedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnWebKitInitializedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnWebKitInitializedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnWebKitInitializedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnWebKitInitialized -= CfxOnWebKitInitializedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBrowserCreatedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnBrowserCreatedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnBrowserCreatedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnBrowserCreatedEventArgs e) {
-            var call = new CfxOnBrowserCreatedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnBrowserCreatedEventArgs(eventArgsId);
-            sender.raise_OnBrowserCreated(sender, e);
-        }
-    }
-
-    internal class CfxOnBrowserCreatedActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBrowserCreatedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnBrowserCreatedActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnBrowserCreated += CfxOnBrowserCreatedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBrowserCreatedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBrowserCreatedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnBrowserCreatedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnBrowserCreated -= CfxOnBrowserCreatedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBrowserCreatedGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBrowserCreatedGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnBrowserCreatedGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
+        internal int __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+            h.Write(frame);
+            h.Write(request);
+            h.Write(navigation_type);
+            h.Write(is_redirect);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+            h.Read(out frame);
+            h.Read(out request);
+            h.Read(out navigation_type);
+            h.Read(out is_redirect);
         }
+
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
+            h.Write(browser_release);
+            h.Write(frame_release);
+            h.Write(request_release);
+            h.Write(__retval);
         }
+
         protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
+            h.Read(out browser_release);
+            h.Read(out frame_release);
+            h.Read(out request_release);
+            h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBrowserCreatedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxOnBrowserDestroyedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnBrowserDestroyedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnBrowserDestroyedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnBrowserDestroyedEventArgs e) {
-            var call = new CfxOnBrowserDestroyedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnBrowserDestroyedEventArgs(eventArgsId);
-            sender.raise_OnBrowserDestroyed(sender, e);
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnBeforeNavigationEventArgs(this);
+            self.m_OnBeforeNavigation?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
+            request_release = e.m_request_wrapped == null? 1 : 0;
+            __retval = e.m_returnValue ? 1 : 0;
         }
     }
 
-    internal class CfxOnBrowserDestroyedActivateRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerOnContextCreatedRemoteEventCall : RemoteEventCall {
 
-        internal CfxOnBrowserDestroyedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnBrowserDestroyedActivateRenderProcessCall) {}
+        internal CfxRenderProcessHandlerOnContextCreatedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnContextCreatedRemoteEventCall) {}
 
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnBrowserDestroyed += CfxOnBrowserDestroyedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBrowserDestroyedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBrowserDestroyedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnBrowserDestroyedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnBrowserDestroyed -= CfxOnBrowserDestroyedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBrowserDestroyedGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBrowserDestroyedGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnBrowserDestroyedGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
+        internal IntPtr browser;
+        internal int browser_release;
+        internal IntPtr frame;
+        internal int frame_release;
+        internal IntPtr context;
+        internal int context_release;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+            h.Write(frame);
+            h.Write(context);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+            h.Read(out frame);
+            h.Read(out context);
         }
+
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
+            h.Write(browser_release);
+            h.Write(frame_release);
+            h.Write(context_release);
         }
+
         protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
+            h.Read(out browser_release);
+            h.Read(out frame_release);
+            h.Read(out context_release);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBrowserDestroyedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxGetLoadHandlerBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxGetLoadHandlerBrowserProcessCall()
-            : base(RemoteCallId.CfxGetLoadHandlerBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxGetLoadHandlerEventArgs e) {
-            var call = new CfxGetLoadHandlerBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrGetLoadHandlerEventArgs(eventArgsId);
-            sender.raise_GetLoadHandler(sender, e);
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnContextCreatedEventArgs(this);
+            self.m_OnContextCreated?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
+            context_release = e.m_context_wrapped == null? 1 : 0;
         }
     }
 
-    internal class CfxGetLoadHandlerActivateRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerOnContextReleasedRemoteEventCall : RemoteEventCall {
 
-        internal CfxGetLoadHandlerActivateRenderProcessCall()
-            : base(RemoteCallId.CfxGetLoadHandlerActivateRenderProcessCall) {}
+        internal CfxRenderProcessHandlerOnContextReleasedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnContextReleasedRemoteEventCall) {}
 
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.GetLoadHandler += CfxGetLoadHandlerBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxGetLoadHandlerDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxGetLoadHandlerDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxGetLoadHandlerDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.GetLoadHandler -= CfxGetLoadHandlerBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxGetLoadHandlerSetReturnValueRenderProcessCall : RenderProcessCall {
-
-        internal CfxGetLoadHandlerSetReturnValueRenderProcessCall()
-            : base(RemoteCallId.CfxGetLoadHandlerSetReturnValueRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
+        internal IntPtr browser;
+        internal int browser_release;
+        internal IntPtr frame;
+        internal int frame_release;
+        internal IntPtr context;
+        internal int context_release;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-            h.Write(value);
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+            h.Write(frame);
+            h.Write(context);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-            h.Read(out value);
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+            h.Read(out frame);
+            h.Read(out context);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxGetLoadHandlerEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            e.SetReturnValue((CfxLoadHandler)RemoteProxy.Unwrap(value));
-        }
-    }
-
-    internal class CfxOnBeforeNavigationBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnBeforeNavigationBrowserProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnBeforeNavigationEventArgs e) {
-            var call = new CfxOnBeforeNavigationBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnBeforeNavigationEventArgs(eventArgsId);
-            sender.raise_OnBeforeNavigation(sender, e);
-        }
-    }
-
-    internal class CfxOnBeforeNavigationActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBeforeNavigationActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnBeforeNavigation += CfxOnBeforeNavigationBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBeforeNavigationDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBeforeNavigationDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnBeforeNavigation -= CfxOnBeforeNavigationBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnBeforeNavigationGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBeforeNavigationGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
+            h.Write(browser_release);
+            h.Write(frame_release);
+            h.Write(context_release);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBeforeNavigationEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
+        protected override void ReadReturn(StreamHandler h) {
+            h.Read(out browser_release);
+            h.Read(out frame_release);
+            h.Read(out context_release);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnContextReleasedEventArgs(this);
+            self.m_OnContextReleased?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
+            context_release = e.m_context_wrapped == null? 1 : 0;
         }
     }
 
-    internal class CfxOnBeforeNavigationGetFrameRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerOnUncaughtExceptionRemoteEventCall : RemoteEventCall {
 
-        internal CfxOnBeforeNavigationGetFrameRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationGetFrameRenderProcessCall) {}
+        internal CfxRenderProcessHandlerOnUncaughtExceptionRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnUncaughtExceptionRemoteEventCall) {}
 
-        internal ulong eventArgsId;
-        internal IntPtr value;
+        internal IntPtr browser;
+        internal int browser_release;
+        internal IntPtr frame;
+        internal int frame_release;
+        internal IntPtr context;
+        internal int context_release;
+        internal IntPtr exception;
+        internal int exception_release;
+        internal IntPtr stackTrace;
+        internal int stackTrace_release;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+            h.Write(frame);
+            h.Write(context);
+            h.Write(exception);
+            h.Write(stackTrace);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+            h.Read(out frame);
+            h.Read(out context);
+            h.Read(out exception);
+            h.Read(out stackTrace);
         }
+
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
+            h.Write(browser_release);
+            h.Write(frame_release);
+            h.Write(context_release);
+            h.Write(exception_release);
+            h.Write(stackTrace_release);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBeforeNavigationEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Frame);
+        protected override void ReadReturn(StreamHandler h) {
+            h.Read(out browser_release);
+            h.Read(out frame_release);
+            h.Read(out context_release);
+            h.Read(out exception_release);
+            h.Read(out stackTrace_release);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnUncaughtExceptionEventArgs(this);
+            self.m_OnUncaughtException?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
+            context_release = e.m_context_wrapped == null? 1 : 0;
+            exception_release = e.m_exception_wrapped == null? 1 : 0;
+            stackTrace_release = e.m_stackTrace_wrapped == null? 1 : 0;
         }
     }
 
-    internal class CfxOnBeforeNavigationGetRequestRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerOnFocusedNodeChangedRemoteEventCall : RemoteEventCall {
 
-        internal CfxOnBeforeNavigationGetRequestRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationGetRequestRenderProcessCall) {}
+        internal CfxRenderProcessHandlerOnFocusedNodeChangedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnFocusedNodeChangedRemoteEventCall) {}
 
-        internal ulong eventArgsId;
-        internal IntPtr value;
+        internal IntPtr browser;
+        internal int browser_release;
+        internal IntPtr frame;
+        internal int frame_release;
+        internal IntPtr node;
+        internal int node_release;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+            h.Write(frame);
+            h.Write(node);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+            h.Read(out frame);
+            h.Read(out node);
         }
+
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
+            h.Write(browser_release);
+            h.Write(frame_release);
+            h.Write(node_release);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBeforeNavigationEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Request);
+        protected override void ReadReturn(StreamHandler h) {
+            h.Read(out browser_release);
+            h.Read(out frame_release);
+            h.Read(out node_release);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnFocusedNodeChangedEventArgs(this);
+            self.m_OnFocusedNodeChanged?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            frame_release = e.m_frame_wrapped == null? 1 : 0;
+            node_release = e.m_node_wrapped == null? 1 : 0;
         }
     }
 
-    internal class CfxOnBeforeNavigationGetNavigationTypeRenderProcessCall : RenderProcessCall {
+    internal class CfxRenderProcessHandlerOnProcessMessageReceivedRemoteEventCall : RemoteEventCall {
 
-        internal CfxOnBeforeNavigationGetNavigationTypeRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationGetNavigationTypeRenderProcessCall) {}
+        internal CfxRenderProcessHandlerOnProcessMessageReceivedRemoteEventCall()
+            : base(RemoteCallId.CfxRenderProcessHandlerOnProcessMessageReceivedRemoteEventCall) {}
 
-        internal ulong eventArgsId;
-        internal int value;
+        internal IntPtr browser;
+        internal int browser_release;
+        internal int source_process;
+        internal IntPtr message;
+        internal int message_release;
+
+        internal int __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
+            h.Write(gcHandlePtr);
+            h.Write(browser);
+            h.Write(source_process);
+            h.Write(message);
         }
+
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
+            h.Read(out gcHandlePtr);
+            h.Read(out browser);
+            h.Read(out source_process);
+            h.Read(out message);
         }
+
         protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
+            h.Write(browser_release);
+            h.Write(message_release);
+            h.Write(__retval);
         }
+
         protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBeforeNavigationEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = (int)e.NavigationType;
-        }
-    }
-
-    internal class CfxOnBeforeNavigationGetIsRedirectRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBeforeNavigationGetIsRedirectRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationGetIsRedirectRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal bool value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBeforeNavigationEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = e.IsRedirect;
-        }
-    }
-
-    internal class CfxOnBeforeNavigationSetReturnValueRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnBeforeNavigationSetReturnValueRenderProcessCall()
-            : base(RemoteCallId.CfxOnBeforeNavigationSetReturnValueRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal bool value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-            h.Write(value);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnBeforeNavigationEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            e.SetReturnValue(value);
-        }
-    }
-
-    internal class CfxOnContextCreatedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnContextCreatedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnContextCreatedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnContextCreatedEventArgs e) {
-            var call = new CfxOnContextCreatedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnContextCreatedEventArgs(eventArgsId);
-            sender.raise_OnContextCreated(sender, e);
-        }
-    }
-
-    internal class CfxOnContextCreatedActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextCreatedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextCreatedActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnContextCreated += CfxOnContextCreatedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnContextCreatedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextCreatedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextCreatedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnContextCreated -= CfxOnContextCreatedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnContextCreatedGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextCreatedGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextCreatedGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnContextCreatedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxOnContextCreatedGetFrameRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextCreatedGetFrameRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextCreatedGetFrameRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnContextCreatedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Frame);
-        }
-    }
-
-    internal class CfxOnContextCreatedGetContextRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextCreatedGetContextRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextCreatedGetContextRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnContextCreatedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Context);
-        }
-    }
-
-    internal class CfxOnContextReleasedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnContextReleasedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnContextReleasedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnContextReleasedEventArgs e) {
-            var call = new CfxOnContextReleasedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnContextReleasedEventArgs(eventArgsId);
-            sender.raise_OnContextReleased(sender, e);
-        }
-    }
-
-    internal class CfxOnContextReleasedActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextReleasedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextReleasedActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnContextReleased += CfxOnContextReleasedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnContextReleasedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextReleasedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextReleasedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnContextReleased -= CfxOnContextReleasedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnContextReleasedGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextReleasedGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextReleasedGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnContextReleasedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxOnContextReleasedGetFrameRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextReleasedGetFrameRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextReleasedGetFrameRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnContextReleasedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Frame);
-        }
-    }
-
-    internal class CfxOnContextReleasedGetContextRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnContextReleasedGetContextRenderProcessCall()
-            : base(RemoteCallId.CfxOnContextReleasedGetContextRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnContextReleasedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Context);
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnUncaughtExceptionBrowserProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnUncaughtExceptionEventArgs e) {
-            var call = new CfxOnUncaughtExceptionBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnUncaughtExceptionEventArgs(eventArgsId);
-            sender.raise_OnUncaughtException(sender, e);
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnUncaughtException += CfxOnUncaughtExceptionBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnUncaughtException -= CfxOnUncaughtExceptionBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnUncaughtExceptionEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionGetFrameRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionGetFrameRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionGetFrameRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnUncaughtExceptionEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Frame);
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionGetContextRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionGetContextRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionGetContextRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnUncaughtExceptionEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Context);
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionGetExceptionRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionGetExceptionRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionGetExceptionRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnUncaughtExceptionEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Exception);
-        }
-    }
-
-    internal class CfxOnUncaughtExceptionGetStackTraceRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnUncaughtExceptionGetStackTraceRenderProcessCall()
-            : base(RemoteCallId.CfxOnUncaughtExceptionGetStackTraceRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnUncaughtExceptionEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.StackTrace);
-        }
-    }
-
-    internal class CfxOnFocusedNodeChangedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnFocusedNodeChangedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnFocusedNodeChangedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnFocusedNodeChangedEventArgs e) {
-            var call = new CfxOnFocusedNodeChangedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnFocusedNodeChangedEventArgs(eventArgsId);
-            sender.raise_OnFocusedNodeChanged(sender, e);
-        }
-    }
-
-    internal class CfxOnFocusedNodeChangedActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnFocusedNodeChangedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnFocusedNodeChangedActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnFocusedNodeChanged += CfxOnFocusedNodeChangedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnFocusedNodeChangedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnFocusedNodeChangedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnFocusedNodeChangedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnFocusedNodeChanged -= CfxOnFocusedNodeChangedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnFocusedNodeChangedGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnFocusedNodeChangedGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnFocusedNodeChangedGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnFocusedNodeChangedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxOnFocusedNodeChangedGetFrameRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnFocusedNodeChangedGetFrameRenderProcessCall()
-            : base(RemoteCallId.CfxOnFocusedNodeChangedGetFrameRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnFocusedNodeChangedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Frame);
-        }
-    }
-
-    internal class CfxOnFocusedNodeChangedGetNodeRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnFocusedNodeChangedGetNodeRenderProcessCall()
-            : base(RemoteCallId.CfxOnFocusedNodeChangedGetNodeRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnFocusedNodeChangedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Node);
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedBrowserProcessCall : BrowserProcessCall {
-
-        internal CfxOnProcessMessageReceivedBrowserProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedBrowserProcessCall) {}
-
-        internal static void EventCall(object sender, CfxOnProcessMessageReceivedEventArgs e) {
-            var call = new CfxOnProcessMessageReceivedBrowserProcessCall();
-            call.sender = RemoteProxy.Wrap((CfxBase)sender);
-            call.eventArgsId = AddEventArgs(e);
-            call.RequestExecution(RemoteClient.connection);
-            RemoveEventArgs(call.eventArgsId);
-        }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = CfrRenderProcessHandler.Wrap(this.sender);
-            var e = new CfrOnProcessMessageReceivedEventArgs(eventArgsId);
-            sender.raise_OnProcessMessageReceived(sender, e);
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedActivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnProcessMessageReceivedActivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedActivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnProcessMessageReceived += CfxOnProcessMessageReceivedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedDeactivateRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnProcessMessageReceivedDeactivateRenderProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedDeactivateRenderProcessCall) {}
-
-        internal IntPtr sender;
-        protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
-        protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxRenderProcessHandler)RemoteProxy.Unwrap(this.sender);
-            sender.OnProcessMessageReceived -= CfxOnProcessMessageReceivedBrowserProcessCall.EventCall;
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedGetBrowserRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnProcessMessageReceivedGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedGetBrowserRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnProcessMessageReceivedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Browser);
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedGetSourceProcessRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnProcessMessageReceivedGetSourceProcessRenderProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedGetSourceProcessRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal int value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnProcessMessageReceivedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = (int)e.SourceProcess;
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedGetMessageRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnProcessMessageReceivedGetMessageRenderProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedGetMessageRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal IntPtr value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-        }
-        protected override void WriteReturn(StreamHandler h) {
-            h.Write(value);
-        }
-        protected override void ReadReturn(StreamHandler h) {
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnProcessMessageReceivedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            value = RemoteProxy.Wrap(e.Message);
-        }
-    }
-
-    internal class CfxOnProcessMessageReceivedSetReturnValueRenderProcessCall : RenderProcessCall {
-
-        internal CfxOnProcessMessageReceivedSetReturnValueRenderProcessCall()
-            : base(RemoteCallId.CfxOnProcessMessageReceivedSetReturnValueRenderProcessCall) {}
-
-        internal ulong eventArgsId;
-        internal bool value;
-
-        protected override void WriteArgs(StreamHandler h) {
-            h.Write(eventArgsId);
-            h.Write(value);
-        }
-        protected override void ReadArgs(StreamHandler h) {
-            h.Read(out eventArgsId);
-            h.Read(out value);
-        }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var e = (CfxOnProcessMessageReceivedEventArgs)BrowserProcessCall.GetEventArgs(eventArgsId);
-            e.SetReturnValue(value);
+            h.Read(out browser_release);
+            h.Read(out message_release);
+            h.Read(out __retval);
+        }
+
+        protected override void RemoteProcedure() {
+            var self = (CfrRenderProcessHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
+            if(self == null || self.CallbacksDisabled) {
+                return;
+            }
+            var e = new CfrOnProcessMessageReceivedEventArgs(this);
+            self.m_OnProcessMessageReceived?.Invoke(self, e);
+            e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            message_release = e.m_message_wrapped == null? 1 : 0;
+            __retval = e.m_returnValue ? 1 : 0;
         }
     }
 

@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -35,242 +11,232 @@ using System;
 
 namespace Chromium.Remote {
 
-    internal class CfxTimeCtorRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeCtorRemoteCall : CtorRemoteCall {
 
-        internal CfxTimeCtorRenderProcessCall()
-            : base(RemoteCallId.CfxTimeCtorRenderProcessCall) {}
+        internal CfxTimeCtorRemoteCall()
+            : base(RemoteCallId.CfxTimeCtorRemoteCall) {}
 
-        internal IntPtr __retval;
-        protected override void WriteReturn(StreamHandler h) { h.Write(__retval); }
-        protected override void ReadReturn(StreamHandler h) { h.Read(out __retval); }
-
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            __retval = RemoteProxy.Wrap(new CfxTime());
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Time.cfx_time_ctor();
         }
     }
 
-    internal class CfxTimeGetYearRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeDtorRemoteCall : DtorRemoteCall {
 
-        internal CfxTimeGetYearRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetYearRenderProcessCall) {}
+        internal CfxTimeDtorRemoteCall()
+            : base(RemoteCallId.CfxTimeDtorRemoteCall) {}
+
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_dtor(nativePtr);
+        }
+    }
+
+    internal class CfxTimeGetYearRemoteCall : RemoteCall {
+
+        internal CfxTimeGetYearRemoteCall()
+            : base(RemoteCallId.CfxTimeGetYearRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.Year;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_year(sender, out value);
         }
     }
-    internal class CfxTimeSetYearRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetYearRemoteCall : RemoteCall {
 
-        internal CfxTimeSetYearRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetYearRenderProcessCall) {}
+        internal CfxTimeSetYearRemoteCall()
+            : base(RemoteCallId.CfxTimeSetYearRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.Year = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_year(sender, value);
         }
     }
-    internal class CfxTimeGetMonthRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetMonthRemoteCall : RemoteCall {
 
-        internal CfxTimeGetMonthRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetMonthRenderProcessCall) {}
+        internal CfxTimeGetMonthRemoteCall()
+            : base(RemoteCallId.CfxTimeGetMonthRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.Month;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_month(sender, out value);
         }
     }
-    internal class CfxTimeSetMonthRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetMonthRemoteCall : RemoteCall {
 
-        internal CfxTimeSetMonthRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetMonthRenderProcessCall) {}
+        internal CfxTimeSetMonthRemoteCall()
+            : base(RemoteCallId.CfxTimeSetMonthRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.Month = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_month(sender, value);
         }
     }
-    internal class CfxTimeGetDayOfWeekRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetDayOfWeekRemoteCall : RemoteCall {
 
-        internal CfxTimeGetDayOfWeekRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetDayOfWeekRenderProcessCall) {}
+        internal CfxTimeGetDayOfWeekRemoteCall()
+            : base(RemoteCallId.CfxTimeGetDayOfWeekRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.DayOfWeek;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_day_of_week(sender, out value);
         }
     }
-    internal class CfxTimeSetDayOfWeekRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetDayOfWeekRemoteCall : RemoteCall {
 
-        internal CfxTimeSetDayOfWeekRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetDayOfWeekRenderProcessCall) {}
+        internal CfxTimeSetDayOfWeekRemoteCall()
+            : base(RemoteCallId.CfxTimeSetDayOfWeekRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.DayOfWeek = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_day_of_week(sender, value);
         }
     }
-    internal class CfxTimeGetDayOfMonthRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetDayOfMonthRemoteCall : RemoteCall {
 
-        internal CfxTimeGetDayOfMonthRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetDayOfMonthRenderProcessCall) {}
+        internal CfxTimeGetDayOfMonthRemoteCall()
+            : base(RemoteCallId.CfxTimeGetDayOfMonthRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.DayOfMonth;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_day_of_month(sender, out value);
         }
     }
-    internal class CfxTimeSetDayOfMonthRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetDayOfMonthRemoteCall : RemoteCall {
 
-        internal CfxTimeSetDayOfMonthRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetDayOfMonthRenderProcessCall) {}
+        internal CfxTimeSetDayOfMonthRemoteCall()
+            : base(RemoteCallId.CfxTimeSetDayOfMonthRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.DayOfMonth = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_day_of_month(sender, value);
         }
     }
-    internal class CfxTimeGetHourRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetHourRemoteCall : RemoteCall {
 
-        internal CfxTimeGetHourRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetHourRenderProcessCall) {}
+        internal CfxTimeGetHourRemoteCall()
+            : base(RemoteCallId.CfxTimeGetHourRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.Hour;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_hour(sender, out value);
         }
     }
-    internal class CfxTimeSetHourRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetHourRemoteCall : RemoteCall {
 
-        internal CfxTimeSetHourRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetHourRenderProcessCall) {}
+        internal CfxTimeSetHourRemoteCall()
+            : base(RemoteCallId.CfxTimeSetHourRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.Hour = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_hour(sender, value);
         }
     }
-    internal class CfxTimeGetMinuteRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetMinuteRemoteCall : RemoteCall {
 
-        internal CfxTimeGetMinuteRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetMinuteRenderProcessCall) {}
+        internal CfxTimeGetMinuteRemoteCall()
+            : base(RemoteCallId.CfxTimeGetMinuteRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.Minute;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_minute(sender, out value);
         }
     }
-    internal class CfxTimeSetMinuteRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetMinuteRemoteCall : RemoteCall {
 
-        internal CfxTimeSetMinuteRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetMinuteRenderProcessCall) {}
+        internal CfxTimeSetMinuteRemoteCall()
+            : base(RemoteCallId.CfxTimeSetMinuteRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.Minute = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_minute(sender, value);
         }
     }
-    internal class CfxTimeGetSecondRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetSecondRemoteCall : RemoteCall {
 
-        internal CfxTimeGetSecondRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetSecondRenderProcessCall) {}
+        internal CfxTimeGetSecondRemoteCall()
+            : base(RemoteCallId.CfxTimeGetSecondRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.Second;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_second(sender, out value);
         }
     }
-    internal class CfxTimeSetSecondRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetSecondRemoteCall : RemoteCall {
 
-        internal CfxTimeSetSecondRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetSecondRenderProcessCall) {}
+        internal CfxTimeSetSecondRemoteCall()
+            : base(RemoteCallId.CfxTimeSetSecondRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.Second = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_second(sender, value);
         }
     }
-    internal class CfxTimeGetMillisecondRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeGetMillisecondRemoteCall : RemoteCall {
 
-        internal CfxTimeGetMillisecondRenderProcessCall()
-            : base(RemoteCallId.CfxTimeGetMillisecondRenderProcessCall) {}
+        internal CfxTimeGetMillisecondRemoteCall()
+            : base(RemoteCallId.CfxTimeGetMillisecondRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); }
         protected override void WriteReturn(StreamHandler h) { h.Write(value); }
         protected override void ReadReturn(StreamHandler h) { h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            value = sender.Millisecond;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_get_millisecond(sender, out value);
         }
     }
-    internal class CfxTimeSetMillisecondRenderProcessCall : RenderProcessCall {
+    internal class CfxTimeSetMillisecondRemoteCall : RemoteCall {
 
-        internal CfxTimeSetMillisecondRenderProcessCall()
-            : base(RemoteCallId.CfxTimeSetMillisecondRenderProcessCall) {}
+        internal CfxTimeSetMillisecondRemoteCall()
+            : base(RemoteCallId.CfxTimeSetMillisecondRemoteCall) {}
         internal IntPtr sender;
         internal int value;
         protected override void WriteArgs(StreamHandler h) { h.Write(sender); h.Write(value); }
         protected override void ReadArgs(StreamHandler h) { h.Read(out sender); h.Read(out value); }
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var sender = (CfxTime)RemoteProxy.Unwrap(this.sender);
-            sender.Millisecond = value;
+        protected override void RemoteProcedure() {
+            CfxApi.Time.cfx_time_set_millisecond(sender, value);
         }
     }
 }

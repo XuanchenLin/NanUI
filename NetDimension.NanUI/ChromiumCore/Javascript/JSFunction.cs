@@ -41,50 +41,60 @@ namespace NetDimension.NanUI.ChromiumCore
 	/// Represents a javascript function in the render process to be added as 
 	/// a property to a browser frame's global object or to a JSObject.
 	/// </summary>
-	public class JSFunction : JSProperty {
+	public class JSFunction : JSProperty
+	{
 
-        private CfrV8Handler v8Handler;
-        
-        /// <summary>
-        /// Javascript callback event for this function.
-        /// </summary>
-        public event CfrV8HandlerExecuteEventHandler Execute;
+		private CfrV8Handler v8Handler;
 
-        /// <summary>
-        /// Creates a new javascript function to be added as a property 
-        /// to a browser frame's global object or to a child object.
-        /// </summary>
-        public JSFunction()
-            : base(JSPropertyType.Function, JSInvokeMode.Inherit) {
-        }
+		/// <summary>
+		/// Javascript callback event for this function.
+		/// </summary>
+		public event CfrV8HandlerExecuteEventHandler Execute;
 
-        /// <summary>
-        /// Creates a new javascript function to be added as a property 
-        /// to a browser frame's global object or to a child object.
-        /// </summary>
-        public JSFunction(JSInvokeMode invokeMode)
-            : base(JSPropertyType.Function, invokeMode) {
-        }
+		/// <summary>
+		/// Creates a new javascript function to be added as a property 
+		/// to a browser frame's global object or to a child object.
+		/// </summary>
+		public JSFunction()
+			: base(JSPropertyType.Function, JSInvokeMode.Inherit)
+		{
+		}
 
-        internal void SetV8Handler(CfrV8Handler handler) {
-            handler.Execute += new CfrV8HandlerExecuteEventHandler(handler_Execute);
-        }
+		/// <summary>
+		/// Creates a new javascript function to be added as a property 
+		/// to a browser frame's global object or to a child object.
+		/// </summary>
+		public JSFunction(JSInvokeMode invokeMode)
+			: base(JSPropertyType.Function, invokeMode)
+		{
+		}
 
-        private void handler_Execute(object sender, CfrV8HandlerExecuteEventArgs e) {
-            var eventHandler = Execute;
-            if(eventHandler != null) {
-                if(WillInvoke) {
-                    Browser.RenderThreadInvoke((MethodInvoker)(() => { eventHandler(this, e); }));
-                } else {
-                    eventHandler(this, e);
-                }
-            }
-        }
+		internal void SetV8Handler(CfrV8Handler handler)
+		{
+			handler.Execute += new CfrV8HandlerExecuteEventHandler(handler_Execute);
+		}
 
-        internal override CfrV8Value CreateV8Value() {
-            v8Handler = new CfrV8Handler();
-            v8Handler.Execute += new CfrV8HandlerExecuteEventHandler(handler_Execute);
-            return CfrV8Value.CreateFunction(Name, v8Handler);
-        }
-    }
+		private void handler_Execute(object sender, CfrV8HandlerExecuteEventArgs e)
+		{
+			var eventHandler = Execute;
+			if (eventHandler != null)
+			{
+				if (WillInvoke)
+				{
+					Browser.RenderThreadInvoke((MethodInvoker)(() => { eventHandler(this, e); }));
+				}
+				else
+				{
+					eventHandler(this, e);
+				}
+			}
+		}
+
+		internal override CfrV8Value CreateV8Value()
+		{
+			v8Handler = new CfrV8Handler();
+			v8Handler.Execute += new CfrV8HandlerExecuteEventHandler(handler_Execute);
+			return CfrV8Value.CreateFunction(Name, v8Handler);
+		}
+	}
 }

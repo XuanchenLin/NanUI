@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
     /// </remarks>
-    public class CfxCookieManager : CfxBase {
-
-        static CfxCookieManager () {
-            CfxApiLoader.LoadCfxCookieManagerApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxCookieManager : CfxBaseLibrary {
 
         internal static CfxCookieManager Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -80,7 +50,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
         /// </remarks>
         public static CfxCookieManager GetGlobalManager(CfxCompletionCallback callback) {
-            return CfxCookieManager.Wrap(CfxApi.cfx_cookie_manager_get_global_manager(CfxCompletionCallback.Unwrap(callback)));
+            return CfxCookieManager.Wrap(CfxApi.CookieManager.cfx_cookie_manager_get_global_manager(CfxCompletionCallback.Unwrap(callback)));
         }
 
         /// <summary>
@@ -98,7 +68,7 @@ namespace Chromium {
         /// </remarks>
         public static CfxCookieManager CreateManager(string path, bool persistSessionCookies, CfxCompletionCallback callback) {
             var path_pinned = new PinnedString(path);
-            var __retval = CfxApi.cfx_cookie_manager_create_manager(path_pinned.Obj.PinnedPtr, path_pinned.Length, persistSessionCookies ? 1 : 0, CfxCompletionCallback.Unwrap(callback));
+            var __retval = CfxApi.CookieManager.cfx_cookie_manager_create_manager(path_pinned.Obj.PinnedPtr, path_pinned.Length, persistSessionCookies ? 1 : 0, CfxCompletionCallback.Unwrap(callback));
             path_pinned.Obj.Free();
             return CfxCookieManager.Wrap(__retval);
         }
@@ -116,10 +86,10 @@ namespace Chromium {
         public void SetSupportedSchemes(System.Collections.Generic.List<string> schemes, CfxCompletionCallback callback) {
             PinnedString[] schemes_handles;
             var schemes_unwrapped = StringFunctions.UnwrapCfxStringList(schemes, out schemes_handles);
-            CfxApi.cfx_cookie_manager_set_supported_schemes(NativePtr, schemes_unwrapped, CfxCompletionCallback.Unwrap(callback));
+            CfxApi.CookieManager.cfx_cookie_manager_set_supported_schemes(NativePtr, schemes_unwrapped, CfxCompletionCallback.Unwrap(callback));
             StringFunctions.FreePinnedStrings(schemes_handles);
             StringFunctions.CfxStringListCopyToManaged(schemes_unwrapped, schemes);
-            CfxApi.cfx_string_list_free(schemes_unwrapped);
+            CfxApi.Runtime.cfx_string_list_free(schemes_unwrapped);
         }
 
         /// <summary>
@@ -132,7 +102,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
         /// </remarks>
         public bool VisitAllCookies(CfxCookieVisitor visitor) {
-            return 0 != CfxApi.cfx_cookie_manager_visit_all_cookies(NativePtr, CfxCookieVisitor.Unwrap(visitor));
+            return 0 != CfxApi.CookieManager.cfx_cookie_manager_visit_all_cookies(NativePtr, CfxCookieVisitor.Unwrap(visitor));
         }
 
         /// <summary>
@@ -148,7 +118,7 @@ namespace Chromium {
         /// </remarks>
         public bool VisitUrlCookies(string url, bool includeHttpOnly, CfxCookieVisitor visitor) {
             var url_pinned = new PinnedString(url);
-            var __retval = CfxApi.cfx_cookie_manager_visit_url_cookies(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, includeHttpOnly ? 1 : 0, CfxCookieVisitor.Unwrap(visitor));
+            var __retval = CfxApi.CookieManager.cfx_cookie_manager_visit_url_cookies(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, includeHttpOnly ? 1 : 0, CfxCookieVisitor.Unwrap(visitor));
             url_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -168,7 +138,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetCookie(string url, CfxCookie cookie, CfxSetCookieCallback callback) {
             var url_pinned = new PinnedString(url);
-            var __retval = CfxApi.cfx_cookie_manager_set_cookie(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, CfxCookie.Unwrap(cookie), CfxSetCookieCallback.Unwrap(callback));
+            var __retval = CfxApi.CookieManager.cfx_cookie_manager_set_cookie(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, CfxCookie.Unwrap(cookie), CfxSetCookieCallback.Unwrap(callback));
             url_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -191,7 +161,7 @@ namespace Chromium {
         public bool DeleteCookies(string url, string cookieName, CfxDeleteCookiesCallback callback) {
             var url_pinned = new PinnedString(url);
             var cookieName_pinned = new PinnedString(cookieName);
-            var __retval = CfxApi.cfx_cookie_manager_delete_cookies(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, cookieName_pinned.Obj.PinnedPtr, cookieName_pinned.Length, CfxDeleteCookiesCallback.Unwrap(callback));
+            var __retval = CfxApi.CookieManager.cfx_cookie_manager_delete_cookies(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length, cookieName_pinned.Obj.PinnedPtr, cookieName_pinned.Length, CfxDeleteCookiesCallback.Unwrap(callback));
             url_pinned.Obj.Free();
             cookieName_pinned.Obj.Free();
             return 0 != __retval;
@@ -213,7 +183,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetStoragePath(string path, bool persistSessionCookies, CfxCompletionCallback callback) {
             var path_pinned = new PinnedString(path);
-            var __retval = CfxApi.cfx_cookie_manager_set_storage_path(NativePtr, path_pinned.Obj.PinnedPtr, path_pinned.Length, persistSessionCookies ? 1 : 0, CfxCompletionCallback.Unwrap(callback));
+            var __retval = CfxApi.CookieManager.cfx_cookie_manager_set_storage_path(NativePtr, path_pinned.Obj.PinnedPtr, path_pinned.Length, persistSessionCookies ? 1 : 0, CfxCompletionCallback.Unwrap(callback));
             path_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -228,12 +198,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_cookie_capi.h">cef/include/capi/cef_cookie_capi.h</see>.
         /// </remarks>
         public bool FlushStore(CfxCompletionCallback callback) {
-            return 0 != CfxApi.cfx_cookie_manager_flush_store(NativePtr, CfxCompletionCallback.Unwrap(callback));
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            return 0 != CfxApi.CookieManager.cfx_cookie_manager_flush_store(NativePtr, CfxCompletionCallback.Unwrap(callback));
         }
     }
 }

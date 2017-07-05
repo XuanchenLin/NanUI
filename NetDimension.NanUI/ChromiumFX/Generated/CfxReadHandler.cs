@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,118 +20,115 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
     /// </remarks>
-    public class CfxReadHandler : CfxBase {
-
-        static CfxReadHandler () {
-            CfxApiLoader.LoadCfxReadHandlerApi();
-        }
-
-        internal static CfxReadHandler Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_read_handler_get_gc_handle(nativePtr);
-            return (CfxReadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxReadHandler : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            read_native = read;
+            seek_native = seek;
+            tell_native = tell;
+            eof_native = eof;
+            may_block_native = may_block;
+
+            read_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(read_native);
+            seek_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(seek_native);
+            tell_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(tell_native);
+            eof_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(eof_native);
+            may_block_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(may_block_native);
+        }
+
         // read
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_read_handler_read_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr ptr, int size, int n);
-        private static cfx_read_handler_read_delegate cfx_read_handler_read;
-        private static IntPtr cfx_read_handler_read_ptr;
+        private delegate void read_delegate(IntPtr gcHandlePtr, out UIntPtr __retval, IntPtr ptr, UIntPtr size, UIntPtr n);
+        private static read_delegate read_native;
+        private static IntPtr read_native_ptr;
 
-        internal static void read(IntPtr gcHandlePtr, out int __retval, IntPtr ptr, int size, int n) {
+        internal static void read(IntPtr gcHandlePtr, out UIntPtr __retval, IntPtr ptr, UIntPtr size, UIntPtr n) {
             var self = (CfxReadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
-                __retval = default(int);
+            if(self == null || self.CallbacksDisabled) {
+                __retval = default(UIntPtr);
                 return;
             }
             var e = new CfxReadEventArgs(ptr, size, n);
-            var eventHandler = self.m_Read;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Read?.Invoke(self, e);
             e.m_isInvalid = true;
-            __retval = e.m_returnValue;
+            __retval = (UIntPtr)e.m_returnValue;
         }
 
         // seek
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_read_handler_seek_delegate(IntPtr gcHandlePtr, out int __retval, long offset, int whence);
-        private static cfx_read_handler_seek_delegate cfx_read_handler_seek;
-        private static IntPtr cfx_read_handler_seek_ptr;
+        private delegate void seek_delegate(IntPtr gcHandlePtr, out int __retval, long offset, int whence);
+        private static seek_delegate seek_native;
+        private static IntPtr seek_native_ptr;
 
         internal static void seek(IntPtr gcHandlePtr, out int __retval, long offset, int whence) {
             var self = (CfxReadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 return;
             }
             var e = new CfxSeekEventArgs(offset, whence);
-            var eventHandler = self.m_Seek;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Seek?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue;
         }
 
         // tell
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_read_handler_tell_delegate(IntPtr gcHandlePtr, out long __retval);
-        private static cfx_read_handler_tell_delegate cfx_read_handler_tell;
-        private static IntPtr cfx_read_handler_tell_ptr;
+        private delegate void tell_delegate(IntPtr gcHandlePtr, out long __retval);
+        private static tell_delegate tell_native;
+        private static IntPtr tell_native_ptr;
 
         internal static void tell(IntPtr gcHandlePtr, out long __retval) {
             var self = (CfxReadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(long);
                 return;
             }
             var e = new CfxTellEventArgs();
-            var eventHandler = self.m_Tell;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Tell?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue;
         }
 
         // eof
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_read_handler_eof_delegate(IntPtr gcHandlePtr, out int __retval);
-        private static cfx_read_handler_eof_delegate cfx_read_handler_eof;
-        private static IntPtr cfx_read_handler_eof_ptr;
+        private delegate void eof_delegate(IntPtr gcHandlePtr, out int __retval);
+        private static eof_delegate eof_native;
+        private static IntPtr eof_native_ptr;
 
         internal static void eof(IntPtr gcHandlePtr, out int __retval) {
             var self = (CfxReadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 return;
             }
             var e = new CfxReadHandlerEofEventArgs();
-            var eventHandler = self.m_Eof;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Eof?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue;
         }
 
         // may_block
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_read_handler_may_block_delegate(IntPtr gcHandlePtr, out int __retval);
-        private static cfx_read_handler_may_block_delegate cfx_read_handler_may_block;
-        private static IntPtr cfx_read_handler_may_block_ptr;
+        private delegate void may_block_delegate(IntPtr gcHandlePtr, out int __retval);
+        private static may_block_delegate may_block_native;
+        private static IntPtr may_block_native_ptr;
 
         internal static void may_block(IntPtr gcHandlePtr, out int __retval) {
             var self = (CfxReadHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 return;
             }
             var e = new CfxMayBlockEventArgs();
-            var eventHandler = self.m_MayBlock;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_MayBlock?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
-        internal CfxReadHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxReadHandler() : base(CfxApi.cfx_read_handler_ctor) {}
+        public CfxReadHandler() : base(CfxApi.ReadHandler.cfx_read_handler_ctor) {}
 
         /// <summary>
         /// Read raw binary data.
@@ -168,11 +141,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Read == null) {
-                        if(cfx_read_handler_read == null) {
-                            cfx_read_handler_read = read;
-                            cfx_read_handler_read_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_read_handler_read);
-                        }
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 0, cfx_read_handler_read_ptr);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 0, read_native_ptr);
                     }
                     m_Read += value;
                 }
@@ -181,7 +150,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Read -= value;
                     if(m_Read == null) {
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -201,11 +170,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Seek == null) {
-                        if(cfx_read_handler_seek == null) {
-                            cfx_read_handler_seek = seek;
-                            cfx_read_handler_seek_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_read_handler_seek);
-                        }
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 1, cfx_read_handler_seek_ptr);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 1, seek_native_ptr);
                     }
                     m_Seek += value;
                 }
@@ -214,7 +179,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Seek -= value;
                     if(m_Seek == null) {
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -233,11 +198,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Tell == null) {
-                        if(cfx_read_handler_tell == null) {
-                            cfx_read_handler_tell = tell;
-                            cfx_read_handler_tell_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_read_handler_tell);
-                        }
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 2, cfx_read_handler_tell_ptr);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 2, tell_native_ptr);
                     }
                     m_Tell += value;
                 }
@@ -246,7 +207,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Tell -= value;
                     if(m_Tell == null) {
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 2, IntPtr.Zero);
                     }
                 }
             }
@@ -265,11 +226,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Eof == null) {
-                        if(cfx_read_handler_eof == null) {
-                            cfx_read_handler_eof = eof;
-                            cfx_read_handler_eof_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_read_handler_eof);
-                        }
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 3, cfx_read_handler_eof_ptr);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 3, eof_native_ptr);
                     }
                     m_Eof += value;
                 }
@@ -278,7 +235,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Eof -= value;
                     if(m_Eof == null) {
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 3, IntPtr.Zero);
                     }
                 }
             }
@@ -299,11 +256,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_MayBlock == null) {
-                        if(cfx_read_handler_may_block == null) {
-                            cfx_read_handler_may_block = may_block;
-                            cfx_read_handler_may_block_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_read_handler_may_block);
-                        }
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 4, cfx_read_handler_may_block_ptr);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 4, may_block_native_ptr);
                     }
                     m_MayBlock += value;
                 }
@@ -312,7 +265,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_MayBlock -= value;
                     if(m_MayBlock == null) {
-                        CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                        CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 4, IntPtr.Zero);
                     }
                 }
             }
@@ -323,23 +276,23 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_Read != null) {
                 m_Read = null;
-                CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_Seek != null) {
                 m_Seek = null;
-                CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             if(m_Tell != null) {
                 m_Tell = null;
-                CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 2, IntPtr.Zero);
+                CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 2, IntPtr.Zero);
             }
             if(m_Eof != null) {
                 m_Eof = null;
-                CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 3, IntPtr.Zero);
+                CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 3, IntPtr.Zero);
             }
             if(m_MayBlock != null) {
                 m_MayBlock = null;
-                CfxApi.cfx_read_handler_set_managed_callback(NativePtr, 4, IntPtr.Zero);
+                CfxApi.ReadHandler.cfx_read_handler_set_callback(NativePtr, 4, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -367,13 +320,13 @@ namespace Chromium {
         public class CfxReadEventArgs : CfxEventArgs {
 
             internal IntPtr m_ptr;
-            internal int m_size;
-            internal int m_n;
+            internal UIntPtr m_size;
+            internal UIntPtr m_n;
 
-            internal int m_returnValue;
+            internal ulong m_returnValue;
             private bool returnValueSet;
 
-            internal CfxReadEventArgs(IntPtr ptr, int size, int n) {
+            internal CfxReadEventArgs(IntPtr ptr, UIntPtr size, UIntPtr n) {
                 m_ptr = ptr;
                 m_size = size;
                 m_n = n;
@@ -391,26 +344,26 @@ namespace Chromium {
             /// <summary>
             /// Get the Size parameter for the <see cref="CfxReadHandler.Read"/> callback.
             /// </summary>
-            public int Size {
+            public ulong Size {
                 get {
                     CheckAccess();
-                    return m_size;
+                    return (ulong)m_size;
                 }
             }
             /// <summary>
             /// Get the N parameter for the <see cref="CfxReadHandler.Read"/> callback.
             /// </summary>
-            public int N {
+            public ulong N {
                 get {
                     CheckAccess();
-                    return m_n;
+                    return (ulong)m_n;
                 }
             }
             /// <summary>
             /// Set the return value for the <see cref="CfxReadHandler.Read"/> callback.
             /// Calling SetReturnValue() more then once per callback or from different event handlers will cause an exception to be thrown.
             /// </summary>
-            public void SetReturnValue(int returnValue) {
+            public void SetReturnValue(ulong returnValue) {
                 CheckAccess();
                 if(returnValueSet) {
                     throw new CfxException("The return value has already been set");

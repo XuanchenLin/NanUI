@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,13 +21,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
     /// </remarks>
-    public class CfxV8StackTrace : CfxBase {
-
-        static CfxV8StackTrace () {
-            CfxApiLoader.LoadCfxV8StackTraceApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxV8StackTrace : CfxBaseLibrary {
 
         internal static CfxV8StackTrace Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -79,7 +49,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public static CfxV8StackTrace GetCurrent(int frameLimit) {
-            return CfxV8StackTrace.Wrap(CfxApi.cfx_v8stack_trace_get_current(frameLimit));
+            return CfxV8StackTrace.Wrap(CfxApi.V8StackTrace.cfx_v8stack_trace_get_current(frameLimit));
         }
 
         /// <summary>
@@ -93,7 +63,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsValid {
             get {
-                return 0 != CfxApi.cfx_v8stack_trace_is_valid(NativePtr);
+                return 0 != CfxApi.V8StackTrace.cfx_v8stack_trace_is_valid(NativePtr);
             }
         }
 
@@ -106,7 +76,7 @@ namespace Chromium {
         /// </remarks>
         public int FrameCount {
             get {
-                return CfxApi.cfx_v8stack_trace_get_frame_count(NativePtr);
+                return CfxApi.V8StackTrace.cfx_v8stack_trace_get_frame_count(NativePtr);
             }
         }
 
@@ -118,12 +88,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public CfxV8StackFrame GetFrame(int index) {
-            return CfxV8StackFrame.Wrap(CfxApi.cfx_v8stack_trace_get_frame(NativePtr, index));
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            return CfxV8StackFrame.Wrap(CfxApi.V8StackTrace.cfx_v8stack_trace_get_frame(NativePtr, index));
         }
     }
 }

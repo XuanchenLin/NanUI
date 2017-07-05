@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
     /// </remarks>
-    public class CfxDomNode : CfxBase {
-
-        static CfxDomNode () {
-            CfxApiLoader.LoadCfxDomNodeApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxDomNode : CfxBaseLibrary {
 
         internal static CfxDomNode Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -76,7 +46,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDomNodeType Type {
             get {
-                return (CfxDomNodeType)CfxApi.cfx_domnode_get_type(NativePtr);
+                return (CfxDomNodeType)CfxApi.DomNode.cfx_domnode_get_type(NativePtr);
             }
         }
 
@@ -89,7 +59,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsText {
             get {
-                return 0 != CfxApi.cfx_domnode_is_text(NativePtr);
+                return 0 != CfxApi.DomNode.cfx_domnode_is_text(NativePtr);
             }
         }
 
@@ -102,7 +72,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsElement {
             get {
-                return 0 != CfxApi.cfx_domnode_is_element(NativePtr);
+                return 0 != CfxApi.DomNode.cfx_domnode_is_element(NativePtr);
             }
         }
 
@@ -115,7 +85,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsEditable {
             get {
-                return 0 != CfxApi.cfx_domnode_is_editable(NativePtr);
+                return 0 != CfxApi.DomNode.cfx_domnode_is_editable(NativePtr);
             }
         }
 
@@ -128,7 +98,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsFormControlElement {
             get {
-                return 0 != CfxApi.cfx_domnode_is_form_control_element(NativePtr);
+                return 0 != CfxApi.DomNode.cfx_domnode_is_form_control_element(NativePtr);
             }
         }
 
@@ -141,7 +111,7 @@ namespace Chromium {
         /// </remarks>
         public string FormControlElementType {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_domnode_get_form_control_element_type(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DomNode.cfx_domnode_get_form_control_element_type(NativePtr));
             }
         }
 
@@ -154,7 +124,7 @@ namespace Chromium {
         /// </remarks>
         public string Name {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_domnode_get_name(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DomNode.cfx_domnode_get_name(NativePtr));
             }
         }
 
@@ -167,7 +137,7 @@ namespace Chromium {
         /// </remarks>
         public string Value {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_domnode_get_value(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DomNode.cfx_domnode_get_value(NativePtr));
             }
         }
 
@@ -180,7 +150,7 @@ namespace Chromium {
         /// </remarks>
         public string AsMarkup {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_domnode_get_as_markup(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DomNode.cfx_domnode_get_as_markup(NativePtr));
             }
         }
 
@@ -193,7 +163,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDomDocument Document {
             get {
-                return CfxDomDocument.Wrap(CfxApi.cfx_domnode_get_document(NativePtr));
+                return CfxDomDocument.Wrap(CfxApi.DomNode.cfx_domnode_get_document(NativePtr));
             }
         }
 
@@ -206,7 +176,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDomNode Parent {
             get {
-                return CfxDomNode.Wrap(CfxApi.cfx_domnode_get_parent(NativePtr));
+                return CfxDomNode.Wrap(CfxApi.DomNode.cfx_domnode_get_parent(NativePtr));
             }
         }
 
@@ -219,7 +189,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDomNode PreviousSibling {
             get {
-                return CfxDomNode.Wrap(CfxApi.cfx_domnode_get_previous_sibling(NativePtr));
+                return CfxDomNode.Wrap(CfxApi.DomNode.cfx_domnode_get_previous_sibling(NativePtr));
             }
         }
 
@@ -232,7 +202,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDomNode NextSibling {
             get {
-                return CfxDomNode.Wrap(CfxApi.cfx_domnode_get_next_sibling(NativePtr));
+                return CfxDomNode.Wrap(CfxApi.DomNode.cfx_domnode_get_next_sibling(NativePtr));
             }
         }
 
@@ -245,7 +215,7 @@ namespace Chromium {
         /// </remarks>
         public bool HasChildren {
             get {
-                return 0 != CfxApi.cfx_domnode_has_children(NativePtr);
+                return 0 != CfxApi.DomNode.cfx_domnode_has_children(NativePtr);
             }
         }
 
@@ -258,7 +228,7 @@ namespace Chromium {
         /// </remarks>
         public CfxDomNode FirstChild {
             get {
-                return CfxDomNode.Wrap(CfxApi.cfx_domnode_get_first_child(NativePtr));
+                return CfxDomNode.Wrap(CfxApi.DomNode.cfx_domnode_get_first_child(NativePtr));
             }
         }
 
@@ -271,12 +241,11 @@ namespace Chromium {
         /// </remarks>
         public CfxDomNode LastChild {
             get {
-                return CfxDomNode.Wrap(CfxApi.cfx_domnode_get_last_child(NativePtr));
+                return CfxDomNode.Wrap(CfxApi.DomNode.cfx_domnode_get_last_child(NativePtr));
             }
         }
 
         /// <summary>
-        /// The following functions are valid only for element nodes.
         /// Returns the tag name of this element.
         /// </summary>
         /// <remarks>
@@ -285,7 +254,7 @@ namespace Chromium {
         /// </remarks>
         public string ElementTagName {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_domnode_get_element_tag_name(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DomNode.cfx_domnode_get_element_tag_name(NativePtr));
             }
         }
 
@@ -298,7 +267,7 @@ namespace Chromium {
         /// </remarks>
         public bool HasElementAttributes {
             get {
-                return 0 != CfxApi.cfx_domnode_has_element_attributes(NativePtr);
+                return 0 != CfxApi.DomNode.cfx_domnode_has_element_attributes(NativePtr);
             }
         }
 
@@ -311,7 +280,22 @@ namespace Chromium {
         /// </remarks>
         public string ElementInnerText {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_domnode_get_element_inner_text(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.DomNode.cfx_domnode_get_element_inner_text(NativePtr));
+            }
+        }
+
+        /// <summary>
+        /// Returns the bounds of the element.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
+        /// </remarks>
+        public CfxRect ElementBounds {
+            get {
+                var __retval = CfxApi.DomNode.cfx_domnode_get_element_bounds(NativePtr);
+                if(__retval == IntPtr.Zero) throw new OutOfMemoryException();
+                return CfxRect.WrapOwned(__retval);
             }
         }
 
@@ -324,7 +308,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_dom_capi.h">cef/include/capi/cef_dom_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfxDomNode that) {
-            return 0 != CfxApi.cfx_domnode_is_same(NativePtr, CfxDomNode.Unwrap(that));
+            return 0 != CfxApi.DomNode.cfx_domnode_is_same(NativePtr, CfxDomNode.Unwrap(that));
         }
 
         /// <summary>
@@ -336,7 +320,7 @@ namespace Chromium {
         /// </remarks>
         public bool SetValue(string value) {
             var value_pinned = new PinnedString(value);
-            var __retval = CfxApi.cfx_domnode_set_value(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+            var __retval = CfxApi.DomNode.cfx_domnode_set_value(NativePtr, value_pinned.Obj.PinnedPtr, value_pinned.Length);
             value_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -350,7 +334,7 @@ namespace Chromium {
         /// </remarks>
         public bool HasElementAttribute(string attrName) {
             var attrName_pinned = new PinnedString(attrName);
-            var __retval = CfxApi.cfx_domnode_has_element_attribute(NativePtr, attrName_pinned.Obj.PinnedPtr, attrName_pinned.Length);
+            var __retval = CfxApi.DomNode.cfx_domnode_has_element_attribute(NativePtr, attrName_pinned.Obj.PinnedPtr, attrName_pinned.Length);
             attrName_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -364,7 +348,7 @@ namespace Chromium {
         /// </remarks>
         public string GetElementAttribute(string attrName) {
             var attrName_pinned = new PinnedString(attrName);
-            var __retval = CfxApi.cfx_domnode_get_element_attribute(NativePtr, attrName_pinned.Obj.PinnedPtr, attrName_pinned.Length);
+            var __retval = CfxApi.DomNode.cfx_domnode_get_element_attribute(NativePtr, attrName_pinned.Obj.PinnedPtr, attrName_pinned.Length);
             attrName_pinned.Obj.Free();
             return StringFunctions.ConvertStringUserfree(__retval);
         }
@@ -380,10 +364,10 @@ namespace Chromium {
             System.Collections.Generic.List<string[]> attrMap = new System.Collections.Generic.List<string[]>();
             PinnedString[] attrMap_handles;
             var attrMap_unwrapped = StringFunctions.UnwrapCfxStringMap(attrMap, out attrMap_handles);
-            CfxApi.cfx_domnode_get_element_attributes(NativePtr, attrMap_unwrapped);
+            CfxApi.DomNode.cfx_domnode_get_element_attributes(NativePtr, attrMap_unwrapped);
             StringFunctions.FreePinnedStrings(attrMap_handles);
             StringFunctions.CfxStringMapCopyToManaged(attrMap_unwrapped, attrMap);
-            CfxApi.cfx_string_map_free(attrMap_unwrapped);
+            CfxApi.Runtime.cfx_string_map_free(attrMap_unwrapped);
             return attrMap;
         }
 
@@ -398,15 +382,10 @@ namespace Chromium {
         public bool SetElementAttribute(string attrName, string value) {
             var attrName_pinned = new PinnedString(attrName);
             var value_pinned = new PinnedString(value);
-            var __retval = CfxApi.cfx_domnode_set_element_attribute(NativePtr, attrName_pinned.Obj.PinnedPtr, attrName_pinned.Length, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+            var __retval = CfxApi.DomNode.cfx_domnode_set_element_attribute(NativePtr, attrName_pinned.Obj.PinnedPtr, attrName_pinned.Length, value_pinned.Obj.PinnedPtr, value_pinned.Length);
             attrName_pinned.Obj.Free();
             value_pinned.Obj.Free();
             return 0 != __retval;
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
         }
     }
 }

@@ -35,20 +35,23 @@ using Chromium.Event;
 
 namespace NetDimension.NanUI.ChromiumCore
 {
-	internal class LifeSpanHandler : CfxLifeSpanHandler {
+	internal class LifeSpanHandler : CfxLifeSpanHandler
+	{
 
-        internal BrowserClient client;
+		internal BrowserClient client;
 
-        internal LifeSpanHandler(BrowserClient client) {
-            this.client = client;
+		internal LifeSpanHandler(BrowserClient client)
+		{
+			this.client = client;
 
-            this.OnAfterCreated += new CfxOnAfterCreatedEventHandler(LifeSpanHandler_OnAfterCreated);
-        }
+			this.OnAfterCreated += new CfxOnAfterCreatedEventHandler(LifeSpanHandler_OnAfterCreated);
+		}
 
-        void LifeSpanHandler_OnAfterCreated(object sender, CfxOnAfterCreatedEventArgs e) {
-            client.browser.OnBrowserCreated(e);
-        }
-        
-        
-    }
+		void LifeSpanHandler_OnAfterCreated(object sender, CfxOnAfterCreatedEventArgs e)
+		{
+			client.browser.OnBrowserCreated(e);
+		}
+
+
+	}
 }

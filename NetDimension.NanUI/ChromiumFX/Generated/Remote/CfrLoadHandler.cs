@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,67 +21,22 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_load_handler_capi.h">cef/include/capi/cef_load_handler_capi.h</see>.
     /// </remarks>
-    public class CfrLoadHandler : CfrBase {
+    public class CfrLoadHandler : CfrBaseClient {
 
-        internal static CfrLoadHandler Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
-            var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrLoadHandler)weakCache.Get(proxyId);
-                if(cfrObj == null) {
-                    cfrObj = new CfrLoadHandler(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
-                }
-                return cfrObj;
+
+        private CfrLoadHandler(RemotePtr remotePtr) : base(remotePtr) {}
+        public CfrLoadHandler() : base(new CfxLoadHandlerCtorWithGCHandleRemoteCall()) {
+            lock(RemotePtr.connection.weakCache) {
+                RemotePtr.connection.weakCache.Add(RemotePtr.ptr, this);
             }
-        }
-
-
-        internal static IntPtr CreateRemote() {
-            var call = new CfxLoadHandlerCtorRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return call.__retval;
-        }
-
-        internal void raise_OnLoadingStateChange(object sender, CfrOnLoadingStateChangeEventArgs e) {
-            var handler = m_OnLoadingStateChange;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-        internal void raise_OnLoadStart(object sender, CfrOnLoadStartEventArgs e) {
-            var handler = m_OnLoadStart;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-        internal void raise_OnLoadEnd(object sender, CfrOnLoadEndEventArgs e) {
-            var handler = m_OnLoadEnd;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-        internal void raise_OnLoadError(object sender, CfrOnLoadErrorEventArgs e) {
-            var handler = m_OnLoadError;
-            if(handler == null) return;
-            handler(this, e);
-            e.m_isInvalid = true;
-        }
-
-
-        private CfrLoadHandler(IntPtr proxyId) : base(proxyId) {}
-        public CfrLoadHandler() : base(CreateRemote()) {
-            connection.weakCache.Add(proxyId, this);
         }
 
         /// <summary>
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure.
+        /// of failure. It will be called before any calls to OnLoadStart and after all
+        /// calls to OnLoadError and/or OnLoadEnd.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -114,32 +45,38 @@ namespace Chromium.Remote {
         public event CfrOnLoadingStateChangeEventHandler OnLoadingStateChange {
             add {
                 if(m_OnLoadingStateChange == null) {
-                    var call = new CfxOnLoadingStateChangeActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_OnLoadingStateChange += value;
             }
             remove {
                 m_OnLoadingStateChange -= value;
                 if(m_OnLoadingStateChange == null) {
-                    var call = new CfxOnLoadingStateChangeDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 0;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrOnLoadingStateChangeEventHandler m_OnLoadingStateChange;
+        internal CfrOnLoadingStateChangeEventHandler m_OnLoadingStateChange;
 
 
         /// <summary>
         /// Called when the browser begins loading a frame. The |Frame| value will
         /// never be NULL -- call the is_main() function to check if this frame is the
-        /// main frame. Multiple frames may be loading at the same time. Sub-frames may
-        /// start or continue loading after the main frame load has ended. This
-        /// function may not be called for a particular frame if the load request for
-        /// that frame fails. For notification of overall browser load status use
+        /// main frame. |TransitionType| provides information about the source of the
+        /// navigation and an accurate value is only available in the browser process.
+        /// Multiple frames may be loading at the same time. Sub-frames may start or
+        /// continue loading after the main frame load has ended. This function will
+        /// always be called for all frames irrespective of whether the request
+        /// completes successfully. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
@@ -149,23 +86,27 @@ namespace Chromium.Remote {
         public event CfrOnLoadStartEventHandler OnLoadStart {
             add {
                 if(m_OnLoadStart == null) {
-                    var call = new CfxOnLoadStartActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 1;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_OnLoadStart += value;
             }
             remove {
                 m_OnLoadStart -= value;
                 if(m_OnLoadStart == null) {
-                    var call = new CfxOnLoadStartDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 1;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrOnLoadStartEventHandler m_OnLoadStart;
+        internal CfrOnLoadStartEventHandler m_OnLoadStart;
 
 
         /// <summary>
@@ -174,7 +115,8 @@ namespace Chromium.Remote {
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully.
+        /// request completes successfully. For notification of overall browser load
+        /// status use OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -183,23 +125,27 @@ namespace Chromium.Remote {
         public event CfrOnLoadEndEventHandler OnLoadEnd {
             add {
                 if(m_OnLoadEnd == null) {
-                    var call = new CfxOnLoadEndActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 2;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_OnLoadEnd += value;
             }
             remove {
                 m_OnLoadEnd -= value;
                 if(m_OnLoadEnd == null) {
-                    var call = new CfxOnLoadEndDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 2;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrOnLoadEndEventHandler m_OnLoadEnd;
+        internal CfrOnLoadEndEventHandler m_OnLoadEnd;
 
 
         /// <summary>
@@ -215,28 +161,29 @@ namespace Chromium.Remote {
         public event CfrOnLoadErrorEventHandler OnLoadError {
             add {
                 if(m_OnLoadError == null) {
-                    var call = new CfxOnLoadErrorActivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 3;
+                    call.active = true;
+                    call.RequestExecution(RemotePtr.connection);
                 }
                 m_OnLoadError += value;
             }
             remove {
                 m_OnLoadError -= value;
                 if(m_OnLoadError == null) {
-                    var call = new CfxOnLoadErrorDeactivateRenderProcessCall();
-                    call.sender = proxyId;
-                    call.RequestExecution(this);
+                    var call = new CfxLoadHandlerSetCallbackRemoteCall();
+                    call.self = RemotePtr.ptr;
+                    call.index = 3;
+                    call.active = false;
+                    call.RequestExecution(RemotePtr.connection);
                 }
             }
         }
 
-        CfrOnLoadErrorEventHandler m_OnLoadError;
+        internal CfrOnLoadErrorEventHandler m_OnLoadError;
 
 
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
-        }
     }
 
     namespace Event {
@@ -245,7 +192,8 @@ namespace Chromium.Remote {
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure.
+        /// of failure. It will be called before any calls to OnLoadStart and after all
+        /// calls to OnLoadError and/or OnLoadEnd.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -257,7 +205,8 @@ namespace Chromium.Remote {
         /// Called when the loading state has changed. This callback will be executed
         /// twice -- once when loading is initiated either programmatically or by user
         /// action, and once when loading is terminated due to completion, cancellation
-        /// of failure.
+        /// of failure. It will be called before any calls to OnLoadStart and after all
+        /// calls to OnLoadError and/or OnLoadEnd.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -265,16 +214,11 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrOnLoadingStateChangeEventArgs : CfrEventArgs {
 
-            bool BrowserFetched;
-            CfrBrowser m_Browser;
-            bool IsLoadingFetched;
-            bool m_IsLoading;
-            bool CanGoBackFetched;
-            bool m_CanGoBack;
-            bool CanGoForwardFetched;
-            bool m_CanGoForward;
+            private CfxLoadHandlerOnLoadingStateChangeRemoteEventCall call;
 
-            internal CfrOnLoadingStateChangeEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrBrowser m_browser_wrapped;
+
+            internal CfrOnLoadingStateChangeEventArgs(CfxLoadHandlerOnLoadingStateChangeRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfrLoadHandler.OnLoadingStateChange"/> render process callback.
@@ -282,14 +226,8 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(!BrowserFetched) {
-                        BrowserFetched = true;
-                        var call = new CfxOnLoadingStateChangeGetBrowserRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Browser = CfrBrowser.Wrap(call.value);
-                    }
-                    return m_Browser;
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    return m_browser_wrapped;
                 }
             }
             /// <summary>
@@ -298,14 +236,7 @@ namespace Chromium.Remote {
             public bool IsLoading {
                 get {
                     CheckAccess();
-                    if(!IsLoadingFetched) {
-                        IsLoadingFetched = true;
-                        var call = new CfxOnLoadingStateChangeGetIsLoadingRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_IsLoading = call.value;
-                    }
-                    return m_IsLoading;
+                    return 0 != call.isLoading;
                 }
             }
             /// <summary>
@@ -314,14 +245,7 @@ namespace Chromium.Remote {
             public bool CanGoBack {
                 get {
                     CheckAccess();
-                    if(!CanGoBackFetched) {
-                        CanGoBackFetched = true;
-                        var call = new CfxOnLoadingStateChangeGetCanGoBackRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_CanGoBack = call.value;
-                    }
-                    return m_CanGoBack;
+                    return 0 != call.canGoBack;
                 }
             }
             /// <summary>
@@ -330,14 +254,7 @@ namespace Chromium.Remote {
             public bool CanGoForward {
                 get {
                     CheckAccess();
-                    if(!CanGoForwardFetched) {
-                        CanGoForwardFetched = true;
-                        var call = new CfxOnLoadingStateChangeGetCanGoForwardRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_CanGoForward = call.value;
-                    }
-                    return m_CanGoForward;
+                    return 0 != call.canGoForward;
                 }
             }
 
@@ -349,10 +266,12 @@ namespace Chromium.Remote {
         /// <summary>
         /// Called when the browser begins loading a frame. The |Frame| value will
         /// never be NULL -- call the is_main() function to check if this frame is the
-        /// main frame. Multiple frames may be loading at the same time. Sub-frames may
-        /// start or continue loading after the main frame load has ended. This
-        /// function may not be called for a particular frame if the load request for
-        /// that frame fails. For notification of overall browser load status use
+        /// main frame. |TransitionType| provides information about the source of the
+        /// navigation and an accurate value is only available in the browser process.
+        /// Multiple frames may be loading at the same time. Sub-frames may start or
+        /// continue loading after the main frame load has ended. This function will
+        /// always be called for all frames irrespective of whether the request
+        /// completes successfully. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
@@ -364,10 +283,12 @@ namespace Chromium.Remote {
         /// <summary>
         /// Called when the browser begins loading a frame. The |Frame| value will
         /// never be NULL -- call the is_main() function to check if this frame is the
-        /// main frame. Multiple frames may be loading at the same time. Sub-frames may
-        /// start or continue loading after the main frame load has ended. This
-        /// function may not be called for a particular frame if the load request for
-        /// that frame fails. For notification of overall browser load status use
+        /// main frame. |TransitionType| provides information about the source of the
+        /// navigation and an accurate value is only available in the browser process.
+        /// Multiple frames may be loading at the same time. Sub-frames may start or
+        /// continue loading after the main frame load has ended. This function will
+        /// always be called for all frames irrespective of whether the request
+        /// completes successfully. For notification of overall browser load status use
         /// OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
@@ -376,12 +297,12 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrOnLoadStartEventArgs : CfrEventArgs {
 
-            bool BrowserFetched;
-            CfrBrowser m_Browser;
-            bool FrameFetched;
-            CfrFrame m_Frame;
+            private CfxLoadHandlerOnLoadStartRemoteEventCall call;
 
-            internal CfrOnLoadStartEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrBrowser m_browser_wrapped;
+            internal CfrFrame m_frame_wrapped;
+
+            internal CfrOnLoadStartEventArgs(CfxLoadHandlerOnLoadStartRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfrLoadHandler.OnLoadStart"/> render process callback.
@@ -389,14 +310,8 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(!BrowserFetched) {
-                        BrowserFetched = true;
-                        var call = new CfxOnLoadStartGetBrowserRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Browser = CfrBrowser.Wrap(call.value);
-                    }
-                    return m_Browser;
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    return m_browser_wrapped;
                 }
             }
             /// <summary>
@@ -405,19 +320,22 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(!FrameFetched) {
-                        FrameFetched = true;
-                        var call = new CfxOnLoadStartGetFrameRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Frame = CfrFrame.Wrap(call.value);
-                    }
-                    return m_Frame;
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    return m_frame_wrapped;
+                }
+            }
+            /// <summary>
+            /// Get the TransitionType parameter for the <see cref="CfrLoadHandler.OnLoadStart"/> render process callback.
+            /// </summary>
+            public CfxTransitionType TransitionType {
+                get {
+                    CheckAccess();
+                    return (CfxTransitionType)call.transition_type;
                 }
             }
 
             public override string ToString() {
-                return String.Format("Browser={{{0}}}, Frame={{{1}}}", Browser, Frame);
+                return String.Format("Browser={{{0}}}, Frame={{{1}}}, TransitionType={{{2}}}", Browser, Frame, TransitionType);
             }
         }
 
@@ -427,7 +345,8 @@ namespace Chromium.Remote {
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully.
+        /// request completes successfully. For notification of overall browser load
+        /// status use OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -441,7 +360,8 @@ namespace Chromium.Remote {
         /// main frame. Multiple frames may be loading at the same time. Sub-frames may
         /// start or continue loading after the main frame load has ended. This
         /// function will always be called for all frames irrespective of whether the
-        /// request completes successfully.
+        /// request completes successfully. For notification of overall browser load
+        /// status use OnLoadingStateChange instead.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -449,14 +369,12 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrOnLoadEndEventArgs : CfrEventArgs {
 
-            bool BrowserFetched;
-            CfrBrowser m_Browser;
-            bool FrameFetched;
-            CfrFrame m_Frame;
-            bool HttpStatusCodeFetched;
-            int m_HttpStatusCode;
+            private CfxLoadHandlerOnLoadEndRemoteEventCall call;
 
-            internal CfrOnLoadEndEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrBrowser m_browser_wrapped;
+            internal CfrFrame m_frame_wrapped;
+
+            internal CfrOnLoadEndEventArgs(CfxLoadHandlerOnLoadEndRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfrLoadHandler.OnLoadEnd"/> render process callback.
@@ -464,14 +382,8 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(!BrowserFetched) {
-                        BrowserFetched = true;
-                        var call = new CfxOnLoadEndGetBrowserRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Browser = CfrBrowser.Wrap(call.value);
-                    }
-                    return m_Browser;
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    return m_browser_wrapped;
                 }
             }
             /// <summary>
@@ -480,14 +392,8 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(!FrameFetched) {
-                        FrameFetched = true;
-                        var call = new CfxOnLoadEndGetFrameRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Frame = CfrFrame.Wrap(call.value);
-                    }
-                    return m_Frame;
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    return m_frame_wrapped;
                 }
             }
             /// <summary>
@@ -496,14 +402,7 @@ namespace Chromium.Remote {
             public int HttpStatusCode {
                 get {
                     CheckAccess();
-                    if(!HttpStatusCodeFetched) {
-                        HttpStatusCodeFetched = true;
-                        var call = new CfxOnLoadEndGetHttpStatusCodeRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_HttpStatusCode = call.value;
-                    }
-                    return m_HttpStatusCode;
+                    return call.httpStatusCode;
                 }
             }
 
@@ -536,18 +435,16 @@ namespace Chromium.Remote {
         /// </remarks>
         public class CfrOnLoadErrorEventArgs : CfrEventArgs {
 
-            bool BrowserFetched;
-            CfrBrowser m_Browser;
-            bool FrameFetched;
-            CfrFrame m_Frame;
-            bool ErrorCodeFetched;
-            CfxErrorCode m_ErrorCode;
-            bool ErrorTextFetched;
-            string m_ErrorText;
-            bool FailedUrlFetched;
-            string m_FailedUrl;
+            private CfxLoadHandlerOnLoadErrorRemoteEventCall call;
 
-            internal CfrOnLoadErrorEventArgs(ulong eventArgsId) : base(eventArgsId) {}
+            internal CfrBrowser m_browser_wrapped;
+            internal CfrFrame m_frame_wrapped;
+            internal string m_errorText;
+            internal bool m_errorText_fetched;
+            internal string m_failedUrl;
+            internal bool m_failedUrl_fetched;
+
+            internal CfrOnLoadErrorEventArgs(CfxLoadHandlerOnLoadErrorRemoteEventCall call) { this.call = call; }
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfrLoadHandler.OnLoadError"/> render process callback.
@@ -555,14 +452,8 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(!BrowserFetched) {
-                        BrowserFetched = true;
-                        var call = new CfxOnLoadErrorGetBrowserRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Browser = CfrBrowser.Wrap(call.value);
-                    }
-                    return m_Browser;
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    return m_browser_wrapped;
                 }
             }
             /// <summary>
@@ -571,14 +462,8 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(!FrameFetched) {
-                        FrameFetched = true;
-                        var call = new CfxOnLoadErrorGetFrameRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_Frame = CfrFrame.Wrap(call.value);
-                    }
-                    return m_Frame;
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    return m_frame_wrapped;
                 }
             }
             /// <summary>
@@ -587,14 +472,7 @@ namespace Chromium.Remote {
             public CfxErrorCode ErrorCode {
                 get {
                     CheckAccess();
-                    if(!ErrorCodeFetched) {
-                        ErrorCodeFetched = true;
-                        var call = new CfxOnLoadErrorGetErrorCodeRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_ErrorCode = (CfxErrorCode)call.value;
-                    }
-                    return m_ErrorCode;
+                    return (CfxErrorCode)call.errorCode;
                 }
             }
             /// <summary>
@@ -603,14 +481,11 @@ namespace Chromium.Remote {
             public string ErrorText {
                 get {
                     CheckAccess();
-                    if(!ErrorTextFetched) {
-                        ErrorTextFetched = true;
-                        var call = new CfxOnLoadErrorGetErrorTextRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_ErrorText = call.value;
+                    if(!m_errorText_fetched) {
+                        m_errorText = call.errorText_str == IntPtr.Zero ? null : (call.errorText_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.errorText_str), call.errorText_length));
+                        m_errorText_fetched = true;
                     }
-                    return m_ErrorText;
+                    return m_errorText;
                 }
             }
             /// <summary>
@@ -619,14 +494,11 @@ namespace Chromium.Remote {
             public string FailedUrl {
                 get {
                     CheckAccess();
-                    if(!FailedUrlFetched) {
-                        FailedUrlFetched = true;
-                        var call = new CfxOnLoadErrorGetFailedUrlRenderProcessCall();
-                        call.eventArgsId = eventArgsId;
-                        call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-                        m_FailedUrl = call.value;
+                    if(!m_failedUrl_fetched) {
+                        m_failedUrl = call.failedUrl_str == IntPtr.Zero ? null : (call.failedUrl_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.failedUrl_str), call.failedUrl_length));
+                        m_failedUrl_fetched = true;
                     }
-                    return m_FailedUrl;
+                    return m_failedUrl;
                 }
             }
 

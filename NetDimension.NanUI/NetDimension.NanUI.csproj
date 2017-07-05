@@ -81,6 +81,71 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChromiumCore\RenderProcess\RenderProcessHandler.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxBoxLayoutSettings.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxCompositionUnderline.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxDownloadImageCallback.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxImage.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxInsets.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxMenuModelDelegate.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxRange.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxRegisterCdmCallback.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxResolveCallback.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxSelectClientCertificateCallback.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxSslStatus.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxThread.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxV8Interceptor.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxWaitableEvent.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxX509Certificate.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxX509CertPrincipal.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrReadHandler.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrRect.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrResourceBundle.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrResponse.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrStreamReader.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrStreamWriter.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrThread.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrV8Interceptor.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrWaitableEvent.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrWriteHandler.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrXmlReader.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrZipReader.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxAppRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxDomVisitorRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxLoadHandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxReadHandlerRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxReadHandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxRectRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxRenderProcessHandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxResourceBundleHandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxResourceBundleRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxResponseRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxStreamReaderRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxStreamWriterRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxStringVisitorRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxTaskRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxThreadRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxV8AccessorRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxV8HandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxV8InterceptorRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxV8InterceptorRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxWaitableEventRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxWriteHandlerRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxWriteHandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxXmlReaderRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxZipReaderRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Source\CfxBaseClient.cs" />
+    <Compile Include="ChromiumFX\Source\CfxBaseLibrary.cs" />
+    <Compile Include="ChromiumFX\Source\CfxBaseRefCounted.cs" />
+    <Compile Include="ChromiumFX\Source\CfxBaseScoped.cs" />
+    <Compile Include="ChromiumFX\Source\CfxV8Value.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrBaseClient.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrBaseLibrary.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrBaseRefCounted.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrMayBlockEventArgs.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrSeekEventArgs.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrTellEventArgs.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\RemoteCallBases.cs" />
     <Compile Include="ChromiumStartupSettings.cs" />
     <Compile Include="ChromiumBrowser.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\BrowserClient.cs" />
@@ -88,14 +153,11 @@
     <Compile Include="ChromiumCore\BrowserProcess\Events.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\LifeSpanHandler.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\RequestHandler.cs" />
-    <Compile Include="ChromiumCore\EvaluateTask.cs" />
     <Compile Include="ChromiumCore\Javascript\JSDynamicProperty.cs" />
     <Compile Include="ChromiumCore\Javascript\JSFunction.cs" />
     <Compile Include="ChromiumCore\Javascript\JSObject.cs" />
     <Compile Include="ChromiumCore\Javascript\JSProperty.cs" />
     <Compile Include="ChromiumCore\RenderProcess\RenderProcess.cs" />
-    <Compile Include="ChromiumCore\RenderProcess\RenderProcessHandler.cs" />
-    <Compile Include="ChromiumCore\VisitDomTask.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApi.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApiLoader.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApp.cs" />
@@ -152,7 +214,6 @@
     <Compile Include="ChromiumFX\Generated\CfxMouseEvent.cs" />
     <Compile Include="ChromiumFX\Generated\CfxNavigationEntry.cs" />
     <Compile Include="ChromiumFX\Generated\CfxNavigationEntryVisitor.cs" />
-    <Compile Include="ChromiumFX\Generated\CfxPageRange.cs" />
     <Compile Include="ChromiumFX\Generated\CfxPdfPrintCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxPdfPrintSettings.cs" />
     <Compile Include="ChromiumFX\Generated\CfxPoint.cs" />
@@ -188,7 +249,6 @@
     <Compile Include="ChromiumFX\Generated\CfxSetCookieCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSettings.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSize.cs" />
-    <Compile Include="ChromiumFX\Generated\CfxSslCertPrincipal.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSslInfo.cs" />
     <Compile Include="ChromiumFX\Generated\CfxStreamReader.cs" />
     <Compile Include="ChromiumFX\Generated\CfxStreamWriter.cs" />
@@ -280,9 +340,7 @@
     <Compile Include="ChromiumFX\Generated\Remote\RemoteCallFactory.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\RemoteCallId.cs" />
     <Compile Include="ChromiumFX\Source\CfxApi.cs" />
-    <Compile Include="ChromiumFX\Source\CfxApp.cs" />
     <Compile Include="ChromiumFX\Source\CfxArray.cs" />
-    <Compile Include="ChromiumFX\Source\CfxBase.cs" />
     <Compile Include="ChromiumFX\Source\CfxBinaryValue.cs" />
     <Compile Include="ChromiumFX\Source\CfxColor.cs" />
     <Compile Include="ChromiumFX\Source\CfxDebug.cs" />
@@ -302,8 +360,6 @@
     <Compile Include="ChromiumFX\Source\NativeFunctionLoader.cs" />
     <Compile Include="ChromiumFX\Source\PinnedObject.cs" />
     <Compile Include="ChromiumFX\Source\PinnedString.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\BrowserProcessCall.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\CfrBase.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrBinaryValue.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrEventArgs.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrMarshal.cs" />
@@ -315,13 +371,10 @@
     <Compile Include="ChromiumFX\Source\Remote\PipeBufferStream.cs" />
     <Compile Include="ChromiumFX\Source\Remote\PipeFactory.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteCall.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\RemoteCallStack.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteClient.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteConnection.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\RemoteProxy.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemotePtr.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteService.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\RenderProcessCall.cs" />
     <Compile Include="ChromiumFX\Source\Remote\StreamHandler.cs" />
     <Compile Include="ChromiumFX\Source\Remote\WindowsPipeFactory.cs" />
     <Compile Include="ChromiumFX\Source\Remote\WorkerPool.cs" />
@@ -375,6 +428,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

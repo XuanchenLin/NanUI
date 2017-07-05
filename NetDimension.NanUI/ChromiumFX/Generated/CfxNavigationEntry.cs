@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -41,13 +17,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_navigation_entry_capi.h">cef/include/capi/cef_navigation_entry_capi.h</see>.
     /// </remarks>
-    public class CfxNavigationEntry : CfxBase {
-
-        static CfxNavigationEntry () {
-            CfxApiLoader.LoadCfxNavigationEntryApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxNavigationEntry : CfxBaseLibrary {
 
         internal static CfxNavigationEntry Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -76,7 +46,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsValid {
             get {
-                return 0 != CfxApi.cfx_navigation_entry_is_valid(NativePtr);
+                return 0 != CfxApi.NavigationEntry.cfx_navigation_entry_is_valid(NativePtr);
             }
         }
 
@@ -90,7 +60,7 @@ namespace Chromium {
         /// </remarks>
         public string Url {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_navigation_entry_get_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.NavigationEntry.cfx_navigation_entry_get_url(NativePtr));
             }
         }
 
@@ -103,7 +73,7 @@ namespace Chromium {
         /// </remarks>
         public string DisplayUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_navigation_entry_get_display_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.NavigationEntry.cfx_navigation_entry_get_display_url(NativePtr));
             }
         }
 
@@ -116,7 +86,7 @@ namespace Chromium {
         /// </remarks>
         public string OriginalUrl {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_navigation_entry_get_original_url(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.NavigationEntry.cfx_navigation_entry_get_original_url(NativePtr));
             }
         }
 
@@ -129,7 +99,7 @@ namespace Chromium {
         /// </remarks>
         public string Title {
             get {
-                return StringFunctions.ConvertStringUserfree(CfxApi.cfx_navigation_entry_get_title(NativePtr));
+                return StringFunctions.ConvertStringUserfree(CfxApi.NavigationEntry.cfx_navigation_entry_get_title(NativePtr));
             }
         }
 
@@ -143,7 +113,7 @@ namespace Chromium {
         /// </remarks>
         public CfxTransitionType TransitionType {
             get {
-                return (CfxTransitionType)CfxApi.cfx_navigation_entry_get_transition_type(NativePtr);
+                return (CfxTransitionType)CfxApi.NavigationEntry.cfx_navigation_entry_get_transition_type(NativePtr);
             }
         }
 
@@ -156,7 +126,7 @@ namespace Chromium {
         /// </remarks>
         public bool HasPostData {
             get {
-                return 0 != CfxApi.cfx_navigation_entry_has_post_data(NativePtr);
+                return 0 != CfxApi.NavigationEntry.cfx_navigation_entry_has_post_data(NativePtr);
             }
         }
 
@@ -171,7 +141,9 @@ namespace Chromium {
         /// </remarks>
         public CfxTime CompletionTime {
             get {
-                return CfxTime.WrapOwned(CfxApi.cfx_navigation_entry_get_completion_time(NativePtr));
+                var __retval = CfxApi.NavigationEntry.cfx_navigation_entry_get_completion_time(NativePtr);
+                if(__retval == IntPtr.Zero) throw new OutOfMemoryException();
+                return CfxTime.WrapOwned(__retval);
             }
         }
 
@@ -186,13 +158,21 @@ namespace Chromium {
         /// </remarks>
         public int HttpStatusCode {
             get {
-                return CfxApi.cfx_navigation_entry_get_http_status_code(NativePtr);
+                return CfxApi.NavigationEntry.cfx_navigation_entry_get_http_status_code(NativePtr);
             }
         }
 
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+        /// <summary>
+        /// Returns the SSL information for this navigation entry.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_navigation_entry_capi.h">cef/include/capi/cef_navigation_entry_capi.h</see>.
+        /// </remarks>
+        public CfxSslStatus SslStatus {
+            get {
+                return CfxSslStatus.Wrap(CfxApi.NavigationEntry.cfx_navigation_entry_get_sslstatus(NativePtr));
+            }
         }
     }
 }

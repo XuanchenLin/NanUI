@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -34,6 +10,65 @@
 using System;
 
 namespace Chromium {
+    /// <summary>
+    /// Describes how to interpret the alpha component of a pixel.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxAlphaType {
+        /// <summary>
+        /// No transparency. The alpha component is ignored.
+        /// </summary>
+        Opaque,
+        /// <summary>
+        /// Transparency with pre-multiplied alpha component.
+        /// </summary>
+        Premultiplied,
+        /// <summary>
+        /// Transparency with post-multiplied alpha component.
+        /// </summary>
+        Postmultiplied
+    }
+    /// <summary>
+    /// Specifies the button display state.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxButtonState {
+        Normal,
+        Hovered,
+        Pressed,
+        Disabled
+    }
+    /// <summary>
+    /// Error codes for CDM registration. See cef_web_plugin.h for details.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxCdmRegistrationError {
+        /// <summary>
+        /// No error. Registration completed successfully.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Required files or manifest contents are missing.
+        /// </summary>
+        IncorrectContents,
+        /// <summary>
+        /// The CDM is incompatible with the current Chromium version.
+        /// </summary>
+        Incompatible,
+        /// <summary>
+        /// CDM registration is not supported at this time.
+        /// </summary>
+        NotSupported
+    }
     /// <summary>
     /// Supported certificate status code values. See net\cert\cert_status_flags.h
     /// for more information. CERT_STATUS_NONE is new in CEF because we use an
@@ -92,6 +127,45 @@ namespace Chromium {
         ProcessColorModelCmyk,
         ProcessColorModelGreyscale,
         ProcessColorModelRgb
+    }
+    /// <summary>
+    /// Describes how to interpret the components of a pixel.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxColorType {
+        /// <summary>
+        /// RGBA with 8 bits per pixel (32bits total).
+        /// </summary>
+        Rgba8888,
+        /// <summary>
+        /// BGRA with 8 bits per pixel (32bits total).
+        /// </summary>
+        Bgra8888
+    }
+    /// <summary>
+    /// Windows COM initialization mode. Specifies how COM will be initialized for a
+    /// new thread.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxComInitMode {
+        /// <summary>
+        /// No COM initialization.
+        /// </summary>
+        None,
+        /// <summary>
+        /// Initialize COM using single-threaded apartments.
+        /// </summary>
+        Sta,
+        /// <summary>
+        /// Initialize COM using multi-threaded apartments.
+        /// </summary>
+        Mta
     }
     /// <summary>
     /// Supported context menu edit state bit flags.
@@ -179,12 +253,56 @@ namespace Chromium {
         /// No node is selected.
         /// </summary>
         None = unchecked((int)0),
+        /// <summary>
+        /// The top page is selected.
+        /// </summary>
         Page = unchecked((int)1 << 0),
+        /// <summary>
+        /// A subframe page is selected.
+        /// </summary>
         Frame = unchecked((int)1 << 1),
+        /// <summary>
+        /// A link is selected.
+        /// </summary>
         Link = unchecked((int)1 << 2),
+        /// <summary>
+        /// A media node is selected.
+        /// </summary>
         Media = unchecked((int)1 << 3),
+        /// <summary>
+        /// There is a textual or mixed selection that is selected.
+        /// </summary>
         Selection = unchecked((int)1 << 4),
+        /// <summary>
+        /// An editable element is selected.
+        /// </summary>
         Editable = unchecked((int)1 << 5)
+    }
+    /// <summary>
+    /// Specifies where along the cross axis the CfxBoxLayout child views should be
+    /// laid out.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxCrossAxisAlignment {
+        /// <summary>
+        /// Child views will be stretched to fit.
+        /// </summary>
+        Stretch,
+        /// <summary>
+        /// Child views will be left-aligned.
+        /// </summary>
+        Start,
+        /// <summary>
+        /// Child views will be center-aligned.
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Child views will be right-aligned.
+        /// </summary>
+        End
     }
     /// <summary>
     /// Cursor type values.
@@ -462,9 +580,6 @@ namespace Chromium {
         /// </summary>
         TypeMask = unchecked((int)0xFF),
         /// <summary>
-        /// Qualifiers.
-        /// Any of the type values above can be augmented by one or more qualifiers.
-        /// These qualifiers further define the dialog behavior.
         /// Prompt to overwrite if the user selects an existing file with the Save
         /// dialog.
         /// </summary>
@@ -503,6 +618,27 @@ namespace Chromium {
         PermissionDenied,
         PositionUnavailable,
         Timeout
+    }
+    /// <summary>
+    /// Specifies the horizontal text alignment mode.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxHorizontalAlignment {
+        /// <summary>
+        /// Align the text's left edge with that of its display area.
+        /// </summary>
+        Left,
+        /// <summary>
+        /// Align the text's center with that of its display area.
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Align the text's right edge with that of its display area.
+        /// </summary>
+        Right
     }
     /// <summary>
     /// Supported JavaScript dialog types.
@@ -548,6 +684,9 @@ namespace Chromium {
         /// base/json/json_reader.h file for known limitations/deviations from the RFC.
         /// </summary>
         Rfc = unchecked((int)0),
+        /// <summary>
+        /// Allows commas to exist after the last element in structures.
+        /// </summary>
         AllowTrailingCommas = unchecked((int)1 << 0)
     }
     /// <summary>
@@ -563,8 +702,24 @@ namespace Chromium {
         /// Default behavior.
         /// </summary>
         Default = unchecked((int)0),
+        /// <summary>
+        /// This option instructs the writer that if a Binary value is encountered,
+        /// the value (and key if within a dictionary) will be omitted from the
+        /// output, and success will be returned. Otherwise, if a binary value is
+        /// encountered, failure will be returned.
+        /// </summary>
         OmitBinaryValues = unchecked((int)1 << 0),
+        /// <summary>
+        /// This option instructs the writer to write doubles that have no fractional
+        /// part as a normal integer (i.e., without using exponential notation
+        /// or appending a '.0') as long as the value is within the range of a
+        /// 64-bit int.
+        /// </summary>
         OmitDoubleTypePreservation = unchecked((int)1 << 1),
+        /// <summary>
+        /// Return a slightly nicer formatted json string (pads with whitespace to
+        /// help with readability).
+        /// </summary>
         PrettyPrint = unchecked((int)1 << 2)
     }
     /// <summary>
@@ -630,6 +785,57 @@ namespace Chromium {
         Disable = unchecked((int)99)
     }
     /// <summary>
+    /// Specifies where along the main axis the CfxBoxLayout child views should be
+    /// laid out.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxMainAxisAlignment {
+        /// <summary>
+        /// Child views will be left-aligned.
+        /// </summary>
+        Start,
+        /// <summary>
+        /// Child views will be center-aligned.
+        /// </summary>
+        Center,
+        /// <summary>
+        /// Child views will be right-aligned.
+        /// </summary>
+        End
+    }
+    /// <summary>
+    /// Specifies how a menu will be anchored for non-RTL languages. The opposite
+    /// position will be used for RTL languages.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxMenuAnchorPosition {
+        Topleft,
+        Topright,
+        Bottomcenter
+    }
+    /// <summary>
+    /// Supported color types for menu items.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxMenuColorType {
+        Text,
+        TextHovered,
+        TextAccelerator,
+        TextAcceleratorHovered,
+        Background,
+        BackgroundHovered,
+        Count
+    }
+    /// <summary>
     /// Supported menu IDs. Non-English translations can be provided for the
     /// IDS_MENU_* strings in CfxResourceBundleHandler.GetLocalizedString().
     /// </summary>
@@ -638,17 +844,11 @@ namespace Chromium {
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
     /// </remarks>
     public enum CfxMenuId {
-        /// <summary>
-        /// Navigation.
-        /// </summary>
         Back = unchecked((int)100),
         Forward = unchecked((int)101),
         Reload = unchecked((int)102),
         ReloadNocache = unchecked((int)103),
         Stopload = unchecked((int)104),
-        /// <summary>
-        /// Editing.
-        /// </summary>
         Undo = unchecked((int)110),
         Redo = unchecked((int)111),
         Cut = unchecked((int)112),
@@ -656,15 +856,9 @@ namespace Chromium {
         Paste = unchecked((int)114),
         Delete = unchecked((int)115),
         SelectAll = unchecked((int)116),
-        /// <summary>
-        /// Miscellaneous.
-        /// </summary>
         Find = unchecked((int)130),
         Print = unchecked((int)131),
         ViewSource = unchecked((int)132),
-        /// <summary>
-        /// Spell checking word correction suggestions.
-        /// </summary>
         SpellcheckSuggestion0 = unchecked((int)200),
         SpellcheckSuggestion1 = unchecked((int)201),
         SpellcheckSuggestion2 = unchecked((int)202),
@@ -673,17 +867,8 @@ namespace Chromium {
         SpellcheckSuggestionLast = unchecked((int)204),
         NoSpellingSuggestions = unchecked((int)205),
         AddToDictionary = unchecked((int)206),
-        /// <summary>
-        /// Custom menu items originating from the renderer process. For example,
-        /// plugin placeholder menu items or Flash menu items.
-        /// </summary>
         CustomFirst = unchecked((int)220),
         CustomLast = unchecked((int)250),
-        /// <summary>
-        /// All user-defined menu IDs should come between MENU_ID_USER_FIRST and
-        /// MENU_ID_USER_LAST to avoid overlapping the Chromium and CEF ID ranges
-        /// defined in the tools/gritsettings/resource_ids file.
-        /// </summary>
         UserFirst = unchecked((int)26500),
         UserLast = unchecked((int)28500)
     }
@@ -701,6 +886,28 @@ namespace Chromium {
         Radio,
         Separator,
         Submenu
+    }
+    /// <summary>
+    /// Message loop types. Indicates the set of asynchronous events that a message
+    /// loop can process.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxMessageLoopType {
+        /// <summary>
+        /// Supports tasks and timers.
+        /// </summary>
+        Default,
+        /// <summary>
+        /// Supports tasks, timers and native UI events (e.g. Windows messages).
+        /// </summary>
+        Ui,
+        /// <summary>
+        /// Supports tasks, timers and asynchronous IO events.
+        /// </summary>
+        Io
     }
     /// <summary>
     /// Mouse button types.
@@ -975,7 +1182,15 @@ namespace Chromium {
         /// <summary>
         /// Main resource of a service worker.
         /// </summary>
-        ServiceWorker
+        ServiceWorker,
+        /// <summary>
+        /// A report of Content Security Policy violations.
+        /// </summary>
+        CspReport,
+        /// <summary>
+        /// A resource that a plugin requested.
+        /// </summary>
+        PluginResource
     }
     /// <summary>
     /// Return values for CfxResponseFilter.Filter().
@@ -1043,6 +1258,37 @@ namespace Chromium {
         ScaleFactor300p
     }
     /// <summary>
+    /// Supported SSL content status flags. See content/public/common/ssl_status.h
+    /// for more information.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    [Flags()]
+    public enum CfxSslContentStatus {
+        NormalContent = unchecked((int)0),
+        DisplayedInsecureContent = unchecked((int)1 << 0),
+        RanInsecureContent = unchecked((int)1 << 1)
+    }
+    /// <summary>
+    /// Supported SSL version values. See net/ssl/ssl_connection_status_flags.h
+    /// for more information.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxSslVersion {
+        Unknown = unchecked((int)0),
+        Ssl2 = unchecked((int)1),
+        Ssl3 = unchecked((int)2),
+        Tls1 = unchecked((int)3),
+        Tls11 = unchecked((int)4),
+        Tls12 = unchecked((int)5),
+        Quic = unchecked((int)7)
+    }
+    /// <summary>
     /// Represents the state of a setting.
     /// </summary>
     /// <remarks>
@@ -1096,6 +1342,20 @@ namespace Chromium {
         ProcessCrashed
     }
     /// <summary>
+    /// Text style types. Should be kepy in sync with gfx::TextStyle.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxTextStyle {
+        Bold,
+        Italic,
+        Strike,
+        DiagonalStrike,
+        Underline
+    }
+    /// <summary>
     /// Existing thread IDs.
     /// </summary>
     /// <remarks>
@@ -1104,7 +1364,6 @@ namespace Chromium {
     /// </remarks>
     public enum CfxThreadId {
         /// <summary>
-        /// BROWSER PROCESS THREADS -- Only available in the browser process.
         /// The main thread in the browser. This will be the same as the main
         /// application thread if CfxInitialize() is called with a
         /// CfxSettings.MultiThreadedMessageLoop value of false.
@@ -1136,10 +1395,34 @@ namespace Chromium {
         /// </summary>
         Io,
         /// <summary>
-        /// RENDER PROCESS THREADS -- Only available in the render process.
         /// The main thread in the renderer. Used for all WebKit and V8 interaction.
         /// </summary>
         Renderer
+    }
+    /// <summary>
+    /// Thread priority values listed in increasing order of importance.
+    /// </summary>
+    /// <remarks>
+    /// See also the original CEF documentation in
+    /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+    /// </remarks>
+    public enum CfxThreadPriority {
+        /// <summary>
+        /// Suitable for threads that shouldn't disrupt high priority work.
+        /// </summary>
+        Background,
+        /// <summary>
+        /// Default priority level.
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// Suitable for threads which generate data for the display (at ~60Hz).
+        /// </summary>
+        Display,
+        /// <summary>
+        /// Suitable for low-latency, glitch-resistant audio.
+        /// </summary>
+        RealtimeAudio
     }
     /// <summary>
     /// Transition type for a request. Made up of one source value and 0 or more
@@ -1196,9 +1479,6 @@ namespace Chromium {
         /// </summary>
         SourceMask = unchecked((int)0xFF),
         /// <summary>
-        /// Qualifiers.
-        /// Any of the core values above can be augmented by one or more qualifiers.
-        /// These qualifiers further define the transition.
         /// Attempted to visit a URL but was blocked.
         /// </summary>
         BlockedFlag = unchecked((int)0x00800000),
@@ -1250,34 +1530,45 @@ namespace Chromium {
         /// addition to their special meaning. Things like escaped letters, digits,
         /// and most symbols will get unescaped with this mode.
         /// </summary>
-        Normal = unchecked((int)1),
+        Normal = unchecked((int)1 << 0),
         /// <summary>
         /// Convert %20 to spaces. In some places where we're showing URLs, we may
         /// want this. In places where the URL may be copied and pasted out, then
         /// you wouldn't want this since it might not be interpreted in one piece
         /// by other applications.
         /// </summary>
-        Spaces = unchecked((int)2),
+        Spaces = unchecked((int)1 << 1),
+        /// <summary>
+        /// Unescapes '/' and '\\'. If these characters were unescaped, the resulting
+        /// URL won't be the same as the source one. Moreover, they are dangerous to
+        /// unescape in strings that will be used as file paths or names. This value
+        /// should only be used when slashes don't have special meaning, like data
+        /// URLs.
+        /// </summary>
+        PathSeparators = unchecked((int)1 << 2),
         /// <summary>
         /// Unescapes various characters that will change the meaning of URLs,
-        /// including '%', '+', '&amp;', '/', '#'. If we unescaped these characters, the
-        /// resulting URL won't be the same as the source one. This flag is used when
-        /// generating final output like filenames for URLs where we won't be
-        /// interpreting as a URL and want to do as much unescaping as possible.
+        /// including '%', '+', '&amp;', '#'. Does not unescape path separators.
+        /// If these characters were unescaped, the resulting URL won't be the same
+        /// as the source one. This flag is used when generating final output like
+        /// filenames for URLs where we won't be interpreting as a URL and want to do
+        /// as much unescaping as possible.
         /// </summary>
-        UrlSpecialChars = unchecked((int)4),
+        UrlSpecialCharsExceptPathSeparators = unchecked((int)1 << 3),
         /// <summary>
-        /// Unescapes control characters such as %01. This INCLUDES NULLs. This is
-        /// used for rare cases such as data: URL decoding where the result is binary
-        /// data. This flag also unescapes BiDi control characters.
-        /// DO NOT use CONTROL_CHARS if the URL is going to be displayed in the UI
-        /// for security reasons.
+        /// Unescapes characters that can be used in spoofing attempts (such as LOCK)
+        /// and control characters (such as BiDi control characters and %01).  This
+        /// INCLUDES NULLs.  This is used for rare cases such as data: URL decoding
+        /// where the result is binary data.
+        /// 
+        /// DO NOT use UU_SPOOFING_AND_CONTROL_CHARS if the URL is going to be
+        /// displayed in the UI for security reasons.
         /// </summary>
-        ControlChars = unchecked((int)8),
+        SpoofingAndControlChars = unchecked((int)1 << 4),
         /// <summary>
         /// URL queries use "+" for space. This flag controls that replacement.
         /// </summary>
-        ReplacePlusWithSpace = unchecked((int)16)
+        ReplacePlusWithSpace = unchecked((int)1 << 5)
     }
     /// <summary>
     /// Flags used to customize the behavior of CfxURLRequest.
@@ -1292,10 +1583,28 @@ namespace Chromium {
         /// Default behavior.
         /// </summary>
         None = unchecked((int)0),
+        /// <summary>
+        /// If set the cache will be skipped when handling the request.
+        /// </summary>
         SkipCache = unchecked((int)1 << 0),
+        /// <summary>
+        /// If set user name, password, and cookies may be sent with the request, and
+        /// cookies may be saved from the response.
+        /// </summary>
         AllowCachedCredentials = unchecked((int)1 << 1),
+        /// <summary>
+        /// If set upload progress events will be generated when a request has a body.
+        /// </summary>
         ReportUploadProgress = unchecked((int)1 << 3),
+        /// <summary>
+        /// If set the CfxURLRequestClient.OnDownloadData method will not be called.
+        /// </summary>
         NoDownloadData = unchecked((int)1 << 6),
+        /// <summary>
+        /// If set 5XX redirect errors will be propagated to the observer instead of
+        /// automatically re-tried. This currently only applies for requests
+        /// originated in the browser process.
+        /// </summary>
         NoRetryOn5xx = unchecked((int)1 << 7)
     }
     /// <summary>
@@ -1375,7 +1684,9 @@ namespace Chromium {
         List
     }
     /// <summary>
-    /// The manner in which a link click should be opened.
+    /// The manner in which a link click should be opened. These constants match
+    /// their equivalents in Chromium's window_open_disposition.h and should not be
+    /// renumbered.
     /// </summary>
     /// <remarks>
     /// See also the original CEF documentation in
@@ -1383,7 +1694,6 @@ namespace Chromium {
     /// </remarks>
     public enum CfxWindowOpenDisposition {
         Unknown,
-        SuppressOpen,
         CurrentTab,
         SingletonTab,
         NewForegroundTab,

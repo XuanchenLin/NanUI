@@ -1,4 +1,10 @@
-﻿using System;
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
+// All rights reserved.
+// 
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -121,6 +127,10 @@ namespace Chromium.Remote {
 
         public override void SetLength(long value) {
             throw new NotSupportedException();
+        }
+
+        public override void Close() {
+            pipe.Close();
         }
     }
 }

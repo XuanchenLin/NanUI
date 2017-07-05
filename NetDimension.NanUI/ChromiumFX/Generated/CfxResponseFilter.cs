@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,65 +20,59 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_response_filter_capi.h">cef/include/capi/cef_response_filter_capi.h</see>.
     /// </remarks>
-    public class CfxResponseFilter : CfxBase {
-
-        static CfxResponseFilter () {
-            CfxApiLoader.LoadCfxResponseFilterApi();
-        }
-
-        internal static CfxResponseFilter Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_response_filter_get_gc_handle(nativePtr);
-            return (CfxResponseFilter)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxResponseFilter : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            init_filter_native = init_filter;
+            filter_native = filter;
+
+            init_filter_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(init_filter_native);
+            filter_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(filter_native);
+        }
+
         // init_filter
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_response_filter_init_filter_delegate(IntPtr gcHandlePtr, out int __retval);
-        private static cfx_response_filter_init_filter_delegate cfx_response_filter_init_filter;
-        private static IntPtr cfx_response_filter_init_filter_ptr;
+        private delegate void init_filter_delegate(IntPtr gcHandlePtr, out int __retval);
+        private static init_filter_delegate init_filter_native;
+        private static IntPtr init_filter_native_ptr;
 
         internal static void init_filter(IntPtr gcHandlePtr, out int __retval) {
             var self = (CfxResponseFilter)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
                 return;
             }
             var e = new CfxInitFilterEventArgs();
-            var eventHandler = self.m_InitFilter;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_InitFilter?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // filter
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_response_filter_filter_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr data_in, int data_in_size, out int data_in_read, IntPtr data_out, int data_out_size, out int data_out_written);
-        private static cfx_response_filter_filter_delegate cfx_response_filter_filter;
-        private static IntPtr cfx_response_filter_filter_ptr;
+        private delegate void filter_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr data_in, UIntPtr data_in_size, out UIntPtr data_in_read, IntPtr data_out, UIntPtr data_out_size, out UIntPtr data_out_written);
+        private static filter_delegate filter_native;
+        private static IntPtr filter_native_ptr;
 
-        internal static void filter(IntPtr gcHandlePtr, out int __retval, IntPtr data_in, int data_in_size, out int data_in_read, IntPtr data_out, int data_out_size, out int data_out_written) {
+        internal static void filter(IntPtr gcHandlePtr, out int __retval, IntPtr data_in, UIntPtr data_in_size, out UIntPtr data_in_read, IntPtr data_out, UIntPtr data_out_size, out UIntPtr data_out_written) {
             var self = (CfxResponseFilter)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
-                data_in_read = default(int);
-                data_out_written = default(int);
+                data_in_read = default(UIntPtr);
+                data_out_written = default(UIntPtr);
                 return;
             }
             var e = new CfxFilterEventArgs(data_in, data_in_size, data_out, data_out_size);
-            var eventHandler = self.m_Filter;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_Filter?.Invoke(self, e);
             e.m_isInvalid = true;
             data_in_read = e.m_data_in_read;
             data_out_written = e.m_data_out_written;
             __retval = (int)e.m_returnValue;
         }
 
-        internal CfxResponseFilter(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxResponseFilter() : base(CfxApi.cfx_response_filter_ctor) {}
+        public CfxResponseFilter() : base(CfxApi.ResponseFilter.cfx_response_filter_ctor) {}
 
         /// <summary>
         /// Initialize the response filter. Will only be called a single time. The
@@ -116,11 +86,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_InitFilter == null) {
-                        if(cfx_response_filter_init_filter == null) {
-                            cfx_response_filter_init_filter = init_filter;
-                            cfx_response_filter_init_filter_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_response_filter_init_filter);
-                        }
-                        CfxApi.cfx_response_filter_set_managed_callback(NativePtr, 0, cfx_response_filter_init_filter_ptr);
+                        CfxApi.ResponseFilter.cfx_response_filter_set_callback(NativePtr, 0, init_filter_native_ptr);
                     }
                     m_InitFilter += value;
                 }
@@ -129,7 +95,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_InitFilter -= value;
                     if(m_InitFilter == null) {
-                        CfxApi.cfx_response_filter_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.ResponseFilter.cfx_response_filter_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -138,22 +104,35 @@ namespace Chromium {
         private CfxInitFilterEventHandler m_InitFilter;
 
         /// <summary>
-        /// Called to filter a chunk of data. |DataIn| is the input buffer containing
-        /// |DataInSize| bytes of pre-filter data (|DataIn| will be NULL if
-        /// |DataInSize| is zero). |DataOut| is the output buffer that can accept up
-        /// to |DataOutSize| bytes of filtered output data. Set |DataInRead| to the
-        /// number of bytes that were read from |DataIn|. Set |DataOutWritten| to
-        /// the number of bytes that were written into |DataOut|. If some or all of
-        /// the pre-filter data was read successfully but more data is needed in order
-        /// to continue filtering (filtered output is pending) return
-        /// RESPONSE_FILTER_NEED_MORE_DATA. If some or all of the pre-filter data was
-        /// read successfully and all available filtered output has been written return
-        /// RESPONSE_FILTER_DONE. If an error occurs during filtering return
-        /// RESPONSE_FILTER_ERROR. This function will be called repeatedly until there
-        /// is no more data to filter (resource response is complete), |DataInRead|
-        /// matches |DataInSize| (all available pre-filter bytes have been read), and
-        /// the function returns RESPONSE_FILTER_DONE or RESPONSE_FILTER_ERROR. Do not
-        /// keep a reference to the buffers passed to this function.
+        /// Called to filter a chunk of data. Expected usage is as follows:
+        /// 
+        ///  A. Read input data from |DataIn| and set |DataInRead| to the number of
+        ///     bytes that were read up to a maximum of |DataInSize|. |DataIn| will
+        ///     be NULL if |DataInSize| is zero.
+        ///  B. Write filtered output data to |DataOut| and set |DataOutWritten| to
+        ///     the number of bytes that were written up to a maximum of
+        ///     |DataOutSize|. If no output data was written then all data must be
+        ///     read from |DataIn| (user must set |DataInRead| = |DataInSize|).
+        ///  C. Return RESPONSE_FILTER_DONE if all output data was written or
+        ///     RESPONSE_FILTER_NEED_MORE_DATA if output data is still pending.
+        /// 
+        /// This function will be called repeatedly until the input buffer has been
+        /// fully read (user sets |DataInRead| = |DataInSize|) and there is no more
+        /// input data to filter (the resource response is complete). This function may
+        /// then be called an additional time with an NULL input buffer if the user
+        /// filled the output buffer (set |DataOutWritten| = |DataOutSize|) and
+        /// returned RESPONSE_FILTER_NEED_MORE_DATA to indicate that output data is
+        /// still pending.
+        /// 
+        /// Calls to this function will stop when one of the following conditions is
+        /// met:
+        /// 
+        ///  A. There is no more input data to filter (the resource response is
+        ///     complete) and the user sets |DataOutWritten| = 0 or returns
+        ///     RESPONSE_FILTER_DONE to indicate that all data has been written, or;
+        ///  B. The user returns RESPONSE_FILTER_ERROR to indicate an error.
+        /// 
+        /// Do not keep a reference to the buffers passed to this function.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -163,11 +142,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_Filter == null) {
-                        if(cfx_response_filter_filter == null) {
-                            cfx_response_filter_filter = filter;
-                            cfx_response_filter_filter_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_response_filter_filter);
-                        }
-                        CfxApi.cfx_response_filter_set_managed_callback(NativePtr, 1, cfx_response_filter_filter_ptr);
+                        CfxApi.ResponseFilter.cfx_response_filter_set_callback(NativePtr, 1, filter_native_ptr);
                     }
                     m_Filter += value;
                 }
@@ -176,7 +151,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_Filter -= value;
                     if(m_Filter == null) {
-                        CfxApi.cfx_response_filter_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.ResponseFilter.cfx_response_filter_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -187,11 +162,11 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_InitFilter != null) {
                 m_InitFilter = null;
-                CfxApi.cfx_response_filter_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.ResponseFilter.cfx_response_filter_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_Filter != null) {
                 m_Filter = null;
-                CfxApi.cfx_response_filter_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.ResponseFilter.cfx_response_filter_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -242,22 +217,35 @@ namespace Chromium {
         }
 
         /// <summary>
-        /// Called to filter a chunk of data. |DataIn| is the input buffer containing
-        /// |DataInSize| bytes of pre-filter data (|DataIn| will be NULL if
-        /// |DataInSize| is zero). |DataOut| is the output buffer that can accept up
-        /// to |DataOutSize| bytes of filtered output data. Set |DataInRead| to the
-        /// number of bytes that were read from |DataIn|. Set |DataOutWritten| to
-        /// the number of bytes that were written into |DataOut|. If some or all of
-        /// the pre-filter data was read successfully but more data is needed in order
-        /// to continue filtering (filtered output is pending) return
-        /// RESPONSE_FILTER_NEED_MORE_DATA. If some or all of the pre-filter data was
-        /// read successfully and all available filtered output has been written return
-        /// RESPONSE_FILTER_DONE. If an error occurs during filtering return
-        /// RESPONSE_FILTER_ERROR. This function will be called repeatedly until there
-        /// is no more data to filter (resource response is complete), |DataInRead|
-        /// matches |DataInSize| (all available pre-filter bytes have been read), and
-        /// the function returns RESPONSE_FILTER_DONE or RESPONSE_FILTER_ERROR. Do not
-        /// keep a reference to the buffers passed to this function.
+        /// Called to filter a chunk of data. Expected usage is as follows:
+        /// 
+        ///  A. Read input data from |DataIn| and set |DataInRead| to the number of
+        ///     bytes that were read up to a maximum of |DataInSize|. |DataIn| will
+        ///     be NULL if |DataInSize| is zero.
+        ///  B. Write filtered output data to |DataOut| and set |DataOutWritten| to
+        ///     the number of bytes that were written up to a maximum of
+        ///     |DataOutSize|. If no output data was written then all data must be
+        ///     read from |DataIn| (user must set |DataInRead| = |DataInSize|).
+        ///  C. Return RESPONSE_FILTER_DONE if all output data was written or
+        ///     RESPONSE_FILTER_NEED_MORE_DATA if output data is still pending.
+        /// 
+        /// This function will be called repeatedly until the input buffer has been
+        /// fully read (user sets |DataInRead| = |DataInSize|) and there is no more
+        /// input data to filter (the resource response is complete). This function may
+        /// then be called an additional time with an NULL input buffer if the user
+        /// filled the output buffer (set |DataOutWritten| = |DataOutSize|) and
+        /// returned RESPONSE_FILTER_NEED_MORE_DATA to indicate that output data is
+        /// still pending.
+        /// 
+        /// Calls to this function will stop when one of the following conditions is
+        /// met:
+        /// 
+        ///  A. There is no more input data to filter (the resource response is
+        ///     complete) and the user sets |DataOutWritten| = 0 or returns
+        ///     RESPONSE_FILTER_DONE to indicate that all data has been written, or;
+        ///  B. The user returns RESPONSE_FILTER_ERROR to indicate an error.
+        /// 
+        /// Do not keep a reference to the buffers passed to this function.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -266,22 +254,35 @@ namespace Chromium {
         public delegate void CfxFilterEventHandler(object sender, CfxFilterEventArgs e);
 
         /// <summary>
-        /// Called to filter a chunk of data. |DataIn| is the input buffer containing
-        /// |DataInSize| bytes of pre-filter data (|DataIn| will be NULL if
-        /// |DataInSize| is zero). |DataOut| is the output buffer that can accept up
-        /// to |DataOutSize| bytes of filtered output data. Set |DataInRead| to the
-        /// number of bytes that were read from |DataIn|. Set |DataOutWritten| to
-        /// the number of bytes that were written into |DataOut|. If some or all of
-        /// the pre-filter data was read successfully but more data is needed in order
-        /// to continue filtering (filtered output is pending) return
-        /// RESPONSE_FILTER_NEED_MORE_DATA. If some or all of the pre-filter data was
-        /// read successfully and all available filtered output has been written return
-        /// RESPONSE_FILTER_DONE. If an error occurs during filtering return
-        /// RESPONSE_FILTER_ERROR. This function will be called repeatedly until there
-        /// is no more data to filter (resource response is complete), |DataInRead|
-        /// matches |DataInSize| (all available pre-filter bytes have been read), and
-        /// the function returns RESPONSE_FILTER_DONE or RESPONSE_FILTER_ERROR. Do not
-        /// keep a reference to the buffers passed to this function.
+        /// Called to filter a chunk of data. Expected usage is as follows:
+        /// 
+        ///  A. Read input data from |DataIn| and set |DataInRead| to the number of
+        ///     bytes that were read up to a maximum of |DataInSize|. |DataIn| will
+        ///     be NULL if |DataInSize| is zero.
+        ///  B. Write filtered output data to |DataOut| and set |DataOutWritten| to
+        ///     the number of bytes that were written up to a maximum of
+        ///     |DataOutSize|. If no output data was written then all data must be
+        ///     read from |DataIn| (user must set |DataInRead| = |DataInSize|).
+        ///  C. Return RESPONSE_FILTER_DONE if all output data was written or
+        ///     RESPONSE_FILTER_NEED_MORE_DATA if output data is still pending.
+        /// 
+        /// This function will be called repeatedly until the input buffer has been
+        /// fully read (user sets |DataInRead| = |DataInSize|) and there is no more
+        /// input data to filter (the resource response is complete). This function may
+        /// then be called an additional time with an NULL input buffer if the user
+        /// filled the output buffer (set |DataOutWritten| = |DataOutSize|) and
+        /// returned RESPONSE_FILTER_NEED_MORE_DATA to indicate that output data is
+        /// still pending.
+        /// 
+        /// Calls to this function will stop when one of the following conditions is
+        /// met:
+        /// 
+        ///  A. There is no more input data to filter (the resource response is
+        ///     complete) and the user sets |DataOutWritten| = 0 or returns
+        ///     RESPONSE_FILTER_DONE to indicate that all data has been written, or;
+        ///  B. The user returns RESPONSE_FILTER_ERROR to indicate an error.
+        /// 
+        /// Do not keep a reference to the buffers passed to this function.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -290,16 +291,16 @@ namespace Chromium {
         public class CfxFilterEventArgs : CfxEventArgs {
 
             internal IntPtr m_data_in;
-            internal int m_data_in_size;
-            internal int m_data_in_read;
+            internal UIntPtr m_data_in_size;
+            internal UIntPtr m_data_in_read;
             internal IntPtr m_data_out;
-            internal int m_data_out_size;
-            internal int m_data_out_written;
+            internal UIntPtr m_data_out_size;
+            internal UIntPtr m_data_out_written;
 
             internal CfxResponseFilterStatus m_returnValue;
             private bool returnValueSet;
 
-            internal CfxFilterEventArgs(IntPtr data_in, int data_in_size, IntPtr data_out, int data_out_size) {
+            internal CfxFilterEventArgs(IntPtr data_in, UIntPtr data_in_size, IntPtr data_out, UIntPtr data_out_size) {
                 m_data_in = data_in;
                 m_data_in_size = data_in_size;
                 m_data_out = data_out;
@@ -318,16 +319,16 @@ namespace Chromium {
             /// <summary>
             /// Get the DataInSize parameter for the <see cref="CfxResponseFilter.Filter"/> callback.
             /// </summary>
-            public int DataInSize {
+            public ulong DataInSize {
                 get {
                     CheckAccess();
-                    return m_data_in_size;
+                    return (ulong)m_data_in_size;
                 }
             }
             /// <summary>
             /// Set the DataInRead out parameter for the <see cref="CfxResponseFilter.Filter"/> callback.
             /// </summary>
-            public int DataInRead {
+            public UIntPtr DataInRead {
                 set {
                     CheckAccess();
                     m_data_in_read = value;
@@ -345,16 +346,16 @@ namespace Chromium {
             /// <summary>
             /// Get the DataOutSize parameter for the <see cref="CfxResponseFilter.Filter"/> callback.
             /// </summary>
-            public int DataOutSize {
+            public ulong DataOutSize {
                 get {
                     CheckAccess();
-                    return m_data_out_size;
+                    return (ulong)m_data_out_size;
                 }
             }
             /// <summary>
             /// Set the DataOutWritten out parameter for the <see cref="CfxResponseFilter.Filter"/> callback.
             /// </summary>
-            public int DataOutWritten {
+            public UIntPtr DataOutWritten {
                 set {
                     CheckAccess();
                     m_data_out_written = value;

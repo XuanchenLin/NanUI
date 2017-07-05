@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -35,10 +11,10 @@ using System;
 
 namespace Chromium.Remote {
 
-    internal class CfxTaskRunnerGetForCurrentThreadRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerGetForCurrentThreadRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerGetForCurrentThreadRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerGetForCurrentThreadRenderProcessCall) {}
+        internal CfxTaskRunnerGetForCurrentThreadRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerGetForCurrentThreadRemoteCall) {}
 
         internal IntPtr __retval;
 
@@ -50,15 +26,15 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            __retval = RemoteProxy.Wrap(CfxTaskRunner.GetForCurrentThread());
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.TaskRunner.cfx_task_runner_get_for_current_thread();
         }
     }
 
-    internal class CfxTaskRunnerGetForThreadRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerGetForThreadRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerGetForThreadRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerGetForThreadRenderProcessCall) {}
+        internal CfxTaskRunnerGetForThreadRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerGetForThreadRemoteCall) {}
 
         internal int threadId;
         internal IntPtr __retval;
@@ -79,27 +55,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            __retval = RemoteProxy.Wrap(CfxTaskRunner.GetForThread((CfxThreadId)threadId));
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.TaskRunner.cfx_task_runner_get_for_thread((int)threadId);
         }
     }
 
-    internal class CfxTaskRunnerIsSameRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerIsSameRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerIsSameRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerIsSameRenderProcessCall) {}
+        internal CfxTaskRunnerIsSameRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerIsSameRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr that;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(that);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out that);
         }
 
@@ -111,26 +87,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxTaskRunner)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsSame((CfxTaskRunner)RemoteProxy.Unwrap(that));
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.TaskRunner.cfx_task_runner_is_same(@this, that);
         }
     }
 
-    internal class CfxTaskRunnerBelongsToCurrentThreadRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerBelongsToCurrentThreadRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerBelongsToCurrentThreadRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerBelongsToCurrentThreadRenderProcessCall) {}
+        internal CfxTaskRunnerBelongsToCurrentThreadRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerBelongsToCurrentThreadRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -141,28 +116,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxTaskRunner)RemoteProxy.Unwrap(self);
-            __retval = self_local.BelongsToCurrentThread();
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.TaskRunner.cfx_task_runner_belongs_to_current_thread(@this);
         }
     }
 
-    internal class CfxTaskRunnerBelongsToThreadRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerBelongsToThreadRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerBelongsToThreadRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerBelongsToThreadRenderProcessCall) {}
+        internal CfxTaskRunnerBelongsToThreadRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerBelongsToThreadRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal int threadId;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(threadId);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out threadId);
         }
 
@@ -174,28 +148,27 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxTaskRunner)RemoteProxy.Unwrap(self);
-            __retval = self_local.BelongsToThread((CfxThreadId)threadId);
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.TaskRunner.cfx_task_runner_belongs_to_thread(@this, (int)threadId);
         }
     }
 
-    internal class CfxTaskRunnerPostTaskRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerPostTaskRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerPostTaskRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerPostTaskRenderProcessCall) {}
+        internal CfxTaskRunnerPostTaskRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerPostTaskRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr task;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(task);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out task);
         }
 
@@ -207,30 +180,29 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxTaskRunner)RemoteProxy.Unwrap(self);
-            __retval = self_local.PostTask((CfxTask)RemoteProxy.Unwrap(task));
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.TaskRunner.cfx_task_runner_post_task(@this, task);
         }
     }
 
-    internal class CfxTaskRunnerPostDelayedTaskRenderProcessCall : RenderProcessCall {
+    internal class CfxTaskRunnerPostDelayedTaskRemoteCall : RemoteCall {
 
-        internal CfxTaskRunnerPostDelayedTaskRenderProcessCall()
-            : base(RemoteCallId.CfxTaskRunnerPostDelayedTaskRenderProcessCall) {}
+        internal CfxTaskRunnerPostDelayedTaskRemoteCall()
+            : base(RemoteCallId.CfxTaskRunnerPostDelayedTaskRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr task;
         internal long delayMs;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(task);
             h.Write(delayMs);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out task);
             h.Read(out delayMs);
         }
@@ -243,9 +215,8 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxTaskRunner)RemoteProxy.Unwrap(self);
-            __retval = self_local.PostDelayedTask((CfxTask)RemoteProxy.Unwrap(task), delayMs);
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.TaskRunner.cfx_task_runner_post_delayed_task(@this, task, delayMs);
         }
     }
 

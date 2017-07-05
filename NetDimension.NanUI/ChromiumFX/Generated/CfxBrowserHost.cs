@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,13 +20,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
     /// </remarks>
-    public class CfxBrowserHost : CfxBase {
-
-        static CfxBrowserHost () {
-            CfxApiLoader.LoadCfxBrowserHostApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxBrowserHost : CfxBaseLibrary {
 
         internal static CfxBrowserHost Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -82,7 +52,7 @@ namespace Chromium {
         /// </remarks>
         public static bool CreateBrowser(CfxWindowInfo windowInfo, CfxClient client, string url, CfxBrowserSettings settings, CfxRequestContext requestContext) {
             var url_pinned = new PinnedString(url);
-            var __retval = CfxApi.cfx_browser_host_create_browser(CfxWindowInfo.Unwrap(windowInfo), CfxClient.Unwrap(client), url_pinned.Obj.PinnedPtr, url_pinned.Length, CfxBrowserSettings.Unwrap(settings), CfxRequestContext.Unwrap(requestContext));
+            var __retval = CfxApi.BrowserHost.cfx_browser_host_create_browser(CfxWindowInfo.Unwrap(windowInfo), CfxClient.Unwrap(client), url_pinned.Obj.PinnedPtr, url_pinned.Length, CfxBrowserSettings.Unwrap(settings), CfxRequestContext.Unwrap(requestContext));
             url_pinned.Obj.Free();
             return 0 != __retval;
         }
@@ -98,7 +68,7 @@ namespace Chromium {
         /// </remarks>
         public static CfxBrowser CreateBrowserSync(CfxWindowInfo windowInfo, CfxClient client, string url, CfxBrowserSettings settings, CfxRequestContext requestContext) {
             var url_pinned = new PinnedString(url);
-            var __retval = CfxApi.cfx_browser_host_create_browser_sync(CfxWindowInfo.Unwrap(windowInfo), CfxClient.Unwrap(client), url_pinned.Obj.PinnedPtr, url_pinned.Length, CfxBrowserSettings.Unwrap(settings), CfxRequestContext.Unwrap(requestContext));
+            var __retval = CfxApi.BrowserHost.cfx_browser_host_create_browser_sync(CfxWindowInfo.Unwrap(windowInfo), CfxClient.Unwrap(client), url_pinned.Obj.PinnedPtr, url_pinned.Length, CfxBrowserSettings.Unwrap(settings), CfxRequestContext.Unwrap(requestContext));
             url_pinned.Obj.Free();
             return CfxBrowser.Wrap(__retval);
         }
@@ -112,12 +82,14 @@ namespace Chromium {
         /// </remarks>
         public CfxBrowser Browser {
             get {
-                return CfxBrowser.Wrap(CfxApi.cfx_browser_host_get_browser(NativePtr));
+                return CfxBrowser.Wrap(CfxApi.BrowserHost.cfx_browser_host_get_browser(NativePtr));
             }
         }
 
         /// <summary>
-        /// Retrieve the window handle for this browser.
+        /// Retrieve the window handle for this browser. If this browser is wrapped in
+        /// a CfxBrowserView this function should be called on the browser process
+        /// UI thread and it will return the handle for the top-level native window.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -125,14 +97,15 @@ namespace Chromium {
         /// </remarks>
         public IntPtr WindowHandle {
             get {
-                return CfxApi.cfx_browser_host_get_window_handle(NativePtr);
+                return CfxApi.BrowserHost.cfx_browser_host_get_window_handle(NativePtr);
             }
         }
 
         /// <summary>
         /// Retrieve the window handle of the browser that opened this browser. Will
-        /// return NULL for non-popup windows. This function can be used in combination
-        /// with custom handling of modal windows.
+        /// return NULL for non-popup windows or if this browser is wrapped in a
+        /// CfxBrowserView. This function can be used in combination with custom
+        /// handling of modal windows.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -140,7 +113,20 @@ namespace Chromium {
         /// </remarks>
         public IntPtr OpenerWindowHandle {
             get {
-                return CfxApi.cfx_browser_host_get_opener_window_handle(NativePtr);
+                return CfxApi.BrowserHost.cfx_browser_host_get_opener_window_handle(NativePtr);
+            }
+        }
+
+        /// <summary>
+        /// Returns true (1) if this browser is wrapped in a CfxBrowserView.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public bool HasView {
+            get {
+                return 0 != CfxApi.BrowserHost.cfx_browser_host_has_view(NativePtr);
             }
         }
 
@@ -153,7 +139,7 @@ namespace Chromium {
         /// </remarks>
         public CfxClient Client {
             get {
-                return CfxClient.Wrap(CfxApi.cfx_browser_host_get_client(NativePtr));
+                return CfxClient.Wrap(CfxApi.BrowserHost.cfx_browser_host_get_client(NativePtr));
             }
         }
 
@@ -166,7 +152,7 @@ namespace Chromium {
         /// </remarks>
         public CfxRequestContext RequestContext {
             get {
-                return CfxRequestContext.Wrap(CfxApi.cfx_browser_host_get_request_context(NativePtr));
+                return CfxRequestContext.Wrap(CfxApi.BrowserHost.cfx_browser_host_get_request_context(NativePtr));
             }
         }
 
@@ -184,10 +170,24 @@ namespace Chromium {
         /// </remarks>
         public double ZoomLevel {
             get {
-                return CfxApi.cfx_browser_host_get_zoom_level(NativePtr);
+                return CfxApi.BrowserHost.cfx_browser_host_get_zoom_level(NativePtr);
             }
             set {
-                CfxApi.cfx_browser_host_set_zoom_level(NativePtr, value);
+                CfxApi.BrowserHost.cfx_browser_host_set_zoom_level(NativePtr, value);
+            }
+        }
+
+        /// <summary>
+        /// Returns true (1) if this browser currently has an associated DevTools
+        /// browser. Must be called on the browser process UI thread.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public bool HasDevTools {
+            get {
+                return 0 != CfxApi.BrowserHost.cfx_browser_host_has_dev_tools(NativePtr);
             }
         }
 
@@ -200,7 +200,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsMouseCursorChangeDisabled {
             get {
-                return 0 != CfxApi.cfx_browser_host_is_mouse_cursor_change_disabled(NativePtr);
+                return 0 != CfxApi.BrowserHost.cfx_browser_host_is_mouse_cursor_change_disabled(NativePtr);
             }
         }
 
@@ -213,7 +213,7 @@ namespace Chromium {
         /// </remarks>
         public bool IsWindowRenderingDisabled {
             get {
-                return 0 != CfxApi.cfx_browser_host_is_window_rendering_disabled(NativePtr);
+                return 0 != CfxApi.BrowserHost.cfx_browser_host_is_window_rendering_disabled(NativePtr);
             }
         }
 
@@ -236,24 +236,24 @@ namespace Chromium {
         /// </remarks>
         public int WindowlessFrameRate {
             get {
-                return CfxApi.cfx_browser_host_get_windowless_frame_rate(NativePtr);
+                return CfxApi.BrowserHost.cfx_browser_host_get_windowless_frame_rate(NativePtr);
             }
             set {
-                CfxApi.cfx_browser_host_set_windowless_frame_rate(NativePtr, value);
+                CfxApi.BrowserHost.cfx_browser_host_set_windowless_frame_rate(NativePtr, value);
             }
         }
 
         /// <summary>
-        /// Get the NSTextInputContext implementation for enabling IME on Mac when
-        /// window rendering is disabled.
+        /// Returns the current visible navigation entry for this browser. This
+        /// function can only be called on the UI thread.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
-        public IntPtr NsTextInputContext {
+        public CfxNavigationEntry VisibleNavigationEntry {
             get {
-                return CfxApi.cfx_browser_host_get_nstext_input_context(NativePtr);
+                return CfxNavigationEntry.Wrap(CfxApi.BrowserHost.cfx_browser_host_get_visible_navigation_entry(NativePtr));
             }
         }
 
@@ -272,7 +272,23 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void CloseBrowser(bool forceClose) {
-            CfxApi.cfx_browser_host_close_browser(NativePtr, forceClose ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_close_browser(NativePtr, forceClose ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Helper for closing a browser. Call this function from the top-level window
+        /// close handler. Internally this calls CloseBrowser(false (0)) if the close
+        /// has not yet been initiated. This function returns false (0) while the close
+        /// is pending and true (1) after the close has completed. See close_browser()
+        /// and CfxLifeSpanHandler.DoClose() documentation for additional usage
+        /// information. This function must be called on the browser process UI thread.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public bool TryCloseBrowser() {
+            return 0 != CfxApi.BrowserHost.cfx_browser_host_try_close_browser(NativePtr);
         }
 
         /// <summary>
@@ -283,19 +299,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SetFocus(bool focus) {
-            CfxApi.cfx_browser_host_set_focus(NativePtr, focus ? 1 : 0);
-        }
-
-        /// <summary>
-        /// Set whether the window containing the browser is visible
-        /// (minimized/unminimized, app hidden/unhidden, etc). Only used on Mac OS X.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
-        /// </remarks>
-        public void SetWindowVisibility(bool visible) {
-            CfxApi.cfx_browser_host_set_window_visibility(NativePtr, visible ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_set_focus(NativePtr, focus ? 1 : 0);
         }
 
         /// <summary>
@@ -323,12 +327,12 @@ namespace Chromium {
             var defaultFilePath_pinned = new PinnedString(defaultFilePath);
             PinnedString[] acceptFilters_handles;
             var acceptFilters_unwrapped = StringFunctions.UnwrapCfxStringList(acceptFilters, out acceptFilters_handles);
-            CfxApi.cfx_browser_host_run_file_dialog(NativePtr, (int)mode, title_pinned.Obj.PinnedPtr, title_pinned.Length, defaultFilePath_pinned.Obj.PinnedPtr, defaultFilePath_pinned.Length, acceptFilters_unwrapped, selectedAcceptFilter, CfxRunFileDialogCallback.Unwrap(callback));
+            CfxApi.BrowserHost.cfx_browser_host_run_file_dialog(NativePtr, (int)mode, title_pinned.Obj.PinnedPtr, title_pinned.Length, defaultFilePath_pinned.Obj.PinnedPtr, defaultFilePath_pinned.Length, acceptFilters_unwrapped, selectedAcceptFilter, CfxRunFileDialogCallback.Unwrap(callback));
             title_pinned.Obj.Free();
             defaultFilePath_pinned.Obj.Free();
             StringFunctions.FreePinnedStrings(acceptFilters_handles);
             StringFunctions.CfxStringListCopyToManaged(acceptFilters_unwrapped, acceptFilters);
-            CfxApi.cfx_string_list_free(acceptFilters_unwrapped);
+            CfxApi.Runtime.cfx_string_list_free(acceptFilters_unwrapped);
         }
 
         /// <summary>
@@ -340,8 +344,30 @@ namespace Chromium {
         /// </remarks>
         public void StartDownload(string url) {
             var url_pinned = new PinnedString(url);
-            CfxApi.cfx_browser_host_start_download(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length);
+            CfxApi.BrowserHost.cfx_browser_host_start_download(NativePtr, url_pinned.Obj.PinnedPtr, url_pinned.Length);
             url_pinned.Obj.Free();
+        }
+
+        /// <summary>
+        /// Download |imageUrl| and execute |callback| on completion with the images
+        /// received from the renderer. If |isFavicon| is true (1) then cookies are
+        /// not sent and not accepted during download. Images with density independent
+        /// pixel (DIP) sizes larger than |maxImageSize| are filtered out from the
+        /// image results. Versions of the image at different scale factors may be
+        /// downloaded up to the maximum scale factor supported by the system. If there
+        /// are no image results &lt;= |maxImageSize| then the smallest image is resized
+        /// to |maxImageSize| and is the only result. A |maxImageSize| of 0 means
+        /// unlimited. If |bypassCache| is true (1) then |imageUrl| is requested from
+        /// the server even if it is present in the browser cache.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public void DownloadImage(string imageUrl, bool isFavicon, uint maxImageSize, bool bypassCache, CfxDownloadImageCallback callback) {
+            var imageUrl_pinned = new PinnedString(imageUrl);
+            CfxApi.BrowserHost.cfx_browser_host_download_image(NativePtr, imageUrl_pinned.Obj.PinnedPtr, imageUrl_pinned.Length, isFavicon ? 1 : 0, maxImageSize, bypassCache ? 1 : 0, CfxDownloadImageCallback.Unwrap(callback));
+            imageUrl_pinned.Obj.Free();
         }
 
         /// <summary>
@@ -352,7 +378,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void Print() {
-            CfxApi.cfx_browser_host_print(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_print(NativePtr);
         }
 
         /// <summary>
@@ -367,7 +393,7 @@ namespace Chromium {
         /// </remarks>
         public void PrintToPdf(string path, CfxPdfPrintSettings settings, CfxPdfPrintCallback callback) {
             var path_pinned = new PinnedString(path);
-            CfxApi.cfx_browser_host_print_to_pdf(NativePtr, path_pinned.Obj.PinnedPtr, path_pinned.Length, CfxPdfPrintSettings.Unwrap(settings), CfxPdfPrintCallback.Unwrap(callback));
+            CfxApi.BrowserHost.cfx_browser_host_print_to_pdf(NativePtr, path_pinned.Obj.PinnedPtr, path_pinned.Length, CfxPdfPrintSettings.Unwrap(settings), CfxPdfPrintCallback.Unwrap(callback));
             path_pinned.Obj.Free();
         }
 
@@ -385,7 +411,7 @@ namespace Chromium {
         /// </remarks>
         public void Find(int identifier, string searchText, bool forward, bool matchCase, bool findNext) {
             var searchText_pinned = new PinnedString(searchText);
-            CfxApi.cfx_browser_host_find(NativePtr, identifier, searchText_pinned.Obj.PinnedPtr, searchText_pinned.Length, forward ? 1 : 0, matchCase ? 1 : 0, findNext ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_find(NativePtr, identifier, searchText_pinned.Obj.PinnedPtr, searchText_pinned.Length, forward ? 1 : 0, matchCase ? 1 : 0, findNext ? 1 : 0);
             searchText_pinned.Obj.Free();
         }
 
@@ -397,31 +423,35 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void StopFinding(bool clearSelection) {
-            CfxApi.cfx_browser_host_stop_finding(NativePtr, clearSelection ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_stop_finding(NativePtr, clearSelection ? 1 : 0);
         }
 
         /// <summary>
-        /// Open developer tools in its own window. If |inspectElementAt| is non-
-        /// NULL the element at the specified (x,y) location will be inspected.
+        /// Open developer tools (DevTools) in its own browser. The DevTools browser
+        /// will remain associated with this browser. If the DevTools browser is
+        /// already open then it will be focused, in which case the |windowInfo|,
+        /// |client| and |settings| parameters will be ignored. If |inspectElementAt|
+        /// is non-NULL then the element at the specified (x,y) location will be
+        /// inspected. The |windowInfo| parameter will be ignored if this browser is
+        /// wrapped in a CfxBrowserView.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void ShowDevTools(CfxWindowInfo windowInfo, CfxClient client, CfxBrowserSettings settings, CfxPoint inspectElementAt) {
-            CfxApi.cfx_browser_host_show_dev_tools(NativePtr, CfxWindowInfo.Unwrap(windowInfo), CfxClient.Unwrap(client), CfxBrowserSettings.Unwrap(settings), CfxPoint.Unwrap(inspectElementAt));
+            CfxApi.BrowserHost.cfx_browser_host_show_dev_tools(NativePtr, CfxWindowInfo.Unwrap(windowInfo), CfxClient.Unwrap(client), CfxBrowserSettings.Unwrap(settings), CfxPoint.Unwrap(inspectElementAt));
         }
 
         /// <summary>
-        /// Explicitly close the developer tools window if one exists for this browser
-        /// instance.
+        /// Explicitly close the associated DevTools browser, if any.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void CloseDevTools() {
-            CfxApi.cfx_browser_host_close_dev_tools(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_close_dev_tools(NativePtr);
         }
 
         /// <summary>
@@ -435,7 +465,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void GetNavigationEntries(CfxNavigationEntryVisitor visitor, bool currentOnly) {
-            CfxApi.cfx_browser_host_get_navigation_entries(NativePtr, CfxNavigationEntryVisitor.Unwrap(visitor), currentOnly ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_get_navigation_entries(NativePtr, CfxNavigationEntryVisitor.Unwrap(visitor), currentOnly ? 1 : 0);
         }
 
         /// <summary>
@@ -446,7 +476,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SetMouseCursorChangeDisabled(bool disabled) {
-            CfxApi.cfx_browser_host_set_mouse_cursor_change_disabled(NativePtr, disabled ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_set_mouse_cursor_change_disabled(NativePtr, disabled ? 1 : 0);
         }
 
         /// <summary>
@@ -459,7 +489,7 @@ namespace Chromium {
         /// </remarks>
         public void ReplaceMisspelling(string word) {
             var word_pinned = new PinnedString(word);
-            CfxApi.cfx_browser_host_replace_misspelling(NativePtr, word_pinned.Obj.PinnedPtr, word_pinned.Length);
+            CfxApi.BrowserHost.cfx_browser_host_replace_misspelling(NativePtr, word_pinned.Obj.PinnedPtr, word_pinned.Length);
             word_pinned.Obj.Free();
         }
 
@@ -472,7 +502,7 @@ namespace Chromium {
         /// </remarks>
         public void AddWordToDictionary(string word) {
             var word_pinned = new PinnedString(word);
-            CfxApi.cfx_browser_host_add_word_to_dictionary(NativePtr, word_pinned.Obj.PinnedPtr, word_pinned.Length);
+            CfxApi.BrowserHost.cfx_browser_host_add_word_to_dictionary(NativePtr, word_pinned.Obj.PinnedPtr, word_pinned.Length);
             word_pinned.Obj.Free();
         }
 
@@ -487,7 +517,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void WasResized() {
-            CfxApi.cfx_browser_host_was_resized(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_was_resized(NativePtr);
         }
 
         /// <summary>
@@ -500,7 +530,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void WasHidden(bool hidden) {
-            CfxApi.cfx_browser_host_was_hidden(NativePtr, hidden ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_was_hidden(NativePtr, hidden ? 1 : 0);
         }
 
         /// <summary>
@@ -516,7 +546,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void NotifyScreenInfoChanged() {
-            CfxApi.cfx_browser_host_notify_screen_info_changed(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_notify_screen_info_changed(NativePtr);
         }
 
         /// <summary>
@@ -529,7 +559,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void Invalidate(CfxPaintElementType type) {
-            CfxApi.cfx_browser_host_invalidate(NativePtr, (int)type);
+            CfxApi.BrowserHost.cfx_browser_host_invalidate(NativePtr, (int)type);
         }
 
         /// <summary>
@@ -540,7 +570,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SendKeyEvent(CfxKeyEvent @event) {
-            CfxApi.cfx_browser_host_send_key_event(NativePtr, CfxKeyEvent.Unwrap(@event));
+            CfxApi.BrowserHost.cfx_browser_host_send_key_event(NativePtr, CfxKeyEvent.Unwrap(@event));
         }
 
         /// <summary>
@@ -552,7 +582,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SendMouseClickEvent(CfxMouseEvent @event, CfxMouseButtonType type, bool mouseUp, int clickCount) {
-            CfxApi.cfx_browser_host_send_mouse_click_event(NativePtr, CfxMouseEvent.Unwrap(@event), (int)type, mouseUp ? 1 : 0, clickCount);
+            CfxApi.BrowserHost.cfx_browser_host_send_mouse_click_event(NativePtr, CfxMouseEvent.Unwrap(@event), (int)type, mouseUp ? 1 : 0, clickCount);
         }
 
         /// <summary>
@@ -564,7 +594,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SendMouseMoveEvent(CfxMouseEvent @event, bool mouseLeave) {
-            CfxApi.cfx_browser_host_send_mouse_move_event(NativePtr, CfxMouseEvent.Unwrap(@event), mouseLeave ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_send_mouse_move_event(NativePtr, CfxMouseEvent.Unwrap(@event), mouseLeave ? 1 : 0);
         }
 
         /// <summary>
@@ -579,7 +609,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SendMouseWheelEvent(CfxMouseEvent @event, int deltaX, int deltaY) {
-            CfxApi.cfx_browser_host_send_mouse_wheel_event(NativePtr, CfxMouseEvent.Unwrap(@event), deltaX, deltaY);
+            CfxApi.BrowserHost.cfx_browser_host_send_mouse_wheel_event(NativePtr, CfxMouseEvent.Unwrap(@event), deltaX, deltaY);
         }
 
         /// <summary>
@@ -590,7 +620,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SendFocusEvent(bool setFocus) {
-            CfxApi.cfx_browser_host_send_focus_event(NativePtr, setFocus ? 1 : 0);
+            CfxApi.BrowserHost.cfx_browser_host_send_focus_event(NativePtr, setFocus ? 1 : 0);
         }
 
         /// <summary>
@@ -601,7 +631,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void SendCaptureLostEvent() {
-            CfxApi.cfx_browser_host_send_capture_lost_event(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_send_capture_lost_event(NativePtr);
         }
 
         /// <summary>
@@ -613,30 +643,104 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void NotifyMoveOrResizeStarted() {
-            CfxApi.cfx_browser_host_notify_move_or_resize_started(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_notify_move_or_resize_started(NativePtr);
         }
 
         /// <summary>
-        /// Handles a keyDown event prior to passing it through the NSTextInputClient
-        /// machinery.
+        /// Begins a new composition or updates the existing composition. Blink has a
+        /// special node (a composition node) that allows the input function to change
+        /// text without affecting other DOM nodes. |text| is the optional text that
+        /// will be inserted into the composition node. |underlines| is an optional set
+        /// of ranges that will be underlined in the resulting text.
+        /// |replacementRange| is an optional range of the existing text that will be
+        /// replaced. |selectionRange| is an optional range of the resulting text that
+        /// will be selected after insertion or replacement. The |replacementRange|
+        /// value is only used on OS X.
+        /// 
+        /// This function may be called multiple times as the composition changes. When
+        /// the client is done making changes the composition should either be canceled
+        /// or completed. To cancel the composition call ImeCancelComposition. To
+        /// complete the composition call either ImeCommitText or
+        /// ImeFinishComposingText. Completion is usually signaled when:
+        ///   A. The client receives a WM_IME_COMPOSITION message with a GCS_RESULTSTR
+        ///      flag (on Windows), or;
+        ///   B. The client receives a "commit" signal of GtkIMContext (on Linux), or;
+        ///   C. insertText of NSTextInput is called (on Mac).
+        /// 
+        /// This function is only used when window rendering is disabled.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
-        public void HandleKeyEventBeforeTextInputClient(IntPtr keyEvent) {
-            CfxApi.cfx_browser_host_handle_key_event_before_text_input_client(NativePtr, keyEvent);
+        public void ImeSetComposition(string text, CfxCompositionUnderline[] underlines, CfxRange replacementRange, CfxRange selectionRange) {
+            var text_pinned = new PinnedString(text);
+            UIntPtr underlines_length;
+            IntPtr[] underlines_ptrs;
+            if(underlines != null) {
+                underlines_length = (UIntPtr)underlines.Length;
+                underlines_ptrs = new IntPtr[underlines.Length];
+                for(int i = 0; i < underlines.Length; ++i) {
+                    underlines_ptrs[i] = CfxCompositionUnderline.Unwrap(underlines[i]);
+                }
+            } else {
+                underlines_length = UIntPtr.Zero;
+                underlines_ptrs = null;
+            }
+            PinnedObject underlines_pinned = new PinnedObject(underlines_ptrs);
+            int underlines_nomem;
+            CfxApi.BrowserHost.cfx_browser_host_ime_set_composition(NativePtr, text_pinned.Obj.PinnedPtr, text_pinned.Length, underlines_length, underlines_pinned.PinnedPtr, out underlines_nomem, CfxRange.Unwrap(replacementRange), CfxRange.Unwrap(selectionRange));
+            text_pinned.Obj.Free();
+            underlines_pinned.Free();
+            if(underlines_nomem != 0) {
+                throw new OutOfMemoryException();
+            }
         }
 
         /// <summary>
-        /// Performs any additional actions after NSTextInputClient handles the event.
+        /// Completes the existing composition by optionally inserting the specified
+        /// |text| into the composition node. |replacementRange| is an optional range
+        /// of the existing text that will be replaced. |relativeCursorPos| is where
+        /// the cursor will be positioned relative to the current cursor position. See
+        /// comments on ImeSetComposition for usage. The |replacementRange| and
+        /// |relativeCursorPos| values are only used on OS X. This function is only
+        /// used when window rendering is disabled.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
-        public void HandleKeyEventAfterTextInputClient(IntPtr keyEvent) {
-            CfxApi.cfx_browser_host_handle_key_event_after_text_input_client(NativePtr, keyEvent);
+        public void ImeCommitText(string text, CfxRange replacementRange, int relativeCursorPos) {
+            var text_pinned = new PinnedString(text);
+            CfxApi.BrowserHost.cfx_browser_host_ime_commit_text(NativePtr, text_pinned.Obj.PinnedPtr, text_pinned.Length, CfxRange.Unwrap(replacementRange), relativeCursorPos);
+            text_pinned.Obj.Free();
+        }
+
+        /// <summary>
+        /// Completes the existing composition by applying the current composition node
+        /// contents. If |keepSelection| is false (0) the current selection, if any,
+        /// will be discarded. See comments on ImeSetComposition for usage. This
+        /// function is only used when window rendering is disabled.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public void ImeFinishComposingText(bool keepSelection) {
+            CfxApi.BrowserHost.cfx_browser_host_ime_finish_composing_text(NativePtr, keepSelection ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Cancels the existing composition and discards the composition node contents
+        /// without applying them. See comments on ImeSetComposition for usage. This
+        /// function is only used when window rendering is disabled.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public void ImeCancelComposition() {
+            CfxApi.BrowserHost.cfx_browser_host_ime_cancel_composition(NativePtr);
         }
 
         /// <summary>
@@ -653,7 +757,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void DragTargetDragEnter(CfxDragData dragData, CfxMouseEvent @event, CfxDragOperationsMask allowedOps) {
-            CfxApi.cfx_browser_host_drag_target_drag_enter(NativePtr, CfxDragData.Unwrap(dragData), CfxMouseEvent.Unwrap(@event), (int)allowedOps);
+            CfxApi.BrowserHost.cfx_browser_host_drag_target_drag_enter(NativePtr, CfxDragData.Unwrap(dragData), CfxMouseEvent.Unwrap(@event), (int)allowedOps);
         }
 
         /// <summary>
@@ -667,7 +771,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void DragTargetDragOver(CfxMouseEvent @event, CfxDragOperationsMask allowedOps) {
-            CfxApi.cfx_browser_host_drag_target_drag_over(NativePtr, CfxMouseEvent.Unwrap(@event), (int)allowedOps);
+            CfxApi.BrowserHost.cfx_browser_host_drag_target_drag_over(NativePtr, CfxMouseEvent.Unwrap(@event), (int)allowedOps);
         }
 
         /// <summary>
@@ -680,7 +784,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void DragTargetDragLeave() {
-            CfxApi.cfx_browser_host_drag_target_drag_leave(NativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_drag_target_drag_leave(NativePtr);
         }
 
         /// <summary>
@@ -695,7 +799,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void DragTargetDrop(CfxMouseEvent @event) {
-            CfxApi.cfx_browser_host_drag_target_drop(NativePtr, CfxMouseEvent.Unwrap(@event));
+            CfxApi.BrowserHost.cfx_browser_host_drag_target_drop(NativePtr, CfxMouseEvent.Unwrap(@event));
         }
 
         /// <summary>
@@ -712,7 +816,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void DragSourceEndedAt(int x, int y, CfxDragOperationsMask op) {
-            CfxApi.cfx_browser_host_drag_source_ended_at(NativePtr, x, y, (int)op);
+            CfxApi.BrowserHost.cfx_browser_host_drag_source_ended_at(NativePtr, x, y, (int)op);
         }
 
         /// <summary>
@@ -728,12 +832,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
         /// </remarks>
         public void DragSourceSystemDragEnded() {
-            CfxApi.cfx_browser_host_drag_source_system_drag_ended(NativePtr);
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            CfxApi.BrowserHost.cfx_browser_host_drag_source_system_drag_ended(NativePtr);
         }
     }
 }

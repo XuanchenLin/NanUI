@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,63 +21,66 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_context_handler_capi.h">cef/include/capi/cef_request_context_handler_capi.h</see>.
     /// </remarks>
-    public class CfxRequestContextHandler : CfxBase {
-
-        static CfxRequestContextHandler () {
-            CfxApiLoader.LoadCfxRequestContextHandlerApi();
-        }
+    public class CfxRequestContextHandler : CfxBaseClient {
 
         internal static CfxRequestContextHandler Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_request_context_handler_get_gc_handle(nativePtr);
+            var handlePtr = CfxApi.RequestContextHandler.cfx_request_context_handler_get_gc_handle(nativePtr);
             return (CfxRequestContextHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
         }
 
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            get_cookie_manager_native = get_cookie_manager;
+            on_before_plugin_load_native = on_before_plugin_load;
+
+            get_cookie_manager_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(get_cookie_manager_native);
+            on_before_plugin_load_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_before_plugin_load_native);
+        }
+
         // get_cookie_manager
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_request_context_handler_get_cookie_manager_delegate(IntPtr gcHandlePtr, out IntPtr __retval);
-        private static cfx_request_context_handler_get_cookie_manager_delegate cfx_request_context_handler_get_cookie_manager;
-        private static IntPtr cfx_request_context_handler_get_cookie_manager_ptr;
+        private delegate void get_cookie_manager_delegate(IntPtr gcHandlePtr, out IntPtr __retval);
+        private static get_cookie_manager_delegate get_cookie_manager_native;
+        private static IntPtr get_cookie_manager_native_ptr;
 
         internal static void get_cookie_manager(IntPtr gcHandlePtr, out IntPtr __retval) {
             var self = (CfxRequestContextHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(IntPtr);
                 return;
             }
             var e = new CfxGetCookieManagerEventArgs();
-            var eventHandler = self.m_GetCookieManager;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_GetCookieManager?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = CfxCookieManager.Unwrap(e.m_returnValue);
         }
 
         // on_before_plugin_load
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_request_context_handler_on_before_plugin_load_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr mime_type_str, int mime_type_length, IntPtr plugin_url_str, int plugin_url_length, IntPtr top_origin_url_str, int top_origin_url_length, IntPtr plugin_info, ref int plugin_policy);
-        private static cfx_request_context_handler_on_before_plugin_load_delegate cfx_request_context_handler_on_before_plugin_load;
-        private static IntPtr cfx_request_context_handler_on_before_plugin_load_ptr;
+        private delegate void on_before_plugin_load_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr mime_type_str, int mime_type_length, IntPtr plugin_url_str, int plugin_url_length, int is_main_frame, IntPtr top_origin_url_str, int top_origin_url_length, IntPtr plugin_info, out int plugin_info_release, ref int plugin_policy);
+        private static on_before_plugin_load_delegate on_before_plugin_load_native;
+        private static IntPtr on_before_plugin_load_native_ptr;
 
-        internal static void on_before_plugin_load(IntPtr gcHandlePtr, out int __retval, IntPtr mime_type_str, int mime_type_length, IntPtr plugin_url_str, int plugin_url_length, IntPtr top_origin_url_str, int top_origin_url_length, IntPtr plugin_info, ref int plugin_policy) {
+        internal static void on_before_plugin_load(IntPtr gcHandlePtr, out int __retval, IntPtr mime_type_str, int mime_type_length, IntPtr plugin_url_str, int plugin_url_length, int is_main_frame, IntPtr top_origin_url_str, int top_origin_url_length, IntPtr plugin_info, out int plugin_info_release, ref int plugin_policy) {
             var self = (CfxRequestContextHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                plugin_info_release = 1;
                 return;
             }
-            var e = new CfxOnBeforePluginLoadEventArgs(mime_type_str, mime_type_length, plugin_url_str, plugin_url_length, top_origin_url_str, top_origin_url_length, plugin_info, plugin_policy);
-            var eventHandler = self.m_OnBeforePluginLoad;
-            if(eventHandler != null) eventHandler(self, e);
+            var e = new CfxOnBeforePluginLoadEventArgs(mime_type_str, mime_type_length, plugin_url_str, plugin_url_length, is_main_frame, top_origin_url_str, top_origin_url_length, plugin_info, plugin_policy);
+            self.m_OnBeforePluginLoad?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_plugin_info_wrapped == null) CfxApi.cfx_release(e.m_plugin_info);
+            plugin_info_release = e.m_plugin_info_wrapped == null? 1 : 0;
             plugin_policy = e.m_plugin_policy;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         internal CfxRequestContextHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxRequestContextHandler() : base(CfxApi.cfx_request_context_handler_ctor) {}
+        public CfxRequestContextHandler() : base(CfxApi.RequestContextHandler.cfx_request_context_handler_ctor) {}
 
         /// <summary>
         /// Called on the browser process IO thread to retrieve the cookie manager. If
@@ -115,13 +94,10 @@ namespace Chromium {
         public event CfxGetCookieManagerEventHandler GetCookieManager {
             add {
                 lock(eventLock) {
-                    if(m_GetCookieManager == null) {
-                        if(cfx_request_context_handler_get_cookie_manager == null) {
-                            cfx_request_context_handler_get_cookie_manager = get_cookie_manager;
-                            cfx_request_context_handler_get_cookie_manager_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_request_context_handler_get_cookie_manager);
-                        }
-                        CfxApi.cfx_request_context_handler_set_managed_callback(NativePtr, 0, cfx_request_context_handler_get_cookie_manager_ptr);
+                    if(m_GetCookieManager != null) {
+                        throw new CfxException("Can't add more than one event handler to this type of event.");
                     }
+                    CfxApi.RequestContextHandler.cfx_request_context_handler_set_callback(NativePtr, 0, get_cookie_manager_native_ptr);
                     m_GetCookieManager += value;
                 }
             }
@@ -129,9 +105,24 @@ namespace Chromium {
                 lock(eventLock) {
                     m_GetCookieManager -= value;
                     if(m_GetCookieManager == null) {
-                        CfxApi.cfx_request_context_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.RequestContextHandler.cfx_request_context_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the CfxCookieManager provided by the event handler attached to the GetCookieManager event, if any.
+        /// Returns null if no event handler is attached.
+        /// </summary>
+        public CfxCookieManager RetrieveCookieManager() {
+            var h = m_GetCookieManager;
+            if(h != null) {
+                var e = new CfxGetCookieManagerEventArgs();
+                h(this, e);
+                return e.m_returnValue;
+            } else {
+                return null;
             }
         }
 
@@ -141,18 +132,20 @@ namespace Chromium {
         /// Called on multiple browser process threads before a plugin instance is
         /// loaded. |MimeType| is the mime type of the plugin that will be loaded.
         /// |PluginUrl| is the content URL that the plugin will load and may be NULL.
-        /// |TopOriginUrl| is the URL for the top-level frame that contains the
-        /// plugin when loading a specific plugin instance or NULL when building the
-        /// initial list of enabled plugins for 'navigator.plugins' JavaScript state.
-        /// |PluginInfo| includes additional information about the plugin that will be
-        /// loaded. |PluginPolicy| is the recommended policy. Modify |PluginPolicy|
-        /// and return true (1) to change the policy. Return false (0) to use the
-        /// recommended policy. The default plugin policy can be set at runtime using
-        /// the `--plugin-policy=[allow|Detect|block]` command-line flag. Decisions to
-        /// mark a plugin as disabled by setting |PluginPolicy| to
-        /// PLUGIN_POLICY_DISABLED may be cached when |TopOriginUrl| is NULL. To
-        /// purge the plugin list cache and potentially trigger new calls to this
-        /// function call CfxRequestContext.PurgePluginListCache.
+        /// |IsMainFrame| will be true (1) if the plugin is being loaded in the main
+        /// (top-level) frame, |TopOriginUrl| is the URL for the top-level frame that
+        /// contains the plugin when loading a specific plugin instance or NULL when
+        /// building the initial list of enabled plugins for 'navigator.plugins'
+        /// JavaScript state. |PluginInfo| includes additional information about the
+        /// plugin that will be loaded. |PluginPolicy| is the recommended policy.
+        /// Modify |PluginPolicy| and return true (1) to change the policy. Return
+        /// false (0) to use the recommended policy. The default plugin policy can be
+        /// set at runtime using the `--plugin-policy=[allow|Detect|block]` command-
+        /// line flag. Decisions to mark a plugin as disabled by setting
+        /// |PluginPolicy| to PLUGIN_POLICY_DISABLED may be cached when
+        /// |TopOriginUrl| is NULL. To purge the plugin list cache and potentially
+        /// trigger new calls to this function call
+        /// CfxRequestContext.PurgePluginListCache.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -162,11 +155,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnBeforePluginLoad == null) {
-                        if(cfx_request_context_handler_on_before_plugin_load == null) {
-                            cfx_request_context_handler_on_before_plugin_load = on_before_plugin_load;
-                            cfx_request_context_handler_on_before_plugin_load_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_request_context_handler_on_before_plugin_load);
-                        }
-                        CfxApi.cfx_request_context_handler_set_managed_callback(NativePtr, 1, cfx_request_context_handler_on_before_plugin_load_ptr);
+                        CfxApi.RequestContextHandler.cfx_request_context_handler_set_callback(NativePtr, 1, on_before_plugin_load_native_ptr);
                     }
                     m_OnBeforePluginLoad += value;
                 }
@@ -175,7 +164,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnBeforePluginLoad -= value;
                     if(m_OnBeforePluginLoad == null) {
-                        CfxApi.cfx_request_context_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.RequestContextHandler.cfx_request_context_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -186,11 +175,11 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_GetCookieManager != null) {
                 m_GetCookieManager = null;
-                CfxApi.cfx_request_context_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.RequestContextHandler.cfx_request_context_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_OnBeforePluginLoad != null) {
                 m_OnBeforePluginLoad = null;
-                CfxApi.cfx_request_context_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.RequestContextHandler.cfx_request_context_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -246,18 +235,20 @@ namespace Chromium {
         /// Called on multiple browser process threads before a plugin instance is
         /// loaded. |MimeType| is the mime type of the plugin that will be loaded.
         /// |PluginUrl| is the content URL that the plugin will load and may be NULL.
-        /// |TopOriginUrl| is the URL for the top-level frame that contains the
-        /// plugin when loading a specific plugin instance or NULL when building the
-        /// initial list of enabled plugins for 'navigator.plugins' JavaScript state.
-        /// |PluginInfo| includes additional information about the plugin that will be
-        /// loaded. |PluginPolicy| is the recommended policy. Modify |PluginPolicy|
-        /// and return true (1) to change the policy. Return false (0) to use the
-        /// recommended policy. The default plugin policy can be set at runtime using
-        /// the `--plugin-policy=[allow|Detect|block]` command-line flag. Decisions to
-        /// mark a plugin as disabled by setting |PluginPolicy| to
-        /// PLUGIN_POLICY_DISABLED may be cached when |TopOriginUrl| is NULL. To
-        /// purge the plugin list cache and potentially trigger new calls to this
-        /// function call CfxRequestContext.PurgePluginListCache.
+        /// |IsMainFrame| will be true (1) if the plugin is being loaded in the main
+        /// (top-level) frame, |TopOriginUrl| is the URL for the top-level frame that
+        /// contains the plugin when loading a specific plugin instance or NULL when
+        /// building the initial list of enabled plugins for 'navigator.plugins'
+        /// JavaScript state. |PluginInfo| includes additional information about the
+        /// plugin that will be loaded. |PluginPolicy| is the recommended policy.
+        /// Modify |PluginPolicy| and return true (1) to change the policy. Return
+        /// false (0) to use the recommended policy. The default plugin policy can be
+        /// set at runtime using the `--plugin-policy=[allow|Detect|block]` command-
+        /// line flag. Decisions to mark a plugin as disabled by setting
+        /// |PluginPolicy| to PLUGIN_POLICY_DISABLED may be cached when
+        /// |TopOriginUrl| is NULL. To purge the plugin list cache and potentially
+        /// trigger new calls to this function call
+        /// CfxRequestContext.PurgePluginListCache.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -269,18 +260,20 @@ namespace Chromium {
         /// Called on multiple browser process threads before a plugin instance is
         /// loaded. |MimeType| is the mime type of the plugin that will be loaded.
         /// |PluginUrl| is the content URL that the plugin will load and may be NULL.
-        /// |TopOriginUrl| is the URL for the top-level frame that contains the
-        /// plugin when loading a specific plugin instance or NULL when building the
-        /// initial list of enabled plugins for 'navigator.plugins' JavaScript state.
-        /// |PluginInfo| includes additional information about the plugin that will be
-        /// loaded. |PluginPolicy| is the recommended policy. Modify |PluginPolicy|
-        /// and return true (1) to change the policy. Return false (0) to use the
-        /// recommended policy. The default plugin policy can be set at runtime using
-        /// the `--plugin-policy=[allow|Detect|block]` command-line flag. Decisions to
-        /// mark a plugin as disabled by setting |PluginPolicy| to
-        /// PLUGIN_POLICY_DISABLED may be cached when |TopOriginUrl| is NULL. To
-        /// purge the plugin list cache and potentially trigger new calls to this
-        /// function call CfxRequestContext.PurgePluginListCache.
+        /// |IsMainFrame| will be true (1) if the plugin is being loaded in the main
+        /// (top-level) frame, |TopOriginUrl| is the URL for the top-level frame that
+        /// contains the plugin when loading a specific plugin instance or NULL when
+        /// building the initial list of enabled plugins for 'navigator.plugins'
+        /// JavaScript state. |PluginInfo| includes additional information about the
+        /// plugin that will be loaded. |PluginPolicy| is the recommended policy.
+        /// Modify |PluginPolicy| and return true (1) to change the policy. Return
+        /// false (0) to use the recommended policy. The default plugin policy can be
+        /// set at runtime using the `--plugin-policy=[allow|Detect|block]` command-
+        /// line flag. Decisions to mark a plugin as disabled by setting
+        /// |PluginPolicy| to PLUGIN_POLICY_DISABLED may be cached when
+        /// |TopOriginUrl| is NULL. To purge the plugin list cache and potentially
+        /// trigger new calls to this function call
+        /// CfxRequestContext.PurgePluginListCache.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -294,6 +287,7 @@ namespace Chromium {
             internal IntPtr m_plugin_url_str;
             internal int m_plugin_url_length;
             internal string m_plugin_url;
+            internal int m_is_main_frame;
             internal IntPtr m_top_origin_url_str;
             internal int m_top_origin_url_length;
             internal string m_top_origin_url;
@@ -304,11 +298,12 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnBeforePluginLoadEventArgs(IntPtr mime_type_str, int mime_type_length, IntPtr plugin_url_str, int plugin_url_length, IntPtr top_origin_url_str, int top_origin_url_length, IntPtr plugin_info, int plugin_policy) {
+            internal CfxOnBeforePluginLoadEventArgs(IntPtr mime_type_str, int mime_type_length, IntPtr plugin_url_str, int plugin_url_length, int is_main_frame, IntPtr top_origin_url_str, int top_origin_url_length, IntPtr plugin_info, int plugin_policy) {
                 m_mime_type_str = mime_type_str;
                 m_mime_type_length = mime_type_length;
                 m_plugin_url_str = plugin_url_str;
                 m_plugin_url_length = plugin_url_length;
+                m_is_main_frame = is_main_frame;
                 m_top_origin_url_str = top_origin_url_str;
                 m_top_origin_url_length = top_origin_url_length;
                 m_plugin_info = plugin_info;
@@ -333,6 +328,15 @@ namespace Chromium {
                     CheckAccess();
                     m_plugin_url = StringFunctions.PtrToStringUni(m_plugin_url_str, m_plugin_url_length);
                     return m_plugin_url;
+                }
+            }
+            /// <summary>
+            /// Get the IsMainFrame parameter for the <see cref="CfxRequestContextHandler.OnBeforePluginLoad"/> callback.
+            /// </summary>
+            public bool IsMainFrame {
+                get {
+                    CheckAccess();
+                    return 0 != m_is_main_frame;
                 }
             }
             /// <summary>
@@ -382,7 +386,7 @@ namespace Chromium {
             }
 
             public override string ToString() {
-                return String.Format("MimeType={{{0}}}, PluginUrl={{{1}}}, TopOriginUrl={{{2}}}, PluginInfo={{{3}}}, PluginPolicy={{{4}}}", MimeType, PluginUrl, TopOriginUrl, PluginInfo, PluginPolicy);
+                return String.Format("MimeType={{{0}}}, PluginUrl={{{1}}}, IsMainFrame={{{2}}}, TopOriginUrl={{{3}}}, PluginInfo={{{4}}}, PluginPolicy={{{5}}}", MimeType, PluginUrl, IsMainFrame, TopOriginUrl, PluginInfo, PluginPolicy);
             }
         }
 

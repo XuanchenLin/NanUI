@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -45,11 +21,7 @@ namespace Chromium {
     /// </remarks>
     public sealed class CfxSettings : CfxStructure {
 
-        static CfxSettings () {
-            CfxApiLoader.LoadCfxSettingsApi();
-        }
-
-        public CfxSettings() : base(CfxApi.cfx_settings_ctor, CfxApi.cfx_settings_dtor) {}
+        public CfxSettings() : base(CfxApi.Settings.cfx_settings_ctor, CfxApi.Settings.cfx_settings_dtor) {}
 
         /// <summary>
         /// Set to true (1) to use a single process for the browser and renderer. This
@@ -64,11 +36,11 @@ namespace Chromium {
         public bool SingleProcess {
             get {
                 int value;
-                CfxApi.cfx_settings_get_single_process(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_single_process(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_single_process(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_single_process(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -84,19 +56,22 @@ namespace Chromium {
         public bool NoSandbox {
             get {
                 int value;
-                CfxApi.cfx_settings_get_no_sandbox(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_no_sandbox(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_no_sandbox(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_no_sandbox(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
         /// <summary>
         /// The path to a separate executable that will be launched for sub-processes.
-        /// By default the browser process executable is used. See the comments on
-        /// CfxExecuteProcess() for details. Also configurable using the
-        /// "browser-subprocess-path" command-line switch.
+        /// If this value is empty on Windows or Linux then the main process executable
+        /// will be used. If this value is empty on macOS then a helper executable must
+        /// exist at "Contents/Frameworks/&lt;app> Helper.app/Contents/MacOS/&lt;app> Helper"
+        /// in the top-level app bundle. See the comments on CfxExecuteProcess() for
+        /// details. Also configurable using the "browser-subprocess-path" command-line
+        /// switch.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -106,12 +81,36 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_browser_subprocess_path(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_browser_subprocess_path(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_browser_subprocess_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_browser_subprocess_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                value_pinned.Obj.Free();
+            }
+        }
+
+        /// <summary>
+        /// The path to the CEF framework directory on macOS. If this value is empty
+        /// then the framework must exist at "Contents/Frameworks/Chromium Embedded
+        /// Framework.framework" in the top-level app bundle. Also configurable using
+        /// the "framework-dir-path" command-line switch.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+        /// </remarks>
+        public string FrameworkDirPath {
+            get {
+                IntPtr value_str;
+                int value_length;
+                CfxApi.Settings.cfx_settings_get_framework_dir_path(nativePtrUnchecked, out value_str, out value_length);
+                return StringFunctions.PtrToStringUni(value_str, value_length);
+            }
+            set {
+                var value_pinned = new PinnedString(value);
+                CfxApi.Settings.cfx_settings_set_framework_dir_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -129,11 +128,36 @@ namespace Chromium {
         public bool MultiThreadedMessageLoop {
             get {
                 int value;
-                CfxApi.cfx_settings_get_multi_threaded_message_loop(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_multi_threaded_message_loop(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_multi_threaded_message_loop(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_multi_threaded_message_loop(nativePtrUnchecked, value ? 1 : 0);
+            }
+        }
+
+        /// <summary>
+        /// Set to true (1) to control browser process main (UI) thread message pump
+        /// scheduling via the CfxBrowserProcessHandler.OnScheduleMessagePumpWork()
+        /// callback. This option is recommended for use in combination with the
+        /// CfxDoMessageLoopWork() function in cases where the CEF message loop must be
+        /// integrated into an existing application message loop (see additional
+        /// comments and warnings on CfxDoMessageLoopWork). Enabling this option is not
+        /// recommended for most users; leave this option disabled and use either the
+        /// CfxRunMessageLoop() function or multi_threaded_message_loop if possible.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+        /// </remarks>
+        public bool ExternalMessagePump {
+            get {
+                int value;
+                CfxApi.Settings.cfx_settings_get_external_message_pump(nativePtrUnchecked, out value);
+                return 0 != value;
+            }
+            set {
+                CfxApi.Settings.cfx_settings_set_external_message_pump(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -149,11 +173,11 @@ namespace Chromium {
         public bool WindowlessRenderingEnabled {
             get {
                 int value;
-                CfxApi.cfx_settings_get_windowless_rendering_enabled(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_windowless_rendering_enabled(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_windowless_rendering_enabled(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_windowless_rendering_enabled(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -170,11 +194,11 @@ namespace Chromium {
         public bool CommandLineArgsDisabled {
             get {
                 int value;
-                CfxApi.cfx_settings_get_command_line_args_disabled(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_command_line_args_disabled(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_command_line_args_disabled(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_command_line_args_disabled(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -194,12 +218,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_cache_path(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_cache_path(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_cache_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_cache_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -220,12 +244,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_user_data_path(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_user_data_path(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_user_data_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_user_data_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -247,11 +271,11 @@ namespace Chromium {
         public bool PersistSessionCookies {
             get {
                 int value;
-                CfxApi.cfx_settings_get_persist_session_cookies(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_persist_session_cookies(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_persist_session_cookies(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_persist_session_cookies(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -270,11 +294,11 @@ namespace Chromium {
         public bool PersistUserPreferences {
             get {
                 int value;
-                CfxApi.cfx_settings_get_persist_user_preferences(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_persist_user_preferences(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_persist_user_preferences(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_persist_user_preferences(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -291,12 +315,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_user_agent(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_user_agent(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_user_agent(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_user_agent(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -315,12 +339,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_product_version(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_product_version(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_product_version(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_product_version(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -340,12 +364,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_locale(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_locale(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_locale(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_locale(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -366,12 +390,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_log_file(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_log_file(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_log_file(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_log_file(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -389,11 +413,11 @@ namespace Chromium {
         public CfxLogSeverity LogSeverity {
             get {
                 int value;
-                CfxApi.cfx_settings_get_log_severity(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_log_severity(nativePtrUnchecked, out value);
                 return (CfxLogSeverity)value;
             }
             set {
-                CfxApi.cfx_settings_set_log_severity(nativePtrUnchecked, (int)value);
+                CfxApi.Settings.cfx_settings_set_log_severity(nativePtrUnchecked, (int)value);
             }
         }
 
@@ -410,12 +434,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_javascript_flags(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_javascript_flags(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_javascript_flags(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_javascript_flags(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -435,12 +459,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_resources_dir_path(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_resources_dir_path(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_resources_dir_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_resources_dir_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -460,12 +484,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_locales_dir_path(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_locales_dir_path(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_locales_dir_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_locales_dir_path(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }
@@ -484,11 +508,11 @@ namespace Chromium {
         public bool PackLoadingDisabled {
             get {
                 int value;
-                CfxApi.cfx_settings_get_pack_loading_disabled(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_pack_loading_disabled(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_pack_loading_disabled(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_pack_loading_disabled(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -506,11 +530,11 @@ namespace Chromium {
         public int RemoteDebuggingPort {
             get {
                 int value;
-                CfxApi.cfx_settings_get_remote_debugging_port(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_remote_debugging_port(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_settings_set_remote_debugging_port(nativePtrUnchecked, value);
+                CfxApi.Settings.cfx_settings_set_remote_debugging_port(nativePtrUnchecked, value);
             }
         }
 
@@ -528,11 +552,11 @@ namespace Chromium {
         public int UncaughtExceptionStackSize {
             get {
                 int value;
-                CfxApi.cfx_settings_get_uncaught_exception_stack_size(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_uncaught_exception_stack_size(nativePtrUnchecked, out value);
                 return value;
             }
             set {
-                CfxApi.cfx_settings_set_uncaught_exception_stack_size(nativePtrUnchecked, value);
+                CfxApi.Settings.cfx_settings_set_uncaught_exception_stack_size(nativePtrUnchecked, value);
             }
         }
 
@@ -541,15 +565,18 @@ namespace Chromium {
         /// return false) after the owning context has been released. This reduces the
         /// need for external record keeping and avoids crashes due to the use of V8
         /// references after the associated context has been released.
+        /// 
         /// CEF currently offers two context safety implementations with different
         /// performance characteristics. The default implementation (value of 0) uses a
         /// map of hash values and should provide better performance in situations with
         /// a small number contexts. The alternate implementation (value of 1) uses a
         /// hidden value attached to each context and should provide better performance
         /// in situations with a large number of contexts.
+        /// 
         /// If you need better performance in the creation of V8 references and you
         /// plan to manually track context lifespan you can disable context safety by
         /// specifying a value of -1.
+        /// 
         /// Also configurable using the "context-safety-implementation" command-line
         /// switch.
         /// </summary>
@@ -560,11 +587,11 @@ namespace Chromium {
         public bool ContextSafetyImplementation {
             get {
                 int value;
-                CfxApi.cfx_settings_get_context_safety_implementation(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_context_safety_implementation(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_context_safety_implementation(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_context_safety_implementation(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -584,11 +611,37 @@ namespace Chromium {
         public bool IgnoreCertificateErrors {
             get {
                 int value;
-                CfxApi.cfx_settings_get_ignore_certificate_errors(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_ignore_certificate_errors(nativePtrUnchecked, out value);
                 return 0 != value;
             }
             set {
-                CfxApi.cfx_settings_set_ignore_certificate_errors(nativePtrUnchecked, value ? 1 : 0);
+                CfxApi.Settings.cfx_settings_set_ignore_certificate_errors(nativePtrUnchecked, value ? 1 : 0);
+            }
+        }
+
+        /// <summary>
+        /// Set to true (1) to enable date-based expiration of built in network
+        /// security information (i.e. certificate transparency logs, HSTS preloading
+        /// and pinning information). Enabling this option improves network security
+        /// but may cause HTTPS load failures when using CEF binaries built more than
+        /// 10 weeks in the past. See https://www.certificate-transparency.org/ and
+        /// https://www.chromium.org/hsts for details. Also configurable using the
+        /// "enable-net-security-expiration" command-line switch. Can be overridden for
+        /// individual CfxRequestContext instances via the
+        /// CfxRequestContextSettings.EnableNetSecurityExpiration value.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
+        /// </remarks>
+        public bool EnableNetSecurityExpiration {
+            get {
+                int value;
+                CfxApi.Settings.cfx_settings_get_enable_net_security_expiration(nativePtrUnchecked, out value);
+                return 0 != value;
+            }
+            set {
+                CfxApi.Settings.cfx_settings_set_enable_net_security_expiration(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 
@@ -605,11 +658,11 @@ namespace Chromium {
         public CfxColor BackgroundColor {
             get {
                 uint value;
-                CfxApi.cfx_settings_get_background_color(nativePtrUnchecked, out value);
+                CfxApi.Settings.cfx_settings_get_background_color(nativePtrUnchecked, out value);
                 return CfxColor.Wrap(value);
             }
             set {
-                CfxApi.cfx_settings_set_background_color(nativePtrUnchecked, CfxColor.Unwrap(value));
+                CfxApi.Settings.cfx_settings_set_background_color(nativePtrUnchecked, CfxColor.Unwrap(value));
             }
         }
 
@@ -629,12 +682,12 @@ namespace Chromium {
             get {
                 IntPtr value_str;
                 int value_length;
-                CfxApi.cfx_settings_get_accept_language_list(nativePtrUnchecked, out value_str, out value_length);
+                CfxApi.Settings.cfx_settings_get_accept_language_list(nativePtrUnchecked, out value_str, out value_length);
                 return StringFunctions.PtrToStringUni(value_str, value_length);
             }
             set {
                 var value_pinned = new PinnedString(value);
-                CfxApi.cfx_settings_set_accept_language_list(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
+                CfxApi.Settings.cfx_settings_set_accept_language_list(nativePtrUnchecked, value_pinned.Obj.PinnedPtr, value_pinned.Length);
                 value_pinned.Obj.Free();
             }
         }

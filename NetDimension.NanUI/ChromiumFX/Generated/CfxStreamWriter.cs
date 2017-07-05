@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -42,13 +18,7 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
     /// </remarks>
-    public class CfxStreamWriter : CfxBase {
-
-        static CfxStreamWriter () {
-            CfxApiLoader.LoadCfxStreamWriterApi();
-        }
-
-        private static readonly WeakCache weakCache = new WeakCache();
+    public class CfxStreamWriter : CfxBaseLibrary {
 
         internal static CfxStreamWriter Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
@@ -76,7 +46,7 @@ namespace Chromium {
         /// </remarks>
         public static CfxStreamWriter CreateForFile(string fileName) {
             var fileName_pinned = new PinnedString(fileName);
-            var __retval = CfxApi.cfx_stream_writer_create_for_file(fileName_pinned.Obj.PinnedPtr, fileName_pinned.Length);
+            var __retval = CfxApi.StreamWriter.cfx_stream_writer_create_for_file(fileName_pinned.Obj.PinnedPtr, fileName_pinned.Length);
             fileName_pinned.Obj.Free();
             return CfxStreamWriter.Wrap(__retval);
         }
@@ -89,7 +59,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public static CfxStreamWriter CreateForHandler(CfxWriteHandler handler) {
-            return CfxStreamWriter.Wrap(CfxApi.cfx_stream_writer_create_for_handler(CfxWriteHandler.Unwrap(handler)));
+            return CfxStreamWriter.Wrap(CfxApi.StreamWriter.cfx_stream_writer_create_for_handler(CfxWriteHandler.Unwrap(handler)));
         }
 
         /// <summary>
@@ -99,8 +69,8 @@ namespace Chromium {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
-        public int Write(IntPtr ptr, int size, int n) {
-            return CfxApi.cfx_stream_writer_write(NativePtr, ptr, size, n);
+        public ulong Write(IntPtr ptr, ulong size, ulong n) {
+            return (ulong)CfxApi.StreamWriter.cfx_stream_writer_write(NativePtr, ptr, (UIntPtr)size, (UIntPtr)n);
         }
 
         /// <summary>
@@ -112,7 +82,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public int Seek(long offset, int whence) {
-            return CfxApi.cfx_stream_writer_seek(NativePtr, offset, whence);
+            return CfxApi.StreamWriter.cfx_stream_writer_seek(NativePtr, offset, whence);
         }
 
         /// <summary>
@@ -123,7 +93,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public long Tell() {
-            return CfxApi.cfx_stream_writer_tell(NativePtr);
+            return CfxApi.StreamWriter.cfx_stream_writer_tell(NativePtr);
         }
 
         /// <summary>
@@ -134,7 +104,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public int Flush() {
-            return CfxApi.cfx_stream_writer_flush(NativePtr);
+            return CfxApi.StreamWriter.cfx_stream_writer_flush(NativePtr);
         }
 
         /// <summary>
@@ -147,12 +117,7 @@ namespace Chromium {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public bool MayBlock() {
-            return 0 != CfxApi.cfx_stream_writer_may_block(NativePtr);
-        }
-
-        internal override void OnDispose(IntPtr nativePtr) {
-            weakCache.Remove(nativePtr);
-            base.OnDispose(nativePtr);
+            return 0 != CfxApi.StreamWriter.cfx_stream_writer_may_block(NativePtr);
         }
     }
 }

@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -38,6 +14,7 @@ namespace Chromium.Remote {
     /// <summary>
     /// Structure that asynchronously executes tasks on the associated thread. It is
     /// safe to call the functions of this structure on any thread.
+    /// 
     /// CEF maintains multiple internal threads that are used for handling different
     /// types of tasks in different processes. The CfrThreadId definitions in
     /// cef_types.h list the common CEF threads. Task runners are also available for
@@ -47,16 +24,16 @@ namespace Chromium.Remote {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
     /// </remarks>
-    public class CfrTaskRunner : CfrBase {
+    public class CfrTaskRunner : CfrBaseLibrary {
 
-        internal static CfrTaskRunner Wrap(IntPtr proxyId) {
-            if(proxyId == IntPtr.Zero) return null;
+        internal static CfrTaskRunner Wrap(RemotePtr remotePtr) {
+            if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
             lock(weakCache) {
-                var cfrObj = (CfrTaskRunner)weakCache.Get(proxyId);
+                var cfrObj = (CfrTaskRunner)weakCache.Get(remotePtr.ptr);
                 if(cfrObj == null) {
-                    cfrObj = new CfrTaskRunner(proxyId);
-                    weakCache.Add(proxyId, cfrObj);
+                    cfrObj = new CfrTaskRunner(remotePtr);
+                    weakCache.Add(remotePtr.ptr, cfrObj);
                 }
                 return cfrObj;
             }
@@ -73,9 +50,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public static CfrTaskRunner GetForCurrentThread() {
-            var call = new CfxTaskRunnerGetForCurrentThreadRenderProcessCall();
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return CfrTaskRunner.Wrap(call.__retval);
+            var call = new CfxTaskRunnerGetForCurrentThreadRemoteCall();
+            call.RequestExecution();
+            return CfrTaskRunner.Wrap(new RemotePtr(call.__retval));
         }
 
         /// <summary>
@@ -86,14 +63,14 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public static CfrTaskRunner GetForThread(CfxThreadId threadId) {
-            var call = new CfxTaskRunnerGetForThreadRenderProcessCall();
+            var call = new CfxTaskRunnerGetForThreadRemoteCall();
             call.threadId = (int)threadId;
-            call.RequestExecution(CfxRemoteCallContext.CurrentContext.connection);
-            return CfrTaskRunner.Wrap(call.__retval);
+            call.RequestExecution();
+            return CfrTaskRunner.Wrap(new RemotePtr(call.__retval));
         }
 
 
-        private CfrTaskRunner(IntPtr proxyId) : base(proxyId) {}
+        private CfrTaskRunner(RemotePtr remotePtr) : base(remotePtr) {}
 
         /// <summary>
         /// Returns true (1) if this object is pointing to the same task runner as
@@ -104,10 +81,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfrTaskRunner that) {
-            var call = new CfxTaskRunnerIsSameRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.that = CfrObject.Unwrap(that);
-            call.RequestExecution(this);
+            var call = new CfxTaskRunnerIsSameRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.that = CfrObject.Unwrap(that).ptr;
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
@@ -119,9 +96,9 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool BelongsToCurrentThread() {
-            var call = new CfxTaskRunnerBelongsToCurrentThreadRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.RequestExecution(this);
+            var call = new CfxTaskRunnerBelongsToCurrentThreadRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
@@ -133,10 +110,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool BelongsToThread(CfxThreadId threadId) {
-            var call = new CfxTaskRunnerBelongsToThreadRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
+            var call = new CfxTaskRunnerBelongsToThreadRemoteCall();
+            call.@this = RemotePtr.ptr;
             call.threadId = (int)threadId;
-            call.RequestExecution(this);
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
@@ -149,10 +126,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool PostTask(CfrTask task) {
-            var call = new CfxTaskRunnerPostTaskRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.task = CfrObject.Unwrap(task);
-            call.RequestExecution(this);
+            var call = new CfxTaskRunnerPostTaskRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.task = CfrObject.Unwrap(task).ptr;
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
         }
 
@@ -167,16 +144,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool PostDelayedTask(CfrTask task, long delayMs) {
-            var call = new CfxTaskRunnerPostDelayedTaskRenderProcessCall();
-            call.self = CfrObject.Unwrap(this);
-            call.task = CfrObject.Unwrap(task);
+            var call = new CfxTaskRunnerPostDelayedTaskRemoteCall();
+            call.@this = RemotePtr.ptr;
+            call.task = CfrObject.Unwrap(task).ptr;
             call.delayMs = delayMs;
-            call.RequestExecution(this);
+            call.RequestExecution(RemotePtr.connection);
             return call.__retval;
-        }
-
-        internal override void OnDispose(IntPtr proxyId) {
-            connection.weakCache.Remove(proxyId);
         }
     }
 }

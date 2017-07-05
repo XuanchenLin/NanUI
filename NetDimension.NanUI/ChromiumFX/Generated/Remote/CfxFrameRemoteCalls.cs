@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -35,20 +11,20 @@ using System;
 
 namespace Chromium.Remote {
 
-    internal class CfxFrameIsValidRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameIsValidRemoteCall : RemoteCall {
 
-        internal CfxFrameIsValidRenderProcessCall()
-            : base(RemoteCallId.CfxFrameIsValidRenderProcessCall) {}
+        internal CfxFrameIsValidRemoteCall()
+            : base(RemoteCallId.CfxFrameIsValidRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -59,326 +35,322 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsValid;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Frame.cfx_frame_is_valid(@this);
         }
     }
 
-    internal class CfxFrameUndoRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameUndoRemoteCall : RemoteCall {
 
-        internal CfxFrameUndoRenderProcessCall()
-            : base(RemoteCallId.CfxFrameUndoRenderProcessCall) {}
+        internal CfxFrameUndoRemoteCall()
+            : base(RemoteCallId.CfxFrameUndoRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.Undo();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_undo(@this);
         }
     }
 
-    internal class CfxFrameRedoRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameRedoRemoteCall : RemoteCall {
 
-        internal CfxFrameRedoRenderProcessCall()
-            : base(RemoteCallId.CfxFrameRedoRenderProcessCall) {}
+        internal CfxFrameRedoRemoteCall()
+            : base(RemoteCallId.CfxFrameRedoRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.Redo();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_redo(@this);
         }
     }
 
-    internal class CfxFrameCutRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameCutRemoteCall : RemoteCall {
 
-        internal CfxFrameCutRenderProcessCall()
-            : base(RemoteCallId.CfxFrameCutRenderProcessCall) {}
+        internal CfxFrameCutRemoteCall()
+            : base(RemoteCallId.CfxFrameCutRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.Cut();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_cut(@this);
         }
     }
 
-    internal class CfxFrameCopyRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameCopyRemoteCall : RemoteCall {
 
-        internal CfxFrameCopyRenderProcessCall()
-            : base(RemoteCallId.CfxFrameCopyRenderProcessCall) {}
+        internal CfxFrameCopyRemoteCall()
+            : base(RemoteCallId.CfxFrameCopyRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.Copy();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_copy(@this);
         }
     }
 
-    internal class CfxFramePasteRenderProcessCall : RenderProcessCall {
+    internal class CfxFramePasteRemoteCall : RemoteCall {
 
-        internal CfxFramePasteRenderProcessCall()
-            : base(RemoteCallId.CfxFramePasteRenderProcessCall) {}
+        internal CfxFramePasteRemoteCall()
+            : base(RemoteCallId.CfxFramePasteRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.Paste();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_paste(@this);
         }
     }
 
-    internal class CfxFrameDelRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameDelRemoteCall : RemoteCall {
 
-        internal CfxFrameDelRenderProcessCall()
-            : base(RemoteCallId.CfxFrameDelRenderProcessCall) {}
+        internal CfxFrameDelRemoteCall()
+            : base(RemoteCallId.CfxFrameDelRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.Delete();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_del(@this);
         }
     }
 
-    internal class CfxFrameSelectAllRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameSelectAllRemoteCall : RemoteCall {
 
-        internal CfxFrameSelectAllRenderProcessCall()
-            : base(RemoteCallId.CfxFrameSelectAllRenderProcessCall) {}
+        internal CfxFrameSelectAllRemoteCall()
+            : base(RemoteCallId.CfxFrameSelectAllRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.SelectAll();
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_select_all(@this);
         }
     }
 
-    internal class CfxFrameGetSourceRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetSourceRemoteCall : RemoteCall {
 
-        internal CfxFrameGetSourceRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetSourceRenderProcessCall) {}
+        internal CfxFrameGetSourceRemoteCall()
+            : base(RemoteCallId.CfxFrameGetSourceRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr visitor;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(visitor);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out visitor);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.GetSource((CfxStringVisitor)RemoteProxy.Unwrap(visitor));
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_get_source(@this, visitor);
         }
     }
 
-    internal class CfxFrameGetTextRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetTextRemoteCall : RemoteCall {
 
-        internal CfxFrameGetTextRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetTextRenderProcessCall) {}
+        internal CfxFrameGetTextRemoteCall()
+            : base(RemoteCallId.CfxFrameGetTextRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr visitor;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(visitor);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out visitor);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.GetText((CfxStringVisitor)RemoteProxy.Unwrap(visitor));
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_get_text(@this, visitor);
         }
     }
 
-    internal class CfxFrameLoadRequestRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameLoadRequestRemoteCall : RemoteCall {
 
-        internal CfxFrameLoadRequestRenderProcessCall()
-            : base(RemoteCallId.CfxFrameLoadRequestRenderProcessCall) {}
+        internal CfxFrameLoadRequestRemoteCall()
+            : base(RemoteCallId.CfxFrameLoadRequestRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr request;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(request);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out request);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.LoadRequest((CfxRequest)RemoteProxy.Unwrap(request));
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_load_request(@this, request);
         }
     }
 
-    internal class CfxFrameLoadUrlRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameLoadUrlRemoteCall : RemoteCall {
 
-        internal CfxFrameLoadUrlRenderProcessCall()
-            : base(RemoteCallId.CfxFrameLoadUrlRenderProcessCall) {}
+        internal CfxFrameLoadUrlRemoteCall()
+            : base(RemoteCallId.CfxFrameLoadUrlRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal string url;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(url);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out url);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.LoadUrl(url);
+        protected override void RemoteProcedure() {
+            var url_pinned = new PinnedString(url);
+            CfxApi.Frame.cfx_frame_load_url(@this, url_pinned.Obj.PinnedPtr, url_pinned.Length);
+            url_pinned.Obj.Free();
         }
     }
 
-    internal class CfxFrameLoadStringRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameLoadStringRemoteCall : RemoteCall {
 
-        internal CfxFrameLoadStringRenderProcessCall()
-            : base(RemoteCallId.CfxFrameLoadStringRenderProcessCall) {}
+        internal CfxFrameLoadStringRemoteCall()
+            : base(RemoteCallId.CfxFrameLoadStringRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal string stringVal;
         internal string url;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(stringVal);
             h.Write(url);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out stringVal);
             h.Read(out url);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.LoadString(stringVal, url);
+        protected override void RemoteProcedure() {
+            var stringVal_pinned = new PinnedString(stringVal);
+            var url_pinned = new PinnedString(url);
+            CfxApi.Frame.cfx_frame_load_string(@this, stringVal_pinned.Obj.PinnedPtr, stringVal_pinned.Length, url_pinned.Obj.PinnedPtr, url_pinned.Length);
+            stringVal_pinned.Obj.Free();
+            url_pinned.Obj.Free();
         }
     }
 
-    internal class CfxFrameExecuteJavaScriptRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameExecuteJavaScriptRemoteCall : RemoteCall {
 
-        internal CfxFrameExecuteJavaScriptRenderProcessCall()
-            : base(RemoteCallId.CfxFrameExecuteJavaScriptRenderProcessCall) {}
+        internal CfxFrameExecuteJavaScriptRemoteCall()
+            : base(RemoteCallId.CfxFrameExecuteJavaScriptRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal string code;
         internal string scriptUrl;
         internal int startLine;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(code);
             h.Write(scriptUrl);
             h.Write(startLine);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out code);
             h.Read(out scriptUrl);
             h.Read(out startLine);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.ExecuteJavaScript(code, scriptUrl, startLine);
+        protected override void RemoteProcedure() {
+            var code_pinned = new PinnedString(code);
+            var scriptUrl_pinned = new PinnedString(scriptUrl);
+            CfxApi.Frame.cfx_frame_execute_java_script(@this, code_pinned.Obj.PinnedPtr, code_pinned.Length, scriptUrl_pinned.Obj.PinnedPtr, scriptUrl_pinned.Length, startLine);
+            code_pinned.Obj.Free();
+            scriptUrl_pinned.Obj.Free();
         }
     }
 
-    internal class CfxFrameIsMainRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameIsMainRemoteCall : RemoteCall {
 
-        internal CfxFrameIsMainRenderProcessCall()
-            : base(RemoteCallId.CfxFrameIsMainRenderProcessCall) {}
+        internal CfxFrameIsMainRemoteCall()
+            : base(RemoteCallId.CfxFrameIsMainRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -389,26 +361,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsMain;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Frame.cfx_frame_is_main(@this);
         }
     }
 
-    internal class CfxFrameIsFocusedRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameIsFocusedRemoteCall : RemoteCall {
 
-        internal CfxFrameIsFocusedRenderProcessCall()
-            : base(RemoteCallId.CfxFrameIsFocusedRenderProcessCall) {}
+        internal CfxFrameIsFocusedRemoteCall()
+            : base(RemoteCallId.CfxFrameIsFocusedRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal bool __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -419,26 +390,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = self_local.IsFocused;
+        protected override void RemoteProcedure() {
+            __retval = 0 != CfxApi.Frame.cfx_frame_is_focused(@this);
         }
     }
 
-    internal class CfxFrameGetNameRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetNameRemoteCall : RemoteCall {
 
-        internal CfxFrameGetNameRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetNameRenderProcessCall) {}
+        internal CfxFrameGetNameRemoteCall()
+            : base(RemoteCallId.CfxFrameGetNameRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal string __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -449,26 +419,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = self_local.Name;
+        protected override void RemoteProcedure() {
+            __retval = StringFunctions.ConvertStringUserfree(CfxApi.Frame.cfx_frame_get_name(@this));
         }
     }
 
-    internal class CfxFrameGetIdentifierRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetIdentifierRemoteCall : RemoteCall {
 
-        internal CfxFrameGetIdentifierRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetIdentifierRenderProcessCall) {}
+        internal CfxFrameGetIdentifierRemoteCall()
+            : base(RemoteCallId.CfxFrameGetIdentifierRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal long __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -479,26 +448,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = self_local.Identifier;
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Frame.cfx_frame_get_identifier(@this);
         }
     }
 
-    internal class CfxFrameGetParentRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetParentRemoteCall : RemoteCall {
 
-        internal CfxFrameGetParentRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetParentRenderProcessCall) {}
+        internal CfxFrameGetParentRemoteCall()
+            : base(RemoteCallId.CfxFrameGetParentRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -509,26 +477,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.Parent);
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Frame.cfx_frame_get_parent(@this);
         }
     }
 
-    internal class CfxFrameGetUrlRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetUrlRemoteCall : RemoteCall {
 
-        internal CfxFrameGetUrlRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetUrlRenderProcessCall) {}
+        internal CfxFrameGetUrlRemoteCall()
+            : base(RemoteCallId.CfxFrameGetUrlRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal string __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -539,26 +506,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = self_local.Url;
+        protected override void RemoteProcedure() {
+            __retval = StringFunctions.ConvertStringUserfree(CfxApi.Frame.cfx_frame_get_url(@this));
         }
     }
 
-    internal class CfxFrameGetBrowserRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetBrowserRemoteCall : RemoteCall {
 
-        internal CfxFrameGetBrowserRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetBrowserRenderProcessCall) {}
+        internal CfxFrameGetBrowserRemoteCall()
+            : base(RemoteCallId.CfxFrameGetBrowserRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -569,26 +535,25 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.Browser);
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Frame.cfx_frame_get_browser(@this);
         }
     }
 
-    internal class CfxFrameGetV8ContextRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameGetV8ContextRemoteCall : RemoteCall {
 
-        internal CfxFrameGetV8ContextRenderProcessCall()
-            : base(RemoteCallId.CfxFrameGetV8ContextRenderProcessCall) {}
+        internal CfxFrameGetV8ContextRemoteCall()
+            : base(RemoteCallId.CfxFrameGetV8ContextRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr __retval;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
         }
 
         protected override void WriteReturn(StreamHandler h) {
@@ -599,33 +564,31 @@ namespace Chromium.Remote {
             h.Read(out __retval);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            __retval = RemoteProxy.Wrap(self_local.V8Context);
+        protected override void RemoteProcedure() {
+            __retval = CfxApi.Frame.cfx_frame_get_v8context(@this);
         }
     }
 
-    internal class CfxFrameVisitDomRenderProcessCall : RenderProcessCall {
+    internal class CfxFrameVisitDomRemoteCall : RemoteCall {
 
-        internal CfxFrameVisitDomRenderProcessCall()
-            : base(RemoteCallId.CfxFrameVisitDomRenderProcessCall) {}
+        internal CfxFrameVisitDomRemoteCall()
+            : base(RemoteCallId.CfxFrameVisitDomRemoteCall) {}
 
-        internal IntPtr self;
+        internal IntPtr @this;
         internal IntPtr visitor;
 
         protected override void WriteArgs(StreamHandler h) {
-            h.Write(self);
+            h.Write(@this);
             h.Write(visitor);
         }
 
         protected override void ReadArgs(StreamHandler h) {
-            h.Read(out self);
+            h.Read(out @this);
             h.Read(out visitor);
         }
 
-        protected override void ExecuteInTargetProcess(RemoteConnection connection) {
-            var self_local = (CfxFrame)RemoteProxy.Unwrap(self);
-            self_local.VisitDom((CfxDomVisitor)RemoteProxy.Unwrap(visitor));
+        protected override void RemoteProcedure() {
+            CfxApi.Frame.cfx_frame_visit_dom(@this, visitor);
         }
     }
 

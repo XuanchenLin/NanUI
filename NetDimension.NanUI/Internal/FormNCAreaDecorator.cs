@@ -124,7 +124,6 @@ namespace NetDimension.NanUI.Internal
 					}
 					User32.InvalidateWindow(parentWindowHWnd);
 					break;
-				case (int)WindowsMessages.WM_SETCURSOR:
 				case (int)WindowsMessages.WM_ACTIVATEAPP:
 				case (int)WindowsMessages.WM_MOVE:
 					base.WndProc(ref m);
@@ -150,7 +149,7 @@ namespace NetDimension.NanUI.Internal
 						User32.SendFrameChanged(parentWindowHWnd);
 					}
 
-					User32.InvalidateWindow(parentWindowHWnd);
+					//User32.InvalidateWindow(parentWindowHWnd);
 
 
 					base.WndProc(ref m);
@@ -160,7 +159,6 @@ namespace NetDimension.NanUI.Internal
 					if (m.WParam == (IntPtr)2 && isMaximized)
 					{
 						User32.SendFrameChanged(parentWindowHWnd);
-
 					}
 
 					base.WndProc(ref m);
@@ -221,6 +219,7 @@ namespace NetDimension.NanUI.Internal
 						Marshal.StructureToPtr(ncsize, m.LParam, false);
 						m.Result = WVR_VALIDRECTS;
 
+						User32.InvalidateWindow(parentWindowHWnd);
 
 					}
 					else
@@ -232,7 +231,6 @@ namespace NetDimension.NanUI.Internal
 
 					}
 
-					User32.InvalidateWindow(parentWindowHWnd);
 
 
 					base.WndProc(ref m);
@@ -242,10 +240,7 @@ namespace NetDimension.NanUI.Internal
 					if (User32.IsWindowVisible(parentWindowHWnd))
 					{
 						m.Result = MESSAGE_HANDLED;
-
 						DrawNCArea(m.WParam);
-
-
 					}
 					break;
 				case (int)WindowsMessages.WM_NCUAHDRAWCAPTION:
@@ -328,17 +323,27 @@ namespace NetDimension.NanUI.Internal
 
 			IntPtr hDC = User32.GetWindowDC(parentWindowHWnd);
 
-			var windowRectangle = new Rectangle(windowRect.left, windowRect.top, (int)windowRect.Width, (int)windowRect.Height);
-			var clientRectangle = new Rectangle(nclientRect.left, nclientRect.top, (int)clientRect.Height, (int)clientRect.Width);
+			//var windowRectangle = new Rectangle(windowRect.left, windowRect.top, (int)windowRect.Width, (int)windowRect.Height);
+			//var clientRectangle = new Rectangle(nclientRect.left, nclientRect.top, (int)clientRect.Height, (int)clientRect.Width);
+			COLORREF color = new COLORREF(borderColor);
 
 
 
 			try
 			{
-				COLORREF color = new COLORREF(borderColor);
 				IntPtr hBrush = Gdi32.CreateSolidBrush(color.ColorDWORD);
 				Gdi32.ExcludeClipRect(hDC, nclientRect.left, nclientRect.top, nclientRect.right, nclientRect.bottom);
-				User32.FillRect(hDC, ref windowRect, hBrush);
+
+				var topRect = new RECT(0, 0, (int)windowRect.Width, borderSize);
+				var bottomRect = new RECT(0, (int)windowRect.Height - borderSize, (int)windowRect.Width, borderSize);
+				var leftRect = new RECT(0, borderSize, borderSize, (int)windowRect.Height - borderSize * 2);
+				var rightRect = new RECT((int)windowRect.Width - borderSize, borderSize, borderSize, (int)windowRect.Height - borderSize * 2);
+
+				User32.FillRect(hDC, ref topRect, hBrush);
+				User32.FillRect(hDC, ref bottomRect, hBrush);
+				User32.FillRect(hDC, ref leftRect, hBrush);
+				User32.FillRect(hDC, ref rightRect, hBrush);
+
 				Gdi32.DeleteObject(hBrush);
 			}
 			catch (Exception ex)

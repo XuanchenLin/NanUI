@@ -1,32 +1,8 @@
-// Copyright (c) 2014-2015 Wolfgang Borgsmüller
+// Copyright (c) 2014-2017 Wolfgang Borgsmüller
 // All rights reserved.
 // 
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.
-// 
-// 2. Redistributions in binary form must reproduce the above copyright 
-//    notice, this list of conditions and the following disclaimer in the 
-//    documentation and/or other materials provided with the distribution.
-// 
-// 3. Neither the name of the copyright holder nor the names of its 
-//    contributors may be used to endorse or promote products derived 
-//    from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
-// COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
-// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
-// OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
-// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
-// TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
-// USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// This software may be modified and distributed under the terms
+// of the BSD license. See the License.txt file for details.
 
 // Generated file. Do not edit.
 
@@ -44,58 +20,56 @@ namespace Chromium {
     /// See also the original CEF documentation in
     /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_handler_capi.h">cef/include/capi/cef_drag_handler_capi.h</see>.
     /// </remarks>
-    public class CfxDragHandler : CfxBase {
-
-        static CfxDragHandler () {
-            CfxApiLoader.LoadCfxDragHandlerApi();
-        }
-
-        internal static CfxDragHandler Wrap(IntPtr nativePtr) {
-            if(nativePtr == IntPtr.Zero) return null;
-            var handlePtr = CfxApi.cfx_drag_handler_get_gc_handle(nativePtr);
-            return (CfxDragHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(handlePtr).Target;
-        }
-
+    public class CfxDragHandler : CfxBaseClient {
 
         private static object eventLock = new object();
 
+        internal static void SetNativeCallbacks() {
+            on_drag_enter_native = on_drag_enter;
+            on_draggable_regions_changed_native = on_draggable_regions_changed;
+
+            on_drag_enter_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_drag_enter_native);
+            on_draggable_regions_changed_native_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(on_draggable_regions_changed_native);
+        }
+
         // on_drag_enter
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_drag_handler_on_drag_enter_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr dragData, int mask);
-        private static cfx_drag_handler_on_drag_enter_delegate cfx_drag_handler_on_drag_enter;
-        private static IntPtr cfx_drag_handler_on_drag_enter_ptr;
+        private delegate void on_drag_enter_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr dragData, out int dragData_release, int mask);
+        private static on_drag_enter_delegate on_drag_enter_native;
+        private static IntPtr on_drag_enter_native_ptr;
 
-        internal static void on_drag_enter(IntPtr gcHandlePtr, out int __retval, IntPtr browser, IntPtr dragData, int mask) {
+        internal static void on_drag_enter(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr dragData, out int dragData_release, int mask) {
             var self = (CfxDragHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
+                dragData_release = 1;
                 return;
             }
             var e = new CfxOnDragEnterEventArgs(browser, dragData, mask);
-            var eventHandler = self.m_OnDragEnter;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnDragEnter?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
-            if(e.m_dragData_wrapped == null) CfxApi.cfx_release(e.m_dragData);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
+            dragData_release = e.m_dragData_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // on_draggable_regions_changed
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_drag_handler_on_draggable_regions_changed_delegate(IntPtr gcHandlePtr, IntPtr browser, int regionsCount, IntPtr regions, int regions_structsize);
-        private static cfx_drag_handler_on_draggable_regions_changed_delegate cfx_drag_handler_on_draggable_regions_changed;
-        private static IntPtr cfx_drag_handler_on_draggable_regions_changed_ptr;
+        private delegate void on_draggable_regions_changed_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, UIntPtr regionsCount, IntPtr regions, int regions_structsize);
+        private static on_draggable_regions_changed_delegate on_draggable_regions_changed_native;
+        private static IntPtr on_draggable_regions_changed_native_ptr;
 
-        internal static void on_draggable_regions_changed(IntPtr gcHandlePtr, IntPtr browser, int regionsCount, IntPtr regions, int regions_structsize) {
+        internal static void on_draggable_regions_changed(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, UIntPtr regionsCount, IntPtr regions, int regions_structsize) {
             var self = (CfxDragHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
-            if(self == null) {
+            if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
             var e = new CfxOnDraggableRegionsChangedEventArgs(browser, regions, regionsCount, regions_structsize);
-            var eventHandler = self.m_OnDraggableRegionsChanged;
-            if(eventHandler != null) eventHandler(self, e);
+            self.m_OnDraggableRegionsChanged?.Invoke(self, e);
             e.m_isInvalid = true;
-            if(e.m_browser_wrapped == null) CfxApi.cfx_release(e.m_browser);
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             if(e.m_regions_managed != null) {
                 for(int i = 0; i < e.m_regions_managed.Length; ++i) {
                     e.m_regions_managed[i].Dispose();
@@ -103,8 +77,7 @@ namespace Chromium {
             }
         }
 
-        internal CfxDragHandler(IntPtr nativePtr) : base(nativePtr) {}
-        public CfxDragHandler() : base(CfxApi.cfx_drag_handler_ctor) {}
+        public CfxDragHandler() : base(CfxApi.DragHandler.cfx_drag_handler_ctor) {}
 
         /// <summary>
         /// Called when an external drag event enters the browser window. |DragData|
@@ -120,11 +93,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnDragEnter == null) {
-                        if(cfx_drag_handler_on_drag_enter == null) {
-                            cfx_drag_handler_on_drag_enter = on_drag_enter;
-                            cfx_drag_handler_on_drag_enter_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_drag_handler_on_drag_enter);
-                        }
-                        CfxApi.cfx_drag_handler_set_managed_callback(NativePtr, 0, cfx_drag_handler_on_drag_enter_ptr);
+                        CfxApi.DragHandler.cfx_drag_handler_set_callback(NativePtr, 0, on_drag_enter_native_ptr);
                     }
                     m_OnDragEnter += value;
                 }
@@ -133,7 +102,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnDragEnter -= value;
                     if(m_OnDragEnter == null) {
-                        CfxApi.cfx_drag_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                        CfxApi.DragHandler.cfx_drag_handler_set_callback(NativePtr, 0, IntPtr.Zero);
                     }
                 }
             }
@@ -156,11 +125,7 @@ namespace Chromium {
             add {
                 lock(eventLock) {
                     if(m_OnDraggableRegionsChanged == null) {
-                        if(cfx_drag_handler_on_draggable_regions_changed == null) {
-                            cfx_drag_handler_on_draggable_regions_changed = on_draggable_regions_changed;
-                            cfx_drag_handler_on_draggable_regions_changed_ptr = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(cfx_drag_handler_on_draggable_regions_changed);
-                        }
-                        CfxApi.cfx_drag_handler_set_managed_callback(NativePtr, 1, cfx_drag_handler_on_draggable_regions_changed_ptr);
+                        CfxApi.DragHandler.cfx_drag_handler_set_callback(NativePtr, 1, on_draggable_regions_changed_native_ptr);
                     }
                     m_OnDraggableRegionsChanged += value;
                 }
@@ -169,7 +134,7 @@ namespace Chromium {
                 lock(eventLock) {
                     m_OnDraggableRegionsChanged -= value;
                     if(m_OnDraggableRegionsChanged == null) {
-                        CfxApi.cfx_drag_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                        CfxApi.DragHandler.cfx_drag_handler_set_callback(NativePtr, 1, IntPtr.Zero);
                     }
                 }
             }
@@ -180,11 +145,11 @@ namespace Chromium {
         internal override void OnDispose(IntPtr nativePtr) {
             if(m_OnDragEnter != null) {
                 m_OnDragEnter = null;
-                CfxApi.cfx_drag_handler_set_managed_callback(NativePtr, 0, IntPtr.Zero);
+                CfxApi.DragHandler.cfx_drag_handler_set_callback(NativePtr, 0, IntPtr.Zero);
             }
             if(m_OnDraggableRegionsChanged != null) {
                 m_OnDraggableRegionsChanged = null;
-                CfxApi.cfx_drag_handler_set_managed_callback(NativePtr, 1, IntPtr.Zero);
+                CfxApi.DragHandler.cfx_drag_handler_set_callback(NativePtr, 1, IntPtr.Zero);
             }
             base.OnDispose(nativePtr);
         }
@@ -309,10 +274,10 @@ namespace Chromium {
             internal CfxBrowser m_browser_wrapped;
             IntPtr m_regions;
             int m_regions_structsize;
-            int m_regionsCount;
+            UIntPtr m_regionsCount;
             internal CfxDraggableRegion[] m_regions_managed;
 
-            internal CfxOnDraggableRegionsChangedEventArgs(IntPtr browser, IntPtr regions, int regionsCount, int regions_structsize) {
+            internal CfxOnDraggableRegionsChangedEventArgs(IntPtr browser, IntPtr regions, UIntPtr regionsCount, int regions_structsize) {
                 m_browser = browser;
                 m_regions = regions;
                 m_regions_structsize = regions_structsize;
@@ -337,9 +302,11 @@ namespace Chromium {
                 get {
                     CheckAccess();
                     if(m_regions_managed == null) {
-                        m_regions_managed = new CfxDraggableRegion[m_regionsCount];
-                        for(int i = 0; i < m_regionsCount; ++i) {
-                            m_regions_managed[i] = CfxDraggableRegion.Wrap(m_regions + (i * m_regions_structsize));
+                        m_regions_managed = new CfxDraggableRegion[(ulong)m_regionsCount];
+                        var currentPtr = m_regions;
+                        for(ulong i = 0; i < (ulong)m_regionsCount; ++i) {
+                            m_regions_managed[i] = CfxDraggableRegion.Wrap(currentPtr);
+                            currentPtr += m_regions_structsize;
                         }
                     }
                     return m_regions_managed;
