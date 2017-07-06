@@ -7,6 +7,9 @@ namespace NetDimension.NanUI.ChromiumCore
 {
 	internal class JsHostWindowObject : JSObject
 	{
+
+		public const string JS_WINDOW_STATE_CHANGED = "(function(){{var event = new CustomEvent('windowstatechanged',{{'detail':{{ state: {0}, width:{1}, height:{2}}}}}); window.dispatchEvent(event);}})();";
+
 		private Form parentForm;
 		private IntPtr handle;
 
@@ -45,6 +48,13 @@ namespace NetDimension.NanUI.ChromiumCore
 						User32.SendMessage(handle, (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)SystemCommandFlags.SC_MAXIMIZE, IntPtr.Zero);
 					}
 				});
+			});
+
+			winObj.AddFunction("restore").Execute += (sender, e) => parent.UpdateUI(() =>
+			{
+				if (parentForm.WindowState == FormWindowState.Maximized || parentForm.WindowState == FormWindowState.Minimized) {
+					User32.SendMessage(handle, (int)WindowsMessages.WM_SYSCOMMAND, (IntPtr)SystemCommandFlags.SC_RESTORE, IntPtr.Zero);
+				}
 			});
 		}
 

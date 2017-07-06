@@ -45,6 +45,12 @@ __博客园：__ [http://www.cnblogs.com/linxuanchen/](http://www.cnblogs.com/li
 
 
 ### 更新日志
+> 0.5.1
+
+- 新增了不使用全屏窗口的新类型HtmlContentForm。继承这个类型的窗口NanUI将不再重绘窗口样式，使用系统标准的窗口样式。
+- 修正了最大化最小化关闭按钮点击不相应的问题。
+- 修正了窗体最大化最小化和恢复时不触发windowstatechange的js事件的问题。
+
 > **0.5.0 发布了！**
 
 - 现在CEF及ChromiumFX内核升级到了**CEF 3.2987.1601 (Chrome 57.0.2987.133)**，部分API结构改变，需要调整原有系统的代码。

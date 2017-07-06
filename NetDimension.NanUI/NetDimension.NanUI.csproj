@@ -47,7 +47,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -56,7 +56,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>Bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -384,6 +384,9 @@
     <Compile Include="ChromiumFX\Source\WindowStyle.cs" />
     <Compile Include="ControlExtended.cs" />
     <Compile Include="enum.cs" />
+    <Compile Include="HtmlContentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HtmlUIException.cs" />
     <Compile Include="HtmlUIForm.cs">
       <SubType>Form</SubType>
