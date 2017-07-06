@@ -32,7 +32,7 @@ __博客园：__ [http://www.cnblogs.com/linxuanchen/](http://www.cnblogs.com/li
 
 由于从0.4.4开始，NanUI不再提供自动下载CEF运行支持文件的功能，所以您需要手动添加CEF运行支持文件。
 
-**NanUI 0.5.0 CEF支持文件下载**
+**NanUI 0.5.x CEF支持文件下载**
 
 百度网盘：<http://pan.baidu.com/s/1o7ZRsBC>
 
@@ -45,7 +45,7 @@ __博客园：__ [http://www.cnblogs.com/linxuanchen/](http://www.cnblogs.com/li
 
 
 ### 更新日志
-> 0.5.1
+> 0.5.1 (2017-7-6)
 
 - 新增了不使用全屏窗口的新类型HtmlContentForm。继承这个类型的窗口NanUI将不再重绘窗口样式，使用系统标准的窗口样式。
 - 修正了最大化最小化关闭按钮点击不相应的问题。
