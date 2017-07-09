@@ -8,9 +8,6 @@ NanUI打破了传统的Winform界面设计方式，通过NanUI你能够使用Htm
 
 ![NanUI](http://images2015.cnblogs.com/blog/352785/201605/352785-20160518180435701-1461536015.png)
 
-### NUGET
-
-`Install-Package NetDimension.NanUI`
 
 ### 赞助作者
 如果你喜欢NanUI项目，你可以参与到NanUI的开发中来，当然你也可以更直接了当的支持我的工作，使用支付宝或微信扫描下面二维码请我喝一杯热腾腾的咖啡。
@@ -38,7 +35,7 @@ __博客园：__ [http://www.cnblogs.com/linxuanchen/](http://www.cnblogs.com/li
 - 修改和删除了部分API，但是主要的API没有修改，因此升级0.4.4后之前的项目需要做小幅度的更改。
 - 移除了离屏渲染相关的API和例子，效率实在太差，并没有实际意义。
 - 移除了MarkDown编辑器的例子，因此MarkDown编辑器例子和CodeEditor例子略显重复。
-- **重要：** 0.4.4将是支持 __CEF3.2526.5__ 的最后一个版本，下个版本将直接步进到 __CEF.3071.2__ 与ChromiumFX实现同步。那也意味着，此版本NanUI将是 __最后一个支持Windows XP的版本__ 。0.4.4将作为单独分支持续修正BUG。
+- __重要：__ 0.4.4将是支持__CEF3.2526.5__的最后一个版本，下个版本将直接步进到 __CEF.3071.2__ 与ChromiumFX实现同步。那也意味着，此版本NanUI将是__最后一个支持Windows XP的版本__。0.4.4将作为单独分支持续修正BUG。
 
 > 0.4.3
 
@@ -78,7 +75,7 @@ __博客园：__ [http://www.cnblogs.com/linxuanchen/](http://www.cnblogs.com/li
 
 ### 版本状态
 NanUI版本
-> 0.4.4 alpha预览
+> 0.4.1 alpha预览
 
 支持的操作系统
 > Windows XP及已上版本
@@ -149,6 +146,12 @@ public class MainFrame : HtmlUIForm
 另外，请勾选“启用本机代码调试”选项来解决中文输入法状态启动调试时软件崩溃的问题。
 
 ### 演示项目
+
+**MarkdownDotNet**
+
+NanUI.Demo.MarkdownDotNet
+
+一个功能简单的Markdown编辑器，主要展示NonclientMode。
 
 **CodeEditor**
 
