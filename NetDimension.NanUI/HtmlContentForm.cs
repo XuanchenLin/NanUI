@@ -17,19 +17,21 @@ namespace NetDimension.NanUI
 	using System.Diagnostics;
 	using System.Drawing;
 	using System.Threading.Tasks;
-	public class HtmlUIForm : BorderlessForm, IChromiumWebBrowser
+	public class HtmlContentForm : Form, IChromiumWebBrowser
 	{
-
-
 		private bool IsDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime || this.DesignMode || Process.GetCurrentProcess().ProcessName == "devenv";
-
-
+		private string initialUrl;
 		private bool isFormResizing = false;
+		float scaleFactor = 1.0f;
+		private int CornerAreaSize
+		{
+			get
+			{
+				return (int)Math.Round(3 / scaleFactor);
+			}
+		}
 
 
-
-
-		private PictureBox splashPicture;
 		private BrowserWidgetMessageInterceptor messageInterceptor;
 		private ChromiumBrowser browser;
 		protected IntPtr FormHandle { get; private set; }
@@ -37,212 +39,27 @@ namespace NetDimension.NanUI
 
 		private Region draggableRegion = null;
 
-		private bool isSplashShown = true;
-		private bool isFirstTimeSplashShown = true;
-		private bool isResizable = true;
-		private bool isEnableDropShadow = true;
-
-		float scaleFactor = 1.0f;
-
-		private string initialUrl;
-		private int CornerAreaSize
+		protected bool Resizable
 		{
 			get
 			{
-				return BorderSize < 3 ? 3 : BorderSize;
+				return this.FormBorderStyle == FormBorderStyle.SizableToolWindow || FormBorderStyle == FormBorderStyle.Sizable;
 			}
 		}
 
-
-		/// <summary>
-		/// 设置或获取NanUI在Nonclient模式下是否显示投影
-		/// </summary>
-		[Category("NanUI")]
-		public bool EnableDropShadow
-		{
-			get
-			{
-				return isEnableDropShadow;
-			}
-			set
-			{
-				isEnableDropShadow = value;
-				if (!IsDesignMode)
-				{
-					FormShadowDecorator.Enable(value);
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// 设置或获取NanUI窗口加载等待画面使用的图片
-		/// </summary>
-		[Category("NanUI")]
-		public Image SplashImage
-		{
-			get
-			{
-				return splashPicture.BackgroundImage;
-			}
-			set
-			{
-				splashPicture.BackgroundImage = value;
-			}
-		}
-		/// <summary>
-		/// 设置或获取NanUI窗口加载等待画面图片布局方式
-		/// </summary>
-		[Category("NanUI")]
-		public ImageLayout SplashImageLayout
-		{
-			get
-			{
-				return splashPicture.BackgroundImageLayout;
-			}
-			set
-			{
-				splashPicture.BackgroundImageLayout = value;
-			}
-		}
-
-
-		/// <summary>
-		/// 设置或获取NanUI窗口加载等待画面背景颜色
-		/// </summary>
-		[Category("NanUI")]
-		public Color SplashBackColor
-		{
-			get
-			{
-				return splashPicture.BackColor;
-			}
-			set
-			{
-				splashPicture.BackColor = value;
-			}
-		}
-
-		public override Color BackColor
-		{
-			get;
-			set;
-		} = Color.White;
-
-
-		/// <summary>
-		/// 设置或获取NanUI窗口是否可以拖动大小
-		/// </summary>
-		[Category("NanUI")]
-		public bool Resizable
-		{
-			get
-			{
-				return isResizable;
-			}
-			set
-			{
-				isResizable = value;
-				//if (!IsDesignMode)
-				//{
-				//	FormShadowDecorator.EnableResize(value);
-				//}
-			}
-		}
-
-		int borderSize = 1;
-		/// <summary>
-		/// 设置或获取NanUI窗口边框线条粗细
-		/// </summary>
-		[Category("NanUI")]
-		public int BorderSize
-		{
-			get
-			{
-				return borderSize;
-			}
-			set
-			{
-				borderSize = value;
-				if (!IsDesignMode)
-				{
-					FormNonclientAreaDecorator.BorderSize = borderSize;
-				}
-			}
-		}
-
-
-		Color borderColor = Color.Gray;
-
-		/// <summary>
-		/// 设置或获取NanUI窗口边框颜色
-		/// </summary>
-		[Category("NanUI")]
-		public Color BorderColor
-		{
-			get
-			{
-				return borderColor;
-			}
-			set
-			{
-				borderColor = value;
-				if (!IsDesignMode)
-				{
-					FormNonclientAreaDecorator.BorderColor = borderColor;
-				}
-
-			}
-		}
-
-
-
-
-		public HtmlUIForm() : this(null)
+		public HtmlContentForm() : this(null)
 		{
 
 		}
 
-		public HtmlUIForm(string initialUrl)
+		public HtmlContentForm(string initialUrl)
 		{
 			this.initialUrl = initialUrl;
 
-
-
-			splashPicture = new PictureBox()
-			{
-				Dock = DockStyle.Fill,
-				BackColor = Color.Transparent
-			};
-
-
 			if (!IsDesignMode)
 			{
-				//SetStyle(ControlStyles.ResizeRedraw, true);
-				//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-				//SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-
-				//DoubleBuffered = true;
-
-				//UpdateStyles();
-
-
-				FormNonclientAreaDecorator.BorderSize = borderSize;
-				FormNonclientAreaDecorator.BorderColor = borderColor;
-
-				scaleFactor = 1.0f / User32.GetOriginalDeviceScaleFactor(FormHandle);
-				//FormShadowDecorator.EnableResize(isResizable);
-
-				this.Controls.Add(splashPicture);
-				splashPicture.BringToFront();
-
-
-
 				InitializeChromium(initialUrl);
 			}
-
-
-
 		}
 		protected void InitializeChromium(string initialUrl)
 		{
@@ -321,12 +138,10 @@ namespace NetDimension.NanUI
 
 			LoadHandler.OnLoadEnd += (sender, args) =>
 			{
-				HideInitialSplash();
 			};
 
 			LoadHandler.OnLoadError += (sender, args) =>
 			{
-				HideInitialSplash();
 			};
 
 
@@ -361,17 +176,6 @@ namespace NetDimension.NanUI
 
 				}
 			});
-		}
-		private void HideInitialSplash()
-		{
-			if (isFirstTimeSplashShown && isSplashShown)
-			{
-
-				HideSplash();
-
-				isFirstTimeSplashShown = false;
-				isSplashShown = false;
-			}
 		}
 		#endregion
 
@@ -478,7 +282,7 @@ namespace NetDimension.NanUI
 
 				var dragable = (draggableRegion != null && draggableRegion.IsVisible(new Point(sx, sy)));
 
-				Debug.WriteLine($"x:{x}\ty:{y}\t|\tax:{ax}\tay:{ay}");
+				//Debug.WriteLine($"x:{x}\ty:{y}\t|\tax:{ax}\tay:{ay}");
 
 
 				if (Resizable)
@@ -494,7 +298,7 @@ namespace NetDimension.NanUI
 
 				}
 
-				User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_MOUSEMOVE, message.WParam, message.LParam);
+				//User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_MOUSEMOVE, message.WParam, message.LParam);
 
 			}
 
@@ -618,14 +422,7 @@ namespace NetDimension.NanUI
 
 
 		}
-		public virtual void HideSplash()
-		{
-			this.UpdateUI(() =>
-			{
-				splashPicture.Hide();
-				splashPicture.SendToBack();
-			});
-		}
+
 		#endregion
 
 		#region Override
@@ -1046,6 +843,7 @@ namespace NetDimension.NanUI
 
 
 		#endregion
+
 
 	}
 }

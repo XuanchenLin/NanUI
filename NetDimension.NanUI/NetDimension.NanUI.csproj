@@ -331,6 +331,9 @@
     <Compile Include="ChromiumFX\Source\WindowStyle.cs" />
     <Compile Include="ControlExtended.cs" />
     <Compile Include="enum.cs" />
+    <Compile Include="HtmlContentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HtmlUIException.cs" />
     <Compile Include="HtmlUIForm.cs">
       <SubType>Form</SubType>
