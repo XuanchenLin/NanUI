@@ -36,62 +36,62 @@ using Chromium.Remote.Event;
 
 namespace NetDimension.NanUI.ChromiumCore
 {
-    internal partial class RenderProcessHandler : CfrRenderProcessHandler {
+	internal partial class RenderProcessHandler : CfrRenderProcessHandler {
 
-        private readonly RenderProcess remoteProcess;
+		private readonly RenderProcess remoteProcess;
 
-        internal RenderProcessHandler(RenderProcess remoteProcess) {
-            this.remoteProcess = remoteProcess;
+		internal RenderProcessHandler(RenderProcess remoteProcess) {
+			this.remoteProcess = remoteProcess;
 
-            this.OnContextCreated += RenderProcessHandler_OnContextCreated;
-            this.OnBrowserCreated += RenderProcessHandler_OnBrowserCreated;
-        }
+			this.OnContextCreated += RenderProcessHandler_OnContextCreated;
+			this.OnBrowserCreated += RenderProcessHandler_OnBrowserCreated;
+		}
 
-        void RenderProcessHandler_OnBrowserCreated(object sender, CfrOnBrowserCreatedEventArgs e) {
-            var id = e.Browser.Identifier;
-            var wb = HtmlUILauncher.GetBrowser(id);
-            if(wb != null) {
+		void RenderProcessHandler_OnBrowserCreated(object sender, CfrOnBrowserCreatedEventArgs e) {
+			var id = e.Browser.Identifier;
+			var wb = HtmlUILauncher.GetBrowser(id);
+			if(wb != null) {
 
-                var rp = wb.RemoteProcess;
-                if(rp != null && rp != this.remoteProcess) {
-                    // A new process has been created for the browser.
-                    // The old process is still alive, but probably it gets
-                    // killed soon after this callback returns.
-                    // So we suspend all callbacks from the old process.
-                    // If there are currently executing callbacks, 
-                    // this call will block until they are finished. 
-                    // When this call returns, it should be safe to 
-                    // continue execution and let the old process die.
-                    CfxRemoteCallbackManager.SuspendCallbacks(rp.RemoteProcessId);
-                }
+				var rp = wb.RemoteProcess;
+				if(rp != null && rp != this.remoteProcess) {
+					// A new process has been created for the browser.
+					// The old process is still alive, but probably it gets
+					// killed soon after this callback returns.
+					// So we suspend all callbacks from the old process.
+					// If there are currently executing callbacks, 
+					// this call will block until they are finished. 
+					// When this call returns, it should be safe to 
+					// continue execution and let the old process die.
+					CfxRemoteCallbackManager.SuspendCallbacks(rp.RemoteProcessId);
+				}
 
-                wb.SetRemoteBrowser(e.Browser, remoteProcess);
-            }
-        }
+				wb.SetRemoteBrowser(e.Browser, remoteProcess);
+			}
+		}
 
-        void RenderProcessHandler_OnContextCreated(object sender, CfrOnContextCreatedEventArgs e) {
-            var wb = HtmlUILauncher.GetBrowser(e.Browser.Identifier);
-            if(wb != null) {
-                if(e.Frame.IsMain) {
-                    SetProperties(e.Context, wb.GlobalObject);
+		void RenderProcessHandler_OnContextCreated(object sender, CfrOnContextCreatedEventArgs e) {
+			var wb = HtmlUILauncher.GetBrowser(e.Browser.Identifier);
+			if(wb != null) {
+				if(e.Frame.IsMain) {
+					SetProperties(e.Context, wb.GlobalObject);
 					//TODO:添加内置的-nanui-[cmd]支持
 					e.Frame.ExecuteJavaScript(Properties.Resources.InitialScripts, e.Frame.Url, 0);
 				}
 				else {
-                    JSObject obj;
-                    if(wb.FrameGlobalObjects.TryGetValue(e.Frame.Name, out obj)) {
-                        SetProperties(e.Context, obj);
-                    }
-                }
-                wb.RaiseOnV8ContextCreated(e);
-            }
-        }
+					JSObject obj;
+					if(wb.FrameGlobalObjects.TryGetValue(e.Frame.Name, out obj)) {
+						SetProperties(e.Context, obj);
+					}
+				}
+				wb.RaiseOnV8ContextCreated(e);
+			}
+		}
 
-        private void SetProperties(CfrV8Context context, JSObject obj) {
-            foreach(var p in obj) {
-                var v8Value = p.Value.GetV8Value(context);
-                context.Global.SetValue(p.Key, v8Value, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
-            }
-        }
-    }
+		private void SetProperties(CfrV8Context context, JSObject obj) {
+			foreach(var p in obj) {
+				var v8Value = p.Value.GetV8Value(context);
+				context.Global.SetValue(p.Key, v8Value, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
+			}
+		}
+	}
 }

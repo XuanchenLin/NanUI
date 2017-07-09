@@ -28,11 +28,6 @@ namespace NetDimension.NanUI
 
 
 
-		/// <summary>
-		/// NanUI窗口状态变化时，发送JS事件通知网页端
-		/// </summary>
-		private const string JS_WINDOW_STATE_CHANGED = "(function(){{var event = new CustomEvent('windowstatechanged',{{'detail':{{ state: {0}, width:{1}, height:{2}}}}}); window.dispatchEvent(event);}})();";
-
 		private PictureBox splashPicture;
 		private BrowserWidgetMessageInterceptor messageInterceptor;
 		private ChromiumBrowser browser;
