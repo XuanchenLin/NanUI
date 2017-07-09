@@ -28,10 +28,6 @@ namespace NetDimension.NanUI
 
 
 
-		/// <summary>
-		/// NanUI窗口状态变化时，发送JS事件通知网页端
-		/// </summary>
-		private const string JS_WINDOW_STATE_CHANGED = "(function(){{var event = new CustomEvent('windowstatechanged',{{'detail':{{ state: {0}, width:{1}, height:{2}}}}}); window.dispatchEvent(event);}})();";
 
 		private PictureBox splashPicture;
 		private BrowserWidgetMessageInterceptor messageInterceptor;
@@ -713,6 +709,19 @@ namespace NetDimension.NanUI
 
 
 							base.WndProc(ref m);
+						}
+						break;
+					case (int)WindowsMessages.WM_SIZE:
+						{
+							var x = (int)User32.LoWord(m.LParam);
+							var y = (int)User32.HiWord(m.LParam);
+							if (browser != null && browser.IsHandleCreated)
+							{
+								var js = string.Format(JsHostWindowObject.JS_WINDOW_STATE_CHANGED, m.WParam, x, y);
+								browser.ExecuteJavascript(js);
+
+							}
+
 						}
 						break;
 					default:

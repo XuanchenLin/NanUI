@@ -9,6 +9,7 @@ namespace NetDimension.NanUI.ChromiumCore
 	{
 		private Form parentForm;
 		private IntPtr handle;
+		internal const string JS_WINDOW_STATE_CHANGED = "(function(){{var event = new CustomEvent('windowstatechanged',{{'detail':{{ state: {0}, width:{1}, height:{2}}}}}); window.dispatchEvent(event);}})();";
 
 		internal JsHostWindowObject(Form parent)
 		{
