@@ -139,6 +139,14 @@ namespace NetDimension.NanUI
 				e.SetReturnValue(true);
 			};
 
+			LoadHandler.OnLoadEnd += (sender, args) =>
+			{
+			};
+
+			LoadHandler.OnLoadError += (sender, args) =>
+			{
+
+			};
 
 			GlobalObject.Add("NanUI", new JsHostWindowObject(this));
 
