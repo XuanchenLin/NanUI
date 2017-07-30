@@ -25,9 +25,10 @@ namespace NetDimension.NanUI.Internal
 		internal static readonly IntPtr MESSAGE_PROCESS = new IntPtr(0);
 
 		static readonly IntPtr WVR_VALIDRECTS = new IntPtr(0x400);
-		private int ncCaptionHeight = 31;
-		private int ncFrameHeight = 8;
-		private int ncFrameWidth = 8;
+		private static int ncFrameHeight = 8;
+		private static int ncFrameWidth = 8;
+		private static int ncCaptionHeight = SystemInformation.CaptionHeight + ncFrameHeight;
+
 		private bool isFrameSizeStored = false;
 
 
@@ -117,6 +118,23 @@ namespace NetDimension.NanUI.Internal
 
 			switch (msg)
 			{
+				//case (int)WindowsMessages.WM_GETMINMAXINFO:
+				//	var info = (MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(MINMAXINFO));
+
+				//	var wa = Screen.FromHandle(parentWindowHWnd).WorkingArea;
+
+				//	info.ptMaxPosition.x = 0;
+				//	info.ptMaxPosition.y = 0;
+
+				//	info.ptMaxSize.x = wa.Width;
+				//	info.ptMaxSize.y = wa.Height;
+
+				//	Marshal.StructureToPtr(info, m.LParam, true);
+
+
+				//	base.WndProc(ref m);
+
+				//	break;
 				case (int)WindowsMessages.WM_NCACTIVATE:
 					if (m.WParam == Win32DataUtils.FALSE)
 					{
@@ -132,7 +150,11 @@ namespace NetDimension.NanUI.Internal
 
 					break;
 				case (int)WindowsMessages.WM_SIZE:
-					if (m.WParam == (IntPtr)0 && isMaximized)
+
+					var width = User32.LoWord(m.LParam);
+					var height = User32.HiWord(m.LParam);
+
+					if (m.WParam == (IntPtr)WindowSizeMessageFlags.SIZE_RESTORED && isMaximized)
 					{
 						isMaximized = false;
 						isMinimized = false;
@@ -141,7 +163,7 @@ namespace NetDimension.NanUI.Internal
 						User32.SendFrameChanged(parentWindowHWnd);
 					}
 
-					if (m.WParam == (IntPtr)2)
+					if (m.WParam == (IntPtr)WindowSizeMessageFlags.SIZE_MAXIMIZED)
 					{
 						isMaximized = true;
 						isMinimized = false;
@@ -213,7 +235,8 @@ namespace NetDimension.NanUI.Internal
 						RECT rc = ncsize.rectProposed;
 
 						ncsize.rectProposed = CalculateFrameSize(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
-						ncsize.rectBeforeMove = ncsize.rectProposed;
+
+						//ncsize.rectBeforeMove = ncsize.rectProposed;
 
 
 						Marshal.StructureToPtr(ncsize, m.LParam, false);
@@ -262,7 +285,7 @@ namespace NetDimension.NanUI.Internal
 			RECT windowRect = new RECT(x, y, cx, cy);
 
 			//// subtract original frame size
-			windowRect.top -= ncCaptionHeight;
+			windowRect.top -= SystemInformation.CaptionHeight;
 
 
 
@@ -272,9 +295,11 @@ namespace NetDimension.NanUI.Internal
 			if (!isMaximized)
 			{
 				// 特么最大化的时候窗体边框被吃了3个像素，看得老子好纠结。
+				windowRect.top -= ncFrameHeight;
+				windowRect.bottom += ncFrameHeight;
+
 				windowRect.left -= ncFrameWidth;
 				windowRect.right += ncFrameWidth;
-				windowRect.bottom += ncFrameHeight;
 
 				windowRect.left += borderSize;
 				windowRect.right -= borderSize;
@@ -282,10 +307,7 @@ namespace NetDimension.NanUI.Internal
 				windowRect.top += borderSize;
 				windowRect.bottom -= borderSize;
 			}
-			else
-			{
-				windowRect.top += ncFrameHeight;
-			}
+
 
 
 			return windowRect;
@@ -293,15 +315,16 @@ namespace NetDimension.NanUI.Internal
 
 
 
+		private int Win_Height, Win_Width = 0;
+
 		private void DrawNCArea(IntPtr hRgn)
 		{
-
 			Region clipRegion = null;
 			if (hRgn != TRUE)
 				clipRegion = Region.FromHrgn(hRgn);
 
 			RECT windowRect = new RECT();
-			RECT nclientRect = new RECT();
+
 			RECT clientRect = new RECT();
 
 
@@ -311,38 +334,47 @@ namespace NetDimension.NanUI.Internal
 			var height = windowRect.bottom;
 			var width = windowRect.right;
 
+			if(Win_Height== height && Win_Width == width)
+			{
+				return;
+			}
+
+			Win_Height = height;
+			Win_Width = width;
+
+
 
 			User32.GetClientRect(parentWindowHWnd, ref clientRect);
 			User32.OffsetRect(ref clientRect, -clientRect.left, -clientRect.top);
 
-			User32.GetClientRect(parentWindowHWnd, ref nclientRect);
-
-			User32.OffsetRect(ref nclientRect, -clientRect.left, -clientRect.top);
-			User32.OffsetRect(ref nclientRect, borderSize, borderSize);
+			User32.OffsetRect(ref clientRect, borderSize, borderSize);
 
 
 			IntPtr hDC = User32.GetWindowDC(parentWindowHWnd);
 
-			//var windowRectangle = new Rectangle(windowRect.left, windowRect.top, (int)windowRect.Width, (int)windowRect.Height);
-			//var clientRectangle = new Rectangle(nclientRect.left, nclientRect.top, (int)clientRect.Height, (int)clientRect.Width);
+
+
 			COLORREF color = new COLORREF(borderColor);
 
 
 
 			try
 			{
+				
 				IntPtr hBrush = Gdi32.CreateSolidBrush(color.ColorDWORD);
-				Gdi32.ExcludeClipRect(hDC, nclientRect.left, nclientRect.top, nclientRect.right, nclientRect.bottom);
+				Gdi32.ExcludeClipRect(hDC, clientRect.left, clientRect.top, clientRect.right, clientRect.bottom);
 
-				var topRect = new RECT(0, 0, (int)windowRect.Width, borderSize);
-				var bottomRect = new RECT(0, (int)windowRect.Height - borderSize, (int)windowRect.Width, borderSize);
-				var leftRect = new RECT(0, borderSize, borderSize, (int)windowRect.Height - borderSize * 2);
-				var rightRect = new RECT((int)windowRect.Width - borderSize, borderSize, borderSize, (int)windowRect.Height - borderSize * 2);
+				User32.FillRect(hDC, ref windowRect, hBrush);
 
-				User32.FillRect(hDC, ref topRect, hBrush);
-				User32.FillRect(hDC, ref bottomRect, hBrush);
-				User32.FillRect(hDC, ref leftRect, hBrush);
-				User32.FillRect(hDC, ref rightRect, hBrush);
+				//var topRect = new RECT(0, 0, (int)windowRect.Width, borderSize);
+				//var bottomRect = new RECT(0, (int)windowRect.Height - borderSize, (int)windowRect.Width, borderSize);
+				//var leftRect = new RECT(0, borderSize, borderSize, (int)windowRect.Height - borderSize * 2);
+				//var rightRect = new RECT((int)windowRect.Width - borderSize, borderSize, borderSize, (int)windowRect.Height - borderSize * 2);
+
+				//User32.FillRect(hDC, ref topRect, hBrush);
+				//User32.FillRect(hDC, ref bottomRect, hBrush);
+				//User32.FillRect(hDC, ref leftRect, hBrush);
+				//User32.FillRect(hDC, ref rightRect, hBrush);
 
 				Gdi32.DeleteObject(hBrush);
 			}

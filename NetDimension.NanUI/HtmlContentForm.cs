@@ -23,6 +23,7 @@ namespace NetDimension.NanUI
 		private bool IsDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime || this.DesignMode || Process.GetCurrentProcess().ProcessName == "devenv";
 		private string initialUrl;
 		private bool isFormResizing = false;
+		private bool isFormShown = false;
 		float scaleFactor = 1.0f;
 		private int CornerAreaSize
 		{
@@ -453,18 +454,23 @@ namespace NetDimension.NanUI
 						{
 
 
-							if (StartPosition == FormStartPosition.CenterParent && Owner != null)
+							if (!isFormShown)
 							{
-								Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
-								Owner.Location.Y + Owner.Height / 2 - Height / 2);
+								if (StartPosition == FormStartPosition.CenterParent && Owner != null)
+								{
+									Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
+									Owner.Location.Y + Owner.Height / 2 - Height / 2);
 
 
-							}
-							else if (StartPosition == FormStartPosition.CenterScreen || (StartPosition == FormStartPosition.CenterParent && Owner == null))
-							{
-								var currentScreen = Screen.FromHandle(this.Handle);
-								Location = new Point(currentScreen.WorkingArea.Left + (currentScreen.WorkingArea.Width / 2 - this.Width / 2), currentScreen.WorkingArea.Top + (currentScreen.WorkingArea.Height / 2 - this.Height / 2));
+								}
+								else if (StartPosition == FormStartPosition.CenterScreen || (StartPosition == FormStartPosition.CenterParent && Owner == null))
+								{
+									var currentScreen = Screen.FromHandle(this.Handle);
+									Location = new Point(currentScreen.WorkingArea.Left + (currentScreen.WorkingArea.Width / 2 - this.Width / 2), currentScreen.WorkingArea.Top + (currentScreen.WorkingArea.Height / 2 - this.Height / 2));
 
+								}
+
+								isFormShown = true;
 							}
 
 							Activate();

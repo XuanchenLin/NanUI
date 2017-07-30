@@ -79,8 +79,8 @@ namespace NetDimension.NanUI.Internal
 		private readonly List<Color> _activeColors = new List<Color>();
 		private readonly List<Color> _inactiveColors = new List<Color>();
 		private readonly List<byte> _alphas = new List<byte>();
-		private Color _activeColor = Color.DarkGray;
-		private Color _inactiveColor = Color.DarkGray;
+		private Color _activeColor = Color.Black;
+		private Color _inactiveColor = Color.Black;
 		private Color _borderColor;
 		private BLENDFUNCTION _blend;
 		private POINT _ptZero = new POINT(0, 0);
@@ -427,6 +427,7 @@ namespace NetDimension.NanUI.Internal
 		{
 			RECT rect = new RECT();
 			User32.GetWindowRect(_handle, ref rect);
+			Debug.WriteLine("REDRAW NCAREA.");
 
 			int width = rect.right - rect.left;
 			int height = rect.bottom - rect.top;

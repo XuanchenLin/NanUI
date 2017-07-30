@@ -34,6 +34,9 @@ namespace NetDimension.NanUI.Internal.Imports
 
 	}
 
+
+
+
 	public enum PenStyle : int
 	{
 		PS_SOLID = 0, //The pen is solid.
@@ -1104,6 +1107,16 @@ namespace NetDimension.NanUI.Internal.Imports
 		}
 	}
 
+	[StructLayout(LayoutKind.Sequential)]
+	public struct MINMAXINFO
+	{
+		public POINT ptReserved;
+		public POINT ptMaxSize;
+		public POINT ptMaxPosition;
+		public POINT ptMinTrackSize;
+		public POINT ptMaxTrackSize;
+	}
+
 	public enum HitTest : int
 	{
 		HTERROR = (-2),
@@ -1289,6 +1302,15 @@ namespace NetDimension.NanUI.Internal.Imports
 		/// Pointer to a WINDOWPOS structure that contains the size and position values specified in the operation that moved or resized the window.
 		/// </summary>
 		public IntPtr lppos;
+	}
+
+	public enum WindowSizeMessageFlags : int
+	{
+		SIZE_RESTORED = 0,
+		SIZE_MINIMIZED = 1,
+		SIZE_MAXIMIZED = 2,
+		SIZE_MAXSHOW = 3,
+		SIZE_MAXHIDE = 4
 	}
 
 }

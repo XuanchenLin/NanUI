@@ -19,15 +19,24 @@ namespace NetDimension.NanUI
 	using System.Threading.Tasks;
 	public class HtmlUIForm : BorderlessForm, IChromiumWebBrowser
 	{
+		static bool? isDesingerProcess = null;
+		static bool IsDesingerProcess
+		{
+			get
+			{
+				if (isDesingerProcess == null)
+				{
+					isDesingerProcess = Process.GetCurrentProcess().ProcessName == "devenv";
+				}
+
+				return isDesingerProcess.Value;
+			}
+		}
 
 
-		private bool IsDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime || this.DesignMode || Process.GetCurrentProcess().ProcessName == "devenv";
+		private bool IsDesignMode => LicenseManager.UsageMode == LicenseUsageMode.Designtime || this.DesignMode || IsDesingerProcess;
 
-
-		private bool isFormResizing = false;
-
-
-
+		private bool isFormShown = false;
 		private PictureBox splashPicture;
 		private BrowserWidgetMessageInterceptor messageInterceptor;
 		private ChromiumBrowser browser;
@@ -66,10 +75,7 @@ namespace NetDimension.NanUI
 			set
 			{
 				isEnableDropShadow = value;
-				if (!IsDesignMode)
-				{
-					FormShadowDecorator.Enable(value);
-				}
+
 			}
 		}
 
@@ -217,13 +223,9 @@ namespace NetDimension.NanUI
 
 			if (!IsDesignMode)
 			{
-				SetStyle(ControlStyles.ResizeRedraw, true);
-				SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-				SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 
-				DoubleBuffered = true;
 
-				UpdateStyles();
+
 
 
 				FormNonclientAreaDecorator.BorderSize = borderSize;
@@ -346,8 +348,8 @@ namespace NetDimension.NanUI
 				{
 					while (true)
 					{
-						IntPtr chromeWidgetHostHandle = IntPtr.Zero;
-						if (BrowserWidgetHandleFinder.TryFindHandle(BrowserHandle, out chromeWidgetHostHandle))
+						
+						if (BrowserWidgetHandleFinder.TryFindHandle(BrowserHandle, out IntPtr chromeWidgetHostHandle))
 						{
 							messageInterceptor = new BrowserWidgetMessageInterceptor(browser, chromeWidgetHostHandle, OnWebBroswerMessage);
 							break;
@@ -629,8 +631,10 @@ namespace NetDimension.NanUI
 		#region Override
 		protected override void OnHandleCreated(EventArgs e)
 		{
-			FormHandle = this.Handle;
 			base.OnHandleCreated(e);
+
+			FormHandle = this.Handle;
+
 		}
 
 		//protected override void OnMouseDown(MouseEventArgs e)
@@ -655,6 +659,15 @@ namespace NetDimension.NanUI
 			base.OnClosed(e);
 		}
 
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+
+
+			FormShadowDecorator.Enable(isEnableDropShadow);
+
+		}
 
 
 		protected override void WndProc(ref Message m)
@@ -667,20 +680,26 @@ namespace NetDimension.NanUI
 					case (int)WindowsMessages.WM_SHOWWINDOW:
 						{
 
-
-							if (StartPosition == FormStartPosition.CenterParent && Owner != null)
+							if (!isFormShown)
 							{
-								Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
-								Owner.Location.Y + Owner.Height / 2 - Height / 2);
+								if (StartPosition == FormStartPosition.CenterParent && Owner != null)
+								{
+									Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
+									Owner.Location.Y + Owner.Height / 2 - Height / 2);
 
 
+								}
+								else if (StartPosition == FormStartPosition.CenterScreen || (StartPosition == FormStartPosition.CenterParent && Owner == null))
+								{
+									var currentScreen = Screen.FromHandle(this.Handle);
+									Location = new Point(currentScreen.WorkingArea.Left + (currentScreen.WorkingArea.Width / 2 - this.Width / 2), currentScreen.WorkingArea.Top + (currentScreen.WorkingArea.Height / 2 - this.Height / 2));
+
+								}
+
+								isFormShown = true;
 							}
-							else if (StartPosition == FormStartPosition.CenterScreen || (StartPosition == FormStartPosition.CenterParent && Owner == null))
-							{
-								var currentScreen = Screen.FromHandle(this.Handle);
-								Location = new Point(currentScreen.WorkingArea.Left + (currentScreen.WorkingArea.Width / 2 - this.Width / 2), currentScreen.WorkingArea.Top + (currentScreen.WorkingArea.Height / 2 - this.Height / 2));
 
-							}
+
 
 							Activate();
 							BringToFront();
@@ -754,12 +773,8 @@ namespace NetDimension.NanUI
 			if (m.Msg == (int)DefMessages.WM_CEF_RESIZE_CLIENT && Resizable && WindowState == FormWindowState.Normal)
 			{
 				User32.ReleaseCapture();
-				isFormResizing = true;
-
-
 				User32.SendMessage(Handle, (int)WindowsMessages.WM_NCLBUTTONDOWN, m.WParam, (IntPtr)0);
 
-				isFormResizing = false;
 			}
 
 			if (m.Msg == (int)DefMessages.WM_CEF_EDGE_MOVE && Resizable && WindowState == FormWindowState.Normal)

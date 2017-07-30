@@ -139,29 +139,29 @@ namespace NetDimension.NanUI
 			if (BrowserProcess.initialized)
 			{
 
-				SetStyle(ControlStyles.ContainerControl
-					| ControlStyles.ResizeRedraw
-					| ControlStyles.FixedWidth
-					| ControlStyles.FixedHeight
-					| ControlStyles.StandardClick
-					| ControlStyles.StandardDoubleClick
-					| ControlStyles.UserMouse
-					| ControlStyles.SupportsTransparentBackColor
-					| ControlStyles.EnableNotifyMessage
+				//SetStyle(ControlStyles.ContainerControl
+				//	| ControlStyles.ResizeRedraw
+				//	| ControlStyles.FixedWidth
+				//	| ControlStyles.FixedHeight
+				//	| ControlStyles.StandardClick
+				//	| ControlStyles.StandardDoubleClick
+				//	| ControlStyles.UserMouse
+				//	| ControlStyles.SupportsTransparentBackColor
+				//	| ControlStyles.EnableNotifyMessage
 
-					| ControlStyles.OptimizedDoubleBuffer
-					| ControlStyles.UseTextForAccessibility
-					| ControlStyles.Opaque
-					, false);
+				//	| ControlStyles.OptimizedDoubleBuffer
+				//	| ControlStyles.UseTextForAccessibility
+				//	| ControlStyles.Opaque
+				//	, false);
 
-				SetStyle(ControlStyles.UserPaint
-					| ControlStyles.AllPaintingInWmPaint
-					| ControlStyles.CacheText
-					| ControlStyles.DoubleBuffer
-					| ControlStyles.Selectable
-					, true);
+				//SetStyle(//ControlStyles.UserPaint
+				//	//| ControlStyles.AllPaintingInWmPaint
+				//	ControlStyles.CacheText
+				//	//| ControlStyles.DoubleBuffer
+				//	| ControlStyles.Selectable
+				//	, true);
 
-				UpdateStyles();
+				//UpdateStyles();
 
 				if (initialUrl == null)
 					this.initialUrl = "about:blank";

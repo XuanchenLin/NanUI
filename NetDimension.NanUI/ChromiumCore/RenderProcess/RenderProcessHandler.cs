@@ -45,6 +45,7 @@ namespace NetDimension.NanUI.ChromiumCore
 
 			this.OnContextCreated += RenderProcessHandler_OnContextCreated;
 			this.OnBrowserCreated += RenderProcessHandler_OnBrowserCreated;
+			
 		}
 
 		void RenderProcessHandler_OnBrowserCreated(object sender, CfrOnBrowserCreatedEventArgs e) {

@@ -128,13 +128,14 @@ namespace NetDimension.NanUI.Internal
 			User32.ShowWindow(rightFormShadow.Handle, ShowWindowStyles.SW_SHOWNOACTIVATE);
 
 
-			isEnabled = false;
+			isEnabled = enable;
 			AlignSideShadowToTopMost();
 
 
 
-			Enable(true);
+			//Enable(IsEnabled);
 
+			Enable(false);
 
 
 		}

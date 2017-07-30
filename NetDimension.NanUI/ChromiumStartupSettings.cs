@@ -22,7 +22,7 @@ namespace NetDimension.NanUI
 		internal static string FrameworkDir = null;
 		internal static string LocalesDir = null;
 		internal static string ResourcesDir = null;
-		internal static readonly string ApplicationDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
+		public static readonly string ApplicationDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
 		//internal static readonly string CommonRuntimeDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI\");
 
 		internal static readonly RuntimeArch PlatformArch = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? RuntimeArch.x64 : RuntimeArch.x86;

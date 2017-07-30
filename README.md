@@ -45,6 +45,12 @@ __博客园：__ [http://www.cnblogs.com/linxuanchen/](http://www.cnblogs.com/li
 
 
 ### 更新日志
+> 0.5.1 (2017-7-30)
+
+- 修复了主窗口还没加载出来，但影子窗口却先加载出来的问题。现在影子会随着主窗体的出现才出现，不会再在桌面上显示一个300*300的镂空影子窗口。
+- 修改了IsDesignMode的逻辑，之前使用`Process.GetCurrentProcess().ProcessName == "devenv"`语句来判断窗口是否处于设计模式，但是`Process.GetCurrentProcess()`在系统进程很多的情况下调用非常卡顿，这直接导致了进程多的时候阻塞了WndProc的效率，具体表现就是系统进程越多，拖动窗口的时候就越卡顿。
+- **0.6版本正在酝酿和开发中，API将完全改变，可能不会向下兼容，提前告知。**
+
 > 0.5.1 (2017-7-6)
 
 - 新增了不使用全屏窗口的新类型HtmlContentForm。继承这个类型的窗口NanUI将不再重绘窗口样式，使用系统标准的窗口样式。

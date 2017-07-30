@@ -97,17 +97,29 @@ namespace NetDimension.NanUI.Internal
 
 		private void InitForm()
 		{
+			//SetStyle(ControlStyles.ResizeRedraw, true);
+			//SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+			//SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+
+			//DoubleBuffered = true;
+
 			if (isBorderless && !IsDesignMode)
 			{
 
 
 				formNCAreaDecorator = new FormNCAreaDecorator(this);
-				formShadowDecorator = new FormShadowDecorator(this);
+				formShadowDecorator = new FormShadowDecorator(this,false);
+				
 				
 			}
 
 			BackColor = Color.White;
 
+		}
+
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
 		}
 
 		protected override void OnHandleCreated(EventArgs e)
@@ -132,19 +144,22 @@ namespace NetDimension.NanUI.Internal
 							// 这里从CEF取得了NCHITTEST，所以窗口身就不参与HITTEST了吧
 							// The NCHITTEST is sent by CEF, so the window does not handle this message.
 
-							//if (borderSize > 0)
-							//{
-							//	var pos = new POINT((int)User32.LoWord(m.LParam), (int)User32.HiWord(m.LParam));
+							if (borderSize > 0)
+							{
+								var pos = new POINT((int)User32.LoWord(m.LParam), (int)User32.HiWord(m.LParam));
 
-							//	User32.ScreenToClient(Handle, ref pos);
-							//	var mode = GetSizeMode(pos);
-							//	SetCursor(mode);
-							//	m.Result = (IntPtr)mode;
-							//}
+								User32.ScreenToClient(Handle, ref pos);
+								var mode = GetSizeMode(pos);
+								SetCursor(mode);
+								m.Result = (IntPtr)mode;
+							}
+							else
+							{
+								m.Result = (IntPtr)HitTest.HTCLIENT;
+							}
 
 
-
-							m.Result = (IntPtr)HitTest.HTCLIENT;
+							//m.Result = (IntPtr)HitTest.HTCLIENT;
 
 
 						}
