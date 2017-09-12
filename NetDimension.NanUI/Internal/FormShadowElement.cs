@@ -427,7 +427,6 @@ namespace NetDimension.NanUI.Internal
 		{
 			RECT rect = new RECT();
 			User32.GetWindowRect(_handle, ref rect);
-			Debug.WriteLine("REDRAW NCAREA.");
 
 			int width = rect.right - rect.left;
 			int height = rect.bottom - rect.top;

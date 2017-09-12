@@ -106,6 +106,42 @@ namespace NetDimension.NanUI.Internal
 				SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
 		}
 
+		Rectangle regionRect = Rectangle.Empty;
+		protected Rectangle FormBounds
+		{
+			get
+			{
+				if (Handle == IntPtr.Zero) return new Rectangle(0, 0, parentWindow.Bounds.Width, parentWindow.Bounds.Height);
+				var r = new RECT();
+				User32.GetWindowRect(Handle, ref r);
+				return new Rectangle(r.left, r.top, (int)r.Width, (int)r.Height);
+			}
+		}
+
+		void SetRegion(Region region, Rectangle rect)
+		{
+			if (this.regionRect == rect)
+			{
+				if (region != null)
+					region.Dispose();
+				return;
+			}
+			if (parentWindow.Region != null)
+			{
+				parentWindow.Region.Dispose();
+			}
+			parentWindow.Region = region;
+			if (object.Equals(region, parentWindow.Region))
+				this.regionRect = rect;
+		}
+
+		protected virtual Region GetDefaultFormRegion(ref Rectangle rect)
+		{
+			rect = Rectangle.Empty;
+			return null;
+		}
+
+
 		protected override void WndProc(ref Message m)
 		{
 			if (!isEnabled || IsDisposed)
@@ -171,6 +207,30 @@ namespace NetDimension.NanUI.Internal
 						User32.SendFrameChanged(parentWindowHWnd);
 					}
 
+
+					if (isMaximized)
+					{
+						Screen screen = Screen.FromHandle(Handle);
+						if (screen == null) return;
+						Rectangle bounds = parentWindow.FormBorderStyle == FormBorderStyle.None ? screen.Bounds : screen.WorkingArea;
+						Rectangle formBounds = FormBounds;
+						if (formBounds.X == -10000 || formBounds.Y == -10000)
+							return;
+						Rectangle r = new Rectangle(bounds.X - formBounds.X, bounds.Y - formBounds.Y, formBounds.Width - (formBounds.Width - bounds.Width), formBounds.Height - (formBounds.Height - bounds.Height));
+
+						SetRegion(new Region(r), r);
+					}
+					else if (isMinimized)
+					{
+						SetRegion(null, Rectangle.Empty);
+						return;
+					}
+					else
+					{
+						Rectangle rect = new Rectangle();
+						Region region = GetDefaultFormRegion(ref rect);
+						SetRegion(region, rect);
+					}
 					//User32.InvalidateWindow(parentWindowHWnd);
 
 
