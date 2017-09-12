@@ -9,18 +9,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{36C720
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{6AB1E995-3B91-4C8D-9E91-0EFA7D618E08}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeEditor", "CodeEditor", "{7260AFAA-69CB-45BE-93DD-5FE6228DA402}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Welcome", "Welcome", "{C392AB58-A0B7-4535-A4C4-D90554F0E81A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicUsageDemoApp", "BasicUsageDemoApp\BasicUsageDemoApp.csproj", "{935B7A71-A44A-45F2-8979-D8DF25644EE4}"
 EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{7260AFAA-69CB-45BE-93DD-5FE6228DA402} = {6AB1E995-3B91-4C8D-9E91-0EFA7D618E08}
-		{C392AB58-A0B7-4535-A4C4-D90554F0E81A} = {6AB1E995-3B91-4C8D-9E91-0EFA7D618E08}
 	EndGlobalSection
 EndGlobal
