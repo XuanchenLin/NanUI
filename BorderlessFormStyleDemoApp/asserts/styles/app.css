@@ -1,0 +1,125 @@
+﻿html, body {
+	height: 100%;
+	font-size: 14px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	margin: 0;
+	padding: 0;
+	cursor: default;
+}
+
+
+
+.demo-app {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+	.demo-app > header {
+		width: 36px;
+		height: 100%;
+		background-color: #CC0066;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: column;
+		align-items: center;
+		-webkit-app-region: drag;
+	}
+
+		.demo-app > header .app-title {
+			writing-mode: vertical-rl;
+			color: #aaa;
+			margin: 0;
+			padding: 0;
+			font-weight: lighter;
+			font-size: 1em;
+			padding: 10px 0;
+		}
+
+.app-active .demo-app > header .app-title {
+	color:#fff;
+}
+
+.demo-app > content {
+	flex: 1;
+	position: relative;
+}
+
+
+
+	.demo-app > content > .app-sys-command-container {
+		position: absolute;
+		width: 100%;
+		height: 32px;
+		display: flex;
+		-webkit-app-region: drag;
+		justify-content: flex-end;
+	}
+
+		.demo-app > content > .app-sys-command-container > .sys-commands {
+			list-style: none inside;
+			padding: 0;
+			margin: 0;
+			height: 32px;
+			-webkit-app-region: no-drag;
+			display: flex;
+		}
+
+			.demo-app > content > .app-sys-command-container > .sys-commands > li {
+				display: inline-flex;
+				width: 32px;
+				background-color: transparent;
+				color: #696969;
+				align-items: center;
+				justify-content: center;
+				transition: all ease-in-out 300ms;
+				font-size: 0.8em;
+			}
+
+		.demo-app > content > .app-sys-command-container:hover {
+		}
+
+			.demo-app > content > .app-sys-command-container:hover > .sys-commands > li {
+				background-color: #E60073;
+				color: #fff;
+			}
+
+		.demo-app > content > .app-sys-command-container > .sys-commands > li:hover {
+			background-color: #CC0066;
+		}
+
+		.demo-app > content > .app-sys-command-container > .sys-commands > li:active {
+			background-color: #99004C;
+		}
+
+		.demo-app > content > .app-sys-command-container > .sys-commands > li:last-child:hover {
+			background-color: #c00;
+		}
+
+		.demo-app > content > .app-sys-command-container > .sys-commands > li:last-child:active {
+			background-color: #a00;
+			color: #fff;
+		}
+
+	.demo-app > content > article {
+		padding: 10px;
+	}
+
+.app-state-watcher {
+	display:flex;
+}
+
+	.app-state-watcher > div {
+		background-color:#f1f1f1;
+		padding:8px;
+	}
+
+		.app-state-watcher > div p {
+			color:#666;
+			margin:3px 0;
+			line-height:1.5;
+		}
+	
+	.app-state-watcher > div:nth-child(2) {
+		margin: 0 10px;
+	}
