@@ -38,7 +38,7 @@ PM> Install-Package NetDimension.NanUI
 
 **Release of NetDimension.NanUI.XP**
 
-Another version of NanUI that supports **Windows XP** is now can be downloaded by Nuget using following command:
+Another version of NanUI that supports **Windows XP** is now can be downloaded on Nuget by using following command:
 ```
 PM> Install-Package NetDimension.NanUI.XP
 ```
@@ -70,7 +70,7 @@ namespace TestApplication
 			//Initalize: set CEF paths
 			//If you use default structure of the FX folder, you should provide paths of fx folder, resources folder and locales folder.
 
-			var result = Bootstrap.Load(PlatformArch.Auto, System.IO.Path.Combine(Application.StartupPath, "fx"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources\\locales"))
+			var result = Bootstrap.Load(PlatformArch.Auto, System.IO.Path.Combine(Application.StartupPath, "fx"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources\\locales"));
 			
 			if (result)
 			{
