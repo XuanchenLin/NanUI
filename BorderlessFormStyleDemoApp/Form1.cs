@@ -24,10 +24,11 @@ namespace BorderlessFormStyleDemoApp
 			//this.Top = 0;
 
 
-			var form2 = new Form2();
+
 			//form2.Left = Screen.AllScreens[1].WorkingArea.Left;
 			//form2.Top = Screen.AllScreens[1].WorkingArea.Top;
 
+			var form2 = new Form2();
 			form2.Show(this);
 
 		}

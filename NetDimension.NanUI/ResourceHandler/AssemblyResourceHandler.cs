@@ -86,17 +86,37 @@ namespace NetDimension.NanUI.ResourceHandler
 			}
 
 			var resourcePath = string.Format("{0}.{1}", ass.GetName().Name, fileName.Replace('/', '.'));
+			
+			var satelliteAss = ass.GetSatelliteAssembly(System.Threading.Thread.CurrentThread.CurrentCulture);
 
+			var resourceNames = ass.GetManifestResourceNames().Select(x => new { TargetAssembly = ass, Name = x, IsSatellite = false });
 
-
-
-
-
-			var resourceName = ass.GetManifestResourceNames().SingleOrDefault(p => p.Equals(resourcePath, StringComparison.CurrentCultureIgnoreCase));
-
-			if (!string.IsNullOrEmpty(resourceName) && ass.GetManifestResourceInfo(resourceName) != null)
+			if (satelliteAss != null)
 			{
-				using (var reader = new System.IO.BinaryReader(ass.GetManifestResourceStream(resourceName)))
+				string HandleCultureName(string name)
+				{
+					var cultureName = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+					var fileInfo = new System.IO.FileInfo(name);
+
+					return $"{System.IO.Path.GetFileNameWithoutExtension(fileInfo.Name)}.{cultureName}{fileInfo.Extension}";
+				}
+
+				resourceNames = resourceNames.Union(satelliteAss.GetManifestResourceNames().Select(x => new { TargetAssembly = satelliteAss, Name = HandleCultureName(x), IsSatellite = true }));
+			}
+
+			var resource = resourceNames.SingleOrDefault(p => p.Name.Equals(resourcePath, StringComparison.CurrentCultureIgnoreCase));
+			var manifestResourceName = resourcePath;
+			if (resource.IsSatellite)
+			{
+				var fileInfo = new System.IO.FileInfo(manifestResourceName);
+				manifestResourceName = $"{System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetFileNameWithoutExtension(fileInfo.Name))}{fileInfo.Extension}";
+			}
+
+			if (resource != null && resource.TargetAssembly.GetManifestResourceStream(manifestResourceName) != null)
+			{
+
+
+				using (var reader = new System.IO.BinaryReader(resource.TargetAssembly.GetManifestResourceStream(manifestResourceName)))
 				{
 					var buff = reader.ReadBytes((int)reader.BaseStream.Length);
 
@@ -109,8 +129,6 @@ namespace NetDimension.NanUI.ResourceHandler
 						browser.SetWebResource(requestUrl, webResource);
 					}
 				}
-				
-				//Console.WriteLine($"[加载嵌入资源]:\t{requestUrl}");
 
 				callback.Continue();
 				e.SetReturnValue(true);
@@ -140,7 +158,7 @@ namespace NetDimension.NanUI.ResourceHandler
 			{
 				gcHandle.Free();
 				Console.WriteLine($"[加载嵌入资源]:\t{requestUrl}");
-				
+
 			}
 
 		}
