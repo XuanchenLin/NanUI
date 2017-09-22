@@ -37,8 +37,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetDimension.NanUI, Version=0.6.6463.30686, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetDimension.NanUI.0.6.2987.2\lib\NetDimension.NanUI.dll</HintPath>
+    <Reference Include="NetDimension.NanUI, Version=0.6.6471.33389, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetDimension.NanUI.0.6.2987.3\lib\NetDimension.NanUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
