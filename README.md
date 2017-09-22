@@ -21,6 +21,7 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 **2017/9/22**
 - Add NetDimension.NanUI.XP project, it can use on Windows XP and it is based on CEF3.2526.1373.
 - The sources of NanUI 0.6 is open source now.
+- Fixed an issue that if you add embedded globalization files like xxx.zh-cn.js or xxx.en-us.css to your project, the complier will auto generate satellite files in output fold and NanUI did not loads these files correctly.
 
 ## Build NetDimension.NanUI.dll
 
