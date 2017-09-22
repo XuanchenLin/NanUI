@@ -17,6 +17,16 @@ namespace BorderlessFormStyleDemoApp
 			: base("http://res.app.local/asserts/index.html")
 		{
 			InitializeComponent();
+
+			LoadHandler.OnLoadStart += LoadHandler_OnLoadStart;
+
+		}
+
+		private void LoadHandler_OnLoadStart(object sender, Chromium.Event.CfxOnLoadStartEventArgs e)
+		{
+#if DEBUG
+			Chromium.ShowDevTools();
+#endif
 		}
 	}
 }

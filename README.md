@@ -8,11 +8,19 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 
 ![NanUI](http://images2015.cnblogs.com/blog/352785/201605/352785-20160518180435701-1461536015.png)
 
+
 ## What's new in version 0.6
+
 - Rewritted codes of no border interface logic, new version is faster than old versions.
 - NanUI now supports Hi-DPI in Windows 8 and later.
 - Combined HtmlUIForm and HtmlContentForm to one Formium which support these two styles.
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
+
+## Changes
+
+**2017/9/22**
+- Add NetDimension.NanUI.XP project, it can use on Windows XP and it is based on CEF3.2526.1373.
+- The sources of NanUI 0.6 is open source now.
 
 ## Build NetDimension.NanUI.dll
 
@@ -28,13 +36,18 @@ Stable NanUI binaries are released on NuGet. Use following Nuget command to inst
 PM> Install-Package NetDimension.NanUI
 ```
 
+**Release of NetDimension.NanUI.XP**
+
+Another version of NanUI that supports **Windows XP** is now can be downloaded by Nuget using following command:
+```
+PM> Install-Package NetDimension.NanUI.XP
+```
+
+
+
 **Download Manually**
 - [NetDimension.NanUI](https://www.nuget.org/packages/NetDimension.NanUI/) - NanUI main library
 - [NetDimension.NanUI.Cef2987](https://www.nuget.org/packages/NetDimension.NanUI.Cef2987/) - Dependencies of NanUI (Include CEF3.2987.1601.0 and ChromiumFX3.2987.1601 binaries)
-
-**百度网盘**
-- 百度网盘下载：[3.2987.1601.0](http://pan.baidu.com/s/1o7ZRsBC)
-
 
 
 
@@ -55,7 +68,9 @@ namespace TestApplication
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			//Initalize: set CEF paths
-			var result = Bootstrap.Load(PlatformArch.Auto, System.IO.Path.Combine(Application.StartupPath, "fx"));
+			//If you use default structure of the FX folder, you should provide paths of fx folder, resources folder and locales folder.
+
+			var result = Bootstrap.Load(PlatformArch.Auto, System.IO.Path.Combine(Application.StartupPath, "fx"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources\\locales"))
 			
 			if (result)
 			{
