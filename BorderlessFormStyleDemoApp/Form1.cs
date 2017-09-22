@@ -19,6 +19,17 @@ namespace BorderlessFormStyleDemoApp
 			InitializeComponent();
 
 			LoadHandler.OnLoadStart += LoadHandler_OnLoadStart;
+
+			//this.Left = 0;
+			//this.Top = 0;
+
+
+			//var form2 = new Form2();
+			//form2.Left = Screen.AllScreens[1].WorkingArea.Left;
+			//form2.Top = Screen.AllScreens[1].WorkingArea.Top;
+
+			//form2.Show(this);
+
 		}
 
 		private void LoadHandler_OnLoadStart(object sender, Chromium.Event.CfxOnLoadStartEventArgs e)

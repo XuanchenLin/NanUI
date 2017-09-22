@@ -12,8 +12,14 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Combined HtmlUIForm and HtmlContentForm to one Formium which support these two styles.
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
+## Build NetDimension.NanUI.dll
+
+You should use the complier which supports C# 7.0 syntax. Visual Studio 2017 is recommended.
+
 ## Releases
 Stable NanUI binaries are released on NuGet. Use following Nuget command to install latest version of NanUI to your Winfrom application. It will install CEF and CFX dependencies too and the dependencies will automatic copy to the **bin** folder.
+
+**NOTE:** NanUI requires .Net Framework 4.0 as minimal support.
 
 **Nuget Package Manager**
 ```
@@ -26,6 +32,8 @@ PM> Install-Package NetDimension.NanUI
 
 **百度网盘**
 - 百度网盘下载：[3.2987.1601.0](http://pan.baidu.com/s/1o7ZRsBC)
+
+
 
 
 

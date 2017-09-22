@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F43C7D7D-83A5-4A5C-A689-2CB5BBCEDD5C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetDimension.NanUI.XP</RootNamespace>
+    <AssemblyName>NetDimension.NanUI.XP</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NetDimension.NanUI\Windows\Imports\DefMessages.cs">
+      <Link>Windows\Imports\DefMessages.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\Windows\Imports\Win32APIs.cs">
+      <Link>Windows\Imports\Win32APIs.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\Windows\Imports\Win32Types.cs">
+      <Link>Windows\Imports\Win32Types.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\Windows\Imports\WindowMessages.cs">
+      <Link>Windows\Imports\WindowMessages.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\ControlExtensions.cs">
+      <Link>WinForm\ControlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadowDecorator.cs">
+      <Link>WinForm\FormShadow\FormShadowDecorator.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadowElement.cs">
+      <Link>WinForm\FormShadow\FormShadowElement.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\ModernUIForm.cs">
+      <Link>WinForm\ModernUIForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
