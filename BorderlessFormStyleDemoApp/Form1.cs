@@ -20,6 +20,26 @@ namespace BorderlessFormStyleDemoApp
 
 			LoadHandler.OnLoadStart += LoadHandler_OnLoadStart;
 
+
+			GlobalObject.AddFunction("showDialog").Execute += (_, args) =>
+			{
+				this.RequireUIThread(() =>
+				{
+					var form2 = new Form2();
+					form2.ShowDialog(this);
+				});
+			};
+
+			GlobalObject.AddFunction("showWindow").Execute += (_, args) =>
+			{
+				this.RequireUIThread(() =>
+				{
+					var form2 = new Form2();
+					form2.Show(this);
+				});
+			};
+
+
 			//this.Left = 0;
 			//this.Top = 0;
 
@@ -28,8 +48,6 @@ namespace BorderlessFormStyleDemoApp
 			//form2.Left = Screen.AllScreens[1].WorkingArea.Left;
 			//form2.Top = Screen.AllScreens[1].WorkingArea.Top;
 
-			var form2 = new Form2();
-			form2.Show(this);
 
 		}
 

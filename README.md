@@ -17,11 +17,17 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2017/9/25**
+- Fixed: if your project didn't has satellite resources, the program will crash by a dll file not found exception.
+- Fixed: if your html contains select element which is opened and dropdown is shown, moving or resizing the window will cause the dropdown at wrong place.
 
 **2017/9/22**
 - Add NetDimension.NanUI.XP project, it can use on Windows XP and it is based on CEF3.2526.1373.
 - The sources of NanUI 0.6 is open source now.
 - Fixed an issue that if you add embedded globalization files like xxx.zh-cn.js or xxx.en-us.css to your project, the complier will auto generate satellite files in output fold and NanUI did not loads these files correctly.
+
+**2017/9/10**
+- update to version 0.6
 
 ## Build NetDimension.NanUI.dll
 

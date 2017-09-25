@@ -35,7 +35,7 @@
 					</li>
 				</ul>
 			</div>
-			
+
 
 			<article>
 				<h2>Borderless Form</h2>
@@ -53,6 +53,28 @@
 						<p>Change window size to trigger this event.</p>
 					</div>
 				</div>
+
+				<h3>Dropdown issue test:</h3>
+				<p>
+					<select>
+						<option>This is NanUI</option>
+						<option>This is NanUI</option>
+						<option>This is NanUI</option>
+						<option>This is NanUI</option>
+						<option>This is NanUI</option>
+						<option>This is NanUI</option>
+					</select>
+				</p>
+				<p>In previous version, if you let menu of this select opened, resizing or moving window will cause the dropdown menu at a wrong position. This issue has been solved since 0.6.4.</p>
+
+				<h3>Dialog test:</h3>
+				<p>
+					<button onclick="showWindow()">Show Window</button>
+				</p>
+
+				<p>
+					<button onclick="showDialog()">Show Dialog</button>
+				</p>
 			</article>
 
 		</content>
@@ -64,7 +86,7 @@
 			$(window).on("hoststatechange", function (e) {
 				console.log(e.detail);
 				$("#label-form-state").text(e.detail.stateName);
-				
+
 			});
 
 			$(window).on("hostactivestate", function (e) {

@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetDimension.NanUI, Version=0.6.6471.33389, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetDimension.NanUI.0.6.2987.3\lib\NetDimension.NanUI.dll</HintPath>
+    <Reference Include="NetDimension.NanUI, Version=0.6.2987.17865, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetDimension.NanUI.0.6.2987.4\lib\NetDimension.NanUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

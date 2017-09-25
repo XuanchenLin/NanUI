@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<link href="styles/font-awesome.min.css" rel="stylesheet" />
+	<link href="styles/app.css" rel="stylesheet" />
+	<script src="scripts/jquery-2.2.3.js"></script>
+</head>
+<body>
+	<div class="demo-app">
+		<header>
+			<div>
+				<h2 class="app-title">
+					NanUI BorderlessForm Demo
+				</h2>
+			</div>
+			<div></div>
+		</header>
+		<content>
+			<div class="app-sys-command-container">
+				<ul class="sys-commands">
+					<!--Use <n-ui-command> attribute to control form's system commands. -->
+					<!--<li n-ui-command="minimize">
+						<i class="fa fa-window-minimize"></i>
+					</li>-->
+					<!--Use <n-ui-command> attribute to control form's system commands. -->
+					<!--<li n-ui-command="maximize">
+						<i class="fa fa-window-maximize"></i>
+					</li>-->
+					<!--Use <n-ui-command> attribute to control form's system commands. -->
+					<li n-ui-command="close">
+						<i class="fa fa-close"></i>
+					</li>
+				</ul>
+			</div>
+
+
+			<article>
+				<h2>Popup Window</h2>
+			</article>
+
+		</content>
+	</div>
+	<script>
+			$(function () {
+
+
+				$(window).on("hostactivestate", function (e) {
+					console.log(e.detail);
+					if (e.detail) {
+						if (e.detail.state === 1) {
+							$("html").addClass("app-active");
+						}
+						else {
+							$("html").removeClass("app-active");
+						}
+					}
+				});
+
+
+			});
+	</script>
+</body>
+</html>

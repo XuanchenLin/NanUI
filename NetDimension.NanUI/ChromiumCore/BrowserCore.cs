@@ -1074,6 +1074,8 @@ namespace Chromium.WebBrowser
 			ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
 
 			ResizeBrowserWindow();
+
+			SetHostActiveState(1);
 		}
 
 
@@ -1312,8 +1314,15 @@ namespace Chromium.WebBrowser
 				{
 					return;
 				}
+
+
 				try
 				{
+
+					if(m.Msg == (int)WindowsMessages.WM_ACTIVATE)
+					{
+						User32.PostMessage(parentHandle, (uint)WindowsMessages.WM_ACTIVATE, m.WParam, m.LParam);
+					}
 
 					var result = forwardAction(ref m);
 
@@ -1368,6 +1377,39 @@ namespace Chromium.WebBrowser
 
 		#endregion
 
+		private void SetHostStateChange(int currentState, RECT rect)
+		{
+			if (jsWindowState != currentState)
+			{
+				var stateString = currentState == 0 ? "normal" : currentState == 2 ? "maximized" : "minimized";
+
+				var js = $"raiseCustomEvent('hoststatechange', " +
+				$"{{" +
+				$"state: {currentState}," +
+				$"stateName: \"{stateString}\"," +
+				$"width: {rect.Width}," +
+				$"height: {rect.Height}" +
+				$"}})";
+
+				Browser.MainFrame.ExecuteJavaScript(js, null, 0);
+				jsWindowState = currentState;
+
+				nanuiJSObject.HostWindow.CurrentWindowState = currentState;
+			}
+
+		}
+
+		private void SetHostActiveState(int currentState)
+		{
+			var stateText = currentState == 1 ? "activated" : "deactivated";
+
+			var js = $"raiseCustomEvent('hostactivestate', {{state:{currentState}, stateName:'{currentState}'}})";
+
+			System.Diagnostics.Debug.WriteLine($"Current State: 0x{Handle.ToString("X")} {currentState}");
+
+			Browser.MainFrame?.ExecuteJavaScript(js, null, 0);
+		}
+
 		int jsWindowState = 0;
 		protected override void WndProc(ref Message m)
 		{
@@ -1395,24 +1437,7 @@ namespace Chromium.WebBrowser
 							if (parentControl is Form)
 							{
 								var currentState = (int)m.WParam;
-
-								if (jsWindowState != currentState)
-								{
-									var stateString = currentState == 0 ? "normal" : currentState == 2 ? "maximized" : "minimized";
-
-									var js = $"raiseCustomEvent('hoststatechange', " +
-									$"{{" +
-									$"state: {currentState}," +
-									$"stateName: \"{stateString}\"," +
-									$"width: {rect.Width}," +
-									$"height: {rect.Height}" +
-									$"}})";
-
-									Browser.MainFrame.ExecuteJavaScript(js, null, 0);
-									jsWindowState = currentState;
-
-									nanuiJSObject.HostWindow.CurrentWindowState = currentState;
-								}
+								SetHostStateChange(currentState, rect);
 							}
 
 
@@ -1438,19 +1463,10 @@ namespace Chromium.WebBrowser
 				case WindowsMessages.WM_ACTIVATE:
 					if (Browser != null)
 					{
-						if (Win32.Loword((int)m.WParam) == (int)WindowActiveFlags.WA_INACTIVE)
-						{
-							var js = $"raiseCustomEvent('hostactivestate', {{state:0, stateName:'deactivated'}})";
-							Browser.MainFrame?.ExecuteJavaScript(js, null, 0);
+						var currentState = ((int)m.WParam) > 0 ? 1 : 0;
 
-						}
-						else
-						{
-							var js = $"raiseCustomEvent('hostactivestate', {{state:1, stateName:'activated'}})";
-							Browser.MainFrame?.ExecuteJavaScript(js, null, 0);
 
-						}
-
+						SetHostActiveState(currentState);
 					}
 
 

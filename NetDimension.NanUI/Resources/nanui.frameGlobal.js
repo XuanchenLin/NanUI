@@ -7,9 +7,8 @@
 	document.addEventListener("DOMContentLoaded", () => {
 		document.body.addEventListener("click", (e) => {
 			var targetEl = e.srcElement;
-						
-			while (targetEl && !targetEl.hasAttribute(ATTR_NAME))
-			{
+
+			while (targetEl && !targetEl.hasAttribute(ATTR_NAME)) {
 				targetEl = targetEl.parentElement;
 			}
 
@@ -20,8 +19,11 @@
 					NanUI.hostWindow[cmd].apply(NanUI, [e]);
 				}
 			}
-			
 		});
+
+
 	});
+
+	raiseCustomEvent("hostactivestate", { state: 1, stateName: "activated" });
 })();
 
