@@ -74,7 +74,7 @@ namespace NetDimension.NanUI.ResourceHandler
 				fileName = fileName.Substring(1);
 			}
 
-			var ass = resourceAssembly;
+			var mainAssembly = resourceAssembly;
 			var endTrimIndex = fileName.LastIndexOf('/');
 
 			if (endTrimIndex > -1)
@@ -85,13 +85,28 @@ namespace NetDimension.NanUI.ResourceHandler
 				fileName = string.Format("{0}{1}", tmp, fileName.Substring(endTrimIndex));
 			}
 
-			var resourcePath = string.Format("{0}.{1}", ass.GetName().Name, fileName.Replace('/', '.'));
+			var resourcePath = string.Format("{0}.{1}", mainAssembly.GetName().Name, fileName.Replace('/', '.'));
+
+
+
+			Assembly satelliteAssembly = null;
+
+			try
+			{
+				satelliteAssembly = mainAssembly.GetSatelliteAssembly(System.Threading.Thread.CurrentThread.CurrentCulture);
+			}
+			catch
+			{
+
+			}
+
 			
-			var satelliteAss = ass.GetSatelliteAssembly(System.Threading.Thread.CurrentThread.CurrentCulture);
 
-			var resourceNames = ass.GetManifestResourceNames().Select(x => new { TargetAssembly = ass, Name = x, IsSatellite = false });
+			
 
-			if (satelliteAss != null)
+			var resourceNames = mainAssembly.GetManifestResourceNames().Select(x => new { TargetAssembly = mainAssembly, Name = x, IsSatellite = false });
+
+			if (satelliteAssembly != null)
 			{
 				string HandleCultureName(string name)
 				{
@@ -101,7 +116,7 @@ namespace NetDimension.NanUI.ResourceHandler
 					return $"{System.IO.Path.GetFileNameWithoutExtension(fileInfo.Name)}.{cultureName}{fileInfo.Extension}";
 				}
 
-				resourceNames = resourceNames.Union(satelliteAss.GetManifestResourceNames().Select(x => new { TargetAssembly = satelliteAss, Name = HandleCultureName(x), IsSatellite = true }));
+				resourceNames = resourceNames.Union(satelliteAssembly.GetManifestResourceNames().Select(x => new { TargetAssembly = satelliteAssembly, Name = HandleCultureName(x), IsSatellite = true }));
 			}
 
 			var resource = resourceNames.SingleOrDefault(p => p.Name.Equals(resourcePath, StringComparison.CurrentCultureIgnoreCase));

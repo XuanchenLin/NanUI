@@ -1430,6 +1430,7 @@ namespace Chromium.WebBrowser
 						}
 
 
+						Browser?.Host?.NotifyMoveOrResizeStarted();
 
 						base.WndProc(ref m);
 					}
@@ -1455,6 +1456,9 @@ namespace Chromium.WebBrowser
 
 					base.WndProc(ref m);
 
+					break;
+				case WindowsMessages.WM_MOVE:
+					Browser?.Host?.NotifyMoveOrResizeStarted();
 					break;
 				default:
 					base.WndProc(ref m);
