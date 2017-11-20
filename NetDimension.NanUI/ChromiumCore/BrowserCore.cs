@@ -1074,8 +1074,6 @@ namespace Chromium.WebBrowser
 			ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
 
 			ResizeBrowserWindow();
-
-			SetHostActiveState(1);
 		}
 
 
@@ -1545,22 +1543,20 @@ namespace Chromium.WebBrowser
 
 			OnV8ContextCreated += (that, args) =>
 			{
+				
+
 				if (args.Frame.IsMain)
 				{
 					args.Frame.ExecuteJavaScript(NetDimension.NanUI.Properties.Resources.nanui_frameGlobal, null, 0);
 				}
 			};
 
+
 			DisplayHandler.OnTooltip += (that, args) =>
 			{
 				args.SetReturnValue(false);
 			};
 
-			//JsDialogHandler.OnJsDialog += (that, args) => {
-			//	args.
-			//};
-
-			//GlobalObject.Add("NanUI", new NanUIObject(parentControl));
 		}
 
 
