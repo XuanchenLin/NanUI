@@ -143,9 +143,9 @@ If you like my work, please buy me a cup of coffee to encourage me continue with
 
 In China you can donate me by scaning the QR code below in **Alipay** or **WeChat** app.
 
-![Screen Shot](http://www.ohtrip.cn/media/beg_with_border.png)
+![Screen Shot](http://ohtrip.cn/media/beg_with_border.png)
 
 Or you can donate me by **Paypal**.
 
-[![DONATE](http://www.ohtrip.cn/media/PayPal-donate-button.png)](https://www.paypal.me/mrjson)
+[![DONATE](http://ohtrip.cn/media/PayPal-donate-button.png)](https://www.paypal.me/mrjson)
 
