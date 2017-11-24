@@ -88,7 +88,7 @@
   <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>此项目引用这台计算机上缺少的 NuGet 程序包。使用 NuGet 程序包还原可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets'))" />
   </Target>

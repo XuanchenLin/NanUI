@@ -17,6 +17,10 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2017/11/24**
+- BUG FIX: n-ui-command html attribute will not fire if html source dosen't contain script tags. 
+- Update new dependencies of NetDimension.NanUI. I made a mistake, the old one did not contain 32bit dependencies. So please reinstall the new one.
+
 **2017/9/25**
 - Fixed: if your project didn't has satellite resources, the program will crash by a dll file not found exception.
 - Fixed: if your html contains select element which is opened and dropdown is shown, moving or resizing the window will cause the dropdown at wrong place.
