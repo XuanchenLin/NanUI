@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetDimension.NanUI, Version=0.6.2987.17865, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetDimension.NanUI.0.6.2987.4\lib\NetDimension.NanUI.dll</HintPath>
+    <Reference Include="NetDimension.NanUI, Version=0.6.2987.19597, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetDimension.NanUI.0.6.2987.5\lib\NetDimension.NanUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -91,5 +91,7 @@
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets'))" />
+    <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets'))" />
   </Target>
+  <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" />
 </Project>
