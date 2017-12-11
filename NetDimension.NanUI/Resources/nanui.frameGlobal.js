@@ -6,8 +6,9 @@
 			window.dispatchEvent(new CustomEvent(eventName, { detail: customDetail }));
 		};
 	}
+
 	
-	document.body.addEventListener("click", (e) => {
+	document.addEventListener("click", (e) => {
 		var targetEl = e.srcElement;
 
 		while (targetEl && !targetEl.hasAttribute(ATTR_NAME)) {

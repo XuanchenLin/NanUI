@@ -1543,6 +1543,7 @@ namespace Chromium.WebBrowser
 
 			OnV8ContextCreated += (that, args) =>
 			{
+
 				if (args.Frame.IsMain)
 				{
 					args.Frame.ExecuteJavaScript(NetDimension.NanUI.Properties.Resources.nanui_frameGlobal, null, 0);
