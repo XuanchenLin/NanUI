@@ -104,12 +104,6 @@
   <ItemGroup>
     <EmbeddedResource Include="asserts\PopupWindow.html" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NetDimension.NanUI\NetDimension.NanUI.csproj">
-      <Project>{f08bb3ec-8bd4-4af0-ac3f-49af44917324}</Project>
-      <Name>NetDimension.NanUI</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
