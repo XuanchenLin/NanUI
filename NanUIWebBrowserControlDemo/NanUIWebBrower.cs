@@ -15,7 +15,7 @@ using NetDimension.NanUI;
 
 namespace NanUIWebBrowserControlDemo
 {
-	public partial class NanUIWebBrower : Control, IChromiumClient
+	public partial class NanUIWebBrower : UserControl, IChromiumClient
 	{
 		private BrowserCore browserCore;
 		private static bool? isDesingerProcess = null;

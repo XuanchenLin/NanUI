@@ -22,11 +22,5 @@ namespace NanUIWebBrowserControlDemo
 
 
 		}
-
-		private void LoadHandler_OnLoadEnd(object sender, Chromium.Event.CfxOnLoadEndEventArgs e)
-		{
-
-
-		}
 	}
 }
