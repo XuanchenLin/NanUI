@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1}</ProjectGuid>
+    <ProjectGuid>{884E29D5-63FE-4D54-A24A-6682979C4ACD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>BorderlessFormStyleDemoApp</RootNamespace>
-    <AssemblyName>BorderlessFormStyleDemoApp</AssemblyName>
+    <RootNamespace>NanUIWebBrowserControlDemo</RootNamespace>
+    <AssemblyName>NanUIWebBrowserControlDemo</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -56,19 +56,16 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
-      <SubType>Form</SubType>
+    <Compile Include="NanUIWebBrower.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="NanUIWebBrower.Designer.cs">
+      <DependentUpon>NanUIWebBrower.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,9 +75,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="asserts\fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -95,26 +90,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="asserts\index.html" />
-    <EmbeddedResource Include="asserts\scripts\jquery-2.2.3.js" />
-    <EmbeddedResource Include="asserts\styles\app.css" />
-    <EmbeddedResource Include="asserts\styles\font-awesome.min.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NanUI.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="asserts\PopupWindow.html" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" />
+  <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets'))" />
     <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets'))" />
   </Target>
-  <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" />
 </Project>

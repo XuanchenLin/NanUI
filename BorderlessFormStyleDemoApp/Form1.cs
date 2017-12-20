@@ -39,6 +39,7 @@ namespace BorderlessFormStyleDemoApp
 				});
 			};
 
+			
 
 			//this.Left = 0;
 			//this.Top = 0;
