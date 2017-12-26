@@ -6,7 +6,7 @@
 
 NanUI is MIT licensed, so you can use it in both business and free/open source application. For more details, see the [LICENSE](https://github.com/NetDimension/NanUI/blob/master/LICENSE) file.
 
-![NanUI](http://images2015.cnblogs.com/blog/352785/201605/352785-20160518180435701-1461536015.png)
+![NanUI](http://img.blog.csdn.net/20171226150643379)
 
 
 ## What's new in version 0.6
