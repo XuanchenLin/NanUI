@@ -124,12 +124,6 @@ namespace Chromium.Remote {
                     if(connection.ShuttingDown)
                         return;
                     else if(connection.connectionLostException != null) {
-                        if(RemoteClient.connection != null) {
-                            // this is the render process calling back into the browser process
-                            // reaching this point usually means the browser process crashed or was killed
-                            // don't throw, just return so the process can exit gracefully
-                            return;
-                        }
                         throw new CfxRemotingException("Remote connection lost.", connection.connectionLostException);
                     }
                 }

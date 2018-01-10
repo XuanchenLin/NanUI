@@ -62,18 +62,17 @@ namespace Chromium {
 
         // execute
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void cfx_v8handler_execute_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, int argumentsCount, IntPtr arguments, out IntPtr retval, out IntPtr exception_str, out int exception_length, out IntPtr exception_gc_handle);
+        private delegate void cfx_v8handler_execute_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, int argumentsCount, IntPtr arguments, out IntPtr retval, out IntPtr exception_str, out int exception_length);
         private static cfx_v8handler_execute_delegate cfx_v8handler_execute;
         private static IntPtr cfx_v8handler_execute_ptr;
 
-        internal static void execute(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, int argumentsCount, IntPtr arguments, out IntPtr retval, out IntPtr exception_str, out int exception_length, out IntPtr exception_gc_handle) {
+        internal static void execute(IntPtr gcHandlePtr, out int __retval, IntPtr name_str, int name_length, IntPtr @object, int argumentsCount, IntPtr arguments, out IntPtr retval, out IntPtr exception_str, out int exception_length) {
             var self = (CfxV8Handler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
             if(self == null) {
                 __retval = default(int);
                 retval = default(IntPtr);
                 exception_str = IntPtr.Zero;
                 exception_length = 0;
-                exception_gc_handle = IntPtr.Zero;
                 return;
             }
             var e = new CfxV8HandlerExecuteEventArgs(name_str, name_length, @object, arguments, argumentsCount);
@@ -90,11 +89,9 @@ namespace Chromium {
                 var exception_pinned = new PinnedString(e.m_exception_wrapped);
                 exception_str = exception_pinned.Obj.PinnedPtr;
                 exception_length = exception_pinned.Length;
-                exception_gc_handle = exception_pinned.Obj.ToIntPtr();
             } else {
                 exception_str = IntPtr.Zero;
                 exception_length = 0;
-                exception_gc_handle = IntPtr.Zero;
             }
             retval = CfxV8Value.Unwrap(e.m_returnValue);
             __retval = e.m_returnValue != null || e.m_exception_wrapped != null ? 1 : 0;

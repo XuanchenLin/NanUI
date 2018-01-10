@@ -49,10 +49,6 @@ namespace Chromium {
             }
         }
 
-        public IntPtr ToIntPtr() {
-            return GCHandle.ToIntPtr(handle);
-        }
-
         public void Free() {
             if (PinnedPtr != IntPtr.Zero) {
                 handle.Free();

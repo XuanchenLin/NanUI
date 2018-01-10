@@ -121,7 +121,7 @@ namespace NetDimension.NanUI.ResourceHandler
 
 			var resource = resourceNames.SingleOrDefault(p => p.Name.Equals(resourcePath, StringComparison.CurrentCultureIgnoreCase));
 			var manifestResourceName = resourcePath;
-			if (resource.IsSatellite)
+			if (resource!=null && resource.IsSatellite)
 			{
 				var fileInfo = new System.IO.FileInfo(manifestResourceName);
 				manifestResourceName = $"{System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetFileNameWithoutExtension(fileInfo.Name))}{fileInfo.Extension}";

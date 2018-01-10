@@ -14,7 +14,7 @@ namespace BasicUsageDemoApp
 	public partial class Form1 : Formium
 	{
 		public Form1()
-			: base("https://www.html5test.com", false)
+			: base("https://www.baidu.com", false)
 		{
 			InitializeComponent();
 

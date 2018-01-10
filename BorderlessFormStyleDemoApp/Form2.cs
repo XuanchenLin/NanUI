@@ -14,7 +14,7 @@ namespace BorderlessFormStyleDemoApp
 	public partial class Form2 : Formium
 	{
 		public Form2()
-			: base("http://res.app.local/asserts/PopupWindow.html")
+			: base("http://res.app.local/asserts/PopupWindow.html",false)
 		{
 			InitializeComponent();
 
