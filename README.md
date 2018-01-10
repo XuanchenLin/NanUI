@@ -17,6 +17,9 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2018/1/10**
+- BUG FIX: NanUI.XP run at 32bit mode will crash sometimes.
+
 **2017/12/21**
 - New feature: added a new WebBrowser control to NanUI. You can now drag the WebBrowserControl to your form.
 
