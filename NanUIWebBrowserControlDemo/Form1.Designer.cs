@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.nanUIWebBrower1 = new NanUIWebBrowserControlDemo.NanUIWebBrower();
+			this.nanUIWebBrower1 = new NetDimension.NanUI.WebBrowserControl();
 			this.SuspendLayout();
 			// 
 			// nanUIWebBrower1
@@ -56,7 +56,7 @@
 
 		#endregion
 
-		private NanUIWebBrower nanUIWebBrower1;
+		private NetDimension.NanUI.WebBrowserControl nanUIWebBrower1;
 	}
 }
 

@@ -53,12 +53,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="NanUIWebBrower.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="NanUIWebBrower.Designer.cs">
-      <DependentUpon>NanUIWebBrower.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
