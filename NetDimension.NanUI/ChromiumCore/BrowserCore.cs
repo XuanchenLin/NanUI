@@ -260,7 +260,7 @@ namespace Chromium.WebBrowser
 			scaleFactor = User32.GetOriginalDeviceScaleFactor(parentWindowHandle);
 
 
-			AssignHandle(parentWindowHandle);
+
 
 			client = new BrowserClient(this);
 
@@ -276,7 +276,7 @@ namespace Chromium.WebBrowser
 			if (createImmediately)
 				CreateBrowser();
 
-
+			AssignHandle(parentWindowHandle);
 
 		}
 
@@ -339,13 +339,13 @@ namespace Chromium.WebBrowser
 			// the browser must be created with a disabled child window.
 			///windowInfo.SetAsChild(parentWindowHandle,0,0,parentControl.Width, parentControl.Height);
 
-			windowInfo.SetAsDisabledChild(parentWindowHandle);
+			//windowInfo.SetAsDisabledChild(parentWindowHandle);
 
 
 
 
 
-			//windowInfo.SetAsChild(parentWindowHandle, 0, 0, parentControl.Width, parentControl.Height);
+			windowInfo.SetAsChild(parentWindowHandle, 0, 0, parentControl.Width, parentControl.Height);
 
 			if (!CfxBrowserHost.CreateBrowser(windowInfo, client, initialUrl, DefaultBrowserSettings, requestContext))
 				throw new CefException("Failed to create browser instance.");

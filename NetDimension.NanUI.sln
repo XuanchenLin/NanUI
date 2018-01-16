@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{36C72042-840E-4C1A-B697-02AFAB117CC8}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,25 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{36C720
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicUsageDemoApp", "BasicUsageDemoApp\BasicUsageDemoApp.csproj", "{935B7A71-A44A-45F2-8979-D8DF25644EE4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseEmbeddedResourcesDemoApp", "UseEmbeddedResourcesDemoApp\UseEmbeddedResourcesDemoApp.csproj", "{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01BasicUsage", "01BasicUsage", "{CA5478B6-6540-4D3D-9207-FBD2E131C6EB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02UseResources", "02UseResources", "{12A59753-EA9C-4F82-A791-A37F621FB327}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedResourcesInSplitAssembly", "EmbeddedResourcesInSplitAssembly\EmbeddedResourcesInSplitAssembly.csproj", "{7D186D01-B5A9-4358-83A9-466D1E2135D0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03UseBorderlessFormStyle", "03UseBorderlessFormStyle", "{5765D285-CF22-47DA-A729-F8C69CF054D6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorderlessFormStyleDemoApp", "BorderlessFormStyleDemoApp\BorderlessFormStyleDemoApp.csproj", "{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDimension.NanUI", "NetDimension.NanUI\NetDimension.NanUI.csproj", "{F08BB3EC-8BD4-4AF0-AC3F-49AF44917324}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetDimension.NanUI.XP", "NetDimension.NanUI.XP\NetDimension.NanUI.XP.csproj", "{F43C7D7D-83A5-4A5C-A689-2CB5BBCEDD5C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04UseNanUIasUserControl", "04UseNanUIasUserControl", "{327A45F2-3846-49A8-9047-E1ED1D8D3861}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplications", "TestApplications", "{327A45F2-3846-49A8-9047-E1ED1D8D3861}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanUIWebBrowserControlDemo", "NanUIWebBrowserControlDemo\NanUIWebBrowserControlDemo.csproj", "{884E29D5-63FE-4D54-A24A-6682979C4ACD}"
 EndProject
@@ -39,30 +27,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Debug|x86.Build.0 = Debug|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Release|x86.ActiveCfg = Release|Any CPU
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4}.Release|x86.Build.0 = Release|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Debug|x86.Build.0 = Debug|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Release|x86.ActiveCfg = Release|Any CPU
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9}.Release|x86.Build.0 = Release|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Debug|x86.Build.0 = Debug|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Release|x86.ActiveCfg = Release|Any CPU
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0}.Release|x86.Build.0 = Release|Any CPU
 		{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -100,10 +64,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{935B7A71-A44A-45F2-8979-D8DF25644EE4} = {CA5478B6-6540-4D3D-9207-FBD2E131C6EB}
-		{91FD7A62-968D-4ABA-BE0D-86D9277E0AD9} = {12A59753-EA9C-4F82-A791-A37F621FB327}
-		{7D186D01-B5A9-4358-83A9-466D1E2135D0} = {12A59753-EA9C-4F82-A791-A37F621FB327}
-		{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1} = {5765D285-CF22-47DA-A729-F8C69CF054D6}
+		{BD87B572-08EB-4B7D-98E1-7AFDE85D9AC1} = {327A45F2-3846-49A8-9047-E1ED1D8D3861}
 		{884E29D5-63FE-4D54-A24A-6682979C4ACD} = {327A45F2-3846-49A8-9047-E1ED1D8D3861}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

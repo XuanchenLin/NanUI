@@ -14,10 +14,7 @@ namespace NetDimension.WinForm.FormShadow
 	/// </summary>
 	public class FormShadowDecorator : NativeWindow, IDisposable
 	{
-		const int ACTIVE_ALPHA = 224;
-		const int INACTIVE_ALPHA = 172;
-
-		private IntPtr parentWindowHWnd;
+		private IntPtr parentWindowHWnd => parentWindow.Handle;
 		private Form parentWindow;
 
 		private FormShadowElement topFormShadow;
@@ -28,13 +25,15 @@ namespace NetDimension.WinForm.FormShadow
 		private WINDOWPOS lastLocation;
 
 		private readonly List<FormShadowElement> shadows = new List<FormShadowElement>();
-		private Color activeColor = Color.FromArgb(ACTIVE_ALPHA, 0, 0, 0);
-		private Color inactiveColor = Color.FromArgb(INACTIVE_ALPHA, 0, 0, 0);
+		private Color activeColor = Color.FromArgb(128, 0, 0, 0);
+		private Color inactiveColor = Color.FromArgb(72, 0, 0, 0);
 		private bool isEnabled;
-		private bool setTopMost = true;
+		private bool setTopMost;
 		private bool isFocused = false;
 		private bool isWindowMinimized = false;
 		private bool isAnimationDelayed = false;
+
+		private bool isInitialized = false;
 
 		/// <summary>
 		/// 设置或获取投影窗口是否至于顶层。
@@ -48,6 +47,9 @@ namespace NetDimension.WinForm.FormShadow
 			set
 			{
 				setTopMost = value;
+
+				if (!isInitialized) return;
+
 				AlignSideShadowToTopMost();
 			}
 		}
@@ -57,12 +59,13 @@ namespace NetDimension.WinForm.FormShadow
 		{
 			get
 			{
-				return Color.FromArgb(255, activeColor.R,activeColor.G, activeColor.B);
+				return Color.FromArgb(255, activeColor.R, activeColor.G, activeColor.B);
 			}
 
 			set
 			{
-				activeColor = Color.FromArgb(ACTIVE_ALPHA, value.R, value.G,value.B);
+				activeColor = Color.FromArgb(128, value.R, value.G, value.B);
+				if (!isInitialized) return;
 				foreach (FormShadowElement sideShadow in shadows)
 				{
 					sideShadow.ActiveColor = activeColor;
@@ -80,7 +83,10 @@ namespace NetDimension.WinForm.FormShadow
 
 			set
 			{
-				inactiveColor = Color.FromArgb(INACTIVE_ALPHA, value.R, value.G, value.B);
+				inactiveColor = Color.FromArgb(72, value.R, value.G, value.B);
+
+				if (!isInitialized) return;
+
 				foreach (FormShadowElement sideShadow in shadows)
 				{
 					sideShadow.InactiveColor = inactiveColor;
@@ -98,7 +104,12 @@ namespace NetDimension.WinForm.FormShadow
 		public FormShadowDecorator(Form window, bool enable = true)
 		{
 			parentWindow = window;
-			parentWindowHWnd = window.Handle;
+
+			isEnabled = enable;
+		}
+
+		public void InitializeShadows()
+		{
 
 			topFormShadow = new FormShadowElement(FormShadowDockPositon.Top, parentWindowHWnd, this);
 			leftFormShadow = new FormShadowElement(FormShadowDockPositon.Left, parentWindowHWnd, this);
@@ -110,25 +121,25 @@ namespace NetDimension.WinForm.FormShadow
 			shadows.Add(bottomFormShadow);
 			shadows.Add(rightFormShadow);
 
-			AssignHandle(parentWindowHWnd);
-
-
 			User32.ShowWindow(topFormShadow.Handle, ShowWindowStyles.SW_SHOWNOACTIVATE);
 			User32.ShowWindow(leftFormShadow.Handle, ShowWindowStyles.SW_SHOWNOACTIVATE);
 			User32.ShowWindow(bottomFormShadow.Handle, ShowWindowStyles.SW_SHOWNOACTIVATE);
 			User32.ShowWindow(rightFormShadow.Handle, ShowWindowStyles.SW_SHOWNOACTIVATE);
 
 
-			isEnabled = enable;
+			isInitialized = true;
+
+			AssignHandle(parentWindowHWnd);
+
 			AlignSideShadowToTopMost();
 
-			ActiveColor = ActiveColor;
+			ActiveColor = activeColor;
 			InactiveColor = inactiveColor;
 
 
-
-
 		}
+
+
 
 		/// <summary>
 		/// 启用或禁用窗体投影效果。
@@ -155,21 +166,24 @@ namespace NetDimension.WinForm.FormShadow
 						flags = (int)SetWindowPosFlags.SWP_SHOWWINDOW
 					});
 
-
-					UpdateSizes(parentWindow.Width, parentWindow.Height);
+					UpdateSizes((int)parentWindow.Width, (int)parentWindow.Height);
 				}
 			}
 
 			isEnabled = enable;
 		}
 
-		internal bool IsAnimationDelayed
-		{
-			get
-			{
-				return isAnimationDelayed;
-			}
-		}
+		///// <summary>
+		///// 启用或禁用窗口大小调整。
+		///// </summary>
+		///// <param name="enable">True/False</param>
+		//public void EnableResize(bool enable)
+		//{
+		//	foreach (FormShadowElement sideShadow in shadows)
+		//	{
+		//		sideShadow.ExternalResizeEnable = enable;
+		//	}
+		//}
 
 		protected override void WndProc(ref Message m)
 		{
@@ -181,52 +195,42 @@ namespace NetDimension.WinForm.FormShadow
 			}
 			var msg = (WindowsMessages)m.Msg;
 
+			//System.Diagnostics.Debug.WriteLine(m);
+
+
 			switch (msg)
 			{
+
 				case WindowsMessages.WM_WINDOWPOSCHANGED:
-					base.WndProc(ref m);
 					lastLocation = (WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(WINDOWPOS));
 					WindowPosChanged(lastLocation);
-					break;
-				case WindowsMessages.WM_ACTIVATE:
-					if(m.WParam == (IntPtr)WindowActiveFlags.WA_INACTIVE)
-					{
-
-					}
-
-					var className = new StringBuilder(256);
-
-					if (m.LParam != IntPtr.Zero && User32.GetClassName(m.LParam, className, className.Capacity) != 0)
-					{
-						var hWndShadow = m.LParam;
-						var name = className.ToString();
-						if (name.StartsWith(CONSTS.CLASS_NAME) && isFocused && shadows.Exists(p => p.Handle == hWndShadow))
-						{
-							return;
-						}
-					}
-
-
-					if (Win32.Loword((int)m.WParam) == 0)
-					{
-						isFocused = false;
-						KillFocus();
-						//Debug.WriteLine("INACTIVE");
-					}
-					else
-					{
-						isFocused = true;
-						SetFocus();
-						//Debug.WriteLine("ACTIVE");
-					}
-
 					base.WndProc(ref m);
 					break;
 				case WindowsMessages.WM_ACTIVATEAPP:
 					{
+						var className = new StringBuilder(256);
+
+						if (m.LParam != IntPtr.Zero && User32.GetClassName(m.LParam, className, className.Capacity) != 0)
+						{
+							var hWndShadow = m.LParam;
+							var name = className.ToString();
+							if (name.StartsWith(CONSTS.CLASS_NAME) && isFocused && shadows.Exists(p => p.Handle == hWndShadow))
+							{
+								return;
+							}
+						}
 
 
-						base.WndProc(ref m);
+						if (m.WParam == Win32.FALSE)
+						{
+							isFocused = false;
+							KillFocus();
+						}
+						else
+						{
+							isFocused = true;
+							SetFocus();
+						}
 
 					}
 					break;
@@ -249,7 +253,6 @@ namespace NetDimension.WinForm.FormShadow
 
 		private void DestroyShadows()
 		{
-			parentWindowHWnd = IntPtr.Zero;
 
 			CloseShadows();
 
@@ -258,9 +261,14 @@ namespace NetDimension.WinForm.FormShadow
 
 		private void RegisterEvents()
 		{
+			//foreach (FormShadowElement sideShadow in shadows)
+			//{
+			//	sideShadow.MouseDown += HandleSideMouseDown;
+			//}
 
 			if (parentWindow != null)
 			{
+
 				parentWindow.VisibleChanged += HandleWindowVisibleChanged;
 			}
 		}
@@ -272,11 +280,26 @@ namespace NetDimension.WinForm.FormShadow
 
 		private void UnregisterEvents()
 		{
+			//foreach (FormShadowElement sideShadow in shadows)
+			//{
+			//	sideShadow.MouseDown -= HandleSideMouseDown;
+			//}
+
 			if (parentWindow != null)
 			{
 				parentWindow.VisibleChanged -= HandleWindowVisibleChanged;
 			}
 		}
+
+		//private void HandleSideMouseDown(object sender, FormShadowResizeArgs e)
+		//{
+		//	if (e.Mode == HitTest.HTNOWHERE || e.Mode == HitTest.HTCAPTION)
+		//	{
+		//		return;
+		//	}
+		//	User32.PostMessage(parentWindowHWnd, (uint)WindowsMessages.WM_SETFOCUS, IntPtr.Zero, IntPtr.Zero);
+		//	User32.SendMessage(parentWindowHWnd, (uint)WindowsMessages.WM_SYSCOMMAND, (IntPtr)e.Mode.ToInt(), IntPtr.Zero);
+		//}
 
 		private void CloseShadows()
 		{
@@ -306,6 +329,8 @@ namespace NetDimension.WinForm.FormShadow
 				if (show)
 				{
 					isWindowMinimized = false;
+
+
 				}
 			});
 
@@ -319,7 +344,7 @@ namespace NetDimension.WinForm.FormShadow
 				isAnimationDelayed = true;
 				Task.Factory.StartNew(() =>
 				{
-					System.Threading.Thread.Sleep(150);
+					System.Threading.Thread.Sleep(300);
 					parentWindow.Invoke(new MethodInvoker(action));
 
 					isAnimationDelayed = false;
@@ -373,7 +398,7 @@ namespace NetDimension.WinForm.FormShadow
 			else if ((location.flags & (int)SetWindowPosFlags.SWP_SHOWWINDOW) != 0)
 			{
 				ShowBorder(true);
-				//UpdateZOrder();
+				UpdateZOrder();
 			}
 		}
 
@@ -396,14 +421,15 @@ namespace NetDimension.WinForm.FormShadow
 		{
 			if (!isEnabled) return;
 			UpdateFocus(true);
-
-
+			UpdateZOrder();
 		}
 
 		public void KillFocus()
 		{
 			if (!isEnabled) return;
+
 			UpdateFocus(false);
+			UpdateZOrder();
 		}
 
 		private void WindowPosChanged(WINDOWPOS location)
@@ -424,7 +450,6 @@ namespace NetDimension.WinForm.FormShadow
 			int height = (int)User32.HiWord(lParam);
 
 			if (!isEnabled) return;
-
 			if ((int)wParam == 2 || (int)wParam == 1) // maximized/minimized
 			{
 				ShowBorder(false);

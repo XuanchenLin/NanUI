@@ -178,7 +178,10 @@ namespace NetDimension.WinForm
 		{
 
 			isCustomFrameEnabled = enableModernUI;
+
 			shadowDecorator = new FormShadowDecorator(this, false);
+			
+			
 
 			this.BackColor = Color.White;
 			if (!IsDesignMode)
@@ -194,11 +197,13 @@ namespace NetDimension.WinForm
 		#region OVERRIDES
 		protected override void CreateHandle()
 		{
-			if (!IsModernUIEnabled)
+
+			if (!isCustomFrameEnabled)
 			{
 				base.CreateHandle();
 				return;
 			}
+
 			var shouldPatchSize = !creatingHandle;
 			creatingHandle = true;
 			if (shouldPatchSize)
@@ -211,26 +216,23 @@ namespace NetDimension.WinForm
 
 		protected override void OnHandleCreated(EventArgs e)
 		{
-			if (IsModernUIEnabled)
+
+			if (isCustomFrameEnabled)
 			{
 				UxTheme.SetWindowTheme(Handle, string.Empty, string.Empty);
 				User32.DisableProcessWindowsGhosting();
+
+				shadowDecorator.InitializeShadows();
+
 			}
 
 			base.OnHandleCreated(e);
 		}
 
-
-		//Point? pointBeforeMaximize = null;
-
-		//int xBeforeMaximize = 0;
-		//int yBeforeMaximize = 0;
-
-
 		bool? isEnterSizeMoveMode = null;
 		protected override void WndProc(ref Message m)
 		{
-			if (!IsModernUIEnabled)
+			if (!isCustomFrameEnabled)
 			{
 				base.WndProc(ref m);
 				return;
@@ -242,33 +244,33 @@ namespace NetDimension.WinForm
 
 			switch (msg)
 			{
-				case WindowsMessages.WM_ENTERSIZEMOVE:
-					{
-						isEnterSizeMoveMode = true;
-						base.WndProc(ref m);
-					}
-					break;
-				case WindowsMessages.WM_EXITSIZEMOVE:
-					{
-						isEnterSizeMoveMode = false;
+				//case WindowsMessages.WM_ENTERSIZEMOVE:
+				//	{
+				//		isEnterSizeMoveMode = true;
+				//		base.WndProc(ref m);
+				//	}
+				//	break;
+				//case WindowsMessages.WM_EXITSIZEMOVE:
+				//	{
+				//		isEnterSizeMoveMode = false;
 
-						if (shadowDecorator != null && EnableFormShadow && !shadowDecorator.IsEnabled)
-						{
-							shadowDecorator.Enable(true);
-						}
+				//		if (shadowDecorator != null && EnableFormShadow && !shadowDecorator.IsEnabled)
+				//		{
+				//			shadowDecorator.Enable(true);
+				//		}
 
-						base.WndProc(ref m);
-					}
-					break;
-				case WindowsMessages.WM_SIZING:
-					{
-						if (IsHandleCreated && isEnterSizeMoveMode == true && shadowDecorator.IsEnabled)
-						{
-							shadowDecorator.Enable(false);
-						}
-						base.WndProc(ref m);
-					}
-					break;
+				//		base.WndProc(ref m);
+				//	}
+				//	break;
+				//case WindowsMessages.WM_SIZING:
+				//	{
+				//		if (IsHandleCreated && isEnterSizeMoveMode == true && shadowDecorator.IsEnabled)
+				//		{
+				//			shadowDecorator.Enable(false);
+				//		}
+				//		base.WndProc(ref m);
+				//	}
+				//	break;
 				case WindowsMessages.WM_SHOWWINDOW:
 					{
 						BringToFront();
@@ -304,7 +306,7 @@ namespace NetDimension.WinForm
 						isWindowActive = true;
 					}
 
-					//User32.InvalidateWindow(Handle);
+
 					User32.SendFrameChanged(Handle);
 
 					break;
@@ -483,12 +485,21 @@ namespace NetDimension.WinForm
 		protected bool IsInitializing { get { return !forceInitialized && (this.isInitializing != 0 || IsLayoutSuspendedNonPublic); } }
 		public new void SuspendLayout()
 		{
+			
 			base.SuspendLayout();
+
+			if (IsDesignMode) return;
+
 			isInitializing++;
 		}
 		public new void ResumeLayout() { ResumeLayout(true); }
 		public new void ResumeLayout(bool performLayout)
 		{
+			if (IsDesignMode) {
+				base.ResumeLayout(performLayout);
+				return;
+			}
+
 			if (this.isInitializing > 0)
 				this.isInitializing--;
 			if (this.isInitializing == 0)
@@ -611,7 +622,7 @@ namespace NetDimension.WinForm
 		protected override Size SizeFromClientSize(Size clientSize)
 		{
 
-			if (!IsDesignMode)
+			if (IsDesignMode)
 			{
 				return base.SizeFromClientSize(clientSize);
 			}
@@ -666,7 +677,7 @@ namespace NetDimension.WinForm
 		}
 		protected override void ScaleCore(float x, float y)
 		{
-			if (!IsModernUIEnabled)
+			if (IsDesignMode || !IsModernUIEnabled)
 			{
 				base.ScaleCore(x, y);
 				return;
@@ -683,19 +694,13 @@ namespace NetDimension.WinForm
 
 		protected override void SetClientSizeCore(int x, int y)
 		{
-
-			if (!IsDesignMode)
-			{
-				base.SetClientSizeCore(x, y);
-			}
-
 			this.clientSizeSet = false;
 			FieldInfo fiWidth = typeof(Control).GetField("clientWidth", BindingFlags.Instance | BindingFlags.NonPublic);
 			FieldInfo fiHeight = typeof(Control).GetField("clientHeight", BindingFlags.Instance | BindingFlags.NonPublic);
 			FieldInfo fi1 = typeof(Form).GetField("FormStateSetClientSize", BindingFlags.NonPublic | BindingFlags.Static),
 				fiFormState = typeof(Form).GetField("formState", BindingFlags.NonPublic | BindingFlags.Instance);
 
-			if (IsModernUIEnabled && fiWidth != null && fiHeight != null && fiFormState != null && fi1 != null)
+			if (isCustomFrameEnabled && fiWidth != null && fiHeight != null && fiFormState != null && fi1 != null)
 			{
 				this.clientSizeSet = true;
 				this.Size = SizeFromClientSize(new Size(x, y));
@@ -720,7 +725,7 @@ namespace NetDimension.WinForm
 			{
 				var cp = base.CreateParams;
 
-				if (!IsModernUIEnabled)
+				if (!IsModernUIEnabled || IsDesignMode)
 				{
 					return cp;
 

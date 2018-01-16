@@ -177,7 +177,6 @@ namespace NetDimension.NanUI
 				BackColor = Color.Transparent
 			};
 
-			InitializeBrowserCore(initialUrl);
 
 
 			if (!IsDesignMode)
@@ -186,6 +185,9 @@ namespace NetDimension.NanUI
 				splashPanel.BringToFront();
 
 				isFirstTimeShowSplash = true;
+
+				InitializeBrowserCore(initialUrl);
+
 			}
 
 		}
@@ -214,7 +216,9 @@ namespace NetDimension.NanUI
 		protected virtual void InitializeBrowserCore(string initialUrl)
 		{
 			if (IsDesignMode) return;
-			browserCore = new BrowserCore(this, initialUrl);
+
+
+			browserCore = new BrowserCore(this, initialUrl, true);
 			browserCore.RemoteCallbackInvokeMode = JSInvokeMode.Inherit;
 
 			FormHandle = Handle;

@@ -17,6 +17,10 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2018/1/16**
+- BUG FIX: ShowInTaskBar=True, ModernUI Shadows will show on incorrect position.
+- BUG: ShowInTaskBar=True, NanUI will crash. Please wait for this issue solved.
+
 **2018/1/10**
 - BUG FIX: NanUI.XP run at 32bit mode will crash sometimes.
 
