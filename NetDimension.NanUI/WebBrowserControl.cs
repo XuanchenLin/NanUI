@@ -49,7 +49,7 @@ namespace NetDimension.NanUI
 			set
 			{
 				_url = value;
-				if(!IsDesignMode)
+				if (!IsDesignMode)
 					this.LoadUrl(_url);
 			}
 		}
@@ -128,13 +128,21 @@ namespace NetDimension.NanUI
 		public JSObject GlobalObjectForFrame(string frameName) => browserCore.GlobalObjectForFrame(frameName);
 		#endregion
 
-		public WebBrowserControl()
+
+		public WebBrowserControl(string initialUrl)
 		{
+			_url = initialUrl;
+
 			this.DoubleBuffered = true;
 			this.UpdateStyles();
-			InitializeComponent();
 
 			InitializeBrowserCore(NavigateUrl);
+		}
+
+		public WebBrowserControl() 
+			: this("about:blank")
+		{
+
 		}
 
 		protected virtual void InitializeBrowserCore(string initialUrl)
@@ -158,8 +166,8 @@ namespace NetDimension.NanUI
 				};
 				pe.Graphics.DrawString("NanUI WebBrowser Control", this.Font, SystemBrushes.ControlText, this.ClientRectangle, format);
 			}
-			
-			
+
+
 			base.OnPaint(pe);
 		}
 
@@ -169,5 +177,27 @@ namespace NetDimension.NanUI
 			pevent.Graphics.FillRectangle(SystemBrushes.Window, pevent.ClipRectangle);
 
 		}
+
+		/// <summary>
+		/// 必需的设计器变量。
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+
+		/// <summary>
+		/// 清理所有正在使用的资源。
+		/// </summary>
+		/// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+
+				Chromium.Dispose();
+
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
 	}
 }

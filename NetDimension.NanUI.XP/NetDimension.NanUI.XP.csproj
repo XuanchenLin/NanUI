@@ -59,12 +59,6 @@
     <Compile Include="..\NetDimension.NanUI\ChromiumCore\BrowserProcess\Events.cs">
       <Link>ChromiumCore\BrowserProcess\Events.cs</Link>
     </Compile>
-    <Compile Include="..\NetDimension.NanUI\ChromiumCore\BrowserProcess\LifeSpanHandler.cs">
-      <Link>ChromiumCore\BrowserProcess\LifeSpanHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\NetDimension.NanUI\ChromiumCore\BrowserProcess\RequestHandler.cs">
-      <Link>ChromiumCore\BrowserProcess\RequestHandler.cs</Link>
-    </Compile>
     <Compile Include="..\NetDimension.NanUI\ChromiumCore\JavascriptAttributes\JSFunctionAttribute.cs">
       <Link>ChromiumCore\JavascriptAttributes\JSFunctionAttribute.cs</Link>
     </Compile>
@@ -113,6 +107,10 @@
     </Compile>
     <Compile Include="..\NetDimension.NanUI\ResourceHandler\AssemblyResourceHandler.cs">
       <Link>ResourceHandler\AssemblyResourceHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WebBrowserControl.cs">
+      <Link>WebBrowserControl.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\NetDimension.NanUI\Windows\Imports\DefMessages.cs">
       <Link>Windows\Imports\DefMessages.cs</Link>

@@ -1,6 +1,6 @@
 ﻿namespace BorderlessFormStyleDemoApp
 {
-	partial class Form2
+	partial class Form3
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,13 +30,13 @@
 		{
 			this.SuspendLayout();
 			// 
-			// Form2
+			// Form3
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(798, 598);
-			this.Name = "Form2";
-			this.Text = "Form2";
+			this.Name = "Form3";
+			this.Text = "Form3";
 			this.ResumeLayout(false);
 
 		}

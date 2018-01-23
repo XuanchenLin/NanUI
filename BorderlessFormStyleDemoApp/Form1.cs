@@ -49,13 +49,14 @@ namespace BorderlessFormStyleDemoApp
 			//form2.Left = Screen.AllScreens[1].WorkingArea.Left;
 			//form2.Top = Screen.AllScreens[1].WorkingArea.Top;
 
+			
 
 		}
 
 		private void LoadHandler_OnLoadStart(object sender, Chromium.Event.CfxOnLoadStartEventArgs e)
 		{
 #if DEBUG
-			Chromium.ShowDevTools();
+			//Chromium.ShowDevTools();
 #endif
 		}
 	}

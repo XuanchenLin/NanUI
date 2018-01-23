@@ -157,6 +157,9 @@ namespace NetDimension.WinForm.FormShadow
 				RegisterEvents();
 				if (parentWindow != null)
 				{
+					UpdateSizes((int)parentWindow.Width, (int)parentWindow.Height);
+
+
 					UpdateLocations(new WINDOWPOS
 					{
 						x = (int)parentWindow.Left,
@@ -166,7 +169,6 @@ namespace NetDimension.WinForm.FormShadow
 						flags = (int)SetWindowPosFlags.SWP_SHOWWINDOW
 					});
 
-					UpdateSizes((int)parentWindow.Width, (int)parentWindow.Height);
 				}
 			}
 
@@ -344,8 +346,9 @@ namespace NetDimension.WinForm.FormShadow
 				isAnimationDelayed = true;
 				Task.Factory.StartNew(() =>
 				{
-					System.Threading.Thread.Sleep(300);
-					parentWindow.Invoke(new MethodInvoker(action));
+					System.Threading.Thread.Sleep(200);
+					if (isAnimationDelayed)
+						parentWindow.Invoke(new MethodInvoker(action));
 
 					isAnimationDelayed = false;
 				});

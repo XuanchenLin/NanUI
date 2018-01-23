@@ -21,6 +21,8 @@ namespace Chromium.WebBrowser
 {
 	public class BrowserCore : NativeWindow, IChromiumClient, IDisposable
 	{
+
+		internal bool IsMainFrameLoaded { get; private set; } = false;
 		#region STATIC
 		private static CfxBrowserSettings defaultBrowserSettings;
 		/// <summary>
@@ -140,6 +142,20 @@ namespace Chromium.WebBrowser
 			}
 		}
 
+		private static void RemoveBrowser(int id)
+		{
+			lock (browsers)
+			{
+
+				if (browsers.TryGetValue(id, out WeakReference r))
+				{
+					var target = (BrowserCore)r.Target;
+					target.BrowserHost.CloseBrowser(true);
+					browsers.Remove(id);
+				}
+			}
+		}
+
 		private static void AddToBrowserCache(BrowserCore wb)
 		{
 			lock (browsers)
@@ -219,8 +235,6 @@ namespace Chromium.WebBrowser
 		private string initialUrl;
 		private string m_loadUrlDeferred;
 		private string m_loadStringDeferred;
-		//private NanUIObject nanuiJSObject;
-		private NanUIHostObject nanuiJSObject;
 
 		public IntPtr BrowserHandle
 		{
@@ -269,8 +283,6 @@ namespace Chromium.WebBrowser
 			GlobalObject.SetBrowser("window", this);
 			//GlobalObject.Add("NanUI", nanuiJSObject);
 
-			nanuiJSObject = new NanUIHostObject(parentControl);
-			GlobalObject.RegisterJSObject(nanuiJSObject);
 
 
 			if (createImmediately)
@@ -339,13 +351,13 @@ namespace Chromium.WebBrowser
 			// the browser must be created with a disabled child window.
 			///windowInfo.SetAsChild(parentWindowHandle,0,0,parentControl.Width, parentControl.Height);
 
-			//windowInfo.SetAsDisabledChild(parentWindowHandle);
+			windowInfo.SetAsDisabledChild(parentWindowHandle);
 
 
 
 
 
-			windowInfo.SetAsChild(parentWindowHandle, 0, 0, parentControl.Width, parentControl.Height);
+			//windowInfo.SetAsChild(parentWindowHandle, 0, 0, parentControl.Width, parentControl.Height);
 
 			if (!CfxBrowserHost.CreateBrowser(windowInfo, client, initialUrl, DefaultBrowserSettings, requestContext))
 				throw new CefException("Failed to create browser instance.");
@@ -361,7 +373,7 @@ namespace Chromium.WebBrowser
 		/// <summary>
 		/// Returns the life span handler for this browser.
 		/// </summary>
-		public CfxLifeSpanHandler LifeSpanHandler { get { return client.lifeSpanHandler; } }
+		public CfxLifeSpanHandler LifeSpanHandler { get { return client.LifeSpanHandler; } }
 
 		/// <summary>
 		/// Returns the load handler for this browser.
@@ -373,7 +385,7 @@ namespace Chromium.WebBrowser
 		/// Do not set the return value in the GetResourceHandler event for URLs
 		/// with associated WebResources (see also SetWebResource).
 		/// </summary>
-		public CfxRequestHandler RequestHandler { get { return client.requestHandler; } }
+		public CfxRequestHandler RequestHandler { get { return client.RequestHandler; } }
 
 		/// <summary>
 		/// Returns the display handler for this browser.
@@ -1058,6 +1070,7 @@ namespace Chromium.WebBrowser
 			Browser = e.Browser;
 			BrowserHost = Browser.Host;
 			browserWindowHandle = BrowserHost.WindowHandle;
+
 			AddToBrowserCache(this);
 
 			var handler = BrowserCreated;
@@ -1069,7 +1082,50 @@ namespace Chromium.WebBrowser
 
 			RegisterControlEvents();
 			AssignBrowserMessageHandler();
-			InitializeNanUI();
+
+			LoadHandler.OnLoadEnd += (that, args) => {
+				if (args.Frame.IsMain)
+				{
+					IsMainFrameLoaded = true;
+				}
+			};
+
+			DragHandler.OnDraggableRegionsChanged += (that, args) =>
+			{
+				var regions = args.Regions;
+
+				if (regions.Length > 0)
+				{
+					foreach (var region in regions)
+					{
+						var rect = new Rectangle((int)(region.Bounds.X * scaleFactor), (int)(region.Bounds.Y * scaleFactor), (int)(region.Bounds.Width * scaleFactor), (int)(region.Bounds.Height * scaleFactor));
+						if (draggableRegion == null)
+						{
+							draggableRegion = new Region(rect);
+						}
+						else
+						{
+							if (region.Draggable)
+							{
+								draggableRegion.Union(rect);
+							}
+							else
+							{
+								draggableRegion.Exclude(rect);
+							}
+						}
+					}
+				}
+			};
+
+			OnV8ContextCreated += (that, args) =>
+			{
+
+				if (args.Frame.IsMain)
+				{
+					args.Frame.ExecuteJavaScript(NetDimension.NanUI.Properties.Resources.nanui_frameGlobal, null, 0);
+				}
+			};
 
 			ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
 
@@ -1209,12 +1265,18 @@ namespace Chromium.WebBrowser
 				{
 					//release unmanaged resources
 
+					//RemoveBrowser(Browser.Identifier);
+
+					BrowserHost.CloseBrowser(true);
+
 					ReleaseHandle();
 					DestroyHandle();
 
 					messageInterceptor?.ReleaseHandle();
 					messageInterceptor?.DestroyHandle();
 					messageInterceptor = null;
+
+
 
 				}
 
@@ -1358,7 +1420,7 @@ namespace Chromium.WebBrowser
 						}
 					}
 				}
-				catch (Exception ex)
+				catch
 				{
 
 				}
@@ -1375,40 +1437,6 @@ namespace Chromium.WebBrowser
 
 		#endregion
 
-		private void SetHostStateChange(int currentState, RECT rect)
-		{
-			if (jsWindowState != currentState)
-			{
-				var stateString = currentState == 0 ? "normal" : currentState == 2 ? "maximized" : "minimized";
-
-				var js = $"raiseCustomEvent('hoststatechange', " +
-				$"{{" +
-				$"state: {currentState}," +
-				$"stateName: \"{stateString}\"," +
-				$"width: {rect.Width}," +
-				$"height: {rect.Height}" +
-				$"}})";
-
-				Browser.MainFrame.ExecuteJavaScript(js, null, 0);
-				jsWindowState = currentState;
-
-				nanuiJSObject.HostWindow.CurrentWindowState = currentState;
-			}
-
-		}
-
-		private void SetHostActiveState(int currentState)
-		{
-			var stateText = currentState == 1 ? "activated" : "deactivated";
-
-			var js = $"raiseCustomEvent('hostactivestate', {{state:{currentState}, stateName:'{currentState}'}})";
-
-			System.Diagnostics.Debug.WriteLine($"Current State: 0x{Handle.ToString("X")} {currentState}");
-
-			Browser.MainFrame?.ExecuteJavaScript(js, null, 0);
-		}
-
-		int jsWindowState = 0;
 		protected override void WndProc(ref Message m)
 		{
 			switch ((WindowsMessages)m.Msg)
@@ -1430,26 +1458,22 @@ namespace Chromium.WebBrowser
 						User32.GetClientRect(parentWindowHandle, ref rect);
 						User32.SetWindowPos(browserWindowHandle, IntPtr.Zero, rect.left, rect.top, rect.right, rect.bottom, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
 
-						if (Browser != null)
+
+						var js = $"raiseCustomEvent('hostsizechange', " +
+							$"{{" +
+							$"width: {rect.Width}," +
+							$"height: {rect.Height}" +
+							$"}});";
+
+						if (!ExecuteJavascript(js))
 						{
-							if (parentControl is Form)
+							LoadHandler.OnLoadEnd += (handler, e) =>
 							{
-								var currentState = (int)m.WParam;
-								SetHostStateChange(currentState, rect);
-							}
-
-
-							{
-								var js = $"raiseCustomEvent('hostsizechange', " +
-									$"{{" +
-									$"width: {rect.Width}," +
-									$"height: {rect.Height}" +
-									$"}})";
-
-								Browser.MainFrame.ExecuteJavaScript(js, null, 0);
-							}
-
-
+								if (e.Frame.IsMain)
+								{
+									ExecuteJavascript(js);
+								}
+							};
 						}
 
 
@@ -1457,22 +1481,6 @@ namespace Chromium.WebBrowser
 
 						base.WndProc(ref m);
 					}
-					break;
-				case WindowsMessages.WM_ACTIVATE:
-					if (Browser != null)
-					{
-						var currentState = ((int)m.WParam) > 0 ? 1 : 0;
-
-
-						SetHostActiveState(currentState);
-					}
-
-
-					base.WndProc(ref m);
-
-					break;
-				case WindowsMessages.WM_MOVE:
-					Browser?.Host?.NotifyMoveOrResizeStarted();
 					break;
 				default:
 					base.WndProc(ref m);
@@ -1490,12 +1498,13 @@ namespace Chromium.WebBrowser
 			var windowInfo = new CfxWindowInfo();
 
 			windowInfo.Style = WindowStyle.WS_OVERLAPPEDWINDOW | WindowStyle.WS_CLIPCHILDREN | WindowStyle.WS_CLIPSIBLINGS | WindowStyle.WS_VISIBLE & ~WindowStyle.WS_CAPTION;
-			windowInfo.ParentWindow = parentHwnd.HasValue ? parentHwnd.Value : IntPtr.Zero;
+			windowInfo.ParentWindow = IntPtr.Zero;
 			windowInfo.WindowName = "Dev Tools";
 			windowInfo.X = 200;
 			windowInfo.Y = 200;
 			windowInfo.Width = 720;
 			windowInfo.Height = 480;
+			
 			BrowserHost.ShowDevTools(windowInfo, new CfxClient(), new CfxBrowserSettings(), null);
 
 		}
@@ -1507,55 +1516,6 @@ namespace Chromium.WebBrowser
 			{
 				return draggableRegion;
 			}
-		}
-		private ToolTip toolTip;
-		private void InitializeNanUI()
-		{
-			toolTip = new ToolTip();
-
-			DragHandler.OnDraggableRegionsChanged += (that, args) =>
-			{
-				var regions = args.Regions;
-
-				if (regions.Length > 0)
-				{
-					foreach (var region in regions)
-					{
-						var rect = new Rectangle((int)(region.Bounds.X * scaleFactor), (int)(region.Bounds.Y * scaleFactor), (int)(region.Bounds.Width * scaleFactor), (int)(region.Bounds.Height * scaleFactor));
-						if (draggableRegion == null)
-						{
-							draggableRegion = new Region(rect);
-						}
-						else
-						{
-							if (region.Draggable)
-							{
-								draggableRegion.Union(rect);
-							}
-							else
-							{
-								draggableRegion.Exclude(rect);
-							}
-						}
-					}
-				}
-			};
-
-			OnV8ContextCreated += (that, args) =>
-			{
-
-				if (args.Frame.IsMain)
-				{
-					args.Frame.ExecuteJavaScript(NetDimension.NanUI.Properties.Resources.nanui_frameGlobal, null, 0);
-				}
-			};
-
-
-			DisplayHandler.OnTooltip += (that, args) =>
-			{
-				args.SetReturnValue(false);
-			};
-
 		}
 
 

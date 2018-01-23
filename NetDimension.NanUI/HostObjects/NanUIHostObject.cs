@@ -108,7 +108,7 @@ namespace NetDimension.NanUI.HostObjects
 		[JSFunction(JSName = "close")]
 		public void Close()
 		{
-			if (!hostForm.IsDisposed)
+			if (hostForm!=null && !hostForm.IsDisposed)
 			{
 				hostForm.RequireUIThread(() =>
 				{

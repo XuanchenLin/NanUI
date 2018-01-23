@@ -75,8 +75,6 @@
     <Compile Include="ChromiumCore\BrowserProcess\BrowserClient.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\BrowserProcess.cs" />
     <Compile Include="ChromiumCore\BrowserProcess\Events.cs" />
-    <Compile Include="ChromiumCore\BrowserProcess\LifeSpanHandler.cs" />
-    <Compile Include="ChromiumCore\BrowserProcess\RequestHandler.cs" />
     <Compile Include="ChromiumCore\JavascriptAttributes\JSFunctionAttribute.cs" />
     <Compile Include="ChromiumCore\JavascriptAttributes\JSObjectAttribute.cs" />
     <Compile Include="ChromiumCore\JavascriptAttributes\JSObjectExtensions.cs" />
@@ -387,9 +385,6 @@
     <Compile Include="WebBrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WebBrowserControl.Designer.cs">
-      <DependentUpon>WebBrowserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Windows\Imports\DefMessages.cs" />
     <Compile Include="Windows\Imports\Win32APIs.cs" />
     <Compile Include="Windows\Imports\Win32Types.cs" />
@@ -410,9 +405,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="WebBrowserControl.resx">
-      <DependentUpon>WebBrowserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

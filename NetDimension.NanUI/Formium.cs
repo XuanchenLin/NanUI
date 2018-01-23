@@ -11,83 +11,85 @@ using System.Windows.Forms;
 using Chromium;
 using System.ComponentModel;
 using Chromium.Remote;
+using NetDimension.NanUI.HostObjects;
 
 namespace NetDimension.NanUI
 {
 	public class Formium : ModernUIForm, IChromiumClient
 	{
-		private BrowserCore browserCore;
+		private readonly WebBrowserControl BrowserWrapper;
 		private readonly Panel splashPanel;
 		private bool isFirstTimeShowSplash;
+		private NanUIHostObject nanuiJSObject;
 
 		protected IntPtr FormHandle { get; private set; }
 
 
-		protected BrowserCore Chromium => browserCore;
+		protected BrowserCore Chromium => BrowserWrapper?.Chromium;
 
 		protected IntPtr BrowserHandle
 		{
 			get
 			{
-				return browserCore.BrowserHost.WindowHandle;
+				return Chromium.BrowserHost.WindowHandle;
 			}
 		}
 
 		#region ICefClient
 		[Browsable(false)]
-		public CfxBrowser Browser => browserCore.Browser;
+		public CfxBrowser Browser => Chromium.Browser;
 		[Browsable(false)]
-		public CfxBrowserHost BrowserHost => browserCore.BrowserHost;
+		public CfxBrowserHost BrowserHost => Chromium.BrowserHost;
 		[Browsable(false)]
-		public Uri Url => browserCore.Url;
+		public Uri Url => Chromium.Url;
 		[Browsable(false)]
-		public bool IsLoading => browserCore.IsLoading;
+		public bool IsLoading => Chromium.IsLoading;
 		[Browsable(false)]
-		public bool CanGoBack => browserCore.CanGoBack;
+		public bool CanGoBack => Chromium.CanGoBack;
 		[Browsable(false)]
-		public bool CanGoForward => browserCore.CanGoForward;
+		public bool CanGoForward => Chromium.CanGoForward;
 		[Browsable(false)]
-		public JSObject GlobalObject => browserCore.GlobalObject;
+		public JSObject GlobalObject => Chromium.GlobalObject;
 		[Browsable(false)]
-		public CfxContextMenuHandler ContextMenuHandler => browserCore.ContextMenuHandler;
+		public CfxContextMenuHandler ContextMenuHandler => Chromium.ContextMenuHandler;
 		[Browsable(false)]
-		public CfxLifeSpanHandler LifeSpanHandler => browserCore.LifeSpanHandler;
+		public CfxLifeSpanHandler LifeSpanHandler => Chromium.LifeSpanHandler;
 		[Browsable(false)]
-		public CfxLoadHandler LoadHandler => browserCore.LoadHandler;
+		public CfxLoadHandler LoadHandler => Chromium.LoadHandler;
 		[Browsable(false)]
-		public CfxRequestHandler RequestHandler => browserCore.RequestHandler;
+		public CfxRequestHandler RequestHandler => Chromium.RequestHandler;
 		[Browsable(false)]
-		public CfxDisplayHandler DisplayHandler => browserCore.DisplayHandler;
+		public CfxDisplayHandler DisplayHandler => Chromium.DisplayHandler;
 		[Browsable(false)]
-		public CfxDownloadHandler DownloadHandler => browserCore.DownloadHandler;
+		public CfxDownloadHandler DownloadHandler => Chromium.DownloadHandler;
 		[Browsable(false)]
-		public CfxDragHandler DragHandler => browserCore.DragHandler;
+		public CfxDragHandler DragHandler => Chromium.DragHandler;
 		[Browsable(false)]
-		public CfxDialogHandler DialogHandler => browserCore.DialogHandler;
+		public CfxDialogHandler DialogHandler => Chromium.DialogHandler;
 		[Browsable(false)]
-		public CfxFindHandler FindHandler => browserCore.FindHandler;
+		public CfxFindHandler FindHandler => Chromium.FindHandler;
 		[Browsable(false)]
-		public CfxFocusHandler FocusHandler => browserCore.FocusHandler;
+		public CfxFocusHandler FocusHandler => Chromium.FocusHandler;
 		[Browsable(false)]
-		public CfxGeolocationHandler GeolocationHandler => browserCore.GeolocationHandler;
+		public CfxGeolocationHandler GeolocationHandler => Chromium.GeolocationHandler;
 		[Browsable(false)]
-		public CfxJsDialogHandler JsDialogHandler => browserCore.JsDialogHandler;
+		public CfxJsDialogHandler JsDialogHandler => Chromium.JsDialogHandler;
 		[Browsable(false)]
-		public CfxKeyboardHandler KeyboardHandler => browserCore.KeyboardHandler;
+		public CfxKeyboardHandler KeyboardHandler => Chromium.KeyboardHandler;
 
-		public void GoBack() => browserCore.GoBack();
-		public void GoForward() => browserCore.GoForward();
-		public void LoadUrl(string url) => browserCore.LoadUrl(url);
-		public void LoadString(string stringVal, string url) => browserCore.LoadString(stringVal, url);
-		public void LoadString(string stringVal) => browserCore.LoadString(stringVal);
-		public int Find(string searchText, bool forward, bool matchCase) => browserCore.Find(searchText, forward, matchCase);
-		public int Find(string searchText, bool forward) => browserCore.Find(searchText, forward);
-		public int Find(string searchText) => browserCore.Find(searchText);
-		public bool ExecuteJavascript(string code) => browserCore.ExecuteJavascript(code);
-		public bool ExecuteJavascript(string code, string scriptUrl, int startLine) => browserCore.ExecuteJavascript(code, scriptUrl, startLine);
-		public bool EvaluateJavascript(string code, Action<CfrV8Value, CfrV8Exception> callback) => browserCore.EvaluateJavascript(code, callback);
-		public bool EvaluateJavascript(string code, JSInvokeMode invokeMode, Action<CfrV8Value, CfrV8Exception> callback) => browserCore.EvaluateJavascript(code, invokeMode, callback);
-		public JSObject GlobalObjectForFrame(string frameName) => browserCore.GlobalObjectForFrame(frameName);
+		public void GoBack() => Chromium.GoBack();
+		public void GoForward() => Chromium.GoForward();
+		public void LoadUrl(string url) => Chromium.LoadUrl(url);
+		public void LoadString(string stringVal, string url) => Chromium.LoadString(stringVal, url);
+		public void LoadString(string stringVal) => Chromium.LoadString(stringVal);
+		public int Find(string searchText, bool forward, bool matchCase) => Chromium.Find(searchText, forward, matchCase);
+		public int Find(string searchText, bool forward) => Chromium.Find(searchText, forward);
+		public int Find(string searchText) => Chromium.Find(searchText);
+		public bool ExecuteJavascript(string code) => Chromium.ExecuteJavascript(code);
+		public bool ExecuteJavascript(string code, string scriptUrl, int startLine) => Chromium.ExecuteJavascript(code, scriptUrl, startLine);
+		public bool EvaluateJavascript(string code, Action<CfrV8Value, CfrV8Exception> callback) => Chromium.EvaluateJavascript(code, callback);
+		public bool EvaluateJavascript(string code, JSInvokeMode invokeMode, Action<CfrV8Value, CfrV8Exception> callback) => Chromium.EvaluateJavascript(code, invokeMode, callback);
+		public JSObject GlobalObjectForFrame(string frameName) => Chromium.GlobalObjectForFrame(frameName);
 		#endregion
 		[Browsable(false)]
 		public Panel SplashPanel
@@ -163,6 +165,8 @@ namespace NetDimension.NanUI
 		public Formium(string initialUrl, bool enableModernForm)
 				: base(enableModernForm)
 		{
+			FormHandle = this.Handle;
+
 
 			this.DoubleBuffered = true;
 
@@ -186,12 +190,147 @@ namespace NetDimension.NanUI
 
 				isFirstTimeShowSplash = true;
 
-				InitializeBrowserCore(initialUrl);
+				if (BrowserProcess.initialized)
+				{
+					BrowserWrapper = new WebBrowserControl(initialUrl);
+					Controls.Add(BrowserWrapper);
+					BrowserWrapper.Dock = DockStyle.Fill;
+					BrowserWrapper.Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
+
+					nanuiJSObject = new NanUIHostObject(this);
+					GlobalObject.RegisterJSObject(nanuiJSObject);
+
+
+					LoadHandler.OnLoadEnd += (_, args) =>
+					{
+
+						if (args.Frame.IsMain)
+						{
+							HideInitialSplash();
+
+							while(delayedInitalizeScripts.Count > 0)
+							{
+								var code = delayedInitalizeScripts.Dequeue();
+								if (!ExecuteJavascript(code))
+								{
+									delayedInitalizeScripts.Enqueue(code);
+								}
+							}
+
+						}
+
+						
+					};
+				}
 
 			}
 
 		}
 
+		Queue<string> delayedInitalizeScripts = new Queue<string>();
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			FormHandle = this.Handle;
+
+			base.OnHandleCreated(e);
+
+		}
+
+		protected override void OnActivated(EventArgs e)
+		{
+			base.OnActivated(e);
+
+			var js = "raiseCustomEvent('hostactivestate', {state:1, stateName:'activated'})";
+
+			
+			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+			{
+				delayedInitalizeScripts.Enqueue(js);
+			}
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			Chromium.Dispose();
+
+			base.Dispose(disposing);
+		}
+
+
+
+
+
+
+
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+
+			var currentState = 0;
+			var stateString = "normal";
+
+			if(WindowState == FormWindowState.Maximized)
+			{
+				currentState = 2;
+				stateString = "maximized";
+
+			}
+			else if(WindowState == FormWindowState.Minimized)
+			{
+
+				currentState = 1;
+				stateString = "maximized";
+			}
+
+
+			var js = $"raiseCustomEvent('hoststatechange', " +
+					$"{{" +
+					$"state: {currentState}," +
+					$"stateName: \"{stateString}\"," +
+					$"width: {Width}," +
+					$"height: {Height}" +
+					$"}});";
+
+
+			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+			{
+				delayedInitalizeScripts.Enqueue(js);
+			}
+			else
+			{
+				Browser.Host.NotifyMoveOrResizeStarted();
+			}
+
+		}
+
+		protected override void OnMove(EventArgs e)
+		{
+			if (Chromium != null)
+			{
+				Browser.Host.NotifyMoveOrResizeStarted();
+			}
+
+			base.OnMove(e);
+		}
+
+
+		protected override void OnDeactivate(EventArgs e)
+		{
+			base.OnDeactivate(e);
+
+			var js = "raiseCustomEvent('hostactivestate', {state:0, stateName:'deactivated'})";
+
+			
+			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+			{
+				delayedInitalizeScripts.Enqueue(js);
+			}
+			else
+			{
+				Browser.Host.NotifyMoveOrResizeStarted();
+			}
+		}
 
 		protected void HideInitialSplash()
 		{
@@ -209,33 +348,10 @@ namespace NetDimension.NanUI
 
 				splashPanel.Visible = false;
 				splashPanel.SendToBack();
-				browserCore.SetToTop();
+				Chromium.SetToTop();
 			});
 		}
-		
-		protected virtual void InitializeBrowserCore(string initialUrl)
-		{
-			if (IsDesignMode) return;
 
-
-			browserCore = new BrowserCore(this, initialUrl, true);
-			browserCore.RemoteCallbackInvokeMode = JSInvokeMode.Inherit;
-
-			FormHandle = Handle;
-
-			browserCore.OnBrowserMessage += BrowserCore_OnBrowserMessage;
-
-			LoadHandler.OnLoadEnd += (_, args) =>
-			{
-
-				if (args.Frame.IsMain)
-				{
-					HideInitialSplash();
-				}
-			};
-
-		}
-		
 		private POINT GetPostionFromPtr(IntPtr lparam)
 		{
 			var scaledX = (int)User32.LoWord(lparam);
@@ -246,7 +362,7 @@ namespace NetDimension.NanUI
 
 			return new POINT(x, y);
 		}
-		private void BrowserCore_OnBrowserMessage(object sender, BrowserMessageEventArgs e)
+		private void WebBrowserCore_OnBrowserMessage(object sender, BrowserMessageEventArgs e)
 		{
 			if (BrowserHandle == IntPtr.Zero) return;
 
@@ -278,13 +394,18 @@ namespace NetDimension.NanUI
 				if (CanResize && mode != HitTest.HTNOWHERE)
 				{
 
+					Browser.Host.NotifyMoveOrResizeStarted();
+
 					User32.ClientToScreen(FormHandle, ref pt);
 					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)mode, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
 					e.Handled = true;
 				}
 				else if (dragable && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
 				{
+
 					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_USER + 1000, IntPtr.Zero, IntPtr.Zero);
+
+
 					e.Handled = true;
 				}
 			}
@@ -296,6 +417,7 @@ namespace NetDimension.NanUI
 				if (dragable)
 				{
 					User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDBLCLK, (IntPtr)HitTest.HTCAPTION, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
+					e.Handled = true;
 				}
 			}
 		}

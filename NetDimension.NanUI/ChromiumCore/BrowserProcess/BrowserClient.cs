@@ -13,10 +13,9 @@ namespace Chromium.WebBrowser {
 
         internal BrowserCore browser;
 
-        internal LifeSpanHandler lifeSpanHandler;
-        internal RequestHandler requestHandler;
-        
-        private CfxContextMenuHandler contextMenuHandler;
+		private CfxLifeSpanHandler lifeSpanHandler;
+		private CfxRequestHandler requestHandler;
+		private CfxContextMenuHandler contextMenuHandler;
         private CfxLoadHandler loadHandler;
         private CfxDisplayHandler displayHandler;
         private CfxDownloadHandler downloadHandler;
@@ -30,11 +29,36 @@ namespace Chromium.WebBrowser {
 
         internal BrowserClient(BrowserCore browser) {
             this.browser = browser;
-            this.lifeSpanHandler = new LifeSpanHandler(this);
-            this.requestHandler = new RequestHandler(this);
-            this.GetLifeSpanHandler += (s, e) => e.SetReturnValue(lifeSpanHandler);
-            this.GetRequestHandler += (s, e) => e.SetReturnValue(requestHandler);
-        }
+			lifeSpanHandler = new CfxLifeSpanHandler();
+
+			lifeSpanHandler.OnAfterCreated += (handler, e) => this.browser.OnBrowserCreated(e);
+			lifeSpanHandler.OnBeforePopup += (handler, e) =>
+			{
+				var windowinfo = e.WindowInfo;
+				//fix: the popup window show on incorrect position
+			};
+			this.GetLifeSpanHandler += (handler, e) => e.SetReturnValue(lifeSpanHandler);
+		}
+		internal CfxLifeSpanHandler LifeSpanHandler
+		{
+			get
+			{
+				return lifeSpanHandler;
+			}
+		}
+
+		internal CfxRequestHandler RequestHandler
+		{
+			get
+			{
+				if (requestHandler == null)
+				{
+					requestHandler = new CfxRequestHandler();
+					this.GetRequestHandler += (handler, e) => e.SetReturnValue(requestHandler);
+				}
+				return requestHandler;
+			}
+		}
 
         internal CfxContextMenuHandler ContextMenuHandler {
             get {
