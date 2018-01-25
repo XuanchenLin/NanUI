@@ -17,6 +17,9 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2018/1/25**
+- BUG FIX: When FormBorderStyle = None, the Form border will show incorrect
+
 **2018/1/23**
 - BUG FIX: ShowInTaskBar=True, NanUI will crash.
 
