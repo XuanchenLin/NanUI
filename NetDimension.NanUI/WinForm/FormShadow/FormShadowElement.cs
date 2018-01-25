@@ -170,12 +170,19 @@ namespace NetDimension.WinForm.FormShadow
 		internal void UpdateZOrder(int left, int top, SetWindowPosFlags flags)
 		{
 			User32.SetWindowPos(_handle, !IsTopMost ? _noTopMost : _yesTopMost, left, top, 0, Size, flags);
+			//User32.SetWindowPos(_handle, _parentHandle, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
+			//User32.SetWindowPos(_handle, IntPtr.Zero, left, top, 0, Size, flags);
+
 			User32.SetWindowPos(_handle, _parentHandle, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
+
 		}
 
 		internal void UpdateZOrder()
 		{
-			User32.SetWindowPos(_handle, !IsTopMost ? _noTopMost : _yesTopMost, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
+			//User32.SetWindowPos(_handle, !IsTopMost ? _noTopMost : _yesTopMost, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
+			//User32.SetWindowPos(_handle, _parentHandle, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
+			//User32.SetWindowPos(_handle, IntPtr.Zero, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
+
 			User32.SetWindowPos(_handle, _parentHandle, 0, 0, 0, Size, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE);
 		}
 
@@ -249,8 +256,15 @@ namespace NetDimension.WinForm.FormShadow
 
 			WNDCLASS windClass = new WNDCLASS
 			{
+				cbClsExtra = 0,
+				cbWndExtra = 0,
+				hbrBackground = IntPtr.Zero,
+				hCursor = IntPtr.Zero,
+				hIcon = IntPtr.Zero,
+				lpfnWndProc = Marshal.GetFunctionPointerForDelegate(_wndProcDelegate),
 				lpszClassName = className,
-				lpfnWndProc = Marshal.GetFunctionPointerForDelegate(_wndProcDelegate)
+				lpszMenuName = null,
+				style = 0
 			};
 
 			ushort classAtom = User32.RegisterClassW(ref windClass);
@@ -262,41 +276,57 @@ namespace NetDimension.WinForm.FormShadow
 				throw new Exception("Could not register window class");
 			}
 
-			const UInt32 extendedStyle = (UInt32)(
-				WindowExStyles.WS_EX_LEFT |
-				WindowExStyles.WS_EX_LTRREADING |
-				WindowExStyles.WS_EX_RIGHTSCROLLBAR |
-				WindowExStyles.WS_EX_TOOLWINDOW);
 
-			const UInt32 style = (UInt32)(
-				WindowStyles.WS_CLIPSIBLINGS |
-				WindowStyles.WS_CLIPCHILDREN |
-				WindowStyles.WS_POPUP);
+			var owner = User32.GetWindow(_parentHandle, GetWindowCommands.GW_OWNER);
 
-			// Create window
-			_handle = User32.CreateWindowExW(
-				extendedStyle,
-				className,
-				className,
-				style,
-				0,
-				0,
-				0,
-				0,
-				IntPtr.Zero,
-				IntPtr.Zero,
-				IntPtr.Zero,
-				IntPtr.Zero
-			);
+			_handle = User32.CreateWindowEx(
+					(int)(WindowExStyles.WS_EX_LEFT | WindowExStyles.WS_EX_LTRREADING | WindowExStyles.WS_EX_LAYERED | WindowExStyles.WS_EX_TOOLWINDOW | WindowExStyles.WS_EX_RIGHTSCROLLBAR | WindowExStyles.WS_EX_NOACTIVATE | WindowExStyles.WS_EX_TRANSPARENT),
+					new IntPtr(classAtom),
+					className,
+					//-(WindowStyles.WS_VISIBLE | WindowStyles.WS_MINIMIZE | WindowStyles.WS_CHILDWINDOW | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_DISABLED | WindowStyles.WS_POPUP),
+					(WindowStyles.WS_POPUP | WindowStyles.WS_VISIBLE | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_CLIPCHILDREN),
+					0, 0, 0, 0, owner, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
 
 			if (_handle == IntPtr.Zero)
 			{
 				return;
 			}
 
-			uint styles = User32.GetWindowLong(_handle, GetWindowLongFlags.GWL_EXSTYLE);
-			styles = styles | (int)WindowExStyles.WS_EX_LAYERED | (int)WindowExStyles.WS_EX_NOACTIVATE | (int)WindowExStyles.WS_EX_TRANSPARENT;
-			User32.SetWindowLong(_handle, GetWindowLongFlags.GWL_EXSTYLE, styles);
+			//const UInt32 extendedStyle = (UInt32)(
+			//	WindowExStyles.WS_EX_LEFT |
+			//	WindowExStyles.WS_EX_LTRREADING |
+			//	WindowExStyles.WS_EX_RIGHTSCROLLBAR |
+			//	WindowExStyles.WS_EX_TOOLWINDOW);
+
+			//const UInt32 style = (UInt32)(
+			//	WindowStyles.WS_CLIPSIBLINGS |
+			//	WindowStyles.WS_CLIPCHILDREN |
+			//	WindowStyles.WS_POPUP);
+
+			//// Create window
+			//_handle = User32.CreateWindowExW(
+			//	extendedStyle,
+			//	className,
+			//	className,
+			//	style,
+			//	0,
+			//	0,
+			//	0,
+			//	0,
+			//	IntPtr.Zero,
+			//	IntPtr.Zero,
+			//	IntPtr.Zero,
+			//	IntPtr.Zero
+			//);
+
+			//if (_handle == IntPtr.Zero)
+			//{
+			//	return;
+			//}
+
+			//uint styles = User32.GetWindowLong(_handle, GetWindowLongFlags.GWL_EXSTYLE);
+			//styles = styles | (int)WindowExStyles.WS_EX_LAYERED | (int)WindowExStyles.WS_EX_NOACTIVATE | (int)WindowExStyles.WS_EX_TRANSPARENT;
+			//User32.SetWindowLong(_handle, GetWindowLongFlags.GWL_EXSTYLE, styles);
 		}
 
 		private IntPtr CustomWndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
@@ -457,6 +487,8 @@ namespace NetDimension.WinForm.FormShadow
 			Gdi32.DeleteDC(memDc);
 
 			GC.Collect();
+
+			UpdateZOrder();
 
 		}
 

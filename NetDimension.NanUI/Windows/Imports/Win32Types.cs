@@ -137,6 +137,16 @@ namespace NetDimension.Windows.Imports
 		internal const int SCF_ISSECURE = 0x00000001;
 	}
 
+	public struct GetWindowCommands
+	{
+		public const int GW_HWNDFIRST = 0;
+		public const int GW_HWNDLAST = 1;
+		public const int GW_HWNDNEXT = 2;
+		public const int GW_HWNDPREV = 3;
+		public const int GW_OWNER = 4;
+		public const int GW_CHILD = 5;
+	}
+
 	public enum MonitorDpiType : int
 	{
 		MDT_EFFECTIVE_DPI = 0,
@@ -981,36 +991,36 @@ namespace NetDimension.Windows.Imports
 		WS_EX_LAYERED = 0x00080000
 	}
 
-	[Flags]
-	public enum WindowStyles : uint
+	
+	public struct WindowStyles
 	{
-		WS_OVERLAPPED = 0x00000000,
-		WS_POPUP = 0x80000000,
-		WS_CHILD = 0x40000000,
-		WS_MINIMIZE = 0x20000000,
-		WS_VISIBLE = 0x10000000,
-		WS_DISABLED = 0x08000000,
-		WS_CLIPSIBLINGS = 0x04000000,
-		WS_CLIPCHILDREN = 0x02000000,
-		WS_MAXIMIZE = 0x01000000,
-		WS_CAPTION = 0x00C00000,
-		WS_BORDER = 0x00800000,
-		WS_DLGFRAME = 0x00400000,
-		WS_VSCROLL = 0x00200000,
-		WS_HSCROLL = 0x00100000,
-		WS_SYSMENU = 0x00080000,
-		WS_THICKFRAME = 0x00040000,
-		WS_GROUP = 0x00020000,
-		WS_TABSTOP = 0x00010000,
-		WS_MINIMIZEBOX = 0x00020000,
-		WS_MAXIMIZEBOX = 0x00010000,
-		WS_TILED = 0x00000000,
-		WS_ICONIC = 0x20000000,
-		WS_SIZEBOX = 0x00040000,
-		WS_POPUPWINDOW = 0x80880000,
-		WS_OVERLAPPEDWINDOW = 0x00CF0000,
-		WS_TILEDWINDOW = 0x00CF0000,
-		WS_CHILDWINDOW = 0x40000000
+		public const int WS_OVERLAPPED = 0x00000000;
+		public const int WS_POPUP = int.MinValue;
+		public const int WS_CHILD = 0x40000000;
+		public const int WS_MINIMIZE = 0x20000000;
+		public const int WS_VISIBLE = 0x10000000;
+		public const int WS_DISABLED = 0x08000000;
+		public const int WS_CLIPSIBLINGS = 0x04000000;
+		public const int WS_CLIPCHILDREN = 0x02000000;
+		public const int WS_MAXIMIZE = 0x01000000;
+		public const int WS_CAPTION = 0x00C00000;
+		public const int WS_BORDER = 0x00800000;
+		public const int WS_DLGFRAME = 0x00400000;
+		public const int WS_VSCROLL = 0x00200000;
+		public const int WS_HSCROLL = 0x00100000;
+		public const int WS_SYSMENU = 0x00080000;
+		public const int WS_THICKFRAME = 0x00040000;
+		public const int WS_GROUP = 0x00020000;
+		public const int WS_TABSTOP = 0x00010000;
+		public const int WS_MINIMIZEBOX = 0x00020000;
+		public const int WS_MAXIMIZEBOX = 0x00010000;
+		public const int WS_TILED = 0x00000000;
+		public const int WS_ICONIC = 0x20000000;
+		public const int WS_SIZEBOX = 0x00040000;
+		//public const int WS_POPUPWINDOW = 0x80880000;
+		public const int WS_OVERLAPPEDWINDOW = 0x00CF0000;
+		public const int WS_TILEDWINDOW = 0x00CF0000;
+		public const int WS_CHILDWINDOW = 0x40000000;
 	}
 
 	public enum GetWindowLongFlags

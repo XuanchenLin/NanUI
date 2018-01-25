@@ -216,7 +216,7 @@ namespace NetDimension.WinForm
 		protected override void CreateHandle()
 		{
 
-			if (!isCustomFrameEnabled)
+			if (!IsModernUIEnabled)
 			{
 				base.CreateHandle();
 				return;
@@ -235,7 +235,7 @@ namespace NetDimension.WinForm
 		protected override void OnHandleCreated(EventArgs e)
 		{
 
-			if (isCustomFrameEnabled)
+			if (IsModernUIEnabled)
 			{
 				User32.DisableProcessWindowsGhosting();
 				UxTheme.SetWindowTheme(Handle, string.Empty, string.Empty);
@@ -255,7 +255,7 @@ namespace NetDimension.WinForm
 		//bool? isEnterSizeMoveMode = null;
 		protected override void WndProc(ref Message m)
 		{
-			if (!isCustomFrameEnabled)
+			if (!IsModernUIEnabled)
 			{
 				base.WndProc(ref m);
 				return;
@@ -451,7 +451,7 @@ namespace NetDimension.WinForm
 		{
 			Size size = new Size(width, height);
 
-			if (isCustomFrameEnabled)
+			if (IsModernUIEnabled)
 			{
 				size = PatchFormSizeInRestoreWindowBoundsIfNecessary(width, height);
 				size = CalcPreferredSizeCore(size);
@@ -638,7 +638,7 @@ namespace NetDimension.WinForm
 
 		protected virtual Size CalcSizeFromClientSize(Size client)
 		{
-			if (isCustomFrameEnabled)
+			if (IsModernUIEnabled)
 			{
 				client.Width += (BorderSize * 2);
 				client.Height += (BorderSize * 2);

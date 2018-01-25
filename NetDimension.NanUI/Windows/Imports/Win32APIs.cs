@@ -26,6 +26,9 @@ namespace NetDimension.Windows.Imports
 
 	public class User32
 	{
+		[DllImport("User32.dll")]
+		internal static extern IntPtr GetWindow(IntPtr hWnd, uint wCmd);
+
 		[DllImport("user32.dll")]
 		public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
 
@@ -153,6 +156,10 @@ namespace NetDimension.Windows.Imports
 
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern UInt16 RegisterClassW([In] ref WNDCLASS lpWndClass);
+
+		[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
 
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr CreateWindowExW(

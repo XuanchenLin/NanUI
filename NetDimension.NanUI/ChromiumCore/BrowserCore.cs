@@ -1263,21 +1263,12 @@ namespace Chromium.WebBrowser
 			{
 				if (disposing)
 				{
-					//release unmanaged resources
-
-					//RemoveBrowser(Browser.Identifier);
-
-					BrowserHost.CloseBrowser(true);
-
-					ReleaseHandle();
-					DestroyHandle();
 
 					messageInterceptor?.ReleaseHandle();
 					messageInterceptor?.DestroyHandle();
-					messageInterceptor = null;
 
-
-
+					ReleaseHandle();
+					DestroyHandle();
 				}
 
 				isDisposed = true;

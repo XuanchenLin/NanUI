@@ -208,7 +208,7 @@ namespace NetDimension.WinForm.FormShadow
 					WindowPosChanged(lastLocation);
 					base.WndProc(ref m);
 					break;
-				case WindowsMessages.WM_ACTIVATEAPP:
+				case WindowsMessages.WM_ACTIVATE:
 					{
 						var className = new StringBuilder(256);
 
@@ -235,6 +235,9 @@ namespace NetDimension.WinForm.FormShadow
 						}
 
 					}
+
+					base.WndProc(ref m);
+
 					break;
 
 				case WindowsMessages.WM_SIZE:
@@ -415,6 +418,7 @@ namespace NetDimension.WinForm.FormShadow
 			foreach (FormShadowElement sideShadow in shadows)
 			{
 				sideShadow.IsTopMost = setTopMost;
+
 				sideShadow.UpdateZOrder();
 			}
 		}
@@ -433,6 +437,8 @@ namespace NetDimension.WinForm.FormShadow
 
 			UpdateFocus(false);
 			UpdateZOrder();
+
+
 		}
 
 		private void WindowPosChanged(WINDOWPOS location)

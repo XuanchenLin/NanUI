@@ -37,7 +37,7 @@ namespace NetDimension.NanUI
 
 		#region ICefClient
 		[Browsable(false)]
-		public CfxBrowser Browser => Chromium.Browser;
+		public CfxBrowser Browser => Chromium?.Browser;
 		[Browsable(false)]
 		public CfxBrowserHost BrowserHost => Chromium.BrowserHost;
 		[Browsable(false)]
@@ -306,7 +306,7 @@ namespace NetDimension.NanUI
 
 		protected override void OnMove(EventArgs e)
 		{
-			if (Chromium != null)
+			if (Browser != null )
 			{
 				Browser.Host.NotifyMoveOrResizeStarted();
 			}
