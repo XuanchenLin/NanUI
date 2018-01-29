@@ -18,8 +18,6 @@ namespace BorderlessFormStyleDemoApp
 		{
 			InitializeComponent();
 
-			LoadHandler.OnLoadStart += LoadHandler_OnLoadStart;
-
 
 			GlobalObject.AddFunction("showDialog").Execute += (_, args) =>
 			{
@@ -39,25 +37,8 @@ namespace BorderlessFormStyleDemoApp
 				});
 			};
 
-			
+			GlobalObject.AddFunction("showDevTools").Execute += (func, args) => Chromium.ShowDevTools();
 
-			//this.Left = 0;
-			//this.Top = 0;
-
-
-
-			//form2.Left = Screen.AllScreens[1].WorkingArea.Left;
-			//form2.Top = Screen.AllScreens[1].WorkingArea.Top;
-
-			
-
-		}
-
-		private void LoadHandler_OnLoadStart(object sender, Chromium.Event.CfxOnLoadStartEventArgs e)
-		{
-#if DEBUG
-			//Chromium.ShowDevTools();
-#endif
 		}
 	}
 }

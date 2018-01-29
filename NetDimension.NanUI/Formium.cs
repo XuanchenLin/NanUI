@@ -249,20 +249,24 @@ namespace NetDimension.NanUI
 				delayedInitalizeScripts.Enqueue(js);
 			}
 		}
-
-		protected override void Dispose(bool disposing)
+		
+		protected override void OnDeactivate(EventArgs e)
 		{
-			Chromium.Dispose();
+			base.OnDeactivate(e);
 
-			base.Dispose(disposing);
+			var js = "raiseCustomEvent('hostactivestate', {state:0, stateName:'deactivated'})";
+
+
+			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+			{
+				delayedInitalizeScripts.Enqueue(js);
+			}
+			else
+			{
+				Browser.Host.NotifyMoveOrResizeStarted();
+			}
 		}
-
-
-
-
-
-
-
+		
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
@@ -315,22 +319,6 @@ namespace NetDimension.NanUI
 		}
 
 
-		protected override void OnDeactivate(EventArgs e)
-		{
-			base.OnDeactivate(e);
-
-			var js = "raiseCustomEvent('hostactivestate', {state:0, stateName:'deactivated'})";
-
-			
-			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
-			{
-				delayedInitalizeScripts.Enqueue(js);
-			}
-			else
-			{
-				Browser.Host.NotifyMoveOrResizeStarted();
-			}
-		}
 
 		protected void HideInitialSplash()
 		{
@@ -431,6 +419,13 @@ namespace NetDimension.NanUI
 			}
 
 			base.DefWndProc(ref m);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			Chromium.Dispose();
+
+			base.Dispose(disposing);
 		}
 
 

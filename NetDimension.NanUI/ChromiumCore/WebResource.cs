@@ -8,6 +8,8 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 
 using Chromium.Event;
 
@@ -97,6 +99,9 @@ namespace Chromium.WebBrowser {
 		}
 
 		void ResourceHandler_ProcessRequest(object sender, CfxProcessRequestEventArgs e) {
+
+			var request = e.Request;
+
 			bytesDone = 0;
 			e.Callback.Continue();
 			e.SetReturnValue(true);

@@ -37,18 +37,19 @@
 		}
 
 .app-active .demo-app > header .app-title {
-	color:#fff;
+	color: #fff;
 }
 
 .demo-app > content {
 	flex: 1;
 	position: relative;
+	display: flex;
+	flex-direction: column;
 }
 
 
 
 	.demo-app > content > .app-sys-command-container {
-		position: absolute;
 		width: 100%;
 		height: 32px;
 		display: flex;
@@ -103,23 +104,25 @@
 
 	.demo-app > content > article {
 		padding: 10px;
+		flex: 1;
+		overflow-y: auto;
 	}
 
 .app-state-watcher {
-	display:flex;
+	display: flex;
 }
 
 	.app-state-watcher > div {
-		background-color:#f1f1f1;
-		padding:8px;
+		background-color: #f1f1f1;
+		padding: 8px;
 	}
 
 		.app-state-watcher > div p {
-			color:#666;
-			margin:3px 0;
-			line-height:1.5;
+			color: #666;
+			margin: 3px 0;
+			line-height: 1.5;
 		}
-	
-	.app-state-watcher > div:nth-child(2) {
-		margin: 0 10px;
-	}
+
+		.app-state-watcher > div:nth-child(2) {
+			margin: 0 10px;
+		}

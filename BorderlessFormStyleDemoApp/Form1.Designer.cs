@@ -35,13 +35,11 @@
 			this.ActiveBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.ActiveShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(802, 602);
+			this.ClientSize = new System.Drawing.Size(804, 604);
 			this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.InactiveBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.InactiveShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(0)))), ((int)(((byte)(26)))));
 			this.Name = "Form1";
-			this.ShowInTaskbar = false;
 			this.SplashBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.SplashImage = global::BorderlessFormStyleDemoApp.Properties.Resources.NanUI;
 			this.SplashImageLayout = System.Windows.Forms.ImageLayout.Center;
