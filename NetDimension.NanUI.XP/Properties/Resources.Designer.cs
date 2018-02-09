@@ -19,7 +19,7 @@ namespace NetDimension.NanUI.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,27 +61,81 @@ namespace NetDimension.NanUI.Properties {
         }
         
         /// <summary>
+        ///   查找类似 var NanUI = NanUI || {};
+        ///
+        ///(function (nui) {
+        ///	nui.hostWindow = {
+        ///		minimize: function () {
+        ///			native function Minimize();
+        ///			return Minimize();
+        ///		},
+        ///		maximize: function () {
+        ///			native function Maximize();
+        ///			return Maximize();
+        ///		},
+        ///		restore: function () {
+        ///			native function Restore();
+        ///			return Restore();
+        ///		},
+        ///		close: function () {
+        ///			native function Close();
+        ///			return Close();
+        ///		}
+        ///	};
+        ///
+        ///	nui.hostWindow.__defineGetter__(&quot;currentState&quot;, function () {
+        ///		native function GetWinState();
+        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string nanui_formExtension {
+            get {
+                return ResourceManager.GetString("nanui_formExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 (function () {
-        ///	window[&quot;raiseCustomEvent&quot;] = function (eventName, customDetail) {
-        ///		window.dispatchEvent(new CustomEvent(eventName, { detail: customDetail }));
-        ///	}
         ///	const ATTR_NAME = &quot;n-ui-command&quot;;
         ///
-        ///	document.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; {
-        ///		document.body.addEventListener(&quot;click&quot;, (e) =&gt; {
-        ///			var targetEl = e.srcElement;
-        ///						
-        ///			while (targetEl &amp;&amp; !targetEl.hasAttribute(ATTR_NAME))
-        ///			{
-        ///				targetEl = targetEl.parentElement;
-        ///			}
+        ///	if (!window[&quot;raiseCustomEvent&quot;]) {
+        ///		window[&quot;raiseCustomEvent&quot;] = function (eventName, customDetail) {
+        ///			window.dispatchEvent(new CustomEvent(eventName, { detail: customDetail }));
+        ///		};
+        ///	}
         ///
-        ///			if (targetEl) {
-        ///				var cmd = targetEl.get [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///	
+        ///	window.addEventListener(&quot;click&quot;, (e) =&gt; {
+        ///		var targetEl = e.srcElement;
+        ///
+        ///		while (targetEl &amp;&amp; !targetEl.hasAttribute(ATTR_NAME)) {
+        ///			targetEl = targetEl.parentElement;
+        ///		}
+        ///
+        ///		if (targetEl) {
+        ///			var cmd = targetEl.getAttribute(ATTR_NAME);
+        ///
+        ///			if [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string nanui_frameGlobal {
             get {
                 return ResourceManager.GetString("nanui_frameGlobal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 var NanUI = NanUI || {};
+        ///
+        ///(function (nui) {
+        ///	nui.__defineGetter__(&quot;version&quot;, function () {
+        ///		native function GetVersion();
+        ///		return GetVersion();
+        ///	});
+        ///
+        ///})(NanUI); 的本地化字符串。
+        /// </summary>
+        internal static string nanui_nativeExtension {
+            get {
+                return ResourceManager.GetString("nanui_nativeExtension", resourceCulture);
             }
         }
     }

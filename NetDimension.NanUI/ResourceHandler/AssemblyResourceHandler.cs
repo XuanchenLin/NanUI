@@ -137,7 +137,7 @@ namespace NetDimension.NanUI.ResourceHandler
 
 
 
-			if (browser.WebResources.ContainsKey(requestUrl))
+			if (browser != null && browser.WebResources.ContainsKey(requestUrl))
 			{
 				webResource = browser.WebResources[requestUrl];
 				callback.Continue();
@@ -214,7 +214,10 @@ namespace NetDimension.NanUI.ResourceHandler
 					
 					webResource = new WebResource(buff, CfxRuntime.GetMimeType(System.IO.Path.GetExtension(fileName).TrimStart('.')));
 
-					browser.SetWebResource(requestUrl, webResource);
+					if (browser != null)
+					{
+						browser.SetWebResource(requestUrl, webResource);
+					}
 
 
 					reader.Close();

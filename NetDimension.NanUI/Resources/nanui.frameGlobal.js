@@ -8,7 +8,7 @@
 	}
 
 	
-	document.addEventListener("click", (e) => {
+	window.addEventListener("click", (e) => {
 		var targetEl = e.srcElement;
 
 		while (targetEl && !targetEl.hasAttribute(ATTR_NAME)) {

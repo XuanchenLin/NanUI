@@ -5,6 +5,8 @@
 	margin: 0;
 	padding: 0;
 	cursor: default;
+
+	overflow:hidden;
 }
 
 
@@ -24,9 +26,11 @@
 		flex-direction: column;
 		align-items: center;
 		-webkit-app-region: drag;
+		overflow:hidden;
 	}
 
 		.demo-app > header .app-title {
+			-webkit-writing-mode: vertical-rl;
 			writing-mode: vertical-rl;
 			color: #aaa;
 			margin: 0;
@@ -34,6 +38,7 @@
 			font-weight: lighter;
 			font-size: 1em;
 			padding: 10px 0;
+			white-space:nowrap;
 		}
 
 .app-active .demo-app > header .app-title {

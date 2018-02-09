@@ -14,7 +14,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using NetDimension.NanUI.HostObjects;
 using NetDimension.NanUI;
 
 namespace Chromium.WebBrowser
@@ -349,15 +348,10 @@ namespace Chromium.WebBrowser
 			var windowInfo = new CfxWindowInfo();
 			// in order to avoid focus issues when creating browsers offscreen,
 			// the browser must be created with a disabled child window.
-			///windowInfo.SetAsChild(parentWindowHandle,0,0,parentControl.Width, parentControl.Height);
+			//windowInfo.SetAsChild(parentWindowHandle,0,0,parentControl.Width, parentControl.Height);
 
 			windowInfo.SetAsDisabledChild(parentWindowHandle);
 
-
-
-
-
-			//windowInfo.SetAsChild(parentWindowHandle, 0, 0, parentControl.Width, parentControl.Height);
 
 			if (!CfxBrowserHost.CreateBrowser(windowInfo, client, initialUrl, DefaultBrowserSettings, requestContext))
 				throw new CefException("Failed to create browser instance.");
@@ -1187,13 +1181,13 @@ namespace Chromium.WebBrowser
 			parentControl.VisibleChanged += (sender, args) =>
 			{
 				var visible = ((Control)sender).Visible;
+
 				ResizeBrowserWindow();
+
 				if (visible)
 				{
 					parentControl.Refresh();
 				}
-
-
 			};
 
 			parentControl.GotFocus += (sender, args) =>
@@ -1205,15 +1199,23 @@ namespace Chromium.WebBrowser
 
 		protected void ResizeBrowserWindow()
 		{
+			var rect = new RECT();
+			User32.GetClientRect(parentWindowHandle, ref rect);
+
+			//if (browserWindowHandle != IntPtr.Zero && parentControl.Height > 0 && parentControl.Width > 0)
+			//{
+			//	User32.SetWindowLong(browserWindowHandle, GetWindowLongFlags.GWL_STYLE, (int)(WindowStyle.WS_CHILD | WindowStyle.WS_CLIPCHILDREN | WindowStyle.WS_CLIPSIBLINGS | WindowStyle.WS_TABSTOP | WindowStyle.WS_VISIBLE));
+
+			//	User32.SetWindowPos(browserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER);
+			//}
 
 			if (parentControl.Visible)
 			{
 				if (browserWindowHandle != IntPtr.Zero && parentControl.Height > 0 && parentControl.Width > 0)
 				{
 					User32.SetWindowLong(browserWindowHandle, GetWindowLongFlags.GWL_STYLE, (int)(WindowStyle.WS_CHILD | WindowStyle.WS_CLIPCHILDREN | WindowStyle.WS_CLIPSIBLINGS | WindowStyle.WS_TABSTOP | WindowStyle.WS_VISIBLE));
-					var rect = new RECT();
-					User32.GetClientRect(parentWindowHandle, ref rect);
-					User32.SetWindowPos(browserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, /*SetWindowPosFlags.SWP_NOMOVE | */SetWindowPosFlags.SWP_NOZORDER);
+
+					User32.SetWindowPos(browserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER);
 				}
 			}
 			else

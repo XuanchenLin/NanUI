@@ -62,12 +62,6 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -75,9 +69,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form3.resx">
-      <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -90,7 +81,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="asserts\fonts\fontawesome-webfont.woff2" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,13 +113,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.2\build\NetDimension.NanUI.Cef2987.targets'))" />
-    <Error Condition="!Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets'))" />
   </Target>
-  <Import Project="..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets" Condition="Exists('..\packages\NetDimension.NanUI.Cef2987.3.2987.1601.3\build\NetDimension.NanUI.Cef2987.targets')" />
 </Project>

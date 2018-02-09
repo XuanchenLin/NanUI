@@ -14,6 +14,8 @@ namespace Chromium.WebBrowser {
 	internal class RenderProcessHandler : CfrRenderProcessHandler {
 
 		private readonly RenderProcess remoteProcess;
+		private NanUIV8Handler handler;
+
 
 		internal RenderProcessHandler(RenderProcess remoteProcess) {
 			this.remoteProcess = remoteProcess;
@@ -25,7 +27,10 @@ namespace Chromium.WebBrowser {
 
 		private void RenderProcessHandler_OnWebKitInitialized(object sender, CfrEventArgs e)
 		{
-			
+			handler = new NanUIV8Handler();
+
+			CfrRuntime.RegisterExtension("nanui/base", NetDimension.NanUI.Properties.Resources.nanui_nativeExtension, handler);
+
 		}
 
 		void RenderProcessHandler_OnBrowserCreated(object sender, CfrOnBrowserCreatedEventArgs e) {

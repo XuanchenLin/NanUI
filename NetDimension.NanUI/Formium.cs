@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using Chromium;
 using System.ComponentModel;
 using Chromium.Remote;
-using NetDimension.NanUI.HostObjects;
+using Chromium.WebBrowser.Event;
 
 namespace NetDimension.NanUI
 {
@@ -20,7 +20,9 @@ namespace NetDimension.NanUI
 		private readonly WebBrowserControl BrowserWrapper;
 		private readonly Panel splashPanel;
 		private bool isFirstTimeShowSplash;
-		private NanUIHostObject nanuiJSObject;
+		//private NanUIHostObject nanuiJSObject;
+		private Dictionary<string, string> delayedScripts = new Dictionary<string, string>();
+
 
 		protected IntPtr FormHandle { get; private set; }
 
@@ -162,6 +164,7 @@ namespace NetDimension.NanUI
 
 		}
 
+
 		public Formium(string initialUrl, bool enableModernForm)
 				: base(enableModernForm)
 		{
@@ -185,49 +188,54 @@ namespace NetDimension.NanUI
 
 			if (!IsDesignMode)
 			{
+				BrowserWrapper = new WebBrowserControl(initialUrl);
+				Controls.Add(BrowserWrapper);
+				BrowserWrapper.Dock = DockStyle.Fill;
+				Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
+				Chromium.RemoteBrowserCreated += WebBrowserCore_RemoteBrowserCreated;
+				BrowserWrapper.SendToBack();
+
+
+
+
+
+
+
+				LoadHandler.OnLoadEnd += (_, args) =>
+				{
+					if (args.Frame.IsMain)
+					{
+						foreach (var script in delayedScripts)
+						{
+							ExecuteJavascript(script.Value);
+						}
+
+						HideInitialSplash();
+					}
+				};
+
+
+
 				this.Controls.Add(splashPanel);
 				splashPanel.BringToFront();
 
 				isFirstTimeShowSplash = true;
 
-				if (BrowserProcess.initialized)
-				{
-					BrowserWrapper = new WebBrowserControl(initialUrl);
-					Controls.Add(BrowserWrapper);
-					BrowserWrapper.Dock = DockStyle.Fill;
-					BrowserWrapper.Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
-
-					nanuiJSObject = new NanUIHostObject(this);
-					GlobalObject.RegisterJSObject(nanuiJSObject);
-
-
-					LoadHandler.OnLoadEnd += (_, args) =>
-					{
-
-						if (args.Frame.IsMain)
-						{
-							HideInitialSplash();
-
-							while(delayedInitalizeScripts.Count > 0)
-							{
-								var code = delayedInitalizeScripts.Dequeue();
-								if (!ExecuteJavascript(code))
-								{
-									delayedInitalizeScripts.Enqueue(code);
-								}
-							}
-
-						}
-
-						
-					};
-				}
 
 			}
 
 		}
 
-		Queue<string> delayedInitalizeScripts = new Queue<string>();
+
+		private FormV8Handler formV8Handler;
+
+		private void WebBrowserCore_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e)
+		{
+			formV8Handler = new FormV8Handler(this);
+			CfrRuntime.RegisterExtension("nanui/form", Properties.Resources.nanui_formExtension, formV8Handler);
+
+		}
+
 
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -243,13 +251,13 @@ namespace NetDimension.NanUI
 
 			var js = "raiseCustomEvent('hostactivestate', {state:1, stateName:'activated'})";
 
-			
-			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+
+			if (Chromium  == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
 			{
-				delayedInitalizeScripts.Enqueue(js);
+				delayedScripts["hostactivestate"] = js;
 			}
 		}
-		
+
 		protected override void OnDeactivate(EventArgs e)
 		{
 			base.OnDeactivate(e);
@@ -259,14 +267,14 @@ namespace NetDimension.NanUI
 
 			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
 			{
-				delayedInitalizeScripts.Enqueue(js);
+				delayedScripts["hostactivestate"] = js;
 			}
 			else
 			{
 				Browser.Host.NotifyMoveOrResizeStarted();
 			}
 		}
-		
+
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
@@ -274,32 +282,41 @@ namespace NetDimension.NanUI
 			var currentState = 0;
 			var stateString = "normal";
 
-			if(WindowState == FormWindowState.Maximized)
+			if (WindowState == FormWindowState.Maximized)
 			{
 				currentState = 2;
 				stateString = "maximized";
 
 			}
-			else if(WindowState == FormWindowState.Minimized)
+			else if (WindowState == FormWindowState.Minimized)
 			{
 
 				currentState = 1;
-				stateString = "maximized";
+				stateString = "minimized";
 			}
+
+
+			var rect = new RECT();
+			User32.GetClientRect(Handle, ref rect);
 
 
 			var js = $"raiseCustomEvent('hoststatechange', " +
 					$"{{" +
 					$"state: {currentState}," +
 					$"stateName: \"{stateString}\"," +
-					$"width: {Width}," +
-					$"height: {Height}" +
+					$"width: {rect.Width}," +
+					$"height: {rect.Height}" +
+					$"}});" +
+					$"raiseCustomEvent('hostsizechange', " +
+					$"{{" +
+					$"width: {rect.Width}," +
+					$"height: {rect.Height}" +
 					$"}});";
 
 
 			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
 			{
-				delayedInitalizeScripts.Enqueue(js);
+				delayedScripts["hoststatechange"] = js;
 			}
 			else
 			{
@@ -350,28 +367,23 @@ namespace NetDimension.NanUI
 
 			return new POINT(x, y);
 		}
-		private void WebBrowserCore_OnBrowserMessage(object sender, BrowserMessageEventArgs e)
+		private void WebBrowserCore_OnBrowserMessage(object sender, Chromium.WebBrowser.BrowserMessageEventArgs e)
 		{
 			if (BrowserHandle == IntPtr.Zero) return;
 
 			var msg = (WindowsMessages)e.BrowserMessage.Msg;
-
 			if (CanResize && msg == WindowsMessages.WM_MOUSEMOVE)
 			{
 				var pt = GetPostionFromPtr(e.BrowserMessage.LParam);
 				var mode = GetSizeMode(pt);
 
-				if (mode != HitTest.HTNOWHERE)
+				if (mode != HitTest.HTCLIENT)
 				{
-
 					User32.ClientToScreen(FormHandle, ref pt);
-
 					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCHITTEST, IntPtr.Zero, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
-
 					e.Handled = true;
 				}
 			}
-
 
 			if (msg == WindowsMessages.WM_LBUTTONDOWN)
 			{
@@ -379,22 +391,24 @@ namespace NetDimension.NanUI
 				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));
 
 				var mode = GetSizeMode(pt);
-				if (CanResize && mode != HitTest.HTNOWHERE)
+				if (CanResize && mode != HitTest.HTCLIENT)
 				{
 
-					Browser.Host.NotifyMoveOrResizeStarted();
-
 					User32.ClientToScreen(FormHandle, ref pt);
+
 					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)mode, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
+
 					e.Handled = true;
+
 				}
 				else if (dragable && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
 				{
+					Browser.Host.NotifyMoveOrResizeStarted();
 
-					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_USER + 1000, IntPtr.Zero, IntPtr.Zero);
-
+					User32.PostMessage(FormHandle, (uint)DefMessages.WM_NANUI_DRAG_APP_REGION, IntPtr.Zero, IntPtr.Zero);
 
 					e.Handled = true;
+
 				}
 			}
 
@@ -408,17 +422,52 @@ namespace NetDimension.NanUI
 					e.Handled = true;
 				}
 			}
+
+			if (msg == WindowsMessages.WM_RBUTTONDOWN)
+			{
+				var pt = GetPostionFromPtr(e.BrowserMessage.LParam);
+				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));
+				if (dragable)
+				{
+
+					User32.SendMessage(FormHandle, (uint)DefMessages.WM_NANUI_APP_REGION_RBUTTONDOWN, IntPtr.Zero, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
+					e.Handled = true;
+
+				}
+			}
 		}
+
 		protected override void DefWndProc(ref Message m)
 		{
-			var msg = (WindowsMessages)m.Msg;
-			if (msg == (WindowsMessages.WM_USER + 1000))
+
+			if (m.Msg == (int)DefMessages.WM_NANUI_DRAG_APP_REGION)
 			{
+
 				User32.ReleaseCapture();
 				User32.SendMessage(Handle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)HitTest.HTCAPTION, (IntPtr)0);
 			}
 
+			if (m.Msg == (int)DefMessages.WM_NANUI_APP_REGION_RBUTTONDOWN)
+			{
+				var pt = GetPostionFromPtr(m.LParam);
+
+				var ptToScr = PointToScreen(new Point(pt.x, pt.y));
+
+				ShowSystemMenu(this, ptToScr);
+			}
+
 			base.DefWndProc(ref m);
+		}
+
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+
+
+			base.OnFormClosed(e);
+
+
+			Chromium.Dispose();
+
 		}
 
 		protected override void Dispose(bool disposing)

@@ -79,7 +79,8 @@
     <Compile Include="ChromiumCore\JavascriptAttributes\JSObjectAttribute.cs" />
     <Compile Include="ChromiumCore\JavascriptAttributes\JSObjectExtensions.cs" />
     <Compile Include="ChromiumCore\JavascriptAttributes\JSPropertyAttribute.cs" />
-    <Compile Include="HostObjects\NanUIHostObject.cs" />
+    <Compile Include="ChromiumCore\RenderProcess\NanUIV8Handler.cs" />
+    <Compile Include="FormV8Handler.cs" />
     <Compile Include="IChromiumClient.cs" />
     <Compile Include="NanUIException.cs" />
     <Compile Include="ChromiumCore\JSDynamicProperty.cs" />
@@ -382,6 +383,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceHandler\AssemblyResourceHandler.cs" />
+    <Compile Include="ResourceHandler\FolderResourceHandler.cs" />
     <Compile Include="WebBrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -417,7 +419,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\nanui.formExtension.js" />
     <Content Include="Resources\nanui.frameGlobal.js" />
+    <None Include="Resources\nanui.nativeExtension.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

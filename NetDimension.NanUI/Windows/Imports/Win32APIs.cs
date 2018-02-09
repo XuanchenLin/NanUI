@@ -26,8 +26,12 @@ namespace NetDimension.Windows.Imports
 
 	public class User32
 	{
+		[DllImport("user32.dll")]
+		public static extern IntPtr TrackPopupMenu(IntPtr menuHandle, int uFlags, int x, int y, int nReserved, IntPtr hwnd, IntPtr par);
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern void AdjustWindowRectEx(ref RECT rect, int dwStyle, bool hasMenu, int dwExSytle);
 		[DllImport("User32.dll")]
-		internal static extern IntPtr GetWindow(IntPtr hWnd, uint wCmd);
+		public static extern IntPtr GetWindow(IntPtr hWnd, uint wCmd);
 
 		[DllImport("user32.dll")]
 		public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);

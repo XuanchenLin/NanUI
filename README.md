@@ -17,6 +17,11 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2018/2/10**
+- BUG FIX: 修复了子窗体最小化后主窗体不响应鼠标事件的问题。
+- IMPROVE: 优化了窗口逻辑。
+- NEW FEATURE: 增加了注册本地文件夹内资源的ResourceHandler，现在可以通过使用Bootstrap的RegisterFolderResources方法来注册一整个文件夹中的资源文件到指定的域名，也就是说除了内嵌资源外，又提供了一种访问磁盘文件的途径。
+
 **2018/1/25**
 - BUG FIX: When FormBorderStyle = None, the Form border will show incorrect
 

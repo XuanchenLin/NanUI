@@ -83,6 +83,9 @@
     <Compile Include="..\NetDimension.NanUI\ChromiumCore\JSProperty.cs">
       <Link>ChromiumCore\JSProperty.cs</Link>
     </Compile>
+    <Compile Include="..\NetDimension.NanUI\ChromiumCore\RenderProcess\NanUIV8Handler.cs">
+      <Link>ChromiumCore\RenderProcess\NanUIV8Handler.cs</Link>
+    </Compile>
     <Compile Include="..\NetDimension.NanUI\ChromiumCore\RenderProcess\RenderProcess.cs">
       <Link>ChromiumCore\RenderProcess\RenderProcess.cs</Link>
     </Compile>
@@ -96,8 +99,8 @@
       <Link>Formium.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\NetDimension.NanUI\HostObjects\NanUIHostObject.cs">
-      <Link>HostObjects\NanUIHostObject.cs</Link>
+    <Compile Include="..\NetDimension.NanUI\FormV8Handler.cs">
+      <Link>FormV8Handler.cs</Link>
     </Compile>
     <Compile Include="..\NetDimension.NanUI\IChromiumClient.cs">
       <Link>IChromiumClient.cs</Link>
@@ -107,6 +110,9 @@
     </Compile>
     <Compile Include="..\NetDimension.NanUI\ResourceHandler\AssemblyResourceHandler.cs">
       <Link>ResourceHandler\AssemblyResourceHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\ResourceHandler\FolderResourceHandler.cs">
+      <Link>ResourceHandler\FolderResourceHandler.cs</Link>
     </Compile>
     <Compile Include="..\NetDimension.NanUI\WebBrowserControl.cs">
       <Link>WebBrowserControl.cs</Link>

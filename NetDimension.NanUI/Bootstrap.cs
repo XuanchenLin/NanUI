@@ -190,7 +190,25 @@ namespace NetDimension.NanUI
 			{
 				handle.Free();
 			}
-			CfxRuntime.Shutdown();
+			BrowserCore.Shutdown();
+		}
+
+		public static void RegisterFolderResources(string path, string domainName = "assets.app.local")
+		{
+			var factory = new CfxSchemeHandlerFactory();
+
+
+			factory.Create += (_, args) =>
+			{
+				if (args.SchemeName == "http" && args.Browser != null)
+				{
+					var wb = BrowserCore.GetBrowser(args.Browser.Identifier);
+					var handler = new SchemeHandler.FolderResourceHandler(path, wb, domainName);
+					args.SetReturnValue(handler);
+				}
+			};
+
+			RegisterCustomScheme("http", domainName, factory);
 		}
 
 

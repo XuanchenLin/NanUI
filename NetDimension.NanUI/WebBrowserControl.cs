@@ -133,8 +133,8 @@ namespace NetDimension.NanUI
 		{
 			_url = initialUrl;
 
-			this.DoubleBuffered = true;
-			this.UpdateStyles();
+			//this.DoubleBuffered = true;
+			//this.UpdateStyles();
 
 			InitializeBrowserCore(NavigateUrl);
 		}
