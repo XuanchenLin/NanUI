@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NetDimension.NanUI.Properties {
+namespace NetDimension.NanUI.XP.Properties {
     using System;
     
     

@@ -118,6 +118,10 @@ namespace NetDimension.WinForm.FormShadow
 
 		//internal event FormShadowResizeEventHandler MouseDown;
 
+		internal void SetOwner(IntPtr owner)
+		{
+			User32.SetWindowLong(_handle, GetWindowLongFlags.GWL_HWNDPARENT, owner);
+		}
 
 		internal void SetSize(int width, int height)
 		{

@@ -366,11 +366,11 @@ namespace NetDimension.WinForm.FormShadow
 
 		}
 
-		private void UpdateZOrder()
+		public void SetOwner(IntPtr owner)
 		{
 			foreach (FormShadowElement sideShadow in shadows)
 			{
-				sideShadow.UpdateZOrder();
+				sideShadow.SetOwner(owner);
 			}
 		}
 
@@ -404,7 +404,6 @@ namespace NetDimension.WinForm.FormShadow
 			else if ((location.flags & (int)SetWindowPosFlags.SWP_SHOWWINDOW) != 0)
 			{
 				ShowBorder(true);
-				UpdateZOrder();
 			}
 		}
 
@@ -428,7 +427,6 @@ namespace NetDimension.WinForm.FormShadow
 		{
 			if (!isEnabled) return;
 			UpdateFocus(true);
-			UpdateZOrder();
 		}
 
 		public void KillFocus()
@@ -436,8 +434,6 @@ namespace NetDimension.WinForm.FormShadow
 			if (!isEnabled) return;
 
 			UpdateFocus(false);
-			UpdateZOrder();
-
 
 		}
 
@@ -450,7 +446,6 @@ namespace NetDimension.WinForm.FormShadow
 		public void Activate(bool isActive)
 		{
 			if (!isEnabled) return;
-			UpdateZOrder();
 		}
 
 		private void Size(IntPtr wParam, IntPtr lParam)

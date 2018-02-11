@@ -187,6 +187,25 @@ namespace NetDimension.WinForm
 
 
 
+		public new Point Location
+		{
+			get
+			{
+				if (IsDesignMode)
+				{
+					return new Point(0, 0);
+				}
+				else
+				{
+					return base.Location;
+				}
+			}
+			set
+			{
+				base.Location = value;
+			}
+		}
+
 		public new bool TopMost
 		{
 			get
@@ -310,11 +329,7 @@ namespace NetDimension.WinForm
 				UpdateWindowThemeCore();
 
 
-				if (!IsDesignMode)
-				{
 
-					shadowDecorator.InitializeShadows();
-				}
 			}
 			else
 			{
@@ -431,9 +446,27 @@ namespace NetDimension.WinForm
 			}
 			OnMinimumClientSizeChanged();
 			OnMaximumClientSizeChanged();
+			UpdateFormShadow();
 			CalcFormBounds();
 
 		}
+
+		private void UpdateFormShadow()
+		{
+			if (IsDesignMode) return;
+
+			if (!IsMdiChild && Parent == null)
+			{
+				shadowDecorator.InitializeShadows();
+
+				if (Owner != null)
+				{
+					shadowDecorator.SetOwner(Owner.Handle);
+				}
+
+			}
+		}
+
 		bool ShouldPatchClientSize { get; set; }
 		Size SavedClientSize { get; set; }
 		void PatchClientSize()

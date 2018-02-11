@@ -187,6 +187,9 @@ namespace NetDimension.Windows.Imports
 		[DllImport("User32.dll", CharSet = CharSet.Auto)]
 		public static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, uint newLong);
 
+		[DllImport("User32.dll", CharSet = CharSet.Auto)]
+		public static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, IntPtr newLong);
+
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
