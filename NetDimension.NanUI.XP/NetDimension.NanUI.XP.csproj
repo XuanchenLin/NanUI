@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;XP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -133,6 +133,15 @@
     </Compile>
     <Compile Include="..\NetDimension.NanUI\WinForm\ControlExtensions.cs">
       <Link>WinForm\ControlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormGlowBorderDecorator.cs">
+      <Link>WinForm\FormShadow\FormGlowBorderDecorator.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormGlowBorderElement.cs">
+      <Link>WinForm\FormShadow\FormGlowBorderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadow.cs">
+      <Link>WinForm\FormShadow\FormShadow.cs</Link>
     </Compile>
     <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadowDecorator.cs">
       <Link>WinForm\FormShadow\FormShadowDecorator.cs</Link>
@@ -395,6 +404,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

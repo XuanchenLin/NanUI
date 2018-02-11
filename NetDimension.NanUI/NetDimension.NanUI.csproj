@@ -392,6 +392,9 @@
     <Compile Include="Windows\Imports\Win32Types.cs" />
     <Compile Include="Windows\Imports\WindowMessages.cs" />
     <Compile Include="WinForm\ControlExtensions.cs" />
+    <Compile Include="WinForm\FormShadow\FormGlowBorderDecorator.cs" />
+    <Compile Include="WinForm\FormShadow\FormGlowBorderElement.cs" />
+    <Compile Include="WinForm\FormShadow\FormShadow.cs" />
     <Compile Include="WinForm\FormShadow\FormShadowDecorator.cs" />
     <Compile Include="WinForm\FormShadow\FormShadowElement.cs" />
     <Compile Include="WinForm\ModernUIForm.cs">
@@ -419,6 +422,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ShadowTemplate.png" />
     <None Include="Resources\nanui.formExtension.js" />
     <Content Include="Resources\nanui.frameGlobal.js" />
     <None Include="Resources\nanui.nativeExtension.js" />

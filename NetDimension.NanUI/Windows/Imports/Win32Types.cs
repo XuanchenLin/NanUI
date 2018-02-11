@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace NetDimension.Windows.Imports
 {
@@ -15,6 +16,7 @@ namespace NetDimension.Windows.Imports
 
 		internal static readonly IntPtr MESSAGE_HANDLED = new IntPtr(1);
 		internal static readonly IntPtr MESSAGE_PROCESS = new IntPtr(0);
+		internal static int CornerAreaSize = SystemInformation.FrameBorderSize.Width / 2;
 
 		internal static IntPtr MakeParam(IntPtr l, IntPtr h)
 		{
@@ -32,6 +34,89 @@ namespace NetDimension.Windows.Imports
 			return (dwValue >> 16) & 0xffff;
 		}
 
+		internal static POINT GetPostionFromPtr(IntPtr lparam)
+		{
+			var scaledX = (int)User32.LoWord(lparam);
+			var scaledY = (int)User32.HiWord(lparam);
+
+			var x = scaledX;
+			var y = scaledY;
+
+			return new POINT(x, y);
+		}
+
+		//internal static HitTest GetSizeMode(Form form, POINT point)
+		//{
+		//	HitTest mode = HitTest.HTCLIENT;
+
+		//	int x = point.x, y = point.y;
+
+		//	if (form.WindowState == FormWindowState.Normal && (form.FormBorderStyle == FormBorderStyle.SizableToolWindow || form.FormBorderStyle == FormBorderStyle.Sizable))
+		//	{
+		//		var rect = new RECT();
+		//		User32.GetWindowRect(form.Handle, ref rect);
+		//		mode = Win32.GetSizeMode(point, rect.Width, rect.Height);
+		//	}
+
+		//	return mode;
+		//}
+
+		internal static HitTest GetSizeMode(POINT point, int width, int height)
+		{
+			HitTest mode = HitTest.HTCLIENT;
+
+			int x = point.x, y = point.y;
+
+			if (x < CornerAreaSize & y < CornerAreaSize)
+			{
+				mode = HitTest.HTTOPLEFT;
+			}
+			else if (x < CornerAreaSize & y + CornerAreaSize > height - CornerAreaSize)
+			{
+				mode = HitTest.HTBOTTOMLEFT;
+
+			}
+			else if (x + CornerAreaSize > width - CornerAreaSize & y + CornerAreaSize > height - CornerAreaSize)
+			{
+				mode = HitTest.HTBOTTOMRIGHT;
+
+			}
+			else if (x + CornerAreaSize > width - CornerAreaSize & y < CornerAreaSize)
+			{
+				mode = HitTest.HTTOPRIGHT;
+
+			}
+			else if (x < CornerAreaSize)
+			{
+				mode = HitTest.HTLEFT;
+
+			}
+			else if (x + CornerAreaSize > width - CornerAreaSize)
+			{
+				mode = HitTest.HTRIGHT;
+
+			}
+			else if (y < CornerAreaSize)
+			{
+				mode = HitTest.HTTOP;
+
+			}
+			else if (y + CornerAreaSize > height - CornerAreaSize)
+			{
+				mode = HitTest.HTBOTTOM;
+			}
+
+			return mode;
+		}
+
+	}
+
+	public struct MARGINS                           // struct for box shadow
+	{
+		public int leftWidth;
+		public int rightWidth;
+		public int topHeight;
+		public int bottomHeight;
 	}
 	internal enum ABMsg : int
 	{
@@ -135,16 +220,6 @@ namespace NetDimension.Windows.Imports
 		internal const int SC_CONTEXTHELP = 0xF180;
 		internal const int SC_SEPARATOR = 0xF00F;
 		internal const int SCF_ISSECURE = 0x00000001;
-	}
-
-	public struct GetWindowCommands
-	{
-		public const int GW_HWNDFIRST = 0;
-		public const int GW_HWNDLAST = 1;
-		public const int GW_HWNDNEXT = 2;
-		public const int GW_HWNDPREV = 3;
-		public const int GW_OWNER = 4;
-		public const int GW_CHILD = 5;
 	}
 
 	public enum MonitorDpiType : int
@@ -991,36 +1066,36 @@ namespace NetDimension.Windows.Imports
 		WS_EX_LAYERED = 0x00080000
 	}
 
-	
-	public struct WindowStyles
+	[Flags]
+	public enum WindowStyles : long
 	{
-		public const int WS_OVERLAPPED = 0x00000000;
-		public const int WS_POPUP = int.MinValue;
-		public const int WS_CHILD = 0x40000000;
-		public const int WS_MINIMIZE = 0x20000000;
-		public const int WS_VISIBLE = 0x10000000;
-		public const int WS_DISABLED = 0x08000000;
-		public const int WS_CLIPSIBLINGS = 0x04000000;
-		public const int WS_CLIPCHILDREN = 0x02000000;
-		public const int WS_MAXIMIZE = 0x01000000;
-		public const int WS_CAPTION = 0x00C00000;
-		public const int WS_BORDER = 0x00800000;
-		public const int WS_DLGFRAME = 0x00400000;
-		public const int WS_VSCROLL = 0x00200000;
-		public const int WS_HSCROLL = 0x00100000;
-		public const int WS_SYSMENU = 0x00080000;
-		public const int WS_THICKFRAME = 0x00040000;
-		public const int WS_GROUP = 0x00020000;
-		public const int WS_TABSTOP = 0x00010000;
-		public const int WS_MINIMIZEBOX = 0x00020000;
-		public const int WS_MAXIMIZEBOX = 0x00010000;
-		public const int WS_TILED = 0x00000000;
-		public const int WS_ICONIC = 0x20000000;
-		public const int WS_SIZEBOX = 0x00040000;
-		//public const int WS_POPUPWINDOW = 0x80880000;
-		public const int WS_OVERLAPPEDWINDOW = 0x00CF0000;
-		public const int WS_TILEDWINDOW = 0x00CF0000;
-		public const int WS_CHILDWINDOW = 0x40000000;
+		WS_OVERLAPPED = 0x00000000,
+		WS_POPUP = 0x80000000,
+		WS_CHILD = 0x40000000,
+		WS_MINIMIZE = 0x20000000,
+		WS_VISIBLE = 0x10000000,
+		WS_DISABLED = 0x08000000,
+		WS_CLIPSIBLINGS = 0x04000000,
+		WS_CLIPCHILDREN = 0x02000000,
+		WS_MAXIMIZE = 0x01000000,
+		WS_CAPTION = 0x00C00000,
+		WS_BORDER = 0x00800000,
+		WS_DLGFRAME = 0x00400000,
+		WS_VSCROLL = 0x00200000,
+		WS_HSCROLL = 0x00100000,
+		WS_SYSMENU = 0x00080000,
+		WS_THICKFRAME = 0x00040000,
+		WS_GROUP = 0x00020000,
+		WS_TABSTOP = 0x00010000,
+		WS_MINIMIZEBOX = 0x00020000,
+		WS_MAXIMIZEBOX = 0x00010000,
+		WS_TILED = 0x00000000,
+		WS_ICONIC = 0x20000000,
+		WS_SIZEBOX = 0x00040000,
+		WS_POPUPWINDOW = 0x80880000,
+		WS_OVERLAPPEDWINDOW = 0x00CF0000,
+		WS_TILEDWINDOW = 0x00CF0000,
+		WS_CHILDWINDOW = 0x40000000
 	}
 
 	public enum GetWindowLongFlags

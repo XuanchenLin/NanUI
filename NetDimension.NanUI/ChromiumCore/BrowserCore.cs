@@ -1117,7 +1117,11 @@ namespace Chromium.WebBrowser
 
 				if (args.Frame.IsMain)
 				{
+#if XP
+					args.Frame.ExecuteJavaScript(NetDimension.NanUI.XP.Properties.Resources.nanui_frameGlobal, null, 0);
+#else
 					args.Frame.ExecuteJavaScript(NetDimension.NanUI.Properties.Resources.nanui_frameGlobal, null, 0);
+#endif
 				}
 			};
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace NetDimension.Windows.Imports
@@ -24,14 +25,33 @@ namespace NetDimension.Windows.Imports
 		internal static extern int SHAppBarMessage(int dwMessage, ref APPBARDATA pData);
 	}
 
+	public class Dwm
+	{
+		[DllImport("dwmapi.dll")]
+		public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
+
+		[DllImport("dwmapi.dll")]
+		public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+		[DllImport("dwmapi.dll")]
+		public static extern int DwmIsCompositionEnabled(ref int pfEnabled);
+	}
+
 	public class User32
 	{
-		[DllImport("user32.dll")]
-		public static extern IntPtr TrackPopupMenu(IntPtr menuHandle, int uFlags, int x, int y, int nReserved, IntPtr hwnd, IntPtr par);
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern void AdjustWindowRectEx(ref RECT rect, int dwStyle, bool hasMenu, int dwExSytle);
 		[DllImport("User32.dll")]
-		public static extern IntPtr GetWindow(IntPtr hWnd, uint wCmd);
+		internal static extern IntPtr GetParent(IntPtr hWnd);
+
+		[DllImport("User32.dll")]
+		internal static extern IntPtr GetTopWindow(IntPtr hWnd);
+		[DllImport("User32.dll")]
+		internal static extern IntPtr GetWindow(IntPtr hWnd, uint wCmd);
+		[DllImport("user32.dll")]
+		internal static extern IntPtr TrackPopupMenu(IntPtr menuHandle, int uFlags, int x, int y, int nReserved, IntPtr hwnd, IntPtr par);
+		
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		internal static extern void AdjustWindowRectEx(ref RECT rect, int dwStyle, bool hasMenu, int dwExSytle);
 
 		[DllImport("user32.dll")]
 		public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
@@ -68,11 +88,11 @@ namespace NetDimension.Windows.Imports
 		[DllImport("user32.dll")]
 		public static extern IntPtr MonitorFromWindow(IntPtr hWnd, uint dwFlags);
 
-		//[DllImport("Shcore.dll")]
-		//public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref DeviceScaleFactor pScale);
+		[DllImport("Shcore.dll")]
+		public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref DeviceScaleFactor pScale);
 
-		//[DllImport("Shcore.dll")]
-		//public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref int pScale);
+		[DllImport("Shcore.dll")]
+		public static extern int GetScaleFactorForMonitor(IntPtr hMonitor, ref int pScale);
 
 		[DllImport("user32.dll")]
 		public static extern int FillRect(IntPtr hDC, [In] ref RECT lprc, IntPtr hbr);
@@ -161,10 +181,6 @@ namespace NetDimension.Windows.Imports
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern UInt16 RegisterClassW([In] ref WNDCLASS lpWndClass);
 
-		[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-		public static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
-
-
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr CreateWindowExW(
 			UInt32 dwExStyle,
@@ -181,14 +197,20 @@ namespace NetDimension.Windows.Imports
 			IntPtr lpParam
 			);
 
+		[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		internal static extern IntPtr CreateWindowEx(int dwExStyle, IntPtr classAtom, string lpWindowName, int dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
+		[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		internal static extern IntPtr CreateWindowEx(long dwExStyle, IntPtr classAtom, string lpWindowName, long dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+
 		[DllImport("User32.dll", CharSet = CharSet.Auto)]
 		public static extern uint GetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex);
 
 		[DllImport("User32.dll", CharSet = CharSet.Auto)]
-		public static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, uint newLong);
+		public static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, IntPtr newLong);
 
 		[DllImport("User32.dll", CharSet = CharSet.Auto)]
-		public static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, IntPtr newLong);
+		public static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, uint newLong);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
@@ -265,17 +287,46 @@ namespace NetDimension.Windows.Imports
 		{
 			return (uint)(ptr.ToInt32() & 0xFFFF);
 		}
+
+
 	}
 
 	public class Gdi32
 	{
-		public const int RGN_AND = 1, RGN_OR = 2, RGN_XOR = 3, RGN_DIFF = 4, RGN_COPY = 5;
 
+		public const int RGN_AND = 1, RGN_OR = 2, RGN_XOR = 3, RGN_DIFF = 4, RGN_COPY = 5;
+		[DllImport("USER32.dll")]
+		internal static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool redraw);
+		//[DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+		//internal static extern int BitBlt(HandleRef hDC, int x, int y, int nWidth, int nHeight, HandleRef hSrcDC, int xSrc, int ySrc, int dwRop);
+		[DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+		internal static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, uint dwRop);
+
+		[DllImport("gdi32.dll")]
+		internal static extern bool LPtoDP(IntPtr hdc, [In, Out] POINT[] lpPoints, int nCount);
+		[DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+		internal static extern bool GetViewportOrgEx(IntPtr hDC, ref POINT point);
+		[DllImport("GDI32.dll")]
+		internal static extern int ExtSelectClipRgn(IntPtr hdc, IntPtr hrgn, int mode);
+
+		[DllImport("GDI32.dll")]
+		internal static extern int RestoreDC(IntPtr hdc, int savedDC);
+		[DllImport("GDI32.dll")]
+		internal static extern int SaveDC(IntPtr hdc);
+		[DllImport("GDI32.dll")]
+		public static extern int GetClipRgn(IntPtr hdc, IntPtr hrgn);
+		[DllImport("GDI32.dll")]
+		public static extern int SelectClipRgn(IntPtr hdc, IntPtr hrgn);
 		[DllImport("gdi32.dll")]
 		public static extern IntPtr CreatePen(PenStyle fnPenStyle, int nWidth, uint crColor);
 
 		[DllImport("gdi32.dll")]
 		public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+
+		public static IntPtr CreateRectRgn(Rectangle rect)
+		{
+			return CreateRectRgn(rect.Left, rect.Top, rect.Right, rect.Bottom);
+		}
 
 		[DllImport("GDI32.dll")]
 		internal static extern int CombineRgn(IntPtr hrgnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, int fnCombineMode);
@@ -294,6 +345,9 @@ namespace NetDimension.Windows.Imports
 
 		[DllImport("gdi32.dll", EntryPoint = "SelectObject", SetLastError = true)]
 		public static extern IntPtr SelectObject([In] IntPtr hdc, [In] IntPtr hgdiobj);
+
+		[DllImport("gdi32.dll")]
+		internal static extern bool StretchBlt(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, uint dwRop);
 
 		[DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
 		[return: MarshalAs(UnmanagedType.Bool)]

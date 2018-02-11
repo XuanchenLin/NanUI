@@ -232,7 +232,12 @@ namespace NetDimension.NanUI
 		private void WebBrowserCore_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e)
 		{
 			formV8Handler = new FormV8Handler(this);
-			CfrRuntime.RegisterExtension("nanui/form", Properties.Resources.nanui_formExtension, formV8Handler);
+#if XP
+			CfrRuntime.RegisterExtension("nanui/form", NetDimension.NanUI.XP.Properties.Resources.nanui_formExtension, formV8Handler);
+#else
+			CfrRuntime.RegisterExtension("nanui/form", NetDimension.NanUI.Properties.Resources.nanui_formExtension, formV8Handler);
+#endif
+
 
 		}
 

@@ -17,6 +17,9 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2018/2/12**
+-新功能：Formium里添加了新的窗体阴影效果，现在可以通过窗体属性ShadowEffect选择传统的GlowShadow和DropShadow(新)两种样式。DropShadow样式效果和Win7的投影效果类似。
+
 **2018/2/11**
 - BUG FIX: 修复了一个当拥有并打开了子窗体的主窗体获取焦点时其本身将覆盖子窗体的阴影窗口的问题。
 - NEW VERSION: 0.7版的NanUI已在开发中，新版除了继续调整窗口问题外，还将引入新的阴影绘制逻辑，另外类型注册也是新版本的重点内容。

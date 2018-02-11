@@ -12,21 +12,21 @@ namespace NetDimension.WinForm.FormShadow
 	/// <summary>
 	/// 窗口投影装饰器
 	/// </summary>
-	public class FormShadowDecorator : NativeWindow, IFormShadow
+	public class FormGlowBorderDecorator : NativeWindow, IFormShadow
 	{
 		private IntPtr parentWindowHWnd => parentWindow.Handle;
 		private Form parentWindow;
 
-		private FormShadowElement topFormShadow;
-		private FormShadowElement leftFormShadow;
-		private FormShadowElement bottomFormShadow;
-		private FormShadowElement rightFormShadow;
+		private FormGlowBorderElement topFormShadow;
+		private FormGlowBorderElement leftFormShadow;
+		private FormGlowBorderElement bottomFormShadow;
+		private FormGlowBorderElement rightFormShadow;
 
 		private WINDOWPOS lastLocation;
 
-		private readonly List<FormShadowElement> shadows = new List<FormShadowElement>();
-		private Color activeColor = Color.Black;
-		private Color inactiveColor = Color.Black;
+		private readonly List<FormGlowBorderElement> shadows = new List<FormGlowBorderElement>();
+		private Color activeColor = Color.FromArgb(128, 0, 0, 0);
+		private Color inactiveColor = Color.FromArgb(72, 0, 0, 0);
 		private bool isEnabled;
 		private bool isFocused = false;
 		private bool isWindowMinimized = false;
@@ -34,67 +34,65 @@ namespace NetDimension.WinForm.FormShadow
 
 		private bool isInitialized = false;
 
-		private Bitmap[] cachedImages;
-
-		internal Bitmap ActiveBitmapTemplate => cachedImages?[1];
-		internal Bitmap InactiveBitmapTemplate => cachedImages?[2];
-
-
-
 
 		public Color ActiveColor
 		{
 			get
 			{
-				return activeColor;
+				return Color.FromArgb(255, activeColor.R, activeColor.G, activeColor.B);
 			}
 
 			set
 			{
-
-				InitializeBitmapCache();
-
-
-				activeColor = value;
-
+				activeColor = Color.FromArgb(128, value.R, value.G, value.B);
 				if (!isInitialized) return;
-
-				foreach (FormShadowElement sideShadow in shadows)
+				foreach (FormGlowBorderElement sideShadow in shadows)
 				{
-					sideShadow.UpdateShadow();
+					sideShadow.ActiveColor = activeColor;
 				}
 			}
 		}
+
+
 		public Color InactiveColor
 		{
 			get
 			{
-				return inactiveColor;
+				return Color.FromArgb(255, inactiveColor.R, inactiveColor.G, inactiveColor.B);
 			}
 
 			set
 			{
-				InitializeBitmapCache();
-
-
-				inactiveColor = value;
+				inactiveColor = Color.FromArgb(72, value.R, value.G, value.B);
 
 				if (!isInitialized) return;
 
-				foreach (FormShadowElement sideShadow in shadows)
+				foreach (FormGlowBorderElement sideShadow in shadows)
 				{
-					sideShadow.UpdateShadow();
+					sideShadow.InactiveColor = inactiveColor;
 				}
 			}
 		}
+
+
 		public bool IsInitialized => isInitialized;
 		public bool IsEnabled => isEnabled;
+
+
+		public FormGlowBorderDecorator(Form window, bool enable = true)
+		{
+			parentWindow = window;
+
+			isEnabled = enable;
+		}
+
 		public void InitializeShadows()
 		{
-			topFormShadow = new FormShadowElement(FormShadowDockPositon.Top, parentWindowHWnd, this);
-			leftFormShadow = new FormShadowElement(FormShadowDockPositon.Left, parentWindowHWnd, this);
-			bottomFormShadow = new FormShadowElement(FormShadowDockPositon.Bottom, parentWindowHWnd, this);
-			rightFormShadow = new FormShadowElement(FormShadowDockPositon.Right, parentWindowHWnd, this);
+
+			topFormShadow = new FormGlowBorderElement(FormShadowDockPositon.Top, parentWindowHWnd, this);
+			leftFormShadow = new FormGlowBorderElement(FormShadowDockPositon.Left, parentWindowHWnd, this);
+			bottomFormShadow = new FormGlowBorderElement(FormShadowDockPositon.Bottom, parentWindowHWnd, this);
+			rightFormShadow = new FormGlowBorderElement(FormShadowDockPositon.Right, parentWindowHWnd, this);
 
 			shadows.Add(topFormShadow);
 			shadows.Add(leftFormShadow);
@@ -115,7 +113,16 @@ namespace NetDimension.WinForm.FormShadow
 
 			ActiveColor = activeColor;
 			InactiveColor = inactiveColor;
+
+
 		}
+
+
+
+		/// <summary>
+		/// 启用或禁用窗体投影效果。
+		/// </summary>
+		/// <param name="enable">True/False</param>
 		public void Enable(bool enable)
 		{
 			if (isEnabled && !enable)
@@ -128,17 +135,15 @@ namespace NetDimension.WinForm.FormShadow
 				RegisterEvents();
 				if (parentWindow != null)
 				{
-
-
-					UpdateSizes(parentWindow.Width, parentWindow.Height);
+					UpdateSizes((int)parentWindow.Width, (int)parentWindow.Height);
 
 
 					UpdateLocations(new WINDOWPOS
 					{
-						x = parentWindow.Left,
-						y = parentWindow.Top,
-						cx = parentWindow.Width,
-						cy = parentWindow.Height,
+						x = (int)parentWindow.Left,
+						y = (int)parentWindow.Top,
+						cx = (int)parentWindow.Width,
+						cy = (int)parentWindow.Height,
 						flags = (int)SetWindowPosFlags.SWP_SHOWWINDOW
 					});
 
@@ -147,77 +152,6 @@ namespace NetDimension.WinForm.FormShadow
 
 			isEnabled = enable;
 		}
-		public void SetOwner(IntPtr owner)
-		{
-			foreach (FormShadowElement sideShadow in shadows)
-			{
-				sideShadow.SetOwner(owner);
-			}
-		}
-		public void SetFocus()
-		{
-			if (!isEnabled) return;
-			UpdateFocus(true);
-		}
-		public void KillFocus()
-		{
-			if (!isEnabled) return;
-
-			UpdateFocus(false);
-		}
-
-		public FormShadowDecorator(Form window, bool enable = true)
-		{
-			parentWindow = window;
-			isEnabled = enable;
-
-			cachedImages = new Bitmap[3];
-#if XP
-			cachedImages[0] = NetDimension.NanUI.XP.Properties.Resources.ShadowTemplate;
-#else
-			cachedImages[0] = NetDimension.NanUI.Properties.Resources.ShadowTemplate;
-#endif
-			InitializeBitmapCache();
-		}
-
-		private void InitializeBitmapCache()
-		{
-			var rawImage = cachedImages[0];
-			var activeImageCore = cachedImages[1] = (Bitmap)rawImage.Clone();
-			var inactiveImageCore = cachedImages[2] = (Bitmap)rawImage.Clone();
-			BlendBitmapWithColor(activeImageCore, ActiveColor);
-			BlendBitmapWithColor(inactiveImageCore, InactiveColor, 0.6f);
-		}
-
-		private void BlendBitmapWithColor(Bitmap source, Color color, float alphaDepth = 1f)
-		{
-			var rect = new Rectangle(0, 0, source.Width, source.Height);
-			if (alphaDepth > 1) alphaDepth = 1;
-
-			var bmp = new LockBitmap(source);
-			bmp.LockBits();
-
-			for (var y = rect.Top; y < rect.Bottom; y++)
-			{
-				for (var x = rect.Left; x < rect.Right; x++)
-				{
-					var targetColor = bmp.GetPixel(x, y);
-
-					var alpha = Convert.ToByte(targetColor.A * alphaDepth);
-
-					var r = color.R;
-					var g = color.G;
-					var b = color.B;
-
-					bmp.SetPixel(x, y, Color.FromArgb(alpha, r, g, b));
-				}
-			}
-
-			bmp.UnlockBits();
-		}
-
-
-
 
 		///// <summary>
 		///// 启用或禁用窗口大小调整。
@@ -241,6 +175,8 @@ namespace NetDimension.WinForm.FormShadow
 			}
 			var msg = (WindowsMessages)m.Msg;
 
+			//System.Diagnostics.Debug.WriteLine(m);
+
 
 			switch (msg)
 			{
@@ -250,7 +186,7 @@ namespace NetDimension.WinForm.FormShadow
 					WindowPosChanged(lastLocation);
 					base.WndProc(ref m);
 					break;
-				case WindowsMessages.WM_ACTIVATEAPP:
+				case WindowsMessages.WM_ACTIVATE:
 					{
 						var className = new StringBuilder(256);
 
@@ -277,13 +213,17 @@ namespace NetDimension.WinForm.FormShadow
 						}
 
 					}
+
+					base.WndProc(ref m);
+
 					break;
 
 				case WindowsMessages.WM_SIZE:
-				
-					base.WndProc(ref m);
 
 					Size(m.WParam, m.LParam);
+
+
+					base.WndProc(ref m);
 
 					break;
 				default:
@@ -311,6 +251,7 @@ namespace NetDimension.WinForm.FormShadow
 
 			if (parentWindow != null)
 			{
+
 				parentWindow.VisibleChanged += HandleWindowVisibleChanged;
 			}
 		}
@@ -363,7 +304,7 @@ namespace NetDimension.WinForm.FormShadow
 			var action = new Action(() =>
 			{
 
-				foreach (FormShadowElement sideShadow in shadows)
+				foreach (FormGlowBorderElement sideShadow in shadows)
 				{
 					sideShadow.Show(show);
 				}
@@ -371,6 +312,8 @@ namespace NetDimension.WinForm.FormShadow
 				if (show)
 				{
 					isWindowMinimized = false;
+
+
 				}
 			});
 
@@ -384,12 +327,11 @@ namespace NetDimension.WinForm.FormShadow
 				isAnimationDelayed = true;
 				Task.Factory.StartNew(() =>
 				{
-					System.Threading.Thread.Sleep(150);
-					if(isAnimationDelayed)
+					System.Threading.Thread.Sleep(200);
+					if (isAnimationDelayed)
 						parentWindow.Invoke(new MethodInvoker(action));
 
 					isAnimationDelayed = false;
-
 				});
 
 			}
@@ -402,22 +344,25 @@ namespace NetDimension.WinForm.FormShadow
 
 		}
 
-
-
+		public void SetOwner(IntPtr owner)
+		{
+			foreach (FormGlowBorderElement sideShadow in shadows)
+			{
+				sideShadow.SetOwner(owner);
+			}
+		}
 
 		private void UpdateFocus(bool isFocused)
 		{
-			foreach (FormShadowElement sideShadow in shadows)
+			foreach (FormGlowBorderElement sideShadow in shadows)
 			{
 				sideShadow.ParentWindowIsFocused = isFocused;
 			}
-
-
 		}
 
 		private void UpdateSizes(int width, int height)
 		{
-			foreach (FormShadowElement sideShadow in shadows)
+			foreach (FormGlowBorderElement sideShadow in shadows)
 			{
 				sideShadow.SetSize(width, height);
 			}
@@ -425,7 +370,7 @@ namespace NetDimension.WinForm.FormShadow
 
 		private void UpdateLocations(WINDOWPOS location)
 		{
-			foreach (FormShadowElement sideShadow in shadows)
+			foreach (FormGlowBorderElement sideShadow in shadows)
 			{
 				sideShadow.SetLocation(location);
 			}
@@ -447,14 +392,26 @@ namespace NetDimension.WinForm.FormShadow
 				return;
 			}
 
-			foreach (FormShadowElement sideShadow in shadows)
+			foreach (FormGlowBorderElement sideShadow in shadows)
 			{
 				sideShadow.UpdateZOrder();
 			}
 		}
 
 
+		public void SetFocus()
+		{
+			if (!isEnabled) return;
+			UpdateFocus(true);
+		}
 
+		public void KillFocus()
+		{
+			if (!isEnabled) return;
+
+			UpdateFocus(false);
+
+		}
 
 		private void WindowPosChanged(WINDOWPOS location)
 		{
@@ -462,6 +419,10 @@ namespace NetDimension.WinForm.FormShadow
 			UpdateLocations(location);
 		}
 
+		public void Activate(bool isActive)
+		{
+			if (!isEnabled) return;
+		}
 
 		private void Size(IntPtr wParam, IntPtr lParam)
 		{
@@ -471,22 +432,16 @@ namespace NetDimension.WinForm.FormShadow
 			if (!isEnabled) return;
 			if ((int)wParam == 2 || (int)wParam == 1) // maximized/minimized
 			{
+				ShowBorder(false);
 
 				if ((int)wParam == 1)
 				{
 					isWindowMinimized = true;
 				}
-
-				ShowBorder(false);
-
 			}
 			else
 			{
-				var rect = new RECT();
-
-				User32.GetWindowRect(parentWindow.TopLevelControl != null ? parentWindow.TopLevelControl.Handle : parentWindow.Handle, ref rect);
-
-				UpdateSizes(rect.Width, rect.Height);
+				UpdateSizes(width, height);
 				ShowBorder(true);
 
 			}
@@ -494,7 +449,7 @@ namespace NetDimension.WinForm.FormShadow
 
 
 
-#region Dispose
+		#region Dispose
 
 		private bool _isDisposed;
 
@@ -540,7 +495,7 @@ namespace NetDimension.WinForm.FormShadow
 			}
 		}
 
-#endregion
+		#endregion
 
 	}
 }

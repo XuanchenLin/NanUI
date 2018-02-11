@@ -28,8 +28,11 @@ namespace Chromium.WebBrowser {
 		private void RenderProcessHandler_OnWebKitInitialized(object sender, CfrEventArgs e)
 		{
 			handler = new NanUIV8Handler();
-
+#if XP
+			CfrRuntime.RegisterExtension("nanui/base", NetDimension.NanUI.XP.Properties.Resources.nanui_nativeExtension, handler);
+#else
 			CfrRuntime.RegisterExtension("nanui/base", NetDimension.NanUI.Properties.Resources.nanui_nativeExtension, handler);
+#endif
 
 		}
 

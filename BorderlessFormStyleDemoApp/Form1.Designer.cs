@@ -43,6 +43,7 @@
 			this.InactiveBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.InactiveShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(0)))), ((int)(((byte)(26)))));
 			this.Name = "Form1";
+			this.ShadowEffect = NetDimension.WinForm.FormShadowType.DropShadow;
 			this.SplashBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.SplashImage = global::BorderlessFormStyleDemoApp.Properties.Resources.NanUI;
 			this.SplashImageLayout = System.Windows.Forms.ImageLayout.Center;
