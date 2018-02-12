@@ -197,9 +197,6 @@ namespace NetDimension.WinForm.FormShadow
 
 		private bool _parentWindowIsFocused;
 
-		//private Color _activeColor = Color.FromArgb(255, 255, 0, 0);
-		//private Color _inactiveColor = Color.FromArgb(128, 0, 255, 0);
-
 		private BLENDFUNCTION _blend;
 		private POINT _ptZero = new POINT(0, 0);
 		private readonly Color _transparent = Color.FromArgb(0);
@@ -210,8 +207,6 @@ namespace NetDimension.WinForm.FormShadow
 		#endregion
 
 		#region constuctor
-
-		//Bitmap[] cachedImages;
 
 		protected IntPtr Region { get; set; } = IntPtr.Zero;
 
@@ -230,67 +225,9 @@ namespace NetDimension.WinForm.FormShadow
 				AlphaFormat = AcSrcAlpha
 			};
 
-
-
-			//cachedImages = new Bitmap[3];
-
-			//switch (side)
-			//{
-			//	case FormShadowDockPositon.Left:
-			//		cachedImages[0] = NetDimension.NanUI.Properties.Resources.PopupFormShadowFrameLeft;
-			//		break;
-			//	case FormShadowDockPositon.Top:
-			//		cachedImages[0] = NetDimension.NanUI.Properties.Resources.PopupFormShadowFrameTop;
-			//		break;
-			//	case FormShadowDockPositon.Right:
-			//		cachedImages[0] = NetDimension.NanUI.Properties.Resources.PopupFormShadowFrameRight;
-			//		break;
-			//	case FormShadowDockPositon.Bottom:
-			//		cachedImages[0] = NetDimension.NanUI.Properties.Resources.PopupFormShadowFrameBottom;
-			//		break;
-			//}
-
-			//InitializeBitmapCache();
 			CreateWindow($"{CONSTS.CLASS_NAME}_{side}_{parent}");
 		}
 
-		//private void InitializeBitmapCache()
-		//{
-		//	var rawImage = cachedImages[0];
-		//	var activeImageCore = cachedImages[1] = (Bitmap)rawImage.Clone();
-		//	var inactiveImageCore = cachedImages[2] = (Bitmap)rawImage.Clone();
-		//	BlendBitmapWithColor(activeImageCore, ActiveColor);
-		//	BlendBitmapWithColor(inactiveImageCore, InactiveColor, 0.6f);
-		//}
-
-		//private void BlendBitmapWithColor(Bitmap source, Color color, float alphaDepth = 1f)
-		//{
-		//	var rect = new Rectangle(0, 0, source.Width, source.Height);
-		//	if (alphaDepth > 1) alphaDepth = 1;
-
-		//	var bmp = new LockBitmap(source);
-		//	bmp.LockBits();
-
-		//	for (var y = rect.Top; y < rect.Bottom; y++)
-		//	{
-		//		for (var x = rect.Left; x < rect.Right; x++)
-		//		{
-		//			var targetColor = bmp.GetPixel(x, y);
-
-		//			var alpha = Convert.ToByte(targetColor.A * alphaDepth);
-
-		//			var r = color.R;
-		//			var g = color.G;
-		//			var b = color.B;
-
-		//			bmp.SetPixel(x, y, Color.FromArgb(alpha, r, g, b));
-		//		}
-		//	}
-
-		//	bmp.UnlockBits();
-
-
-		//}
 
 		internal void SetOwner(IntPtr owner)
 		{
@@ -300,11 +237,6 @@ namespace NetDimension.WinForm.FormShadow
 		#endregion
 
 		#region internal
-
-		//internal bool ExternalResizeEnable { get; set; }
-
-		//internal event FormShadowResizeEventHandler MouseDown;
-
 
 		internal void SetSize(int width, int height)
 		{
@@ -610,17 +542,12 @@ namespace NetDimension.WinForm.FormShadow
 								g.ExcludeClip(destFarCornerRect);
 								g.DrawImage(cachedBmp, destRect, srcRect, GraphicsUnit.Pixel);
 								g.ResetClip();
-
-
-
-
 							}
 							break;
 					}
 				}
 
 			}
-
 
 			return bmp;
 		}
@@ -631,9 +558,6 @@ namespace NetDimension.WinForm.FormShadow
 			ExcludeRegion();
 			DrawToLayeredWindow();
 			
-
-
-
 		}
 
 		private void DrawToLayeredWindow()
@@ -650,7 +574,6 @@ namespace NetDimension.WinForm.FormShadow
 			SIZE newSize = new SIZE(width, height);
 			IntPtr screenDc = User32.GetDC(IntPtr.Zero);
 			IntPtr memDc = Gdi32.CreateCompatibleDC(screenDc);
-			//ExcludeRegion();
 			using (Bitmap bmp = GetBitmap(width, height))
 			{
 				IntPtr hBitmap = bmp.GetHbitmap(_transparent);
@@ -749,107 +672,6 @@ namespace NetDimension.WinForm.FormShadow
 			return hRegion;
 		}
 
-
-
-		//private void SetCursor()
-		//{
-		//	if (!ExternalResizeEnable)
-		//	{
-		//		return;
-		//	}
-
-		//	IntPtr handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_HAND);
-		//	HitTest mode = GetResizeMode();
-		//	switch (mode)
-		//	{
-		//		case HitTest.HTTOP:
-		//		case HitTest.HTBOTTOM:
-		//			handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZENS);
-		//			break;
-		//		case HitTest.HTLEFT:
-		//		case HitTest.HTRIGHT:
-		//			handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZEWE);
-		//			break;
-		//		case HitTest.HTTOPLEFT:
-		//		case HitTest.HTBOTTOMRIGHT:
-		//			handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZENWSE);
-		//			break;
-		//		case HitTest.HTTOPRIGHT:
-		//		case HitTest.HTBOTTOMLEFT:
-		//			handle = User32.LoadCursor(IntPtr.Zero, (int)IdcStandardCursors.IDC_SIZENESW);
-		//			break;
-		//	}
-
-		//	if (handle != IntPtr.Zero)
-		//	{
-		//		User32.SetCursor(handle);
-		//	}
-		//}
-
-		//private void CastMouseDown()
-		//{
-
-		//	if (!ExternalResizeEnable)
-		//	{
-		//		return;
-		//	}
-
-		//	HitTest mode = GetResizeMode();
-
-
-
-		//	if (MouseDown != null)
-		//	{
-		//		FormShadowResizeArgs args = new FormShadowResizeArgs(_side, mode);
-		//		MouseDown(this, args);
-		//	}
-		//}
-
-		//private POINT GetRelativeMousePosition()
-		//{
-		//	POINT point = new POINT();
-		//	User32.GetCursorPos(ref point);
-		//	User32.ScreenToClient(_handle, ref point);
-		//	return point;
-		//}
-
-		//private HitTest GetResizeMode()
-		//{
-		//	HitTest mode = HitTest.HTNOWHERE;
-
-		//	RECT rect = new RECT();
-		//	POINT point = GetRelativeMousePosition();
-		//	User32.GetWindowRect(_handle, ref rect);
-		//	switch (_side)
-		//	{
-		//		case FormShadowDockPositon.Top:
-		//			int width = rect.right - rect.left;
-		//			if (point.x < CORNER_AREA) mode = HitTest.HTTOPLEFT;
-		//			else if (point.x > width - CORNER_AREA) mode = HitTest.HTTOPRIGHT;
-		//			else mode = HitTest.HTTOP;
-		//			break;
-		//		case FormShadowDockPositon.Bottom:
-		//			width = rect.right - rect.left;
-		//			if (point.x < CORNER_AREA) mode = HitTest.HTBOTTOMLEFT;
-		//			else if (point.x > width - CORNER_AREA) mode = HitTest.HTBOTTOMRIGHT;
-		//			else mode = HitTest.HTBOTTOM;
-		//			break;
-		//		case FormShadowDockPositon.Left:
-		//			int height = rect.bottom - rect.top;
-		//			if (point.y < CORNER_AREA) mode = HitTest.HTTOPLEFT;
-		//			else if (point.y > height - CORNER_AREA) mode = HitTest.HTBOTTOMLEFT;
-		//			else mode = HitTest.HTLEFT;
-		//			break;
-		//		case FormShadowDockPositon.Right:
-		//			height = rect.bottom - rect.top;
-		//			if (point.y < CORNER_AREA) mode = HitTest.HTTOPRIGHT;
-		//			else if (point.y > height - CORNER_AREA) mode = HitTest.HTBOTTOMRIGHT;
-		//			else mode = HitTest.HTRIGHT;
-		//			break;
-		//	}
-
-		//	return mode;
-		//}
 
 		#endregion
 
