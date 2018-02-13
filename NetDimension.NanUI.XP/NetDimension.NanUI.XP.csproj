@@ -396,16 +396,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\NetDimension.NanUI\Resources\nanui.frameGlobal.js">
-      <Link>Resources\nanui.frameGlobal.js</Link>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

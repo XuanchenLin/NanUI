@@ -1434,6 +1434,8 @@ namespace Chromium.WebBrowser
 
 		#endregion
 
+		private Size lastSavedSzie = Size.Empty;
+
 		protected override void WndProc(ref Message m)
 		{
 			switch ((WindowsMessages)m.Msg)
@@ -1455,24 +1457,30 @@ namespace Chromium.WebBrowser
 						User32.GetClientRect(parentWindowHandle, ref rect);
 						User32.SetWindowPos(browserWindowHandle, IntPtr.Zero, rect.left, rect.top, rect.right, rect.bottom, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOMOVE);
 
+						var currentSize = new Size(rect.Width, rect.Height);
 
-						var js = $"raiseCustomEvent('hostsizechange', " +
-							$"{{" +
-							$"width: {rect.Width}," +
-							$"height: {rect.Height}" +
-							$"}});";
-
-						if (!ExecuteJavascript(js))
+						if(lastSavedSzie != currentSize)
 						{
-							LoadHandler.OnLoadEnd += (handler, e) =>
-							{
-								if (e.Frame.IsMain)
-								{
-									ExecuteJavascript(js);
-								}
-							};
-						}
 
+							var js = $"raiseCustomEvent('hostsizechange', " +
+								$"{{" +
+								$"width: {rect.Width}," +
+								$"height: {rect.Height}" +
+								$"}});";
+
+							if (!ExecuteJavascript(js))
+							{
+								LoadHandler.OnLoadEnd += (handler, e) =>
+								{
+									if (e.Frame.IsMain)
+									{
+										ExecuteJavascript(js);
+									}
+								};
+							}
+
+							lastSavedSzie = currentSize;
+						}
 
 						Browser?.Host?.NotifyMoveOrResizeStarted();
 

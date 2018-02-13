@@ -20,7 +20,6 @@ namespace NetDimension.NanUI
 		private readonly WebBrowserControl BrowserWrapper;
 		private readonly Panel splashPanel;
 		private bool isFirstTimeShowSplash;
-		//private NanUIHostObject nanuiJSObject;
 		private Dictionary<string, string> delayedScripts = new Dictionary<string, string>();
 
 
@@ -280,9 +279,13 @@ namespace NetDimension.NanUI
 			}
 		}
 
+		private int? lastWindowState = null;
+
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
+
+
 
 			var currentState = 0;
 			var stateString = "normal";
@@ -301,32 +304,33 @@ namespace NetDimension.NanUI
 			}
 
 
-			var rect = new RECT();
-			User32.GetClientRect(Handle, ref rect);
-
-
-			var js = $"raiseCustomEvent('hoststatechange', " +
-					$"{{" +
-					$"state: {currentState}," +
-					$"stateName: \"{stateString}\"," +
-					$"width: {rect.Width}," +
-					$"height: {rect.Height}" +
-					$"}});" +
-					$"raiseCustomEvent('hostsizechange', " +
-					$"{{" +
-					$"width: {rect.Width}," +
-					$"height: {rect.Height}" +
-					$"}});";
-
-
-			if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+			if(lastWindowState!= currentState)
 			{
-				delayedScripts["hoststatechange"] = js;
+				var rect = new RECT();
+				User32.GetClientRect(Handle, ref rect);
+
+
+				var js = $"raiseCustomEvent('hoststatechange', " +
+						$"{{" +
+						$"state: {currentState}," +
+						$"stateName: \"{stateString}\"," +
+						$"width: {rect.Width}," +
+						$"height: {rect.Height}" +
+						$"}});";
+
+				if (Chromium == null || !Chromium.IsMainFrameLoaded || !ExecuteJavascript(js))
+				{
+					delayedScripts["hoststatechange"] = js;
+				}
+				else
+				{
+					Browser.Host.NotifyMoveOrResizeStarted();
+				}
+
+				lastWindowState = currentState;
 			}
-			else
-			{
-				Browser.Host.NotifyMoveOrResizeStarted();
-			}
+
+
 
 		}
 

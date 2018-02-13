@@ -12,6 +12,7 @@ namespace NetDimension.WinForm.FormShadow
 	internal static class CONSTS
 	{
 		internal const string CLASS_NAME = "NetDimensionFormShadowWindow";
+		internal const int SHOW_BORDER_DELAY = 250;
 
 	}
 	internal enum FormShadowDockPositon

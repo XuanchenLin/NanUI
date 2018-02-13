@@ -384,7 +384,7 @@ namespace NetDimension.WinForm.FormShadow
 				isAnimationDelayed = true;
 				Task.Factory.StartNew(() =>
 				{
-					System.Threading.Thread.Sleep(150);
+					System.Threading.Thread.Sleep(CONSTS.SHOW_BORDER_DELAY);
 					if(isAnimationDelayed)
 						parentWindow.Invoke(new MethodInvoker(action));
 
