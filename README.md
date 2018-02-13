@@ -23,12 +23,15 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - 改进:更新了Bootstrap的部分初始化逻辑。
 - 新功能：AssemblyResourceHandler加入了指定启动目录的功能。
 
-现在Bootstrap的Load方法不需要指定平台和各种目录，新增了NanUI自动探测CEF版本的逻辑，如果按照之前fx文件夹的格式来放置CEF各项文件，只需要执行``Bootstrap.Load()``就可以完成加载，而无需复杂的配置。在下一个版本的NanUI，Bootstrap将替换成FluentAPI的形式来执行加载。如果还是需要指定特定的CEF文件位置，请单独设置Bootstrap类的LibCefDir、ResourcesDir、LocalesDir三个属性来指定CEF各种文件的位置。
+现在Bootstrap的Load方法不需要指定平台和各种目录，新增了NanUI自动探测CEF版本的逻辑，如果按照之前fx文件夹的格式来放置CEF各项文件，只需要执行``Bootstrap.Load()``就可以完成加载，而无需复杂的配置，现在Load方法的两个参数是针对SettingsBuilder、CommandLineHandler快捷代理。在下一个版本的NanUI，Bootstrap将替换成FluentAPI的形式来执行操作，所以目前这些调整也是临时的。
+
+如果还是需要指定特定的CEF文件位置，请单独设置Bootstrap类的LibCefDir、ResourcesDir、LocalesDir三个属性来指定CEF各种文件的位置。
 
 另外，AssemblyResourceHandler加入了指定启动目录的功能。例如老版本的NanUI使用AssemblyResourceHandler时如果资源文件放置于项目的子目录下，那么在调用该资源时需要在url中指定该目录，现在在注册AssemblyResourceHandler时只需要指定baseDir路径，那么就可以跳过该子文件夹直接访问资源。例如，您的资源文件放置于项目的www目录中，那么在指定baseDir为www后，您可以直接通过http://res.app.local/[file.ext]来访问到www目录中对应的文件。
 
 
 **2018/2/12**
+
 -新功能：Formium里添加了新的窗体阴影效果，现在可以通过窗体属性ShadowEffect选择传统的GlowShadow和DropShadow(新)两种样式。DropShadow样式效果和Win7的投影效果类似。
 
 **2018/2/11**
