@@ -18,19 +18,19 @@ namespace NanUIWebBrowserControlDemo
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			Bootstrap.BeforeCefInitialize = (args) => {
+			if (Bootstrap.Load(settings=> {
+
 				//Settings for before CEF initiliazing...
-				args.Settings.AcceptLanguageList = "zh-CN; en-US";
-				args.Settings.LogSeverity = Chromium.CfxLogSeverity.Disable;
 
-			};
+				settings.AcceptLanguageList = "zh-CN; en-US";
+				settings.LogSeverity = Chromium.CfxLogSeverity.Disable;
 
-			Bootstrap.BeforeCefCommandLineProcessing = (args) => {
+			}, commandline=> {
+				
 				//Settings for CEF commnad line.
-				args.CommandLine.AppendSwitch("disable-web-security");
-			};
 
-			if (Bootstrap.Load(PlatformArch.Auto, System.IO.Path.Combine(Application.StartupPath, "fx"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources\\locales")))
+				commandline.AppendSwitch("disable-web-security");
+			}))
 			{
 				Application.Run(new Form1());
 			}

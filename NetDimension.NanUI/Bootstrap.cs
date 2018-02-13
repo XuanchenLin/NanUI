@@ -2,67 +2,38 @@
 using Chromium.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
+using Chromium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
+using System.Threading;
+using System.Reflection;
 using System.Windows.Forms;
-using Chromium.Remote;
 using System.Runtime.InteropServices;
+using NetDimension.NanUI.ResourceHandler;
 
 namespace NetDimension.NanUI
 {
-	public enum PlatformArch
-	{
-		Auto,
-		x86,
-		x64
-	}
 
-	public class Bootstrap
+
+	public static class Bootstrap
 	{
+		private static string libCefDir = string.Empty;
+		private static string resourceDir = string.Empty;
+		private static string localesDir = string.Empty;
+
+		private static string appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\", Application.ProductName);
+		private static string appDir = Application.StartupPath;
+
 		private static bool isCefInitialized = false;
 
-		private static Action<OnBeforeCfxInitializeEventArgs> beforeCefInitializeAction = null;
-		private static Action<CfxOnBeforeCommandLineProcessingEventArgs> beforeCefCommandLineProcessingAction;
-		private static List<GCHandle> SchemeHandlerGCHandles = new List<GCHandle>();
+		private static List<GCHandle> ResourceHandlerGCHandles = new List<GCHandle>();
+		public static Action<CfxSettings> SettingsBuilder { get; private set; }
 
 
-		public static readonly PlatformArch PlatformArchitecture = CfxRuntime.PlatformArch == CfxPlatformArch.x64 ? PlatformArch.x64 : PlatformArch.x86;
-
-
-		private static void CheckIfCefHasBeenInitialized()
-		{
-			if (isCefInitialized)
-			{
-				throw new CefException("You can not change settings after CEF runtime initialized.");
-			}
-		}
-
-
-		public static Action<OnBeforeCfxInitializeEventArgs> BeforeCefInitialize
-		{
-			private get => beforeCefInitializeAction;
-			set
-			{
-
-				CheckIfCefHasBeenInitialized();
-
-				beforeCefInitializeAction = value;
-			}
-		}
-
-		public static Action<CfxOnBeforeCommandLineProcessingEventArgs> BeforeCefCommandLineProcessing
-		{
-			private get => beforeCefCommandLineProcessingAction;
-			set
-			{
-				CheckIfCefHasBeenInitialized();
-				beforeCefCommandLineProcessingAction = value;
-			}
-		}
-
-		private static string appDataDir = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\", Application.ProductName);
+		public static Action<CfxCommandLine> CommandLineHandler { get; private set; }
 
 		public static string ApplicationDataDirectory
 		{
@@ -70,127 +41,17 @@ namespace NetDimension.NanUI
 			set => appDataDir = value;
 		}
 
-		private static string appCacheDir;
 		public static string ApplicationCacheDirectory
 		{
-			get => appCacheDir;
+			get => Path.Combine(ApplicationDataDirectory, "Cache");
 		}
 
-		public static bool Load(PlatformArch arch = PlatformArch.Auto, string libCefPath = null, string resourcesPath = null, string localesPath = null, string cachePath = null)
+		private static void CheckIfCefHasBeenInitialized()
 		{
-
-			
-
-			var subprocessPath = Application.StartupPath;
-
-			if (string.IsNullOrEmpty(libCefPath))
+			if (isCefInitialized)
 			{
-				libCefPath = Application.StartupPath;
+				throw new CefException("You can not change settings after CEF runtime initialized.");
 			}
-
-			if (string.IsNullOrEmpty(resourcesPath))
-			{
-				resourcesPath = libCefPath;
-			}
-
-			if (string.IsNullOrEmpty(localesPath))
-			{
-				localesPath = System.IO.Path.Combine(libCefPath, "locales");
-			}
-
-
-
-			if (arch == PlatformArch.Auto)
-			{
-				if (PlatformArchitecture == PlatformArch.x86)
-				{
-					libCefPath = System.IO.Path.Combine(libCefPath, "x86");
-				}
-				else
-				{
-					libCefPath = System.IO.Path.Combine(libCefPath, "x64");
-				}
-			}
-
-			CfxRuntime.LibCefDirPath = libCefPath;
-
-
-			if (string.IsNullOrEmpty(cachePath))
-			{
-				cachePath = System.IO.Path.Combine(appDataDir, "Cache");
-			}
-
-			appCacheDir = cachePath;
-
-			var libCfxName = "libcfx.dll";
-			if (PlatformArchitecture == PlatformArch.x64)
-				libCfxName = "libcfx64.dll";
-
-
-			var cfxLibPath = System.IO.Path.Combine(libCefPath, libCfxName);
-
-			BrowserCore.OnBeforeCfxInitialize += (args) =>
-			{
-				if (!System.IO.Directory.Exists(cachePath))
-				{
-					System.IO.Directory.CreateDirectory(cachePath);
-				}
-
-				args.Settings.CachePath = cachePath;
-
-				args.Settings.LocalesDirPath = localesPath;
-
-				args.Settings.ResourcesDirPath = resourcesPath;
-
-				args.Settings.LogSeverity = CfxLogSeverity.Disable;
-
-				args.Settings.LogFile = System.IO.Path.Combine(args.Settings.CachePath, "debug.log");
-
-				args.Settings.Locale = "zh-CN;en-US";
-
-				BeforeCefInitialize?.Invoke(args);
-
-			};
-
-			BrowserCore.OnBeforeCommandLineProcessing += (args) =>
-			{
-				BeforeCefCommandLineProcessing?.Invoke(args);
-			};
-
-			try
-			{
-				Application.ApplicationExit += OnApplicationExit;
-				BrowserCore.Initialize();
-				BrowserCore.RemoteProcessCreated += OnRemoteProcessCreated;
-				isCefInitialized = true;
-				return true;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.InnerException == null ? ex : ex.InnerException);
-			}
-
-			return false;
-		}
-
-		private static void OnRemoteProcessCreated(RemoteProcessCreatedEventArgs e)
-		{
-			e.RenderProcessHandler.OnContextCreated += RenderProcessHandler_OnContextCreated;
-		}
-
-		private static void RenderProcessHandler_OnContextCreated(object sender, Chromium.Remote.Event.CfrOnContextCreatedEventArgs e)
-		{
-			var obj = e.Context.Global;
-			obj.SetValue("__nanui_version__", CfrV8Value.CreateString(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()), CfxV8PropertyAttribute.ReadOnly);
-		}
-		
-		private static void OnApplicationExit(object sender, EventArgs e)
-		{
-			foreach (var handle in SchemeHandlerGCHandles)
-			{
-				handle.Free();
-			}
-			BrowserCore.Shutdown();
 		}
 
 		public static void RegisterFolderResources(string path, string domainName = "assets.app.local")
@@ -209,20 +70,21 @@ namespace NetDimension.NanUI
 			};
 
 			RegisterCustomScheme("http", domainName, factory);
+
 		}
 
-
-		public static void RegisterAssemblyResources(System.Reflection.Assembly assembly, string domainName = "res.app.local")
+		public static void RegisterAssemblyResources(System.Reflection.Assembly assembly, string baseDir = null, string domainName = "res.app.local")
 		{
 			var factory = new CfxSchemeHandlerFactory();
-			var gchandle = GCHandle.Alloc(factory);
+
+
 
 			factory.Create += (_, args) =>
 			{
 				if (args.SchemeName == "http" && args.Browser != null)
 				{
 					var wb = BrowserCore.GetBrowser(args.Browser.Identifier);
-					var handler = new ResourceHandler.AssemblyResourceHandler(assembly, wb, domainName);
+					var handler = new AssemblyResourceHandler(assembly, wb, domainName, baseDir);
 					args.SetReturnValue(handler);
 				}
 			};
@@ -235,7 +97,235 @@ namespace NetDimension.NanUI
 			{
 				throw new ArgumentNullException("schemeName", "必须为scheme指定名称。");
 			}
+
+			var gchandle = GCHandle.Alloc(factory);
+
+			ResourceHandlerGCHandles.Add(gchandle);
+
 			var result = CfxRuntime.RegisterSchemeHandlerFactory(schemeName, doamin, factory);
+
+		}
+
+
+
+
+		public static CfxPlatformArch PlatformArchitecture
+		{
+			get
+			{
+
+
+				return CfxRuntime.PlatformArch;
+			}
+		}
+
+
+		public static string LibCefDir
+		{
+			get
+			{
+
+				if (string.IsNullOrEmpty(libCefDir))
+				{
+					libCefDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+
+					if (!File.Exists(Path.Combine(libCefDir, "libcef.dll")))
+					{
+						libCefDir = Path.Combine(libCefDir, "fx");
+
+						if (PlatformArchitecture == CfxPlatformArch.x64)
+						{
+							libCefDir = Path.Combine(libCefDir, "x64");
+						}
+						else
+						{
+							libCefDir = Path.Combine(libCefDir, "x86");
+						}
+
+						if (!File.Exists(Path.Combine(libCefDir, "libcef.dll")))
+						{
+							throw new DllNotFoundException("libcef.dll is not found.");
+						}
+					}
+				}
+
+
+				return libCefDir;
+			}
+
+			internal set
+			{
+
+				if (File.Exists(Path.Combine(value, "libcef.dll")))
+				{
+					libCefDir = value;
+				}
+				else
+				{
+					throw new DllNotFoundException("libcef.dll is not found.");
+				}
+			}
+		}
+		public static string ResourcesDir
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(resourceDir))
+				{
+					resourceDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+
+					if (!Directory.Exists(resourceDir) || Directory.GetFiles(resourceDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+					{
+						resourceDir = Path.Combine(resourceDir, "fx");
+
+						if (!Directory.Exists(resourceDir) || Directory.GetFiles(resourceDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+						{
+							resourceDir = Path.Combine(resourceDir, "Resources");
+
+							if (!Directory.Exists(resourceDir) || Directory.GetFiles(resourceDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+							{
+								throw new FileNotFoundException("Can't find the resources automatically.");
+							}
+						}
+
+					}
+				}
+
+
+				return resourceDir;
+			}
+			internal set
+			{
+				if (!Directory.Exists(value) || Directory.GetFiles(value, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+				{
+					throw new FileNotFoundException("The specified directory did not exists or no resources can be found in it.");
+				}
+
+				resourceDir = value;
+			}
+		}
+		public static string LocalesDir
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(localesDir))
+				{
+					var appPath = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+					localesDir = Path.Combine(appPath, "locales");
+
+					if (!Directory.Exists(localesDir) || Directory.GetFiles(localesDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+					{
+						localesDir = Path.Combine(appPath, "fx\\locales");
+
+						if (!Directory.Exists(localesDir) || Directory.GetFiles(localesDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+						{
+							localesDir = Path.Combine(appPath, "fx\\Resources\\locales");
+
+							if (!Directory.Exists(localesDir) || Directory.GetFiles(localesDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+							{
+								throw new FileNotFoundException("Can't find the locales directory automatically.");
+							}
+						}
+					}
+				}
+
+
+				return localesDir;
+			}
+			internal set
+			{
+				if (!Directory.Exists(value) || Directory.GetFiles(value, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
+				{
+					throw new FileNotFoundException("The specified directory did not exists or no locale files can be found in it.");
+				}
+
+				localesDir = value;
+			}
+		}
+
+
+
+
+		public static bool Load(Action<CfxSettings> settingsBuildAction = null, Action<CfxCommandLine> commandLineBuildAction = null)
+		{
+			
+			
+			SettingsBuilder = settingsBuildAction;
+			CommandLineHandler = commandLineBuildAction;
+			CfxRuntime.LibCefDirPath = LibCefDir;
+
+
+			BrowserCore.OnBeforeCfxInitialize += (args) =>
+			{
+
+				CheckIfCefHasBeenInitialized();
+
+
+				if (!Directory.Exists(ApplicationCacheDirectory))
+				{
+					Directory.CreateDirectory(ApplicationCacheDirectory);
+				}
+
+				CfxRuntime.EnableHighDpiSupport();
+				args.Settings.JavascriptFlags = "--expose-gc";
+
+				args.Settings.Locale = Thread.CurrentThread.CurrentCulture.ToString();
+				args.Settings.AcceptLanguageList = Thread.CurrentThread.CurrentCulture.ToString();
+
+				args.Settings.CachePath = ApplicationCacheDirectory;
+
+				args.Settings.LogFile = Path.Combine(ApplicationCacheDirectory, "debug.log");
+
+				SettingsBuilder?.Invoke(args.Settings);
+
+
+
+				args.Settings.LocalesDirPath = LocalesDir;
+				args.Settings.ResourcesDirPath = ResourcesDir;
+
+				args.Settings.SingleProcess = false;
+				args.Settings.MultiThreadedMessageLoop = true;
+				args.Settings.NoSandbox = true;
+
+			};
+
+			BrowserCore.OnBeforeCommandLineProcessing += (args) =>
+			{
+				CheckIfCefHasBeenInitialized();
+
+				args.CommandLine.AppendSwitch("enable-experimental-web-platform-features");
+
+
+				CommandLineHandler?.Invoke(args.CommandLine);
+
+			};
+
+			Application.ApplicationExit += (app, args) =>
+			{
+
+				foreach (var handle in ResourceHandlerGCHandles)
+				{
+					handle.Free();
+				}
+
+				CfxRuntime.Shutdown();
+			};
+
+			try
+			{
+
+				BrowserCore.Initialize();
+				isCefInitialized = true;
+				return true;
+			}
+			catch (Exception ex)
+			{
+				var exception = ex.InnerException == null ? ex : ex.InnerException;
+			}
+
+
+			return false;
+
 		}
 
 	}

@@ -22,15 +22,16 @@ namespace NetDimension.NanUI.ResourceHandler
 		private GCHandle gcHandle;
 
 		private string domain = null;
+		private string basePath = null;
 
 		private int? buffStartPostition = null;
 		private int? buffEndPostition = null;
 		private bool isPartContent = false;
 
-		internal AssemblyResourceHandler(Assembly resourceAssembly, BrowserCore browser, string domain)
+		internal AssemblyResourceHandler(Assembly resourceAssembly, BrowserCore browser, string domain, string basePath = null)
 		{
 			gcHandle = GCHandle.Alloc(this);
-
+			this.basePath = basePath;
 			this.domain = domain;
 			this.browser = browser;
 			this.resourceAssembly = resourceAssembly;
@@ -152,6 +153,11 @@ namespace NetDimension.NanUI.ResourceHandler
 			if (fileName.StartsWith("/") && fileName.Length > 1)
 			{
 				fileName = fileName.Substring(1);
+			}
+
+			if (!string.IsNullOrEmpty(basePath))
+			{
+				fileName = $"{basePath}/{fileName}";
 			}
 
 			var mainAssembly = resourceAssembly;

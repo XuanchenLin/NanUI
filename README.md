@@ -17,6 +17,17 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+
+**2018/2/13**
+
+- 改进:更新了Bootstrap的部分初始化逻辑。
+- 新功能：AssemblyResourceHandler加入了指定启动目录的功能。
+
+现在Bootstrap的Load方法不需要指定平台和各种目录，新增了NanUI自动探测CEF版本的逻辑，如果按照之前fx文件夹的格式来放置CEF各项文件，只需要执行``Bootstrap.Load()``就可以完成加载，而无需复杂的配置。在下一个版本的NanUI，Bootstrap将替换成FluentAPI的形式来执行加载。如果还是需要指定特定的CEF文件位置，请单独设置Bootstrap类的LibCefDir、ResourcesDir、LocalesDir三个属性来指定CEF各种文件的位置。
+
+另外，AssemblyResourceHandler加入了指定启动目录的功能。例如老版本的NanUI使用AssemblyResourceHandler时如果资源文件放置于项目的子目录下，那么在调用该资源时需要在url中指定该目录，现在在注册AssemblyResourceHandler时只需要指定baseDir路径，那么就可以跳过该子文件夹直接访问资源。例如，您的资源文件放置于项目的www目录中，那么在指定baseDir为www后，您可以直接通过http://res.app.local/[file.ext]来访问到www目录中对应的文件。
+
+
 **2018/2/12**
 -新功能：Formium里添加了新的窗体阴影效果，现在可以通过窗体属性ShadowEffect选择传统的GlowShadow和DropShadow(新)两种样式。DropShadow样式效果和Win7的投影效果类似。
 
@@ -28,6 +39,8 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - BUG FIX: 修复了子窗体最小化后主窗体不响应鼠标事件的问题。
 - IMPROVE: 优化了窗口逻辑。
 - NEW FEATURE: 增加了注册本地文件夹内资源的ResourceHandler，现在可以通过使用Bootstrap的RegisterFolderResources方法来注册一整个文件夹中的资源文件到指定的域名，也就是说除了内嵌资源外，又提供了一种访问磁盘文件的途径。
+
+如果您的项目中需要频的调用磁盘上的文件，那么把这些文件打包在DLL中显然是不现实的。现在NanUI提供了一个新的方法RegisterFolderResources(string path, string domainName)，它可以将一个物理磁盘上的目录注册为资源入口，并通过指定的domian来进行访问。例如，D:\www文件夹中的内容是需要在程序运行时频繁访问的，那么调用```Bootstrap.RegisterFolderResources("D:\\www", "assets.app.local")```就可以在网页中通过http://assets.app.local域名来访问到D:\www文件夹中对应的文件。
 
 **2018/1/25**
 - BUG FIX: When FormBorderStyle = None, the Form border will show incorrect
