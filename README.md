@@ -18,6 +18,11 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 
 ## Changes
 
+**2018/2/17**
+
+- 改进：现在视频播放时能够正确的支持全屏了。
+- 改进：移除了默认的上下文菜单中不常用的功能。
+
 **2018/2/13**
 
 - 改进:更新了Bootstrap的部分初始化逻辑。
