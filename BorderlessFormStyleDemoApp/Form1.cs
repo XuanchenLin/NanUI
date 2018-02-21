@@ -14,7 +14,7 @@ namespace BorderlessFormStyleDemoApp
 	public partial class Form1 : Formium
 	{
 		public Form1()
-			: base("http://res.app.local/asserts/index.html")
+			: base("http://res.app.local/index.html")
 		{
 			InitializeComponent();
 

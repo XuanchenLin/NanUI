@@ -81,7 +81,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="asserts\fonts\fontawesome-webfont.woff2" />
+    <EmbeddedResource Include="assets\fonts\fontawesome-webfont.woff2" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -97,16 +97,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="asserts\index.html" />
-    <EmbeddedResource Include="asserts\scripts\jquery-2.2.3.js" />
-    <EmbeddedResource Include="asserts\styles\app.css" />
-    <EmbeddedResource Include="asserts\styles\font-awesome.min.css" />
+    <EmbeddedResource Include="assets\index.html" />
+    <EmbeddedResource Include="assets\scripts\jquery-2.2.3.js" />
+    <EmbeddedResource Include="assets\styles\app.css" />
+    <EmbeddedResource Include="assets\styles\font-awesome.min.css" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\NanUI.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="asserts\PopupWindow.html" />
+    <EmbeddedResource Include="assets\PopupWindow.html" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetDimension.NanUI\NetDimension.NanUI.csproj">

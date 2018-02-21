@@ -26,7 +26,7 @@ namespace BorderlessFormStyleDemoApp
 				//Register html/css/javascript/image resources in current executing assembly. 
 				//If you want to embed any kind of resource in your app, just add it to your project and set the Build Action to Embedded Resource.
 				//System.Reflection.Assembly.GetExecutingAssembly();
-				Bootstrap.RegisterAssemblyResources(System.Reflection.Assembly.GetExecutingAssembly());
+				Bootstrap.RegisterAssemblyResources(System.Reflection.Assembly.GetExecutingAssembly(), "assets");
 				Application.Run(new Form1());
 			}
 
