@@ -17,6 +17,10 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+**2018/2/23**
+- 修改：取消了Formium构造函数中的第二个参数，现在窗体强制使用无边框窗体的样式。如果需要使用系统原生窗体，请自行工具箱里添加NetDimension.NanUI.dll中的WebBrowserControl
+- 移除了DEMO中的视频测试功能，服务器压力太大，怕老板找我茬。
+- **特别提醒：** 在nuget里使用了0.6.xxxx.10版本的朋友请升级到0.6.xxxx.11版，或者自行编译源码，xxxx.10版的Bootstrap.Load函数有问题将导致项目启动失败。
 
 **2018/2/17**
 

@@ -157,15 +157,15 @@ namespace NetDimension.NanUI
 
 		}
 
+		//public Formium(string initialUrl)
+		//		: this(initialUrl, true)
+		//{
+
+		//}
+
+
 		public Formium(string initialUrl)
-				: this(initialUrl, true)
-		{
-
-		}
-
-
-		public Formium(string initialUrl, bool enableModernForm)
-				: base(enableModernForm)
+				: base(true)
 		{
 			FormHandle = this.Handle;
 
