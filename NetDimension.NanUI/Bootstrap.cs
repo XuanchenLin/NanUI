@@ -266,6 +266,7 @@ namespace NetDimension.NanUI
 					Directory.CreateDirectory(ApplicationCacheDirectory);
 				}
 
+				//This should be enabled on next NanUI version. On 2987, it will cause some issues.
 				CfxRuntime.EnableHighDpiSupport();
 				args.Settings.JavascriptFlags = "--expose-gc";
 
@@ -293,7 +294,8 @@ namespace NetDimension.NanUI
 			{
 				CheckIfCefHasBeenInitialized();
 
-				args.CommandLine.AppendSwitch("enable-experimental-web-platform-features");
+				//This should be enabled on next NanUI version.
+				//args.CommandLine.AppendSwitch("enable-experimental-web-platform-features");
 
 
 				CommandLineHandler?.Invoke(args.CommandLine);
