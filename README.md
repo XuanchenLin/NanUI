@@ -17,6 +17,12 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
 ## Changes
+
+**2018/3/2**
+- BUG:修正了自定义菜单没用的问题。
+- 移除了Formium类构造函数的第二个设置是否采用原生窗口的参数。现在Formium类强制使用无边框的重绘样式。
+- 新增了WinFormium类，该类的作用与之前Formium构造函数第二个参数指定为false时效果一致。
+
 **2018/3/1**
 - 修正：在DEMO程序中添加了app.manifest文件，通过改文件修正demo程序在高分辨率下不正常的问题。
 

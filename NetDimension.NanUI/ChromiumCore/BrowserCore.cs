@@ -1165,7 +1165,7 @@ namespace Chromium.WebBrowser
 				var menuModel = args.Model;
 				for (int index = menuModel.Count - 1; index >= 0; index--)
 				{
-					if (!CfxContextMenu.IsEdition(menuModel.GetCommandIdAt(index)))
+					if (!CfxContextMenu.IsEdition(menuModel.GetCommandIdAt(index)) && !CfxContextMenu.IsUserDefined(menuModel.GetCommandIdAt(index)))
 					{
 						menuModel.RemoveAt(index);
 					}

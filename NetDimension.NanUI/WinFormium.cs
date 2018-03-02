@@ -1,27 +1,26 @@
-﻿using Chromium.WebBrowser;
-using NetDimension.Windows.Imports;
-using NetDimension.WinForm;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Chromium;
-using System.ComponentModel;
-using Chromium.Remote;
-using Chromium.WebBrowser.Event;
 
 namespace NetDimension.NanUI
 {
-	public class Formium : ModernUIForm, IChromiumClient
+	using Chromium;
+	using Chromium.Remote;
+	using Chromium.WebBrowser;
+	using NetDimension.Windows.Imports;
+	using NetDimension.WinForm;
+	using System.ComponentModel;
+	using System.Drawing;
+
+	public class WinFormium : Form, IChromiumClient
 	{
 		#region ICefClient
 		[Browsable(false)]
 		public CfxBrowser Browser => Chromium?.Browser;
 		[Browsable(false)]
-		public CfxBrowserHost BrowserHost => Chromium.BrowserHost;
+		public CfxBrowserHost BrowserHost => Chromium?.BrowserHost;
 		[Browsable(false)]
 		public Uri Url => Chromium.Url;
 		[Browsable(false)]
@@ -74,14 +73,29 @@ namespace NetDimension.NanUI
 		public JSObject GlobalObjectForFrame(string frameName) => Chromium.GlobalObjectForFrame(frameName);
 		#endregion
 
-		protected IntPtr FormHandle { get; private set; }
-
+		private static bool? isDesingerProcess = null;
 		private SplashPanelImplement splashPanel;
 		private WebBrowserFormImplement webBrowserForm;
 
 		protected readonly WebBrowserControl BrowserWrapper;
 
 		protected BrowserCore Chromium => BrowserWrapper?.Chromium;
+
+		protected IntPtr FormHandle { get; private set; }
+
+		protected bool IsDesignMode => DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime || IsDesingerProcess;
+		protected static bool IsDesingerProcess
+		{
+			get
+			{
+				if (isDesingerProcess == null)
+				{
+					isDesingerProcess = System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv";
+				}
+
+				return isDesingerProcess.Value;
+			}
+		}
 
 		protected IntPtr BrowserHandle
 		{
@@ -90,7 +104,6 @@ namespace NetDimension.NanUI
 				return Chromium.BrowserHost.WindowHandle;
 			}
 		}
-
 
 		#region Splash
 		[Category("NanUI")]
@@ -102,6 +115,7 @@ namespace NetDimension.NanUI
 				return splashPanel.SplashPanel;
 			}
 		}
+
 		/// <summary>
 		/// 设置或获取NanUI窗口加载等待画面使用的图片
 		/// </summary>
@@ -132,6 +146,8 @@ namespace NetDimension.NanUI
 				splashPanel.SplashImageLayout = value;
 			}
 		}
+
+
 		/// <summary>
 		/// 设置或获取NanUI窗口加载等待画面背景颜色
 		/// </summary>
@@ -147,19 +163,16 @@ namespace NetDimension.NanUI
 				splashPanel.SplashPanelColor = value;
 			}
 		}
+
 		#endregion
 
-
-		public Formium()
-				: this(null)
+		public WinFormium()
+	: this("about:blank")
 		{
 
 		}
-
-		public Formium(string initialUrl)
+		public WinFormium(string initialUrl)
 		{
-			FormHandle = this.Handle;
-
 
 			if (!IsDesignMode)
 			{
@@ -167,140 +180,22 @@ namespace NetDimension.NanUI
 				Controls.Add(BrowserWrapper);
 				BrowserWrapper.Dock = DockStyle.Fill;
 				BrowserWrapper.SendToBack();
+
 				webBrowserForm = new WebBrowserFormImplement(this, this.Chromium);
-				Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
+				splashPanel = new SplashPanelImplement(this, this.Chromium);
 			}
-
 		}
-
-
-		private FormV8Handler formV8Handler;
-
-		private void WebBrowserCore_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e)
-		{
-			formV8Handler = new FormV8Handler(this);
-#if XP
-			CfrRuntime.RegisterExtension("nanui/form", NetDimension.NanUI.XP.Properties.Resources.nanui_formExtension, formV8Handler);
-#else
-			CfrRuntime.RegisterExtension("nanui/form", NetDimension.NanUI.Properties.Resources.nanui_formExtension, formV8Handler);
-#endif
-
-
-		}
-
-
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			FormHandle = this.Handle;
-
-			base.OnHandleCreated(e);
-
-		}
-
+		
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
+
+
 			base.OnFormClosed(e);
+
+
 			Chromium.Dispose();
+
 		}
-
-
-
-		#region Hanlde Browser Messages
-		private void WebBrowserCore_OnBrowserMessage(object sender, Chromium.WebBrowser.BrowserMessageEventArgs e)
-		{
-			if (BrowserHandle == IntPtr.Zero) return;
-
-			var msg = (WindowsMessages)e.BrowserMessage.Msg;
-			if (CanResize && msg == WindowsMessages.WM_MOUSEMOVE)
-			{
-				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
-				var mode = GetSizeMode(pt);
-
-				if (mode != HitTest.HTCLIENT)
-				{
-					User32.ClientToScreen(FormHandle, ref pt);
-					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCHITTEST, IntPtr.Zero, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
-					e.Handled = true;
-				}
-			}
-
-			if (msg == WindowsMessages.WM_LBUTTONDOWN)
-			{
-				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
-				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));
-
-				var mode = GetSizeMode(pt);
-				if (CanResize && mode != HitTest.HTCLIENT)
-				{
-
-					User32.ClientToScreen(FormHandle, ref pt);
-
-					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)mode, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
-
-					e.Handled = true;
-
-				}
-				else if (dragable && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
-				{
-					Browser.Host.NotifyMoveOrResizeStarted();
-
-					User32.PostMessage(FormHandle, (uint)DefMessages.WM_NANUI_DRAG_APP_REGION, IntPtr.Zero, IntPtr.Zero);
-
-					e.Handled = true;
-
-				}
-			}
-
-			if (CanResize && msg == WindowsMessages.WM_LBUTTONDBLCLK)
-			{
-				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
-				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));
-				if (dragable)
-				{
-					User32.SendMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDBLCLK, (IntPtr)HitTest.HTCAPTION, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
-					e.Handled = true;
-				}
-			}
-
-			if (msg == WindowsMessages.WM_RBUTTONDOWN)
-			{
-				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
-				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));
-				if (dragable)
-				{
-
-					User32.SendMessage(FormHandle, (uint)DefMessages.WM_NANUI_APP_REGION_RBUTTONDOWN, IntPtr.Zero, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
-					e.Handled = true;
-
-				}
-			}
-		}
-
-		protected override void DefWndProc(ref Message m)
-		{
-
-			if (m.Msg == (int)DefMessages.WM_NANUI_DRAG_APP_REGION)
-			{
-
-				User32.ReleaseCapture();
-				User32.SendMessage(Handle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)HitTest.HTCAPTION, (IntPtr)0);
-			}
-
-
-			if (m.Msg == (int)DefMessages.WM_NANUI_APP_REGION_RBUTTONDOWN)
-			{
-				var pt = Win32.GetPostionFromPtr(m.LParam);
-
-				var ptToScr = PointToScreen(new Point(pt.x, pt.y));
-
-				ShowSystemMenu(this, ptToScr);
-			}
-
-			base.DefWndProc(ref m);
-		}
-		#endregion
-
-
 
 	}
 }

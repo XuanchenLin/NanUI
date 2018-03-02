@@ -115,9 +115,15 @@
     <Compile Include="..\NetDimension.NanUI\ResourceHandler\FolderResourceHandler.cs">
       <Link>ResourceHandler\FolderResourceHandler.cs</Link>
     </Compile>
+    <Compile Include="..\NetDimension.NanUI\SplashPanelImplement.cs">
+      <Link>SplashPanelImplement.cs</Link>
+    </Compile>
     <Compile Include="..\NetDimension.NanUI\WebBrowserControl.cs">
       <Link>WebBrowserControl.cs</Link>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WebBrowserFormImplement.cs">
+      <Link>WebBrowserFormImplement.cs</Link>
     </Compile>
     <Compile Include="..\NetDimension.NanUI\Windows\Imports\DefMessages.cs">
       <Link>Windows\Imports\DefMessages.cs</Link>
