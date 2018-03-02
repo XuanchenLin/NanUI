@@ -182,10 +182,12 @@ namespace NetDimension.NanUI
 				BrowserWrapper.SendToBack();
 
 				webBrowserForm = new WebBrowserFormImplement(this, this.Chromium);
-				splashPanel = new SplashPanelImplement(this, this.Chromium);
 			}
+
+			splashPanel = new SplashPanelImplement(this, this.Chromium);
+
 		}
-		
+
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 

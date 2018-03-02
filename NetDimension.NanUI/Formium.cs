@@ -171,6 +171,9 @@ namespace NetDimension.NanUI
 				Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
 			}
 
+			splashPanel = new SplashPanelImplement(this, this.Chromium);
+
+
 		}
 
 
