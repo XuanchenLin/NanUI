@@ -805,8 +805,6 @@ namespace NetDimension.WinForm
 				this.isInitializing--;
 			if (this.isInitializing == 0)
 			{
-				CheckMinimumSize();
-				CheckMaximumSize();
 				CheckForceModernUIChangedCore();
 			}
 
