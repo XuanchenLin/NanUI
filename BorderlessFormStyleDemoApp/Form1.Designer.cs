@@ -46,7 +46,6 @@
 			this.SplashImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.SplashPanelColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(0)))), ((int)(((byte)(102)))));
 			this.Text = "Form1";
-			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.ResumeLayout(false);
 
 		}
