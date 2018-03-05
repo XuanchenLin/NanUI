@@ -16,6 +16,33 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 - Combined HtmlUIForm and HtmlContentForm to one Formium which support these two styles.
 - Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
 
+## Build NetDimension.NanUI.dll
+
+You should use the complier which supports C# 7.0 syntax. Visual Studio 2017 is recommended.
+
+## Releases
+Stable NanUI binaries are released on NuGet. Use following Nuget command to install latest version of NanUI to your Winfrom application. It will install CEF and CFX dependencies too and the dependencies will automatic copy to the **bin** folder.
+
+**NOTE:** NanUI requires .Net Framework 4.0 as minimal support.
+
+**Nuget Package Manager**
+```
+PM> Install-Package NetDimension.NanUI
+```
+
+**Release of NetDimension.NanUI.XP**
+
+Another version of NanUI that supports **Windows XP** is now can be downloaded on Nuget by using following command:
+```
+PM> Install-Package NetDimension.NanUI.XP
+```
+
+
+
+**Download Manually**
+- [NetDimension.NanUI](https://www.nuget.org/packages/NetDimension.NanUI/) - NanUI main library
+- [NetDimension.NanUI.Cef2987](https://www.nuget.org/packages/NetDimension.NanUI.Cef2987/) - Dependencies of NanUI (Include CEF3.2987.1601.0 and ChromiumFX3.2987.1601 binaries)
+
 ## Changes
 
 **2018/3/2**
@@ -100,36 +127,6 @@ NanUI is MIT licensed, so you can use it in both business and free/open source a
 **2017/9/10**
 - update to version 0.6
 
-## Build NetDimension.NanUI.dll
-
-You should use the complier which supports C# 7.0 syntax. Visual Studio 2017 is recommended.
-
-## Releases
-Stable NanUI binaries are released on NuGet. Use following Nuget command to install latest version of NanUI to your Winfrom application. It will install CEF and CFX dependencies too and the dependencies will automatic copy to the **bin** folder.
-
-**NOTE:** NanUI requires .Net Framework 4.0 as minimal support.
-
-**Nuget Package Manager**
-```
-PM> Install-Package NetDimension.NanUI
-```
-
-**Release of NetDimension.NanUI.XP**
-
-Another version of NanUI that supports **Windows XP** is now can be downloaded on Nuget by using following command:
-```
-PM> Install-Package NetDimension.NanUI.XP
-```
-
-
-
-**Download Manually**
-- [NetDimension.NanUI](https://www.nuget.org/packages/NetDimension.NanUI/) - NanUI main library
-- [NetDimension.NanUI.Cef2987](https://www.nuget.org/packages/NetDimension.NanUI.Cef2987/) - Dependencies of NanUI (Include CEF3.2987.1601.0 and ChromiumFX3.2987.1601 binaries)
-
-
-
-
 ## Basic Usage
 
 **Initialize Runtime in Main**
@@ -148,7 +145,7 @@ namespace TestApplication
 			//Initalize: set CEF paths
 			//If you use default structure of the FX folder, you should provide paths of fx folder, resources folder and locales folder.
 
-			var result = Bootstrap.Load(PlatformArch.Auto, System.IO.Path.Combine(Application.StartupPath, "fx"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources"), System.IO.Path.Combine(Application.StartupPath, "fx\\Resources\\locales"));
+			var result = Bootstrap.Load();
 			
 			if (result)
 			{
@@ -171,13 +168,13 @@ namespace TestApplication
 ```C#
 namespace TestApplication
 {
-	public partial class Form1 : Formium
+	public partial class Form1 : WinFormium
 
 	{
 
 		public Form1()
 			//Load embedded resource index.html and not set form to no border style by the second parameter.
-			: base("http://res.app.local/index.html", false)
+			: base("http://res.app.local/index.html")
 		{
 			InitializeComponent();
 		}
@@ -205,7 +202,7 @@ namespace TestApplication
 
 ## Documentation
 
-I have no time for writting documents for the present, documents will come late.
+[WiKi](https://github.com/NetDimension/NanUI/wiki)
 
 
 ## Donate
