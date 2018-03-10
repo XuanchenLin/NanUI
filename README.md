@@ -45,7 +45,7 @@ PM> Install-Package NetDimension.NanUI.XP
 
 ## Changes
 
-Latest change at 2018/3/2, see (here)[https://github.com/NetDimension/NanUI/blob/master/changes.txt] to check the details.
+Latest change at 2018/3/2, see [here](https://github.com/NetDimension/NanUI/blob/master/changes.txt) to check the details.
 
 
 ## Basic Usage
