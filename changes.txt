@@ -1,0 +1,77 @@
+2018/3/2
+
+BUG:修正了自定义菜单没用的问题。
+移除了Formium类构造函数的第二个设置是否采用原生窗口的参数。现在Formium类强制使用无边框的重绘样式。
+新增了WinFormium类，该类的作用与之前Formium构造函数第二个参数指定为false时效果一致。
+2018/3/1
+
+修正：在DEMO程序中添加了app.manifest文件，通过改文件修正demo程序在高分辨率下不正常的问题。
+2018/2/23
+
+修改：取消了Formium构造函数中的第二个参数，现在窗体强制使用无边框窗体的样式。如果需要使用系统原生窗体，请自行工具箱里添加NetDimension.NanUI.dll中的WebBrowserControl
+移除了DEMO中的视频测试功能，服务器压力太大，怕老板找我茬。
+特别提醒： 在nuget里使用了0.6.xxxx.10版本的朋友请升级到0.6.xxxx.11版，或者自行编译源码，xxxx.10版的Bootstrap.Load函数有问题将导致项目启动失败。
+2018/2/17
+
+改进：现在视频播放时能够正确的支持全屏了。
+改进：移除了默认的上下文菜单中不常用的功能。
+2018/2/13
+
+改进:更新了Bootstrap的部分初始化逻辑。
+新功能：AssemblyResourceHandler加入了指定启动目录的功能。
+现在Bootstrap的Load方法不需要指定平台和各种目录，新增了NanUI自动探测CEF版本的逻辑，如果按照之前fx文件夹的格式来放置CEF各项文件，只需要执行Bootstrap.Load()就可以完成加载，而无需复杂的配置，现在Load方法的两个参数是针对SettingsBuilder、CommandLineHandler快捷代理。在下一个版本的NanUI，Bootstrap将替换成FluentAPI的形式来执行操作，所以目前这些调整也是临时的。
+
+如果还是需要指定特定的CEF文件位置，请单独设置Bootstrap类的LibCefDir、ResourcesDir、LocalesDir三个属性来指定CEF各种文件的位置。
+
+另外，AssemblyResourceHandler加入了指定启动目录的功能。例如老版本的NanUI使用AssemblyResourceHandler时如果资源文件放置于项目的子目录下，那么在调用该资源时需要在url中指定该目录，现在在注册AssemblyResourceHandler时只需要指定baseDir路径，那么就可以跳过该子文件夹直接访问资源。例如，您的资源文件放置于项目的www目录中，那么在指定baseDir为www后，您可以直接通过http://res.app.local/[file.ext]来访问到www目录中对应的文件。
+
+2018/2/12
+
+新功能：Formium里添加了新的窗体阴影效果，现在可以通过窗体属性ShadowEffect选择传统的GlowShadow和DropShadow(新)两种样式。DropShadow样式效果和Win7的投影效果类似。
+2018/2/11
+
+BUG FIX: 修复了一个当拥有并打开了子窗体的主窗体获取焦点时其本身将覆盖子窗体的阴影窗口的问题。
+NEW VERSION: 0.7版的NanUI已在开发中，新版除了继续调整窗口问题外，还将引入新的阴影绘制逻辑，另外类型注册也是新版本的重点内容。
+2018/2/10
+
+BUG FIX: 修复了子窗体最小化后主窗体不响应鼠标事件的问题。
+IMPROVE: 优化了窗口逻辑。
+NEW FEATURE: 增加了注册本地文件夹内资源的ResourceHandler，现在可以通过使用Bootstrap的RegisterFolderResources方法来注册一整个文件夹中的资源文件到指定的域名，也就是说除了内嵌资源外，又提供了一种访问磁盘文件的途径。
+如果您的项目中需要频的调用磁盘上的文件，那么把这些文件打包在DLL中显然是不现实的。现在NanUI提供了一个新的方法RegisterFolderResources(string path, string domainName)，它可以将一个物理磁盘上的目录注册为资源入口，并通过指定的domian来进行访问。例如，D:\www文件夹中的内容是需要在程序运行时频繁访问的，那么调用Bootstrap.RegisterFolderResources("D:\\www", "assets.app.local")就可以在网页中通过http://assets.app.local域名来访问到D:\www文件夹中对应的文件。
+
+2018/1/25
+
+BUG FIX: When FormBorderStyle = None, the Form border will show incorrect
+2018/1/23
+
+BUG FIX: ShowInTaskBar=True, NanUI will crash.
+2018/1/16
+
+BUG FIX: ShowInTaskBar=True, ModernUI Shadows will show on incorrect position.
+BUG: ShowInTaskBar=True, NanUI will crash. Please wait for this issue solved.
+2018/1/10
+
+BUG FIX: NanUI.XP run at 32bit mode will crash sometimes.
+2017/12/21
+
+New feature: added a new WebBrowser control to NanUI. You can now drag the WebBrowserControl to your form.
+2017/12/11
+
+BUG FIX: n-ui-command html attribute doesn’t fire and cause a javasscript error.
+Update new nuget packages.
+2017/11/24
+
+BUG FIX: n-ui-command html attribute will not fire if html source dosen’t contain script tags.
+Update new dependencies of NetDimension.NanUI. I made a mistake, the old one did not contain 32bit dependencies. So please reinstall the new one.
+2017/9/25
+
+Fixed: if your project didn’t has satellite resources, the program will crash by a dll file not found exception.
+Fixed: if your html contains select element which is opened and dropdown is shown, moving or resizing the window will cause the dropdown at wrong place.
+2017/9/22
+
+Add NetDimension.NanUI.XP project, it can use on Windows XP and it is based on CEF3.2526.1373.
+The sources of NanUI 0.6 is open source now.
+Fixed an issue that if you add embedded globalization files like xxx.zh-cn.js or xxx.en-us.css to your project, the complier will auto generate satellite files in output fold and NanUI did not loads these files correctly.
+2017/9/10
+
+update to version 0.6
