@@ -27,6 +27,8 @@ namespace BorderlessFormStyleDemoApp
 				//If you want to embed any kind of resource in your app, just add it to your project and set the Build Action to Embedded Resource.
 				//System.Reflection.Assembly.GetExecutingAssembly();
 				Bootstrap.RegisterAssemblyResources(System.Reflection.Assembly.GetExecutingAssembly(), "assets");
+				Bootstrap.RegisterFolderResources(Application.StartupPath);
+				
 				Application.Run(new Form1());
 			}
 

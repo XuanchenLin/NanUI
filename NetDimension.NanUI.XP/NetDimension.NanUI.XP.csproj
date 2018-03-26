@@ -137,6 +137,10 @@
     <Compile Include="..\NetDimension.NanUI\Windows\Imports\WindowMessages.cs">
       <Link>Windows\Imports\WindowMessages.cs</Link>
     </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinFormium.cs">
+      <Link>WinFormium.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="..\NetDimension.NanUI\WinForm\ControlExtensions.cs">
       <Link>WinForm\ControlExtensions.cs</Link>
     </Compile>

@@ -426,12 +426,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ShadowTemplate.png" />
-    <None Include="Resources\nanui.formExtension.js" />
-    <Content Include="Resources\nanui.frameGlobal.js" />
-    <None Include="Resources\nanui.nativeExtension.js" />
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -885,7 +885,7 @@ namespace NetDimension.WinForm
 			if (WindowState != FormWindowState.Maximized)
 				return res;
 			var rect = new RECT(0, 0, res.Width, res.Height);
-			//Taskbar.CorrectRECTByAutoHide(ref rect);
+			
 			return new Size(rect.Right, rect.Bottom);
 		}
 		private bool inScaleControl = false;

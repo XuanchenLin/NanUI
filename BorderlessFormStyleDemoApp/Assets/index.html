@@ -76,16 +76,30 @@
 					<button onclick="showDialog()">Show Dialog</button>
 				</p>
 
+				<h3>Local file</h3>
+				<iframe src="http://assets.app.local/local.html" style="width:80vw"></iframe>
+
+				<p>
+					<button onclick="refreshIframe()">Refresh</button>
+				</p>
+
 				<h3>Dev Tools</h3>
 				<p>
 					<button onclick="showDevTools()">Open Chromium Dev Tools</button>
 				</p>
+
+				
 			</article>
 
 		</content>
 	</div>
 
 	<script>
+		function refreshIframe() {
+			var frame = $("iframe")[0];
+			frame.src = frame.src;
+		}
+
 		$(function () {
 
 			$(window).on("hoststatechange", function (e) {
