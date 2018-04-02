@@ -210,7 +210,7 @@ namespace NetDimension.NanUI
 			{
 				if (string.IsNullOrEmpty(localesDir))
 				{
-					var appPath = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+					var appPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 					localesDir = Path.Combine(appPath, "locales");
 
 					if (!Directory.Exists(localesDir) || Directory.GetFiles(localesDir, "*.pak", SearchOption.TopDirectoryOnly).Length == 0)
@@ -286,7 +286,7 @@ namespace NetDimension.NanUI
 
 				args.Settings.SingleProcess = false;
 				args.Settings.MultiThreadedMessageLoop = true;
-				args.Settings.NoSandbox = true;
+				args.Settings.NoSandbox = false;
 
 			};
 

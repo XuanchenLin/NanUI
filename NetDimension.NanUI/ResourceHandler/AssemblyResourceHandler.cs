@@ -143,6 +143,9 @@ namespace NetDimension.NanUI.ResourceHandler
 				webResource = browser.WebResources[requestUrl];
 				callback.Continue();
 				e.SetReturnValue(true);
+
+				Console.WriteLine($"[加载缓存资源]:\t{requestUrl}");
+
 				return;
 			}
 
@@ -231,7 +234,12 @@ namespace NetDimension.NanUI.ResourceHandler
 				}
 
 				callback.Continue();
+
+
 				e.SetReturnValue(true);
+
+				Console.WriteLine($"[加载嵌入资源]:\t{requestUrl}");
+
 			}
 			else
 			{
@@ -262,7 +270,6 @@ namespace NetDimension.NanUI.ResourceHandler
 			if (readResponseStreamOffset == webResource.data.Length)
 			{
 				gcHandle.Free();
-				Console.WriteLine($"[加载嵌入资源]:\t{requestUrl}");
 			}
 
 		}
