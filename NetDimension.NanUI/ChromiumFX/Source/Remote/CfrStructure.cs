@@ -19,7 +19,7 @@ namespace Chromium.Remote {
         internal CfrStructure(CtorRemoteCall ctor, DtorRemoteCall dtor) {
             this.dtor = dtor;
             ctor.RequestExecution();
-            SetRemotePtr(new RemotePtr(ctor.__retval));
+            SetRemotePtr(new RemotePtr(CfxRemoteCallContext.CurrentContext.connection, ctor.__retval));
             lock(RemotePtr.connection.weakCache) {
                 // TODO: where to remove this from the cache?
                 RemotePtr.connection.weakCache.Add(RemotePtr.ptr, this);

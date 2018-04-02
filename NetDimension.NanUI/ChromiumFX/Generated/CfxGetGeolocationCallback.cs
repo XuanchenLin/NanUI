@@ -41,7 +41,8 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxGetGeolocationCallbackOnLocationUpdateEventArgs(position);
+            var e = new CfxGetGeolocationCallbackOnLocationUpdateEventArgs();
+            e.m_position = position;
             self.m_OnLocationUpdate?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -112,9 +113,7 @@ namespace Chromium {
             internal IntPtr m_position;
             internal CfxGeoposition m_position_wrapped;
 
-            internal CfxGetGeolocationCallbackOnLocationUpdateEventArgs(IntPtr position) {
-                m_position = position;
-            }
+            internal CfxGetGeolocationCallbackOnLocationUpdateEventArgs() {}
 
             /// <summary>
             /// Get the Position parameter for the <see cref="CfxGetGeolocationCallback.OnLocationUpdate"/> callback.

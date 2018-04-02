@@ -50,7 +50,8 @@ namespace Chromium {
                 string_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxGetLocalizedStringEventArgs(string_id);
+            var e = new CfxGetLocalizedStringEventArgs();
+            e.m_string_id = string_id;
             self.m_GetLocalizedString?.Invoke(self, e);
             e.m_isInvalid = true;
             if(e.m_string_wrapped != null && e.m_string_wrapped.Length > 0) {
@@ -80,7 +81,8 @@ namespace Chromium {
                 data_size = default(UIntPtr);
                 return;
             }
-            var e = new CfxGetDataResourceEventArgs(resource_id);
+            var e = new CfxGetDataResourceEventArgs();
+            e.m_resource_id = resource_id;
             self.m_GetDataResource?.Invoke(self, e);
             e.m_isInvalid = true;
             data = e.m_data;
@@ -102,7 +104,9 @@ namespace Chromium {
                 data_size = default(UIntPtr);
                 return;
             }
-            var e = new CfxGetDataResourceForScaleEventArgs(resource_id, scale_factor);
+            var e = new CfxGetDataResourceForScaleEventArgs();
+            e.m_resource_id = resource_id;
+            e.m_scale_factor = scale_factor;
             self.m_GetDataResourceForScale?.Invoke(self, e);
             e.m_isInvalid = true;
             data = e.m_data;
@@ -259,9 +263,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetLocalizedStringEventArgs(int string_id) {
-                m_string_id = string_id;
-            }
+            internal CfxGetLocalizedStringEventArgs() {}
 
             /// <summary>
             /// Get the StringId parameter for the <see cref="CfxResourceBundleHandler.GetLocalizedString"/> callback.
@@ -334,9 +336,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetDataResourceEventArgs(int resource_id) {
-                m_resource_id = resource_id;
-            }
+            internal CfxGetDataResourceEventArgs() {}
 
             /// <summary>
             /// Get the ResourceId parameter for the <see cref="CfxResourceBundleHandler.GetDataResource"/> callback.
@@ -419,10 +419,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetDataResourceForScaleEventArgs(int resource_id, int scale_factor) {
-                m_resource_id = resource_id;
-                m_scale_factor = scale_factor;
-            }
+            internal CfxGetDataResourceForScaleEventArgs() {}
 
             /// <summary>
             /// Get the ResourceId parameter for the <see cref="CfxResourceBundleHandler.GetDataResourceForScale"/> callback.

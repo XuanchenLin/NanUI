@@ -56,7 +56,14 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxV8HandlerExecuteEventArgs(name_str, name_length, @object, arguments, argumentsCount);
+            var e = new CfxV8HandlerExecuteEventArgs();
+            e.m_name_str = name_str;
+            e.m_name_length = name_length;
+            e.m_object = @object;
+            e.m_arguments = new IntPtr[(ulong)argumentsCount];
+            if(e.m_arguments.Length > 0) {
+                System.Runtime.InteropServices.Marshal.Copy(arguments, e.m_arguments, 0, (int)argumentsCount);
+            }
             self.m_Execute?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -160,15 +167,7 @@ namespace Chromium {
             internal CfxV8Value m_returnValue;
             private bool returnValueSet;
 
-            internal CfxV8HandlerExecuteEventArgs(IntPtr name_str, int name_length, IntPtr @object, IntPtr arguments, UIntPtr argumentsCount) {
-                m_name_str = name_str;
-                m_name_length = name_length;
-                m_object = @object;
-                m_arguments = new IntPtr[(ulong)argumentsCount];
-                if(m_arguments.Length > 0) {
-                    System.Runtime.InteropServices.Marshal.Copy(arguments, m_arguments, 0, (int)argumentsCount);
-                }
-            }
+            internal CfxV8HandlerExecuteEventArgs() {}
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfxV8Handler.Execute"/> callback.

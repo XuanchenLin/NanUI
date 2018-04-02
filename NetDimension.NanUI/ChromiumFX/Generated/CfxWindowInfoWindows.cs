@@ -144,6 +144,8 @@ namespace Chromium {
         /// monitor will be used and some functionality that requires a parent window
         /// may not function correctly. In order to create windowless browsers the
         /// CfxSettings.WindowlessRenderingEnabled value must be set to true.
+        /// Transparent painting is enabled by default but can be disabled by setting
+        /// CfxBrowserSettings.BackgroundColor to an opaque value.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -157,27 +159,6 @@ namespace Chromium {
             }
             set {
                 CfxApi.WindowInfoWindows.cfx_window_info_windows_set_windowless_rendering_enabled(nativePtrUnchecked, value ? 1 : 0);
-            }
-        }
-
-        /// <summary>
-        /// Set to true (1) to enable transparent painting in combination with
-        /// windowless rendering. When this value is true a transparent background
-        /// color will be used (RGBA=0x00000000). When this value is false the
-        /// background will be white and opaque.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types_win.h">cef/include/internal/cef_types_win.h</see>.
-        /// </remarks>
-        public bool TransparentPaintingEnabled {
-            get {
-                int value;
-                CfxApi.WindowInfoWindows.cfx_window_info_windows_get_transparent_painting_enabled(nativePtrUnchecked, out value);
-                return 0 != value;
-            }
-            set {
-                CfxApi.WindowInfoWindows.cfx_window_info_windows_set_transparent_painting_enabled(nativePtrUnchecked, value ? 1 : 0);
             }
         }
 

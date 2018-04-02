@@ -68,8 +68,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrGetLocalizedStringEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_GetLocalizedString?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             @string = e.m_string_wrapped;
             __retval = e.m_returnValue ? 1 : 0;
         }
@@ -114,8 +115,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrGetDataResourceEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_GetDataResource?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = e.m_returnValue ? 1 : 0;
         }
     }
@@ -162,8 +164,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrGetDataResourceForScaleEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_GetDataResourceForScale?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = e.m_returnValue ? 1 : 0;
         }
     }

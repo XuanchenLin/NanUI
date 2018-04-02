@@ -46,7 +46,12 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxSchemeHandlerFactoryCreateEventArgs(browser, frame, scheme_name_str, scheme_name_length, request);
+            var e = new CfxSchemeHandlerFactoryCreateEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_scheme_name_str = scheme_name_str;
+            e.m_scheme_name_length = scheme_name_length;
+            e.m_request = request;
             self.m_Create?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -143,13 +148,7 @@ namespace Chromium {
             internal CfxResourceHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxSchemeHandlerFactoryCreateEventArgs(IntPtr browser, IntPtr frame, IntPtr scheme_name_str, int scheme_name_length, IntPtr request) {
-                m_browser = browser;
-                m_frame = frame;
-                m_scheme_name_str = scheme_name_str;
-                m_scheme_name_length = scheme_name_length;
-                m_request = request;
-            }
+            internal CfxSchemeHandlerFactoryCreateEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxSchemeHandlerFactory.Create"/> callback.

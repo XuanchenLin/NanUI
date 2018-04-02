@@ -43,7 +43,10 @@ namespace Chromium {
                 info_release = 1;
                 return;
             }
-            var e = new CfxWebPluginInfoVisitorVisitEventArgs(info, count, total);
+            var e = new CfxWebPluginInfoVisitorVisitEventArgs();
+            e.m_info = info;
+            e.m_count = count;
+            e.m_total = total;
             self.m_Visit?.Invoke(self, e);
             e.m_isInvalid = true;
             info_release = e.m_info_wrapped == null? 1 : 0;
@@ -127,11 +130,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxWebPluginInfoVisitorVisitEventArgs(IntPtr info, int count, int total) {
-                m_info = info;
-                m_count = count;
-                m_total = total;
-            }
+            internal CfxWebPluginInfoVisitorVisitEventArgs() {}
 
             /// <summary>
             /// Get the Info parameter for the <see cref="CfxWebPluginInfoVisitor.Visit"/> callback.

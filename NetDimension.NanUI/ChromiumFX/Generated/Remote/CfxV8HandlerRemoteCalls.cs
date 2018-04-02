@@ -99,8 +99,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrV8HandlerExecuteEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Execute?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             object_release = e.m_object_wrapped == null? 1 : 0;
             arguments_release = e.m_arguments_managed == null? 1 : 0;
             exception = e.m_exception_wrapped;

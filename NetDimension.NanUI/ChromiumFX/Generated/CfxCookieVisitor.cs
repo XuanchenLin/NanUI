@@ -43,7 +43,10 @@ namespace Chromium {
                 deleteCookie = default(int);
                 return;
             }
-            var e = new CfxCookieVisitorVisitEventArgs(cookie, count, total);
+            var e = new CfxCookieVisitorVisitEventArgs();
+            e.m_cookie = cookie;
+            e.m_count = count;
+            e.m_total = total;
             self.m_Visit?.Invoke(self, e);
             e.m_isInvalid = true;
             deleteCookie = e.m_deleteCookie;
@@ -131,11 +134,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxCookieVisitorVisitEventArgs(IntPtr cookie, int count, int total) {
-                m_cookie = cookie;
-                m_count = count;
-                m_total = total;
-            }
+            internal CfxCookieVisitorVisitEventArgs() {}
 
             /// <summary>
             /// Get the Cookie parameter for the <see cref="CfxCookieVisitor.Visit"/> callback.

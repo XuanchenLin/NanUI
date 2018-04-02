@@ -50,7 +50,10 @@ namespace Chromium {
                 __retval = default(UIntPtr);
                 return;
             }
-            var e = new CfxWriteEventArgs(ptr, size, n);
+            var e = new CfxWriteEventArgs();
+            e.m_ptr = ptr;
+            e.m_size = size;
+            e.m_n = n;
             self.m_Write?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = (UIntPtr)e.m_returnValue;
@@ -68,7 +71,9 @@ namespace Chromium {
                 __retval = default(int);
                 return;
             }
-            var e = new CfxSeekEventArgs(offset, whence);
+            var e = new CfxSeekEventArgs();
+            e.m_offset = offset;
+            e.m_whence = whence;
             self.m_Seek?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue;
@@ -326,11 +331,7 @@ namespace Chromium {
             internal ulong m_returnValue;
             private bool returnValueSet;
 
-            internal CfxWriteEventArgs(IntPtr ptr, UIntPtr size, UIntPtr n) {
-                m_ptr = ptr;
-                m_size = size;
-                m_n = n;
-            }
+            internal CfxWriteEventArgs() {}
 
             /// <summary>
             /// Get the Ptr parameter for the <see cref="CfxWriteHandler.Write"/> callback.
@@ -401,8 +402,7 @@ namespace Chromium {
             internal int m_returnValue;
             private bool returnValueSet;
 
-            internal CfxFlushEventArgs() {
-            }
+            internal CfxFlushEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxWriteHandler.Flush"/> callback.

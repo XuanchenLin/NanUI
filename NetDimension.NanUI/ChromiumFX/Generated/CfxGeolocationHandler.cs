@@ -47,7 +47,12 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnRequestGeolocationPermissionEventArgs(browser, requesting_url_str, requesting_url_length, request_id, callback);
+            var e = new CfxOnRequestGeolocationPermissionEventArgs();
+            e.m_browser = browser;
+            e.m_requesting_url_str = requesting_url_str;
+            e.m_requesting_url_length = requesting_url_length;
+            e.m_request_id = request_id;
+            e.m_callback = callback;
             self.m_OnRequestGeolocationPermission?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -67,7 +72,9 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnCancelGeolocationPermissionEventArgs(browser, request_id);
+            var e = new CfxOnCancelGeolocationPermissionEventArgs();
+            e.m_browser = browser;
+            e.m_request_id = request_id;
             self.m_OnCancelGeolocationPermission?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -193,13 +200,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnRequestGeolocationPermissionEventArgs(IntPtr browser, IntPtr requesting_url_str, int requesting_url_length, int request_id, IntPtr callback) {
-                m_browser = browser;
-                m_requesting_url_str = requesting_url_str;
-                m_requesting_url_length = requesting_url_length;
-                m_request_id = request_id;
-                m_callback = callback;
-            }
+            internal CfxOnRequestGeolocationPermissionEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxGeolocationHandler.OnRequestGeolocationPermission"/> callback.
@@ -282,10 +283,7 @@ namespace Chromium {
             internal CfxBrowser m_browser_wrapped;
             internal int m_request_id;
 
-            internal CfxOnCancelGeolocationPermissionEventArgs(IntPtr browser, int request_id) {
-                m_browser = browser;
-                m_request_id = request_id;
-            }
+            internal CfxOnCancelGeolocationPermissionEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxGeolocationHandler.OnCancelGeolocationPermission"/> callback.

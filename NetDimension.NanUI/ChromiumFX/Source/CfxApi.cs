@@ -207,7 +207,7 @@ namespace Chromium {
         private static void FindLibraries(out string libCef, out string libCfx) {
 
             if(libCfxDirPath == null)
-                libCfxDirPath = System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+                libCfxDirPath = System.IO.Path.GetDirectoryName(new System.Uri(System.Reflection.Assembly.GetExecutingAssembly().EscapedCodeBase).LocalPath);
 
             libCfx = GetLibCfxName(libCfxDirPath);
 

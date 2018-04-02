@@ -24,16 +24,15 @@ namespace Chromium {
 
         internal static CfxBrowserHost Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxBrowserHost)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxBrowserHost(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxBrowserHost)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxBrowserHost(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 
@@ -258,6 +257,35 @@ namespace Chromium {
         }
 
         /// <summary>
+        /// Returns the extension hosted in this browser or NULL if no extension is
+        /// hosted. See CfxRequestContext.LoadExtension for details.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public CfxExtension Extension {
+            get {
+                return CfxExtension.Wrap(CfxApi.BrowserHost.cfx_browser_host_get_extension(NativePtr));
+            }
+        }
+
+        /// <summary>
+        /// Returns true (1) if this browser is hosting an extension background script.
+        /// Background hosts do not have a window and are not displayable. See
+        /// CfxRequestContext.LoadExtension for details.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public bool IsBackgroundHost {
+            get {
+                return 0 != CfxApi.BrowserHost.cfx_browser_host_is_background_host(NativePtr);
+            }
+        }
+
+        /// <summary>
         /// Request that the browser close. The JavaScript 'onbeforeunload' event will
         /// be fired. If |forceClose| is false (0) the event handler, if any, will be
         /// allowed to prompt the user and the user can optionally cancel the close. If
@@ -398,12 +426,15 @@ namespace Chromium {
         }
 
         /// <summary>
-        /// Search for |searchText|. |identifier| can be used to have multiple searches
-        /// running simultaniously. |forward| indicates whether to search forward or
-        /// backward within the page. |matchCase| indicates whether the search should
-        /// be case-sensitive. |findNext| indicates whether this is the first request
-        /// or a follow-up. The CfxFindHandler instance, if any, returned via
-        /// CfxClient.GetFindHandler will be called to report find results.
+        /// Search for |searchText|. |identifier| must be a unique ID and these IDs
+        /// must strictly increase so that newer requests always have greater IDs than
+        /// older requests. If |identifier| is zero or less than the previous ID value
+        /// then it will be automatically assigned a new valid ID. |forward| indicates
+        /// whether to search forward or backward within the page. |matchCase|
+        /// indicates whether the search should be case-sensitive. |findNext| indicates
+        /// whether this is the first request or a follow-up. The CfxFindHandler
+        /// instance, if any, returned via CfxClient.GetFindHandler will be called
+        /// to report find results.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -833,6 +864,52 @@ namespace Chromium {
         /// </remarks>
         public void DragSourceSystemDragEnded() {
             CfxApi.BrowserHost.cfx_browser_host_drag_source_system_drag_ended(NativePtr);
+        }
+
+        /// <summary>
+        /// Set accessibility state for all frames. |accessibilityState| may be
+        /// default, enabled or disabled. If |accessibilityState| is STATE_DEFAULT
+        /// then accessibility will be disabled by default and the state may be further
+        /// controlled with the "force-renderer-accessibility" and "disable-renderer-
+        /// accessibility" command-line switches. If |accessibilityState| is
+        /// STATE_ENABLED then accessibility will be enabled. If |accessibilityState|
+        /// is STATE_DISABLED then accessibility will be completely disabled.
+        /// 
+        /// For windowed browsers accessibility will be enabled in Complete mode (which
+        /// corresponds to kAccessibilityModeComplete in Chromium). In this mode all
+        /// platform accessibility objects will be created and managed by Chromium's
+        /// internal implementation. The client needs only to detect the screen reader
+        /// and call this function appropriately. For example, on macOS the client can
+        /// handle the @"AXEnhancedUserStructure" accessibility attribute to detect
+        /// VoiceOver state changes and on Windows the client can handle WM_GETOBJECT
+        /// with OBJID_CLIENT to detect accessibility readers.
+        /// 
+        /// For windowless browsers accessibility will be enabled in TreeOnly mode
+        /// (which corresponds to kAccessibilityModeWebContentsOnly in Chromium). In
+        /// this mode renderer accessibility is enabled, the full tree is computed, and
+        /// events are passed to CfxAccessibiltyHandler, but platform accessibility
+        /// objects are not created. The client may implement platform accessibility
+        /// objects using CfxAccessibiltyHandler callbacks if desired.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public void SetAccessibilityState(CfxState accessibilityState) {
+            CfxApi.BrowserHost.cfx_browser_host_set_accessibility_state(NativePtr, (int)accessibilityState);
+        }
+
+        /// <summary>
+        /// Enable notifications of auto resize via
+        /// CfxDisplayHandler.OnAutoResize. Notifications are disabled by default.
+        /// |minSize| and |maxSize| define the range of allowed sizes.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_browser_capi.h">cef/include/capi/cef_browser_capi.h</see>.
+        /// </remarks>
+        public void SetAutoResizeEnabled(bool enabled, CfxSize minSize, CfxSize maxSize) {
+            CfxApi.BrowserHost.cfx_browser_host_set_auto_resize_enabled(NativePtr, enabled ? 1 : 0, CfxSize.Unwrap(minSize), CfxSize.Unwrap(maxSize));
         }
     }
 }

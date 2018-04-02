@@ -24,16 +24,15 @@ namespace Chromium {
 
         internal static CfxBrowser Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxBrowser)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxBrowser(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxBrowser)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxBrowser(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 
@@ -93,7 +92,8 @@ namespace Chromium {
         }
 
         /// <summary>
-        /// Returns the globally unique identifier for this browser.
+        /// Returns the globally unique identifier for this browser. This value is also
+        /// used as the tabId for extension APIs.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in

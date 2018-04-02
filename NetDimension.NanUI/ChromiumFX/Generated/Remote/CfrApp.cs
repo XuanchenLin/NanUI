@@ -230,7 +230,7 @@ namespace Chromium.Remote {
                 get {
                     CheckAccess();
                     if(!m_process_type_fetched) {
-                        m_process_type = call.process_type_str == IntPtr.Zero ? null : (call.process_type_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.process_type_str), call.process_type_length));
+                        m_process_type = call.process_type_str == IntPtr.Zero ? null : (call.process_type_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(connection, call.process_type_str), call.process_type_length));
                         m_process_type_fetched = true;
                     }
                     return m_process_type;
@@ -242,7 +242,7 @@ namespace Chromium.Remote {
             public CfrCommandLine CommandLine {
                 get {
                     CheckAccess();
-                    if(m_command_line_wrapped == null) m_command_line_wrapped = CfrCommandLine.Wrap(new RemotePtr(call.command_line));
+                    if(m_command_line_wrapped == null) m_command_line_wrapped = CfrCommandLine.Wrap(new RemotePtr(connection, call.command_line));
                     return m_command_line_wrapped;
                 }
             }
@@ -288,7 +288,7 @@ namespace Chromium.Remote {
             public CfrSchemeRegistrar Registrar {
                 get {
                     CheckAccess();
-                    if(m_registrar_wrapped == null) m_registrar_wrapped = CfrSchemeRegistrar.Wrap(new RemotePtr(call.registrar));
+                    if(m_registrar_wrapped == null) m_registrar_wrapped = CfrSchemeRegistrar.Wrap(new RemotePtr(connection, call.registrar));
                     return m_registrar_wrapped;
                 }
             }

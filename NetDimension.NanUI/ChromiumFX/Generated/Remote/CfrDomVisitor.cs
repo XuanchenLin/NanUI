@@ -109,7 +109,7 @@ namespace Chromium.Remote {
             public CfrDomDocument Document {
                 get {
                     CheckAccess();
-                    if(m_document_wrapped == null) m_document_wrapped = CfrDomDocument.Wrap(new RemotePtr(call.document));
+                    if(m_document_wrapped == null) m_document_wrapped = CfrDomDocument.Wrap(new RemotePtr(connection, call.document));
                     return m_document_wrapped;
                 }
             }

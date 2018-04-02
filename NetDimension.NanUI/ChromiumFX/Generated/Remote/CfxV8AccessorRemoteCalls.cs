@@ -80,8 +80,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrV8AccessorGetEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Get?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             object_release = e.m_object_wrapped == null? 1 : 0;
             retval = CfrObject.Unwrap(e.m_retval_wrapped).ptr;
             exception = e.m_exception_wrapped;
@@ -140,8 +141,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrV8AccessorSetEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Set?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             object_release = e.m_object_wrapped == null? 1 : 0;
             value_release = e.m_value_wrapped == null? 1 : 0;
             exception = e.m_exception_wrapped;

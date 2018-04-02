@@ -41,7 +41,10 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxPdfPrintCallbackOnPdfPrintFinishedEventArgs(path_str, path_length, ok);
+            var e = new CfxPdfPrintCallbackOnPdfPrintFinishedEventArgs();
+            e.m_path_str = path_str;
+            e.m_path_length = path_length;
+            e.m_ok = ok;
             self.m_OnPdfPrintFinished?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -117,11 +120,7 @@ namespace Chromium {
             internal string m_path;
             internal int m_ok;
 
-            internal CfxPdfPrintCallbackOnPdfPrintFinishedEventArgs(IntPtr path_str, int path_length, int ok) {
-                m_path_str = path_str;
-                m_path_length = path_length;
-                m_ok = ok;
-            }
+            internal CfxPdfPrintCallbackOnPdfPrintFinishedEventArgs() {}
 
             /// <summary>
             /// Get the Path parameter for the <see cref="CfxPdfPrintCallback.OnPdfPrintFinished"/> callback.

@@ -13,8 +13,9 @@ namespace Chromium {
     using Event;
 
     /// <summary>
-    /// Implement this structure to handle printing on Linux. The functions of this
-    /// structure will be called on the browser process UI thread.
+    /// Implement this structure to handle printing on Linux. Each browser will have
+    /// only one print job in progress at a time. The functions of this structure
+    /// will be called on the browser process UI thread.
     /// </summary>
     /// <remarks>
     /// See also the original CEF documentation in
@@ -52,7 +53,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnPrintStartEventArgs(browser);
+            var e = new CfxOnPrintStartEventArgs();
+            e.m_browser = browser;
             self.m_OnPrintStart?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -60,76 +62,97 @@ namespace Chromium {
 
         // on_print_settings
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void on_print_settings_delegate(IntPtr gcHandlePtr, IntPtr settings, out int settings_release, int get_defaults);
+        private delegate void on_print_settings_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr settings, out int settings_release, int get_defaults);
         private static on_print_settings_delegate on_print_settings_native;
         private static IntPtr on_print_settings_native_ptr;
 
-        internal static void on_print_settings(IntPtr gcHandlePtr, IntPtr settings, out int settings_release, int get_defaults) {
+        internal static void on_print_settings(IntPtr gcHandlePtr, IntPtr browser, out int browser_release, IntPtr settings, out int settings_release, int get_defaults) {
             var self = (CfxPrintHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
             if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 settings_release = 1;
                 return;
             }
-            var e = new CfxOnPrintSettingsEventArgs(settings, get_defaults);
+            var e = new CfxOnPrintSettingsEventArgs();
+            e.m_browser = browser;
+            e.m_settings = settings;
+            e.m_get_defaults = get_defaults;
             self.m_OnPrintSettings?.Invoke(self, e);
             e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             settings_release = e.m_settings_wrapped == null? 1 : 0;
         }
 
         // on_print_dialog
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void on_print_dialog_delegate(IntPtr gcHandlePtr, out int __retval, int has_selection, IntPtr callback, out int callback_release);
+        private delegate void on_print_dialog_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, int has_selection, IntPtr callback, out int callback_release);
         private static on_print_dialog_delegate on_print_dialog_native;
         private static IntPtr on_print_dialog_native_ptr;
 
-        internal static void on_print_dialog(IntPtr gcHandlePtr, out int __retval, int has_selection, IntPtr callback, out int callback_release) {
+        internal static void on_print_dialog(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, int has_selection, IntPtr callback, out int callback_release) {
             var self = (CfxPrintHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
             if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnPrintDialogEventArgs(has_selection, callback);
+            var e = new CfxOnPrintDialogEventArgs();
+            e.m_browser = browser;
+            e.m_has_selection = has_selection;
+            e.m_callback = callback;
             self.m_OnPrintDialog?.Invoke(self, e);
             e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             callback_release = e.m_callback_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // on_print_job
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void on_print_job_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr document_name_str, int document_name_length, IntPtr pdf_file_path_str, int pdf_file_path_length, IntPtr callback, out int callback_release);
+        private delegate void on_print_job_delegate(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr document_name_str, int document_name_length, IntPtr pdf_file_path_str, int pdf_file_path_length, IntPtr callback, out int callback_release);
         private static on_print_job_delegate on_print_job_native;
         private static IntPtr on_print_job_native_ptr;
 
-        internal static void on_print_job(IntPtr gcHandlePtr, out int __retval, IntPtr document_name_str, int document_name_length, IntPtr pdf_file_path_str, int pdf_file_path_length, IntPtr callback, out int callback_release) {
+        internal static void on_print_job(IntPtr gcHandlePtr, out int __retval, IntPtr browser, out int browser_release, IntPtr document_name_str, int document_name_length, IntPtr pdf_file_path_str, int pdf_file_path_length, IntPtr callback, out int callback_release) {
             var self = (CfxPrintHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
             if(self == null || self.CallbacksDisabled) {
                 __retval = default(int);
+                browser_release = 1;
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnPrintJobEventArgs(document_name_str, document_name_length, pdf_file_path_str, pdf_file_path_length, callback);
+            var e = new CfxOnPrintJobEventArgs();
+            e.m_browser = browser;
+            e.m_document_name_str = document_name_str;
+            e.m_document_name_length = document_name_length;
+            e.m_pdf_file_path_str = pdf_file_path_str;
+            e.m_pdf_file_path_length = pdf_file_path_length;
+            e.m_callback = callback;
             self.m_OnPrintJob?.Invoke(self, e);
             e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
             callback_release = e.m_callback_wrapped == null? 1 : 0;
             __retval = e.m_returnValue ? 1 : 0;
         }
 
         // on_print_reset
         [System.Runtime.InteropServices.UnmanagedFunctionPointer(System.Runtime.InteropServices.CallingConvention.StdCall, SetLastError = false)]
-        private delegate void on_print_reset_delegate(IntPtr gcHandlePtr);
+        private delegate void on_print_reset_delegate(IntPtr gcHandlePtr, IntPtr browser, out int browser_release);
         private static on_print_reset_delegate on_print_reset_native;
         private static IntPtr on_print_reset_native_ptr;
 
-        internal static void on_print_reset(IntPtr gcHandlePtr) {
+        internal static void on_print_reset(IntPtr gcHandlePtr, IntPtr browser, out int browser_release) {
             var self = (CfxPrintHandler)System.Runtime.InteropServices.GCHandle.FromIntPtr(gcHandlePtr).Target;
             if(self == null || self.CallbacksDisabled) {
+                browser_release = 1;
                 return;
             }
-            var e = new CfxEventArgs();
+            var e = new CfxOnPrintResetEventArgs();
+            e.m_browser = browser;
             self.m_OnPrintReset?.Invoke(self, e);
             e.m_isInvalid = true;
+            browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
 
         // get_pdf_paper_size
@@ -145,7 +168,8 @@ namespace Chromium {
                 __retval_handle = default(IntPtr);
                 return;
             }
-            var e = new CfxGetPdfPaperSizeEventArgs(device_units_per_inch);
+            var e = new CfxGetPdfPaperSizeEventArgs();
+            e.m_device_units_per_inch = device_units_per_inch;
             self.m_GetPdfPaperSize?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = CfxSize.Unwrap(e.m_returnValue);
@@ -282,7 +306,7 @@ namespace Chromium {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
         /// </remarks>
-        public event CfxEventHandler OnPrintReset {
+        public event CfxOnPrintResetEventHandler OnPrintReset {
             add {
                 lock(eventLock) {
                     if(m_OnPrintReset == null) {
@@ -301,7 +325,7 @@ namespace Chromium {
             }
         }
 
-        private CfxEventHandler m_OnPrintReset;
+        private CfxOnPrintResetEventHandler m_OnPrintReset;
 
         /// <summary>
         /// Return the PDF paper size in device units. Used in combination with
@@ -391,9 +415,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnPrintStartEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnPrintStartEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxPrintHandler.OnPrintStart"/> callback.
@@ -433,15 +455,24 @@ namespace Chromium {
         /// </remarks>
         public class CfxOnPrintSettingsEventArgs : CfxEventArgs {
 
+            internal IntPtr m_browser;
+            internal CfxBrowser m_browser_wrapped;
             internal IntPtr m_settings;
             internal CfxPrintSettings m_settings_wrapped;
             internal int m_get_defaults;
 
-            internal CfxOnPrintSettingsEventArgs(IntPtr settings, int get_defaults) {
-                m_settings = settings;
-                m_get_defaults = get_defaults;
-            }
+            internal CfxOnPrintSettingsEventArgs() {}
 
+            /// <summary>
+            /// Get the Browser parameter for the <see cref="CfxPrintHandler.OnPrintSettings"/> callback.
+            /// </summary>
+            public CfxBrowser Browser {
+                get {
+                    CheckAccess();
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfxBrowser.Wrap(m_browser);
+                    return m_browser_wrapped;
+                }
+            }
             /// <summary>
             /// Get the Settings parameter for the <see cref="CfxPrintHandler.OnPrintSettings"/> callback.
             /// </summary>
@@ -463,7 +494,7 @@ namespace Chromium {
             }
 
             public override string ToString() {
-                return String.Format("Settings={{{0}}}, GetDefaults={{{1}}}", Settings, GetDefaults);
+                return String.Format("Browser={{{0}}}, Settings={{{1}}}, GetDefaults={{{2}}}", Browser, Settings, GetDefaults);
             }
         }
 
@@ -489,6 +520,8 @@ namespace Chromium {
         /// </remarks>
         public class CfxOnPrintDialogEventArgs : CfxEventArgs {
 
+            internal IntPtr m_browser;
+            internal CfxBrowser m_browser_wrapped;
             internal int m_has_selection;
             internal IntPtr m_callback;
             internal CfxPrintDialogCallback m_callback_wrapped;
@@ -496,11 +529,18 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnPrintDialogEventArgs(int has_selection, IntPtr callback) {
-                m_has_selection = has_selection;
-                m_callback = callback;
-            }
+            internal CfxOnPrintDialogEventArgs() {}
 
+            /// <summary>
+            /// Get the Browser parameter for the <see cref="CfxPrintHandler.OnPrintDialog"/> callback.
+            /// </summary>
+            public CfxBrowser Browser {
+                get {
+                    CheckAccess();
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfxBrowser.Wrap(m_browser);
+                    return m_browser_wrapped;
+                }
+            }
             /// <summary>
             /// Get the HasSelection parameter for the <see cref="CfxPrintHandler.OnPrintDialog"/> callback.
             /// </summary>
@@ -534,7 +574,7 @@ namespace Chromium {
             }
 
             public override string ToString() {
-                return String.Format("HasSelection={{{0}}}, Callback={{{1}}}", HasSelection, Callback);
+                return String.Format("Browser={{{0}}}, HasSelection={{{1}}}, Callback={{{2}}}", Browser, HasSelection, Callback);
             }
         }
 
@@ -560,6 +600,8 @@ namespace Chromium {
         /// </remarks>
         public class CfxOnPrintJobEventArgs : CfxEventArgs {
 
+            internal IntPtr m_browser;
+            internal CfxBrowser m_browser_wrapped;
             internal IntPtr m_document_name_str;
             internal int m_document_name_length;
             internal string m_document_name;
@@ -572,14 +614,18 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnPrintJobEventArgs(IntPtr document_name_str, int document_name_length, IntPtr pdf_file_path_str, int pdf_file_path_length, IntPtr callback) {
-                m_document_name_str = document_name_str;
-                m_document_name_length = document_name_length;
-                m_pdf_file_path_str = pdf_file_path_str;
-                m_pdf_file_path_length = pdf_file_path_length;
-                m_callback = callback;
-            }
+            internal CfxOnPrintJobEventArgs() {}
 
+            /// <summary>
+            /// Get the Browser parameter for the <see cref="CfxPrintHandler.OnPrintJob"/> callback.
+            /// </summary>
+            public CfxBrowser Browser {
+                get {
+                    CheckAccess();
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfxBrowser.Wrap(m_browser);
+                    return m_browser_wrapped;
+                }
+            }
             /// <summary>
             /// Get the DocumentName parameter for the <see cref="CfxPrintHandler.OnPrintJob"/> callback.
             /// </summary>
@@ -624,10 +670,48 @@ namespace Chromium {
             }
 
             public override string ToString() {
-                return String.Format("DocumentName={{{0}}}, PdfFilePath={{{1}}}, Callback={{{2}}}", DocumentName, PdfFilePath, Callback);
+                return String.Format("Browser={{{0}}}, DocumentName={{{1}}}, PdfFilePath={{{2}}}, Callback={{{3}}}", Browser, DocumentName, PdfFilePath, Callback);
             }
         }
 
+        /// <summary>
+        /// Reset client state related to printing.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
+        /// </remarks>
+        public delegate void CfxOnPrintResetEventHandler(object sender, CfxOnPrintResetEventArgs e);
+
+        /// <summary>
+        /// Reset client state related to printing.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_print_handler_capi.h">cef/include/capi/cef_print_handler_capi.h</see>.
+        /// </remarks>
+        public class CfxOnPrintResetEventArgs : CfxEventArgs {
+
+            internal IntPtr m_browser;
+            internal CfxBrowser m_browser_wrapped;
+
+            internal CfxOnPrintResetEventArgs() {}
+
+            /// <summary>
+            /// Get the Browser parameter for the <see cref="CfxPrintHandler.OnPrintReset"/> callback.
+            /// </summary>
+            public CfxBrowser Browser {
+                get {
+                    CheckAccess();
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfxBrowser.Wrap(m_browser);
+                    return m_browser_wrapped;
+                }
+            }
+
+            public override string ToString() {
+                return String.Format("Browser={{{0}}}", Browser);
+            }
+        }
 
         /// <summary>
         /// Return the PDF paper size in device units. Used in combination with
@@ -654,9 +738,7 @@ namespace Chromium {
             internal CfxSize m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetPdfPaperSizeEventArgs(int device_units_per_inch) {
-                m_device_units_per_inch = device_units_per_inch;
-            }
+            internal CfxGetPdfPaperSizeEventArgs() {}
 
             /// <summary>
             /// Get the DeviceUnitsPerInch parameter for the <see cref="CfxPrintHandler.GetPdfPaperSize"/> callback.

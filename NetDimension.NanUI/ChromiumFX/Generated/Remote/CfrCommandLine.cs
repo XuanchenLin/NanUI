@@ -30,14 +30,17 @@ namespace Chromium.Remote {
         internal static CfrCommandLine Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrCommandLine)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrCommandLine(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrCommandLine)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrCommandLine(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -49,9 +52,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public static CfrCommandLine Create() {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxCommandLineCreateRemoteCall();
-            call.RequestExecution();
-            return CfrCommandLine.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrCommandLine.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -63,9 +67,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public static CfrCommandLine GetGlobal() {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxCommandLineGetGlobalRemoteCall();
-            call.RequestExecution();
-            return CfrCommandLine.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrCommandLine.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -81,9 +86,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsValid {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineIsValidRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -98,9 +104,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsReadOnly {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineIsReadOnlyRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -115,9 +122,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string CommandLineString {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineGetCommandLineStringRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -133,16 +141,18 @@ namespace Chromium.Remote {
         /// </remarks>
         public string Program {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineGetProgramRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
             set {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineSetProgramRemoteCall();
                 call.@this = RemotePtr.ptr;
                 call.value = value;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
             }
         }
 
@@ -155,9 +165,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool HasSwitches {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineHasSwitchesRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -171,9 +182,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool HasArguments {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxCommandLineHasArgumentsRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -186,10 +198,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public CfrCommandLine Copy() {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineCopyRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrCommandLine.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrCommandLine.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -202,11 +215,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void InitFromArgv(int argc, RemotePtr argv) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineInitFromArgvRemoteCall();
             call.@this = RemotePtr.ptr;
             call.argc = argc;
+            if(argv.connection != connection) throw new ArgumentException("Render process connection mismatch.", "argv");
             call.argv = argv.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -218,10 +233,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void InitFromString(string commandLine) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineInitFromStringRemoteCall();
             call.@this = RemotePtr.ptr;
             call.commandLine = commandLine;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -233,9 +249,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void Reset() {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineResetRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -247,9 +264,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public System.Collections.Generic.List<string> GetArgv() {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineGetArgvRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -261,10 +279,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public bool HasSwitch(string name) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineHasSwitchRemoteCall();
             call.@this = RemotePtr.ptr;
             call.name = name;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -277,10 +296,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public string GetSwitchValue(string name) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineGetSwitchValueRemoteCall();
             call.@this = RemotePtr.ptr;
             call.name = name;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -293,9 +313,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public System.Collections.Generic.List<string[]> GetSwitches() {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineGetSwitchesRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -308,10 +329,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void AppendSwitch(string name) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineAppendSwitchRemoteCall();
             call.@this = RemotePtr.ptr;
             call.name = name;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -322,11 +344,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void AppendSwitchWithValue(string name, string value) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineAppendSwitchWithValueRemoteCall();
             call.@this = RemotePtr.ptr;
             call.name = name;
             call.value = value;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -337,9 +360,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public System.Collections.Generic.List<string> GetArguments() {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineGetArgumentsRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -351,10 +375,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void AppendArgument(string argument) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLineAppendArgumentRemoteCall();
             call.@this = RemotePtr.ptr;
             call.argument = argument;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -366,10 +391,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_command_line_capi.h">cef/include/capi/cef_command_line_capi.h</see>.
         /// </remarks>
         public void PrependWrapper(string wrapper) {
+            var connection = RemotePtr.connection;
             var call = new CfxCommandLinePrependWrapperRemoteCall();
             call.@this = RemotePtr.ptr;
             call.wrapper = wrapper;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
     }
 }

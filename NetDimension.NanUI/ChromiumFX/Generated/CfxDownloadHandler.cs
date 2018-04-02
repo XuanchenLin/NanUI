@@ -46,7 +46,12 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeDownloadEventArgs(browser, download_item, suggested_name_str, suggested_name_length, callback);
+            var e = new CfxOnBeforeDownloadEventArgs();
+            e.m_browser = browser;
+            e.m_download_item = download_item;
+            e.m_suggested_name_str = suggested_name_str;
+            e.m_suggested_name_length = suggested_name_length;
+            e.m_callback = callback;
             self.m_OnBeforeDownload?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -68,7 +73,10 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnDownloadUpdatedEventArgs(browser, download_item, callback);
+            var e = new CfxOnDownloadUpdatedEventArgs();
+            e.m_browser = browser;
+            e.m_download_item = download_item;
+            e.m_callback = callback;
             self.m_OnDownloadUpdated?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -194,13 +202,7 @@ namespace Chromium {
             internal IntPtr m_callback;
             internal CfxBeforeDownloadCallback m_callback_wrapped;
 
-            internal CfxOnBeforeDownloadEventArgs(IntPtr browser, IntPtr download_item, IntPtr suggested_name_str, int suggested_name_length, IntPtr callback) {
-                m_browser = browser;
-                m_download_item = download_item;
-                m_suggested_name_str = suggested_name_str;
-                m_suggested_name_length = suggested_name_length;
-                m_callback = callback;
-            }
+            internal CfxOnBeforeDownloadEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxDownloadHandler.OnBeforeDownload"/> callback.
@@ -281,11 +283,7 @@ namespace Chromium {
             internal IntPtr m_callback;
             internal CfxDownloadItemCallback m_callback_wrapped;
 
-            internal CfxOnDownloadUpdatedEventArgs(IntPtr browser, IntPtr download_item, IntPtr callback) {
-                m_browser = browser;
-                m_download_item = download_item;
-                m_callback = callback;
-            }
+            internal CfxOnDownloadUpdatedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxDownloadHandler.OnDownloadUpdated"/> callback.

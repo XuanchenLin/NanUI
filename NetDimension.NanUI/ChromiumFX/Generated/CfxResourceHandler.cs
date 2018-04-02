@@ -54,7 +54,9 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxProcessRequestEventArgs(request, callback);
+            var e = new CfxProcessRequestEventArgs();
+            e.m_request = request;
+            e.m_callback = callback;
             self.m_ProcessRequest?.Invoke(self, e);
             e.m_isInvalid = true;
             request_release = e.m_request_wrapped == null? 1 : 0;
@@ -78,7 +80,8 @@ namespace Chromium {
                 redirectUrl_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxGetResponseHeadersEventArgs(response);
+            var e = new CfxGetResponseHeadersEventArgs();
+            e.m_response = response;
             self.m_GetResponseHeaders?.Invoke(self, e);
             e.m_isInvalid = true;
             response_release = e.m_response_wrapped == null? 1 : 0;
@@ -109,7 +112,10 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxReadResponseEventArgs(data_out, bytes_to_read, callback);
+            var e = new CfxReadResponseEventArgs();
+            e.m_data_out = data_out;
+            e.m_bytes_to_read = bytes_to_read;
+            e.m_callback = callback;
             self.m_ReadResponse?.Invoke(self, e);
             e.m_isInvalid = true;
             bytes_read = e.m_bytes_read;
@@ -129,7 +135,8 @@ namespace Chromium {
                 __retval = default(int);
                 return;
             }
-            var e = new CfxCanGetCookieEventArgs(cookie);
+            var e = new CfxCanGetCookieEventArgs();
+            e.m_cookie = cookie;
             self.m_CanGetCookie?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue ? 1 : 0;
@@ -147,7 +154,8 @@ namespace Chromium {
                 __retval = default(int);
                 return;
             }
-            var e = new CfxCanSetCookieEventArgs(cookie);
+            var e = new CfxCanSetCookieEventArgs();
+            e.m_cookie = cookie;
             self.m_CanSetCookie?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue ? 1 : 0;
@@ -424,10 +432,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxProcessRequestEventArgs(IntPtr request, IntPtr callback) {
-                m_request = request;
-                m_callback = callback;
-            }
+            internal CfxProcessRequestEventArgs() {}
 
             /// <summary>
             /// Get the Request parameter for the <see cref="CfxResourceHandler.ProcessRequest"/> callback.
@@ -506,9 +511,7 @@ namespace Chromium {
             internal long m_response_length;
             internal string m_redirectUrl_wrapped;
 
-            internal CfxGetResponseHeadersEventArgs(IntPtr response) {
-                m_response = response;
-            }
+            internal CfxGetResponseHeadersEventArgs() {}
 
             /// <summary>
             /// Get the Response parameter for the <see cref="CfxResourceHandler.GetResponseHeaders"/> callback.
@@ -579,11 +582,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxReadResponseEventArgs(IntPtr data_out, int bytes_to_read, IntPtr callback) {
-                m_data_out = data_out;
-                m_bytes_to_read = bytes_to_read;
-                m_callback = callback;
-            }
+            internal CfxReadResponseEventArgs() {}
 
             /// <summary>
             /// Get the DataOut parameter for the <see cref="CfxResourceHandler.ReadResponse"/> callback.
@@ -668,9 +667,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxCanGetCookieEventArgs(IntPtr cookie) {
-                m_cookie = cookie;
-            }
+            internal CfxCanGetCookieEventArgs() {}
 
             /// <summary>
             /// Get the Cookie parameter for the <see cref="CfxResourceHandler.CanGetCookie"/> callback.
@@ -726,9 +723,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxCanSetCookieEventArgs(IntPtr cookie) {
-                m_cookie = cookie;
-            }
+            internal CfxCanSetCookieEventArgs() {}
 
             /// <summary>
             /// Get the Cookie parameter for the <see cref="CfxResourceHandler.CanSetCookie"/> callback.

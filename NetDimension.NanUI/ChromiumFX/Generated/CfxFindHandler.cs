@@ -42,7 +42,13 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxFindHandlerOnFindResultEventArgs(browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
+            var e = new CfxFindHandlerOnFindResultEventArgs();
+            e.m_browser = browser;
+            e.m_identifier = identifier;
+            e.m_count = count;
+            e.m_selectionRect = selectionRect;
+            e.m_activeMatchOrdinal = activeMatchOrdinal;
+            e.m_finalUpdate = finalUpdate;
             self.m_OnFindResult?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -132,14 +138,7 @@ namespace Chromium {
             internal int m_activeMatchOrdinal;
             internal int m_finalUpdate;
 
-            internal CfxFindHandlerOnFindResultEventArgs(IntPtr browser, int identifier, int count, IntPtr selectionRect, int activeMatchOrdinal, int finalUpdate) {
-                m_browser = browser;
-                m_identifier = identifier;
-                m_count = count;
-                m_selectionRect = selectionRect;
-                m_activeMatchOrdinal = activeMatchOrdinal;
-                m_finalUpdate = finalUpdate;
-            }
+            internal CfxFindHandlerOnFindResultEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxFindHandler.OnFindResult"/> callback.

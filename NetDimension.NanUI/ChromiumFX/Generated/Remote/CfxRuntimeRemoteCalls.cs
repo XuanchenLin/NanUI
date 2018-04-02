@@ -370,6 +370,28 @@ namespace Chromium.Remote {
         }
     }
 
+    internal class CfxRuntimeLoadCrlsetsFileRemoteCall : RemoteCall {
+
+        internal CfxRuntimeLoadCrlsetsFileRemoteCall()
+            : base(RemoteCallId.CfxRuntimeLoadCrlsetsFileRemoteCall) {}
+
+        internal string path;
+
+        protected override void WriteArgs(StreamHandler h) {
+            h.Write(path);
+        }
+
+        protected override void ReadArgs(StreamHandler h) {
+            h.Read(out path);
+        }
+
+        protected override void RemoteProcedure() {
+            var path_pinned = new PinnedString(path);
+            CfxApi.Runtime.cfx_load_crlsets_file(path_pinned.Obj.PinnedPtr, path_pinned.Length);
+            path_pinned.Obj.Free();
+        }
+    }
+
     internal class CfxRuntimePostDelayedTaskRemoteCall : RemoteCall {
 
         internal CfxRuntimePostDelayedTaskRemoteCall()

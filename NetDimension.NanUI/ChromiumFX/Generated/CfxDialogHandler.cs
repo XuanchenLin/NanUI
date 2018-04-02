@@ -44,7 +44,16 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxDialogHandlerOnFileDialogEventArgs(browser, mode, title_str, title_length, default_file_path_str, default_file_path_length, accept_filters, selected_accept_filter, callback);
+            var e = new CfxDialogHandlerOnFileDialogEventArgs();
+            e.m_browser = browser;
+            e.m_mode = mode;
+            e.m_title_str = title_str;
+            e.m_title_length = title_length;
+            e.m_default_file_path_str = default_file_path_str;
+            e.m_default_file_path_length = default_file_path_length;
+            e.m_accept_filters = accept_filters;
+            e.m_selected_accept_filter = selected_accept_filter;
+            e.m_callback = callback;
             self.m_OnFileDialog?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -165,17 +174,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxDialogHandlerOnFileDialogEventArgs(IntPtr browser, int mode, IntPtr title_str, int title_length, IntPtr default_file_path_str, int default_file_path_length, IntPtr accept_filters, int selected_accept_filter, IntPtr callback) {
-                m_browser = browser;
-                m_mode = mode;
-                m_title_str = title_str;
-                m_title_length = title_length;
-                m_default_file_path_str = default_file_path_str;
-                m_default_file_path_length = default_file_path_length;
-                m_accept_filters = accept_filters;
-                m_selected_accept_filter = selected_accept_filter;
-                m_callback = callback;
-            }
+            internal CfxDialogHandlerOnFileDialogEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxDialogHandler.OnFileDialog"/> callback.

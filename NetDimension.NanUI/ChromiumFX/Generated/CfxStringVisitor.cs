@@ -40,7 +40,9 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxStringVisitorVisitEventArgs(string_str, string_length);
+            var e = new CfxStringVisitorVisitEventArgs();
+            e.m_string_str = string_str;
+            e.m_string_length = string_length;
             self.m_Visit?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -109,10 +111,7 @@ namespace Chromium {
             internal int m_string_length;
             internal string m_string;
 
-            internal CfxStringVisitorVisitEventArgs(IntPtr string_str, int string_length) {
-                m_string_str = string_str;
-                m_string_length = string_length;
-            }
+            internal CfxStringVisitorVisitEventArgs() {}
 
             /// <summary>
             /// Get the String parameter for the <see cref="CfxStringVisitor.Visit"/> callback.

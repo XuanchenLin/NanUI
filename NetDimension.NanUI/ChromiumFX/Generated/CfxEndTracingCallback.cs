@@ -42,7 +42,9 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxEndTracingCallbackOnEndTracingCompleteEventArgs(tracing_file_str, tracing_file_length);
+            var e = new CfxEndTracingCallbackOnEndTracingCompleteEventArgs();
+            e.m_tracing_file_str = tracing_file_str;
+            e.m_tracing_file_length = tracing_file_length;
             self.m_OnEndTracingComplete?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -117,10 +119,7 @@ namespace Chromium {
             internal int m_tracing_file_length;
             internal string m_tracing_file;
 
-            internal CfxEndTracingCallbackOnEndTracingCompleteEventArgs(IntPtr tracing_file_str, int tracing_file_length) {
-                m_tracing_file_str = tracing_file_str;
-                m_tracing_file_length = tracing_file_length;
-            }
+            internal CfxEndTracingCallbackOnEndTracingCompleteEventArgs() {}
 
             /// <summary>
             /// Get the TracingFile parameter for the <see cref="CfxEndTracingCallback.OnEndTracingComplete"/> callback.

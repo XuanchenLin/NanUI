@@ -71,8 +71,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrReadEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Read?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = (UIntPtr)e.m_returnValue;
         }
     }
@@ -113,8 +114,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrSeekEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Seek?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = e.m_returnValue;
         }
     }
@@ -149,8 +151,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrTellEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Tell?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = e.m_returnValue;
         }
     }
@@ -185,8 +188,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrReadHandlerEofEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Eof?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = e.m_returnValue;
         }
     }
@@ -221,8 +225,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrMayBlockEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_MayBlock?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = e.m_returnValue ? 1 : 0;
         }
     }

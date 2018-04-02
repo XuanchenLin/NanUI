@@ -21,16 +21,15 @@ namespace Chromium {
 
         internal static CfxPrintDialogCallback Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxPrintDialogCallback)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxPrintDialogCallback(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxPrintDialogCallback)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxPrintDialogCallback(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 

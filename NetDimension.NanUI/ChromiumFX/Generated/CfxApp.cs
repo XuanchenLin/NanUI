@@ -50,7 +50,10 @@ namespace Chromium {
                 command_line_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeCommandLineProcessingEventArgs(process_type_str, process_type_length, command_line);
+            var e = new CfxOnBeforeCommandLineProcessingEventArgs();
+            e.m_process_type_str = process_type_str;
+            e.m_process_type_length = process_type_length;
+            e.m_command_line = command_line;
             self.m_OnBeforeCommandLineProcessing?.Invoke(self, e);
             e.m_isInvalid = true;
             command_line_release = e.m_command_line_wrapped == null? 1 : 0;
@@ -67,7 +70,8 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxOnRegisterCustomSchemesEventArgs(registrar);
+            var e = new CfxOnRegisterCustomSchemesEventArgs();
+            e.m_registrar = registrar;
             self.m_OnRegisterCustomSchemes?.Invoke(self, e);
             e.m_isInvalid = true;
             if(e.m_registrar_wrapped != null) e.m_registrar_wrapped.Dispose();
@@ -401,11 +405,7 @@ namespace Chromium {
             internal IntPtr m_command_line;
             internal CfxCommandLine m_command_line_wrapped;
 
-            internal CfxOnBeforeCommandLineProcessingEventArgs(IntPtr process_type_str, int process_type_length, IntPtr command_line) {
-                m_process_type_str = process_type_str;
-                m_process_type_length = process_type_length;
-                m_command_line = command_line;
-            }
+            internal CfxOnBeforeCommandLineProcessingEventArgs() {}
 
             /// <summary>
             /// Get the ProcessType parameter for the <see cref="CfxApp.OnBeforeCommandLineProcessing"/> callback.
@@ -460,9 +460,7 @@ namespace Chromium {
             internal IntPtr m_registrar;
             internal CfxSchemeRegistrar m_registrar_wrapped;
 
-            internal CfxOnRegisterCustomSchemesEventArgs(IntPtr registrar) {
-                m_registrar = registrar;
-            }
+            internal CfxOnRegisterCustomSchemesEventArgs() {}
 
             /// <summary>
             /// Get the Registrar parameter for the <see cref="CfxApp.OnRegisterCustomSchemes"/> callback.
@@ -508,8 +506,7 @@ namespace Chromium {
             internal CfxResourceBundleHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetResourceBundleHandlerEventArgs() {
-            }
+            internal CfxGetResourceBundleHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxApp.GetResourceBundleHandler"/> callback.
@@ -549,8 +546,7 @@ namespace Chromium {
             internal CfxBrowserProcessHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetBrowserProcessHandlerEventArgs() {
-            }
+            internal CfxGetBrowserProcessHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxApp.GetBrowserProcessHandler"/> callback.
@@ -590,8 +586,7 @@ namespace Chromium {
             internal CfxRenderProcessHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetRenderProcessHandlerEventArgs() {
-            }
+            internal CfxGetRenderProcessHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxApp.GetRenderProcessHandler"/> callback.

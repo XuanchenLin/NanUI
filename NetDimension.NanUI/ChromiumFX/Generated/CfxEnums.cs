@@ -989,7 +989,12 @@ namespace Chromium {
         /// "Application Data" directory under the user profile directory on Windows
         /// and "~/Library/Application Support" directory on Mac OS X.
         /// </summary>
-        UserData
+        UserData,
+        /// <summary>
+        /// Directory containing application resources. Can be configured via
+        /// CfxSettings.ResourcesDirPath.
+        /// </summary>
+        DirResources
     }
     /// <summary>
     /// Margin type for PDF printing.
@@ -1075,6 +1080,7 @@ namespace Chromium {
     /// Policy for how the Referrer HTTP header value will be sent during navigation.
     /// If the `--no-referrers` command-line flag is specified then the policy value
     /// will be ignored and the Referrer value will never be sent.
+    /// Must be kept synchronized with net::URLRequest::ReferrerPolicy from Chromium.
     /// </summary>
     /// <remarks>
     /// See also the original CEF documentation in
@@ -1082,33 +1088,47 @@ namespace Chromium {
     /// </remarks>
     public enum CfxReferrerPolicy {
         /// <summary>
-        /// Always send the complete Referrer value.
+        /// Clear the referrer header if the header value is HTTPS but the request
+        /// destination is HTTP. This is the default behavior.
         /// </summary>
-        Always,
+        ClearReferrerOnTransitionFromSecureToInsecure,
+        Default = ClearReferrerOnTransitionFromSecureToInsecure,
         /// <summary>
-        /// Use the default policy. This is REFERRER_POLICY_ORIGIN_WHEN_CROSS_ORIGIN
-        /// when the `--reduced-referrer-granularity` command-line flag is specified
-        /// and REFERRER_POLICY_NO_REFERRER_WHEN_DOWNGRADE otherwise.
+        /// A slight variant on CLEAR_REFERRER_ON_TRANSITION_FROM_SECURE_TO_INSECURE:
+        /// If the request destination is HTTP, an HTTPS referrer will be cleared. If
+        /// the request's destination is cross-origin with the referrer (but does not
+        /// downgrade), the referrer's granularity will be stripped down to an origin
+        /// rather than a full URL. Same-origin requests will send the full referrer.
         /// </summary>
-        Default,
+        ReduceReferrerGranularityOnTransitionCrossOrigin,
         /// <summary>
-        /// When navigating from HTTPS to HTTP do not send the Referrer value.
-        /// Otherwise, send the complete Referrer value.
+        /// Strip the referrer down to an origin when the origin of the referrer is
+        /// different from the destination's origin.
         /// </summary>
-        NoReferrerWhenDowngrade,
+        OriginOnlyOnTransitionCrossOrigin,
         /// <summary>
-        /// Never send the Referrer value.
+        /// Never change the referrer.
         /// </summary>
-        Never,
+        NeverClearReferrer,
         /// <summary>
-        /// Only send the origin component of the Referrer value.
+        /// Strip the referrer down to the origin regardless of the redirect location.
         /// </summary>
         Origin,
         /// <summary>
-        /// When navigating cross-origin only send the origin component of the Referrer
-        /// value. Otherwise, send the complete Referrer value.
+        /// Clear the referrer when the request's referrer is cross-origin with the
+        /// request's destination.
         /// </summary>
-        OriginWhenCrossOrigin
+        ClearReferrerOnTransitionCrossOrigin,
+        /// <summary>
+        /// Strip the referrer down to the origin, but clear it entirely if the
+        /// referrer value is HTTPS and the destination is HTTP.
+        /// </summary>
+        OriginClearOnTransitionFromSecureToInsecure,
+        /// <summary>
+        /// Always clear the referrer regardless of the request destination.
+        /// </summary>
+        NoReferrer,
+        LastValue
     }
     /// <summary>
     /// Resource type for a request.
@@ -1584,14 +1604,24 @@ namespace Chromium {
         /// </summary>
         None = unchecked((int)0),
         /// <summary>
-        /// If set the cache will be skipped when handling the request.
+        /// If set the cache will be skipped when handling the request. Setting this
+        /// value is equivalent to specifying the "Cache-Control: no-cache" request
+        /// header. Setting this value in combination with UR_FLAG_ONLY_FROM_CACHE will
+        /// cause the request to fail.
         /// </summary>
         SkipCache = unchecked((int)1 << 0),
+        /// <summary>
+        /// If set the request will fail if it cannot be served from the cache (or some
+        /// equivalent local store). Setting this value is equivalent to specifying the
+        /// "Cache-Control: only-if-cached" request header. Setting this value in
+        /// combination with UR_FLAG_SKIP_CACHE will cause the request to fail.
+        /// </summary>
+        OnlyFromCache = unchecked((int)1 << 1),
         /// <summary>
         /// If set user name, password, and cookies may be sent with the request, and
         /// cookies may be saved from the response.
         /// </summary>
-        AllowCachedCredentials = unchecked((int)1 << 1),
+        AllowStoredCredentials = unchecked((int)1 << 2),
         /// <summary>
         /// If set upload progress events will be generated when a request has a body.
         /// </summary>
@@ -1599,13 +1629,13 @@ namespace Chromium {
         /// <summary>
         /// If set the CfxURLRequestClient.OnDownloadData method will not be called.
         /// </summary>
-        NoDownloadData = unchecked((int)1 << 6),
+        NoDownloadData = unchecked((int)1 << 4),
         /// <summary>
         /// If set 5XX redirect errors will be propagated to the observer instead of
         /// automatically re-tried. This currently only applies for requests
         /// originated in the browser process.
         /// </summary>
-        NoRetryOn5xx = unchecked((int)1 << 7)
+        NoRetryOn5xx = unchecked((int)1 << 5)
     }
     /// <summary>
     /// Flags that represent CfxURLRequest status.

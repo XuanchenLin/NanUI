@@ -67,7 +67,8 @@ namespace Chromium {
                 command_line_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeChildProcessLaunchEventArgs(command_line);
+            var e = new CfxOnBeforeChildProcessLaunchEventArgs();
+            e.m_command_line = command_line;
             self.m_OnBeforeChildProcessLaunch?.Invoke(self, e);
             e.m_isInvalid = true;
             command_line_release = e.m_command_line_wrapped == null? 1 : 0;
@@ -85,7 +86,8 @@ namespace Chromium {
                 extra_info_release = 1;
                 return;
             }
-            var e = new CfxOnRenderProcessThreadCreatedEventArgs(extra_info);
+            var e = new CfxOnRenderProcessThreadCreatedEventArgs();
+            e.m_extra_info = extra_info;
             self.m_OnRenderProcessThreadCreated?.Invoke(self, e);
             e.m_isInvalid = true;
             extra_info_release = e.m_extra_info_wrapped == null? 1 : 0;
@@ -120,7 +122,8 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxOnScheduleMessagePumpWorkEventArgs(delay_ms);
+            var e = new CfxOnScheduleMessagePumpWorkEventArgs();
+            e.m_delay_ms = delay_ms;
             self.m_OnScheduleMessagePumpWork?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -361,9 +364,7 @@ namespace Chromium {
             internal IntPtr m_command_line;
             internal CfxCommandLine m_command_line_wrapped;
 
-            internal CfxOnBeforeChildProcessLaunchEventArgs(IntPtr command_line) {
-                m_command_line = command_line;
-            }
+            internal CfxOnBeforeChildProcessLaunchEventArgs() {}
 
             /// <summary>
             /// Get the CommandLine parameter for the <see cref="CfxBrowserProcessHandler.OnBeforeChildProcessLaunch"/> callback.
@@ -410,9 +411,7 @@ namespace Chromium {
             internal IntPtr m_extra_info;
             internal CfxListValue m_extra_info_wrapped;
 
-            internal CfxOnRenderProcessThreadCreatedEventArgs(IntPtr extra_info) {
-                m_extra_info = extra_info;
-            }
+            internal CfxOnRenderProcessThreadCreatedEventArgs() {}
 
             /// <summary>
             /// Get the ExtraInfo parameter for the <see cref="CfxBrowserProcessHandler.OnRenderProcessThreadCreated"/> callback.
@@ -454,8 +453,7 @@ namespace Chromium {
             internal CfxPrintHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetPrintHandlerEventArgs() {
-            }
+            internal CfxGetPrintHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxBrowserProcessHandler.GetPrintHandler"/> callback.
@@ -511,9 +509,7 @@ namespace Chromium {
 
             internal long m_delay_ms;
 
-            internal CfxOnScheduleMessagePumpWorkEventArgs(long delay_ms) {
-                m_delay_ms = delay_ms;
-            }
+            internal CfxOnScheduleMessagePumpWorkEventArgs() {}
 
             /// <summary>
             /// Get the DelayMs parameter for the <see cref="CfxBrowserProcessHandler.OnScheduleMessagePumpWork"/> callback.

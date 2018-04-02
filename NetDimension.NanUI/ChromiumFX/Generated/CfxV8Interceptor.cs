@@ -57,7 +57,10 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxGetByNameEventArgs(name_str, name_length, @object);
+            var e = new CfxGetByNameEventArgs();
+            e.m_name_str = name_str;
+            e.m_name_length = name_length;
+            e.m_object = @object;
             self.m_GetByName?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -92,7 +95,9 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxGetByIndexEventArgs(index, @object);
+            var e = new CfxGetByIndexEventArgs();
+            e.m_index = index;
+            e.m_object = @object;
             self.m_GetByIndex?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -127,7 +132,11 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxSetByNameEventArgs(name_str, name_length, @object, value);
+            var e = new CfxSetByNameEventArgs();
+            e.m_name_str = name_str;
+            e.m_name_length = name_length;
+            e.m_object = @object;
+            e.m_value = value;
             self.m_SetByName?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -162,7 +171,10 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxSetByIndexEventArgs(index, @object, value);
+            var e = new CfxSetByIndexEventArgs();
+            e.m_index = index;
+            e.m_object = @object;
+            e.m_value = value;
             self.m_SetByIndex?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -379,11 +391,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetByNameEventArgs(IntPtr name_str, int name_length, IntPtr @object) {
-                m_name_str = name_str;
-                m_name_length = name_length;
-                m_object = @object;
-            }
+            internal CfxGetByNameEventArgs() {}
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfxV8Interceptor.GetByName"/> callback.
@@ -478,10 +486,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetByIndexEventArgs(int index, IntPtr @object) {
-                m_index = index;
-                m_object = @object;
-            }
+            internal CfxGetByIndexEventArgs() {}
 
             /// <summary>
             /// Get the Index parameter for the <see cref="CfxV8Interceptor.GetByIndex"/> callback.
@@ -578,12 +583,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxSetByNameEventArgs(IntPtr name_str, int name_length, IntPtr @object, IntPtr value) {
-                m_name_str = name_str;
-                m_name_length = name_length;
-                m_object = @object;
-                m_value = value;
-            }
+            internal CfxSetByNameEventArgs() {}
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfxV8Interceptor.SetByName"/> callback.
@@ -678,11 +678,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxSetByIndexEventArgs(int index, IntPtr @object, IntPtr value) {
-                m_index = index;
-                m_object = @object;
-                m_value = value;
-            }
+            internal CfxSetByIndexEventArgs() {}
 
             /// <summary>
             /// Get the Index parameter for the <see cref="CfxV8Interceptor.SetByIndex"/> callback.

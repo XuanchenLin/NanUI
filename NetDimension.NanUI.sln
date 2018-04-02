@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "其他", "其他", "{36C72042-840E-4C1A-B697-02AFAB117CC8}"
 	ProjectSection(SolutionItems) = preProject
+		changes.txt = changes.txt
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection

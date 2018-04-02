@@ -12,6 +12,10 @@ namespace Chromium.Remote {
     /// </summary>
     public abstract class CfrBaseRefCounted : CfrObject {
 
+        static internal CfrBaseRefCounted Cast(RemotePtr nativePtr) {
+            throw new Exception("Implement this");
+        }
+
         internal CfrBaseRefCounted() { }
         internal CfrBaseRefCounted(RemotePtr remotePtr) : base(remotePtr) { }
 

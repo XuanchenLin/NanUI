@@ -31,14 +31,17 @@ namespace Chromium.Remote {
         internal static CfrWaitableEvent Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrWaitableEvent)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrWaitableEvent(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrWaitableEvent)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrWaitableEvent(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -54,11 +57,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_waitable_event_capi.h">cef/include/capi/cef_waitable_event_capi.h</see>.
         /// </remarks>
         public static CfrWaitableEvent Create(bool automaticReset, bool initiallySignaled) {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxWaitableEventCreateRemoteCall();
             call.automaticReset = automaticReset;
             call.initiallySignaled = initiallySignaled;
-            call.RequestExecution();
-            return CfrWaitableEvent.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrWaitableEvent.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -75,9 +79,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsSignaled {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxWaitableEventIsSignaledRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -90,9 +95,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_waitable_event_capi.h">cef/include/capi/cef_waitable_event_capi.h</see>.
         /// </remarks>
         public void Reset() {
+            var connection = RemotePtr.connection;
             var call = new CfxWaitableEventResetRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -104,9 +110,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_waitable_event_capi.h">cef/include/capi/cef_waitable_event_capi.h</see>.
         /// </remarks>
         public void Signal() {
+            var connection = RemotePtr.connection;
             var call = new CfxWaitableEventSignalRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -119,9 +126,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_waitable_event_capi.h">cef/include/capi/cef_waitable_event_capi.h</see>.
         /// </remarks>
         public void Wait() {
+            var connection = RemotePtr.connection;
             var call = new CfxWaitableEventWaitRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -136,10 +144,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_waitable_event_capi.h">cef/include/capi/cef_waitable_event_capi.h</see>.
         /// </remarks>
         public bool TimedWait(long maxMs) {
+            var connection = RemotePtr.connection;
             var call = new CfxWaitableEventTimedWaitRemoteCall();
             call.@this = RemotePtr.ptr;
             call.maxMs = maxMs;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
     }

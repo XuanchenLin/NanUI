@@ -18,6 +18,11 @@ namespace Chromium.Remote {
             return remoteObject == null ? RemotePtr.Zero : remoteObject.RemotePtr;
         }
 
+        internal static bool CheckConnection(CfrObject obj, RemoteConnection connection) {
+            return obj == null || obj.m_remotePtr.connection == connection;
+        }
+
+
         private RemotePtr m_remotePtr;
 
         internal CfrObject() { }

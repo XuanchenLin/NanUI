@@ -42,7 +42,10 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxRegisterCdmCallbackOnCdmRegistrationCompleteEventArgs(result, error_message_str, error_message_length);
+            var e = new CfxRegisterCdmCallbackOnCdmRegistrationCompleteEventArgs();
+            e.m_result = result;
+            e.m_error_message_str = error_message_str;
+            e.m_error_message_length = error_message_length;
             self.m_OnCdmRegistrationComplete?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -121,11 +124,7 @@ namespace Chromium {
             internal int m_error_message_length;
             internal string m_error_message;
 
-            internal CfxRegisterCdmCallbackOnCdmRegistrationCompleteEventArgs(int result, IntPtr error_message_str, int error_message_length) {
-                m_result = result;
-                m_error_message_str = error_message_str;
-                m_error_message_length = error_message_length;
-            }
+            internal CfxRegisterCdmCallbackOnCdmRegistrationCompleteEventArgs() {}
 
             /// <summary>
             /// Get the Result parameter for the <see cref="CfxRegisterCdmCallback.OnCdmRegistrationComplete"/> callback.

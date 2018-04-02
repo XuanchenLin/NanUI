@@ -112,34 +112,18 @@ namespace Chromium {
         /// <summary>
         /// Create the browser using windowless (off-screen) rendering. No window
         /// will be created for the browser and all rendering will occur via the
-        /// CefRenderHandler interface. The |parent| value will be used to identify
+        /// CfxRenderHandler interface. The |parent| value will be used to identify
         /// monitor info and to act as the parent window for dialogs, context menus,
         /// etc. If |parent| is not provided then the main screen monitor will be used
         /// and some functionality that requires a parent window may not function
-        /// correctly. If |transparent| is true a transparent background color will be
-        /// used (RGBA=0x00000000). If |transparent| is false the background will be
-        /// white and opaque. In order to create windowless browsers the
-        /// CefSettings.windowless_rendering_enabled value must be set to true.
+        /// correctly. In order to create windowless browsers the
+        /// CfxSettings.WindowlessRenderingEnabled value must be set to true.
+        /// Transparent painting is enabled by default but can be disabled by setting
+        /// CfxBrowserSettings.BackgroundColor to an opaque value.
         /// </summary>
-        public void SetAsWindowless(IntPtr parentWindow, bool transparent) {
+        public void SetAsWindowless(IntPtr parentWindow) {
             ParentWindow = parentWindow;
             WindowlessRenderingEnabled = true;
-            TransparentPaintingEnabled = transparent;
-        }
-
-        /// <summary>
-        /// Create the browser using windowless (off-screen) rendering. No window
-        /// will be created for the browser and all rendering will occur via the
-        /// CefRenderHandler interface. The main screen monitor will be used as parent
-        /// and some functionality that requires a parent window may not function
-        /// correctly. If |transparent| is true a transparent background color will be
-        /// used (RGBA=0x00000000). If |transparent| is false the background will be
-        /// white and opaque. In order to create windowless browsers the
-        /// CefSettings.windowless_rendering_enabled value must be set to true.
-        /// </summary>
-        public void SetAsWindowless(bool transparent) {
-            WindowlessRenderingEnabled = true;
-            TransparentPaintingEnabled = transparent;
         }
 
         /// <summary>
@@ -387,42 +371,6 @@ namespace Chromium {
                         break;
                     case CfxPlatformOS.Linux:
                         linux.WindowlessRenderingEnabled = value;
-                        break;
-                    default:
-                        throw new CfxException("Unsupported platform.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Set to true (1) to enable transparent painting in combination with
-        /// windowless rendering. When this value is true a transparent background
-        /// color will be used (RGBA=0x00000000). When this value is false the
-        /// background will be white and opaque.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types_win.h">cef/include/internal/cef_types_win.h</see>
-        /// and <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/linux/cef/include/internal/cef_types_linux.h">linux/cef/include/internal/cef_types_linux.h</see>.
-        /// </remarks>
-        public bool TransparentPaintingEnabled {
-            get {
-                switch(CfxApi.PlatformOS) {
-                    case CfxPlatformOS.Windows:
-                        return windows.TransparentPaintingEnabled;
-                    case CfxPlatformOS.Linux:
-                        return linux.TransparentPaintingEnabled;
-                    default:
-                        throw new CfxException("Unsupported platform.");
-                }
-            }
-            set {
-                switch(CfxApi.PlatformOS) {
-                    case CfxPlatformOS.Windows:
-                        windows.TransparentPaintingEnabled = value;
-                        break;
-                    case CfxPlatformOS.Linux:
-                        linux.TransparentPaintingEnabled = value;
                         break;
                     default:
                         throw new CfxException("Unsupported platform.");

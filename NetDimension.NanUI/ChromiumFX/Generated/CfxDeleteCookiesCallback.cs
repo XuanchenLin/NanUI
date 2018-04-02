@@ -41,7 +41,8 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxDeleteCookiesCallbackOnCompleteEventArgs(num_deleted);
+            var e = new CfxDeleteCookiesCallbackOnCompleteEventArgs();
+            e.m_num_deleted = num_deleted;
             self.m_OnComplete?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -111,9 +112,7 @@ namespace Chromium {
 
             internal int m_num_deleted;
 
-            internal CfxDeleteCookiesCallbackOnCompleteEventArgs(int num_deleted) {
-                m_num_deleted = num_deleted;
-            }
+            internal CfxDeleteCookiesCallbackOnCompleteEventArgs() {}
 
             /// <summary>
             /// Get the NumDeleted parameter for the <see cref="CfxDeleteCookiesCallback.OnComplete"/> callback.

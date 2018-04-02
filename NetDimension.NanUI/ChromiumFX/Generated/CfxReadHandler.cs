@@ -50,7 +50,10 @@ namespace Chromium {
                 __retval = default(UIntPtr);
                 return;
             }
-            var e = new CfxReadEventArgs(ptr, size, n);
+            var e = new CfxReadEventArgs();
+            e.m_ptr = ptr;
+            e.m_size = size;
+            e.m_n = n;
             self.m_Read?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = (UIntPtr)e.m_returnValue;
@@ -68,7 +71,9 @@ namespace Chromium {
                 __retval = default(int);
                 return;
             }
-            var e = new CfxSeekEventArgs(offset, whence);
+            var e = new CfxSeekEventArgs();
+            e.m_offset = offset;
+            e.m_whence = whence;
             self.m_Seek?.Invoke(self, e);
             e.m_isInvalid = true;
             __retval = e.m_returnValue;
@@ -326,11 +331,7 @@ namespace Chromium {
             internal ulong m_returnValue;
             private bool returnValueSet;
 
-            internal CfxReadEventArgs(IntPtr ptr, UIntPtr size, UIntPtr n) {
-                m_ptr = ptr;
-                m_size = size;
-                m_n = n;
-            }
+            internal CfxReadEventArgs() {}
 
             /// <summary>
             /// Get the Ptr parameter for the <see cref="CfxReadHandler.Read"/> callback.
@@ -403,10 +404,7 @@ namespace Chromium {
             internal int m_returnValue;
             private bool returnValueSet;
 
-            internal CfxSeekEventArgs(long offset, int whence) {
-                m_offset = offset;
-                m_whence = whence;
-            }
+            internal CfxSeekEventArgs() {}
 
             /// <summary>
             /// Get the Offset parameter for the <see cref="CfxReadHandler.Seek"/> callback.
@@ -466,8 +464,7 @@ namespace Chromium {
             internal long m_returnValue;
             private bool returnValueSet;
 
-            internal CfxTellEventArgs() {
-            }
+            internal CfxTellEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxReadHandler.Tell"/> callback.
@@ -505,8 +502,7 @@ namespace Chromium {
             internal int m_returnValue;
             private bool returnValueSet;
 
-            internal CfxReadHandlerEofEventArgs() {
-            }
+            internal CfxReadHandlerEofEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxReadHandler.Eof"/> callback.
@@ -548,8 +544,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxMayBlockEventArgs() {
-            }
+            internal CfxMayBlockEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxReadHandler.MayBlock"/> callback.

@@ -75,9 +75,12 @@ namespace Chromium {
         /// security rules as those applied to "https" URLs. For example, loading this
         /// scheme from other secure schemes will not trigger mixed content warnings.
         /// 
-        /// If |isCorsEnabled| is true (1) the scheme that can be sent CORS requests.
-        /// This value should be true (1) in most cases where |isStandard| is true
-        /// (1).
+        /// If |isCorsEnabled| is true (1) the scheme can be sent CORS requests. This
+        /// value should be true (1) in most cases where |isStandard| is true (1).
+        /// 
+        /// If |isCspBypassing| is true (1) the scheme can bypass Content-Security-
+        /// Policy (CSP) checks. This value should be false (0) in most cases where
+        /// |isStandard| is true (1).
         /// 
         /// This function may be called on any thread. It should only be called once
         /// per unique |schemeName| value. If |schemeName| is already registered or
@@ -87,9 +90,9 @@ namespace Chromium {
         /// See also the original CEF documentation in
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_scheme_capi.h">cef/include/capi/cef_scheme_capi.h</see>.
         /// </remarks>
-        public bool AddCustomScheme(string schemeName, bool isStandard, bool isLocal, bool isDisplayIsolated, bool isSecure, bool isCorsEnabled) {
+        public bool AddCustomScheme(string schemeName, bool isStandard, bool isLocal, bool isDisplayIsolated, bool isSecure, bool isCorsEnabled, bool isCspBypassing) {
             var schemeName_pinned = new PinnedString(schemeName);
-            var __retval = CfxApi.SchemeRegistrar.cfx_scheme_registrar_add_custom_scheme(NativePtr, schemeName_pinned.Obj.PinnedPtr, schemeName_pinned.Length, isStandard ? 1 : 0, isLocal ? 1 : 0, isDisplayIsolated ? 1 : 0, isSecure ? 1 : 0, isCorsEnabled ? 1 : 0);
+            var __retval = CfxApi.SchemeRegistrar.cfx_scheme_registrar_add_custom_scheme(NativePtr, schemeName_pinned.Obj.PinnedPtr, schemeName_pinned.Length, isStandard ? 1 : 0, isLocal ? 1 : 0, isDisplayIsolated ? 1 : 0, isSecure ? 1 : 0, isCorsEnabled ? 1 : 0, isCspBypassing ? 1 : 0);
             schemeName_pinned.Obj.Free();
             return 0 != __retval;
         }

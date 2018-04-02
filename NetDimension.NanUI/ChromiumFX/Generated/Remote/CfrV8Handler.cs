@@ -127,7 +127,7 @@ namespace Chromium.Remote {
                 get {
                     CheckAccess();
                     if(!m_name_fetched) {
-                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.name_str), call.name_length));
+                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(connection, call.name_str), call.name_length));
                         m_name_fetched = true;
                     }
                     return m_name;
@@ -139,7 +139,7 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.@object));
                     return m_object_wrapped;
                 }
             }
@@ -153,7 +153,7 @@ namespace Chromium.Remote {
                         var arguments = new RemotePtr[(ulong)call.argumentsCount];
                         m_arguments_managed = new CfrV8Value[arguments.Length];
                         if(arguments.Length > 0) {
-                            CfrRuntime.Marshal.Copy(new RemotePtr(call.arguments), arguments, 0, arguments.Length);
+                            CfrRuntime.Marshal.Copy(new RemotePtr(connection, call.arguments), arguments, 0, arguments.Length);
                             for(int i = 0; i < arguments.Length; ++i) {
                                 m_arguments_managed[i] = CfrV8Value.Wrap(arguments[i]);
                             }

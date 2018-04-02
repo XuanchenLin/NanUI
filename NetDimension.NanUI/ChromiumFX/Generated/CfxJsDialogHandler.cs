@@ -51,7 +51,16 @@ namespace Chromium {
                 suppress_message = default(int);
                 return;
             }
-            var e = new CfxOnJsDialogEventArgs(browser, origin_url_str, origin_url_length, dialog_type, message_text_str, message_text_length, default_prompt_text_str, default_prompt_text_length, callback);
+            var e = new CfxOnJsDialogEventArgs();
+            e.m_browser = browser;
+            e.m_origin_url_str = origin_url_str;
+            e.m_origin_url_length = origin_url_length;
+            e.m_dialog_type = dialog_type;
+            e.m_message_text_str = message_text_str;
+            e.m_message_text_length = message_text_length;
+            e.m_default_prompt_text_str = default_prompt_text_str;
+            e.m_default_prompt_text_length = default_prompt_text_length;
+            e.m_callback = callback;
             self.m_OnJsDialog?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -74,7 +83,12 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeUnloadDialogEventArgs(browser, message_text_str, message_text_length, is_reload, callback);
+            var e = new CfxOnBeforeUnloadDialogEventArgs();
+            e.m_browser = browser;
+            e.m_message_text_str = message_text_str;
+            e.m_message_text_length = message_text_length;
+            e.m_is_reload = is_reload;
+            e.m_callback = callback;
             self.m_OnBeforeUnloadDialog?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -94,7 +108,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnResetDialogStateEventArgs(browser);
+            var e = new CfxOnResetDialogStateEventArgs();
+            e.m_browser = browser;
             self.m_OnResetDialogState?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -112,7 +127,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnDialogClosedEventArgs(browser);
+            var e = new CfxOnDialogClosedEventArgs();
+            e.m_browser = browser;
             self.m_OnDialogClosed?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -342,17 +358,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnJsDialogEventArgs(IntPtr browser, IntPtr origin_url_str, int origin_url_length, int dialog_type, IntPtr message_text_str, int message_text_length, IntPtr default_prompt_text_str, int default_prompt_text_length, IntPtr callback) {
-                m_browser = browser;
-                m_origin_url_str = origin_url_str;
-                m_origin_url_length = origin_url_length;
-                m_dialog_type = dialog_type;
-                m_message_text_str = message_text_str;
-                m_message_text_length = message_text_length;
-                m_default_prompt_text_str = default_prompt_text_str;
-                m_default_prompt_text_length = default_prompt_text_length;
-                m_callback = callback;
-            }
+            internal CfxOnJsDialogEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxJsDialogHandler.OnJsDialog"/> callback.
@@ -480,13 +486,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnBeforeUnloadDialogEventArgs(IntPtr browser, IntPtr message_text_str, int message_text_length, int is_reload, IntPtr callback) {
-                m_browser = browser;
-                m_message_text_str = message_text_str;
-                m_message_text_length = message_text_length;
-                m_is_reload = is_reload;
-                m_callback = callback;
-            }
+            internal CfxOnBeforeUnloadDialogEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxJsDialogHandler.OnBeforeUnloadDialog"/> callback.
@@ -570,9 +570,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnResetDialogStateEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnResetDialogStateEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxJsDialogHandler.OnResetDialogState"/> callback.
@@ -611,9 +609,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnDialogClosedEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnDialogClosedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxJsDialogHandler.OnDialogClosed"/> callback.

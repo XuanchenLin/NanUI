@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -80,16 +82,7 @@
     <Compile Include="ChromiumCore\JavascriptAttributes\JSObjectExtensions.cs" />
     <Compile Include="ChromiumCore\JavascriptAttributes\JSPropertyAttribute.cs" />
     <Compile Include="ChromiumCore\RenderProcess\NanUIV8Handler.cs" />
-    <Compile Include="FormV8Handler.cs" />
-    <Compile Include="IChromiumClient.cs" />
-    <Compile Include="NanUIException.cs" />
-    <Compile Include="ChromiumCore\JSDynamicProperty.cs" />
-    <Compile Include="ChromiumCore\JSFunction.cs" />
-    <Compile Include="ChromiumCore\JSObject.cs" />
-    <Compile Include="ChromiumCore\JSProperty.cs" />
-    <Compile Include="ChromiumCore\RenderProcess\RenderProcess.cs" />
-    <Compile Include="ChromiumCore\RenderProcess\RenderProcessHandler.cs" />
-    <Compile Include="ChromiumCore\WebResource.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxAccessibilityHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApi.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApiLoader.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApp.cs" />
@@ -128,6 +121,8 @@
     <Compile Include="ChromiumFX\Generated\CfxDragHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxEndTracingCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxEnums.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxExtension.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxExtensionHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxFileDialogCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxFindHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxFocusHandler.cs" />
@@ -135,6 +130,7 @@
     <Compile Include="ChromiumFX\Generated\CfxGeolocationCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxGeolocationHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxGeoposition.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxGetExtensionResourceCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxGetGeolocationCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxImage.cs" />
     <Compile Include="ChromiumFX\Generated\CfxInsets.cs" />
@@ -188,6 +184,8 @@
     <Compile Include="ChromiumFX\Generated\CfxSchemeRegistrar.cs" />
     <Compile Include="ChromiumFX\Generated\CfxScreenInfo.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSelectClientCertificateCallback.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxServer.cs" />
+    <Compile Include="ChromiumFX\Generated\CfxServerHandler.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSetCookieCallback.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSettings.cs" />
     <Compile Include="ChromiumFX\Generated\CfxSize.cs" />
@@ -226,6 +224,7 @@
     <Compile Include="ChromiumFX\Generated\Remote\CfrApp.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrBinaryValue.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrBrowser.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrCallback.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrCommandLine.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrDictionaryValue.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrDomDocument.cs" />
@@ -246,6 +245,8 @@
     <Compile Include="ChromiumFX\Generated\Remote\CfrResponse.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrRuntime.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrSchemeRegistrar.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrServer.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfrServerHandler.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrStreamReader.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrStreamWriter.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfrStringVisitor.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="ChromiumFX\Generated\Remote\CfxAppRemoteClient.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxBinaryValueRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxBrowserRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxCallbackRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxCommandLineRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxDictionaryValueRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxDomDocumentRemoteCalls.cs" />
@@ -295,6 +297,9 @@
     <Compile Include="ChromiumFX\Generated\Remote\CfxResponseRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxRuntimeRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxSchemeRegistrarRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxServerHandlerRemoteCalls.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxServerHandlerRemoteClient.cs" />
+    <Compile Include="ChromiumFX\Generated\Remote\CfxServerRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxStreamReaderRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxStreamWriterRemoteCalls.cs" />
     <Compile Include="ChromiumFX\Generated\Remote\CfxStringVisitorRemoteCalls.cs" />
@@ -352,6 +357,7 @@
     <Compile Include="ChromiumFX\Source\Remote\CfrBaseClient.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrBaseLibrary.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrBaseRefCounted.cs" />
+    <Compile Include="ChromiumFX\Source\Remote\CfrBaseScoped.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrBinaryValue.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrEventArgs.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrMarshal.cs" />
@@ -363,8 +369,6 @@
     <Compile Include="ChromiumFX\Source\Remote\CfrTellEventArgs.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrTime.cs" />
     <Compile Include="ChromiumFX\Source\Remote\CfrV8Value.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\PipeBufferStream.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\PipeFactory.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteCall.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteCallBases.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteClient.cs" />
@@ -372,12 +376,21 @@
     <Compile Include="ChromiumFX\Source\Remote\RemotePtr.cs" />
     <Compile Include="ChromiumFX\Source\Remote\RemoteService.cs" />
     <Compile Include="ChromiumFX\Source\Remote\StreamHandler.cs" />
-    <Compile Include="ChromiumFX\Source\Remote\WindowsPipeFactory.cs" />
     <Compile Include="ChromiumFX\Source\Remote\WorkerPool.cs" />
     <Compile Include="ChromiumFX\Source\StringFunctions.cs" />
     <Compile Include="ChromiumFX\Source\TimeFunctions.cs" />
     <Compile Include="ChromiumFX\Source\WeakCache.cs" />
     <Compile Include="ChromiumFX\Source\WindowStyle.cs" />
+    <Compile Include="FormV8Handler.cs" />
+    <Compile Include="IChromiumClient.cs" />
+    <Compile Include="NanUIException.cs" />
+    <Compile Include="ChromiumCore\JSDynamicProperty.cs" />
+    <Compile Include="ChromiumCore\JSFunction.cs" />
+    <Compile Include="ChromiumCore\JSObject.cs" />
+    <Compile Include="ChromiumCore\JSProperty.cs" />
+    <Compile Include="ChromiumCore\RenderProcess\RenderProcess.cs" />
+    <Compile Include="ChromiumCore\RenderProcess\RenderProcessHandler.cs" />
+    <Compile Include="ChromiumCore\WebResource.cs" />
     <Compile Include="Formium.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -426,6 +439,5 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

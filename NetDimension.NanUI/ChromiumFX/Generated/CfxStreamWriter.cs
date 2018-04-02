@@ -22,16 +22,15 @@ namespace Chromium {
 
         internal static CfxStreamWriter Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxStreamWriter)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxStreamWriter(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxStreamWriter)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxStreamWriter(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 

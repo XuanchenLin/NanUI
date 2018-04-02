@@ -63,7 +63,8 @@ namespace Chromium {
                 extra_info_release = 1;
                 return;
             }
-            var e = new CfxOnRenderThreadCreatedEventArgs(extra_info);
+            var e = new CfxOnRenderThreadCreatedEventArgs();
+            e.m_extra_info = extra_info;
             self.m_OnRenderThreadCreated?.Invoke(self, e);
             e.m_isInvalid = true;
             extra_info_release = e.m_extra_info_wrapped == null? 1 : 0;
@@ -97,7 +98,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnBrowserCreatedEventArgs(browser);
+            var e = new CfxOnBrowserCreatedEventArgs();
+            e.m_browser = browser;
             self.m_OnBrowserCreated?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -115,7 +117,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnBrowserDestroyedEventArgs(browser);
+            var e = new CfxOnBrowserDestroyedEventArgs();
+            e.m_browser = browser;
             self.m_OnBrowserDestroyed?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -154,7 +157,12 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeNavigationEventArgs(browser, frame, request, navigation_type, is_redirect);
+            var e = new CfxOnBeforeNavigationEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_navigation_type = navigation_type;
+            e.m_is_redirect = is_redirect;
             self.m_OnBeforeNavigation?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -177,7 +185,10 @@ namespace Chromium {
                 context_release = 1;
                 return;
             }
-            var e = new CfxOnContextCreatedEventArgs(browser, frame, context);
+            var e = new CfxOnContextCreatedEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_context = context;
             self.m_OnContextCreated?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -199,7 +210,10 @@ namespace Chromium {
                 context_release = 1;
                 return;
             }
-            var e = new CfxOnContextReleasedEventArgs(browser, frame, context);
+            var e = new CfxOnContextReleasedEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_context = context;
             self.m_OnContextReleased?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -223,7 +237,12 @@ namespace Chromium {
                 stackTrace_release = 1;
                 return;
             }
-            var e = new CfxOnUncaughtExceptionEventArgs(browser, frame, context, exception, stackTrace);
+            var e = new CfxOnUncaughtExceptionEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_context = context;
+            e.m_exception = exception;
+            e.m_stackTrace = stackTrace;
             self.m_OnUncaughtException?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -247,7 +266,10 @@ namespace Chromium {
                 node_release = 1;
                 return;
             }
-            var e = new CfxOnFocusedNodeChangedEventArgs(browser, frame, node);
+            var e = new CfxOnFocusedNodeChangedEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_node = node;
             self.m_OnFocusedNodeChanged?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -269,7 +291,10 @@ namespace Chromium {
                 message_release = 1;
                 return;
             }
-            var e = new CfxOnProcessMessageReceivedEventArgs(browser, source_process, message);
+            var e = new CfxOnProcessMessageReceivedEventArgs();
+            e.m_browser = browser;
+            e.m_source_process = source_process;
+            e.m_message = message;
             self.m_OnProcessMessageReceived?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -704,9 +729,7 @@ namespace Chromium {
             internal IntPtr m_extra_info;
             internal CfxListValue m_extra_info_wrapped;
 
-            internal CfxOnRenderThreadCreatedEventArgs(IntPtr extra_info) {
-                m_extra_info = extra_info;
-            }
+            internal CfxOnRenderThreadCreatedEventArgs() {}
 
             /// <summary>
             /// Get the ExtraInfo parameter for the <see cref="CfxRenderProcessHandler.OnRenderThreadCreated"/> callback.
@@ -750,9 +773,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnBrowserCreatedEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnBrowserCreatedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnBrowserCreated"/> callback.
@@ -791,9 +812,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnBrowserDestroyedEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnBrowserDestroyedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnBrowserDestroyed"/> callback.
@@ -846,13 +865,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnBeforeNavigationEventArgs(IntPtr browser, IntPtr frame, IntPtr request, int navigation_type, int is_redirect) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_navigation_type = navigation_type;
-                m_is_redirect = is_redirect;
-            }
+            internal CfxOnBeforeNavigationEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnBeforeNavigation"/> callback.
@@ -955,11 +968,7 @@ namespace Chromium {
             internal IntPtr m_context;
             internal CfxV8Context m_context_wrapped;
 
-            internal CfxOnContextCreatedEventArgs(IntPtr browser, IntPtr frame, IntPtr context) {
-                m_browser = browser;
-                m_frame = frame;
-                m_context = context;
-            }
+            internal CfxOnContextCreatedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnContextCreated"/> callback.
@@ -1024,11 +1033,7 @@ namespace Chromium {
             internal IntPtr m_context;
             internal CfxV8Context m_context_wrapped;
 
-            internal CfxOnContextReleasedEventArgs(IntPtr browser, IntPtr frame, IntPtr context) {
-                m_browser = browser;
-                m_frame = frame;
-                m_context = context;
-            }
+            internal CfxOnContextReleasedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnContextReleased"/> callback.
@@ -1099,13 +1104,7 @@ namespace Chromium {
             internal IntPtr m_stackTrace;
             internal CfxV8StackTrace m_stackTrace_wrapped;
 
-            internal CfxOnUncaughtExceptionEventArgs(IntPtr browser, IntPtr frame, IntPtr context, IntPtr exception, IntPtr stackTrace) {
-                m_browser = browser;
-                m_frame = frame;
-                m_context = context;
-                m_exception = exception;
-                m_stackTrace = stackTrace;
-            }
+            internal CfxOnUncaughtExceptionEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnUncaughtException"/> callback.
@@ -1198,11 +1197,7 @@ namespace Chromium {
             internal IntPtr m_node;
             internal CfxDomNode m_node_wrapped;
 
-            internal CfxOnFocusedNodeChangedEventArgs(IntPtr browser, IntPtr frame, IntPtr node) {
-                m_browser = browser;
-                m_frame = frame;
-                m_node = node;
-            }
+            internal CfxOnFocusedNodeChangedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRenderProcessHandler.OnFocusedNodeChanged"/> callback.

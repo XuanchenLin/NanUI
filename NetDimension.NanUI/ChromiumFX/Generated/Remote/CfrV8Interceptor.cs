@@ -240,7 +240,7 @@ namespace Chromium.Remote {
                 get {
                     CheckAccess();
                     if(!m_name_fetched) {
-                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.name_str), call.name_length));
+                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(connection, call.name_str), call.name_length));
                         m_name_fetched = true;
                     }
                     return m_name;
@@ -252,7 +252,7 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.@object));
                     return m_object_wrapped;
                 }
             }
@@ -262,6 +262,7 @@ namespace Chromium.Remote {
             public CfrV8Value Retval {
                 set {
                     CheckAccess();
+                    if(!CfrObject.CheckConnection(value, connection)) throw new ArgumentException("Render process connection mismatch.", "value");
                     m_retval_wrapped = value;
                 }
             }
@@ -345,7 +346,7 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.@object));
                     return m_object_wrapped;
                 }
             }
@@ -355,6 +356,7 @@ namespace Chromium.Remote {
             public CfrV8Value Retval {
                 set {
                     CheckAccess();
+                    if(!CfrObject.CheckConnection(value, connection)) throw new ArgumentException("Render process connection mismatch.", "value");
                     m_retval_wrapped = value;
                 }
             }
@@ -432,7 +434,7 @@ namespace Chromium.Remote {
                 get {
                     CheckAccess();
                     if(!m_name_fetched) {
-                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.name_str), call.name_length));
+                        m_name = call.name_str == IntPtr.Zero ? null : (call.name_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(connection, call.name_str), call.name_length));
                         m_name_fetched = true;
                     }
                     return m_name;
@@ -444,7 +446,7 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.@object));
                     return m_object_wrapped;
                 }
             }
@@ -454,7 +456,7 @@ namespace Chromium.Remote {
             public CfrV8Value Value {
                 get {
                     CheckAccess();
-                    if(m_value_wrapped == null) m_value_wrapped = CfrV8Value.Wrap(new RemotePtr(call.value));
+                    if(m_value_wrapped == null) m_value_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.value));
                     return m_value_wrapped;
                 }
             }
@@ -536,7 +538,7 @@ namespace Chromium.Remote {
             public CfrV8Value Object {
                 get {
                     CheckAccess();
-                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(call.@object));
+                    if(m_object_wrapped == null) m_object_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.@object));
                     return m_object_wrapped;
                 }
             }
@@ -546,7 +548,7 @@ namespace Chromium.Remote {
             public CfrV8Value Value {
                 get {
                     CheckAccess();
-                    if(m_value_wrapped == null) m_value_wrapped = CfrV8Value.Wrap(new RemotePtr(call.value));
+                    if(m_value_wrapped == null) m_value_wrapped = CfrV8Value.Wrap(new RemotePtr(connection, call.value));
                     return m_value_wrapped;
                 }
             }

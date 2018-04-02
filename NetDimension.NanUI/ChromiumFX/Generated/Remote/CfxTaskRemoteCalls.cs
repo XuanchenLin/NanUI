@@ -58,8 +58,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrEventArgs();
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Execute?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
         }
     }
 

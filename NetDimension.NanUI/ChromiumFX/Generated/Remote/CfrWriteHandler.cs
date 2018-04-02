@@ -234,7 +234,7 @@ namespace Chromium.Remote {
             public RemotePtr Ptr {
                 get {
                     CheckAccess();
-                    return new RemotePtr(call.ptr);
+                    return new RemotePtr(connection, call.ptr);
                 }
             }
             /// <summary>

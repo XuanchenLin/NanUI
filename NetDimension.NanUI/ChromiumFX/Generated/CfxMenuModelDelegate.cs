@@ -55,7 +55,10 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxExecuteCommandEventArgs(menu_model, command_id, event_flags);
+            var e = new CfxExecuteCommandEventArgs();
+            e.m_menu_model = menu_model;
+            e.m_command_id = command_id;
+            e.m_event_flags = event_flags;
             self.m_ExecuteCommand?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -73,7 +76,9 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxMouseOutsideMenuEventArgs(menu_model, screen_point);
+            var e = new CfxMouseOutsideMenuEventArgs();
+            e.m_menu_model = menu_model;
+            e.m_screen_point = screen_point;
             self.m_MouseOutsideMenu?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -91,7 +96,9 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxUnhandledOpenSubmenuEventArgs(menu_model, is_rtl);
+            var e = new CfxUnhandledOpenSubmenuEventArgs();
+            e.m_menu_model = menu_model;
+            e.m_is_rtl = is_rtl;
             self.m_UnhandledOpenSubmenu?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -109,7 +116,9 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxUnhandledCloseSubmenuEventArgs(menu_model, is_rtl);
+            var e = new CfxUnhandledCloseSubmenuEventArgs();
+            e.m_menu_model = menu_model;
+            e.m_is_rtl = is_rtl;
             self.m_UnhandledCloseSubmenu?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -127,7 +136,8 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxMenuWillShowEventArgs(menu_model);
+            var e = new CfxMenuWillShowEventArgs();
+            e.m_menu_model = menu_model;
             self.m_MenuWillShow?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -145,7 +155,8 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxMenuClosedEventArgs(menu_model);
+            var e = new CfxMenuClosedEventArgs();
+            e.m_menu_model = menu_model;
             self.m_MenuClosed?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -164,7 +175,10 @@ namespace Chromium {
                 menu_model_release = 1;
                 return;
             }
-            var e = new CfxFormatLabelEventArgs(menu_model, label_str, label_length);
+            var e = new CfxFormatLabelEventArgs();
+            e.m_menu_model = menu_model;
+            e.m_label_str = label_str;
+            e.m_label_length = label_length;
             self.m_FormatLabel?.Invoke(self, e);
             e.m_isInvalid = true;
             menu_model_release = e.m_menu_model_wrapped == null? 1 : 0;
@@ -440,11 +454,7 @@ namespace Chromium {
             internal int m_command_id;
             internal int m_event_flags;
 
-            internal CfxExecuteCommandEventArgs(IntPtr menu_model, int command_id, int event_flags) {
-                m_menu_model = menu_model;
-                m_command_id = command_id;
-                m_event_flags = event_flags;
-            }
+            internal CfxExecuteCommandEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.ExecuteCommand"/> callback.
@@ -505,10 +515,7 @@ namespace Chromium {
             internal IntPtr m_screen_point;
             internal CfxPoint m_screen_point_wrapped;
 
-            internal CfxMouseOutsideMenuEventArgs(IntPtr menu_model, IntPtr screen_point) {
-                m_menu_model = menu_model;
-                m_screen_point = screen_point;
-            }
+            internal CfxMouseOutsideMenuEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.MouseOutsideMenu"/> callback.
@@ -560,10 +567,7 @@ namespace Chromium {
             internal CfxMenuModel m_menu_model_wrapped;
             internal int m_is_rtl;
 
-            internal CfxUnhandledOpenSubmenuEventArgs(IntPtr menu_model, int is_rtl) {
-                m_menu_model = menu_model;
-                m_is_rtl = is_rtl;
-            }
+            internal CfxUnhandledOpenSubmenuEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.UnhandledOpenSubmenu"/> callback.
@@ -614,10 +618,7 @@ namespace Chromium {
             internal CfxMenuModel m_menu_model_wrapped;
             internal int m_is_rtl;
 
-            internal CfxUnhandledCloseSubmenuEventArgs(IntPtr menu_model, int is_rtl) {
-                m_menu_model = menu_model;
-                m_is_rtl = is_rtl;
-            }
+            internal CfxUnhandledCloseSubmenuEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.UnhandledCloseSubmenu"/> callback.
@@ -665,9 +666,7 @@ namespace Chromium {
             internal IntPtr m_menu_model;
             internal CfxMenuModel m_menu_model_wrapped;
 
-            internal CfxMenuWillShowEventArgs(IntPtr menu_model) {
-                m_menu_model = menu_model;
-            }
+            internal CfxMenuWillShowEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.MenuWillShow"/> callback.
@@ -706,9 +705,7 @@ namespace Chromium {
             internal IntPtr m_menu_model;
             internal CfxMenuModel m_menu_model_wrapped;
 
-            internal CfxMenuClosedEventArgs(IntPtr menu_model) {
-                m_menu_model = menu_model;
-            }
+            internal CfxMenuClosedEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.MenuClosed"/> callback.
@@ -756,11 +753,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxFormatLabelEventArgs(IntPtr menu_model, IntPtr label_str, int label_length) {
-                m_menu_model = menu_model;
-                m_label_str = label_str;
-                m_label_length = label_length;
-            }
+            internal CfxFormatLabelEventArgs() {}
 
             /// <summary>
             /// Get the MenuModel parameter for the <see cref="CfxMenuModelDelegate.FormatLabel"/> callback.

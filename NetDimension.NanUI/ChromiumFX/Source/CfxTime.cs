@@ -10,7 +10,11 @@ using System.Runtime.InteropServices;
 namespace Chromium {
     public partial class CfxTime {
 
-        public DateTime ToUniversalTime(CfxTime time) {
+        public DateTime ToUniversalTime() {
+            return ToUniversalTime(this);
+        }
+
+        public static DateTime ToUniversalTime(CfxTime time) {
             return new DateTime(time.Year, time.Month, time.DayOfMonth, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Utc);
         }
 

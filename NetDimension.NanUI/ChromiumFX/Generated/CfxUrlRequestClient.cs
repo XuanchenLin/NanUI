@@ -58,7 +58,8 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxOnRequestCompleteEventArgs(request);
+            var e = new CfxOnRequestCompleteEventArgs();
+            e.m_request = request;
             self.m_OnRequestComplete?.Invoke(self, e);
             e.m_isInvalid = true;
             request_release = e.m_request_wrapped == null? 1 : 0;
@@ -76,7 +77,10 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxOnUploadProgressEventArgs(request, current, total);
+            var e = new CfxOnUploadProgressEventArgs();
+            e.m_request = request;
+            e.m_current = current;
+            e.m_total = total;
             self.m_OnUploadProgress?.Invoke(self, e);
             e.m_isInvalid = true;
             request_release = e.m_request_wrapped == null? 1 : 0;
@@ -94,7 +98,10 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxOnDownloadProgressEventArgs(request, current, total);
+            var e = new CfxOnDownloadProgressEventArgs();
+            e.m_request = request;
+            e.m_current = current;
+            e.m_total = total;
             self.m_OnDownloadProgress?.Invoke(self, e);
             e.m_isInvalid = true;
             request_release = e.m_request_wrapped == null? 1 : 0;
@@ -112,7 +119,10 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxOnDownloadDataEventArgs(request, data, data_length);
+            var e = new CfxOnDownloadDataEventArgs();
+            e.m_request = request;
+            e.m_data = data;
+            e.m_data_length = data_length;
             self.m_OnDownloadData?.Invoke(self, e);
             e.m_isInvalid = true;
             request_release = e.m_request_wrapped == null? 1 : 0;
@@ -131,7 +141,16 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxUrlRequestClientGetAuthCredentialsEventArgs(isProxy, host_str, host_length, port, realm_str, realm_length, scheme_str, scheme_length, callback);
+            var e = new CfxUrlRequestClientGetAuthCredentialsEventArgs();
+            e.m_isProxy = isProxy;
+            e.m_host_str = host_str;
+            e.m_host_length = host_length;
+            e.m_port = port;
+            e.m_realm_str = realm_str;
+            e.m_realm_length = realm_length;
+            e.m_scheme_str = scheme_str;
+            e.m_scheme_length = scheme_length;
+            e.m_callback = callback;
             self.m_GetAuthCredentials?.Invoke(self, e);
             e.m_isInvalid = true;
             callback_release = e.m_callback_wrapped == null? 1 : 0;
@@ -349,9 +368,7 @@ namespace Chromium {
             internal IntPtr m_request;
             internal CfxUrlRequest m_request_wrapped;
 
-            internal CfxOnRequestCompleteEventArgs(IntPtr request) {
-                m_request = request;
-            }
+            internal CfxOnRequestCompleteEventArgs() {}
 
             /// <summary>
             /// Get the Request parameter for the <see cref="CfxUrlRequestClient.OnRequestComplete"/> callback.
@@ -398,11 +415,7 @@ namespace Chromium {
             internal long m_current;
             internal long m_total;
 
-            internal CfxOnUploadProgressEventArgs(IntPtr request, long current, long total) {
-                m_request = request;
-                m_current = current;
-                m_total = total;
-            }
+            internal CfxOnUploadProgressEventArgs() {}
 
             /// <summary>
             /// Get the Request parameter for the <see cref="CfxUrlRequestClient.OnUploadProgress"/> callback.
@@ -465,11 +478,7 @@ namespace Chromium {
             internal long m_current;
             internal long m_total;
 
-            internal CfxOnDownloadProgressEventArgs(IntPtr request, long current, long total) {
-                m_request = request;
-                m_current = current;
-                m_total = total;
-            }
+            internal CfxOnDownloadProgressEventArgs() {}
 
             /// <summary>
             /// Get the Request parameter for the <see cref="CfxUrlRequestClient.OnDownloadProgress"/> callback.
@@ -532,11 +541,7 @@ namespace Chromium {
             internal IntPtr m_data;
             internal UIntPtr m_data_length;
 
-            internal CfxOnDownloadDataEventArgs(IntPtr request, IntPtr data, UIntPtr data_length) {
-                m_request = request;
-                m_data = data;
-                m_data_length = data_length;
-            }
+            internal CfxOnDownloadDataEventArgs() {}
 
             /// <summary>
             /// Get the Request parameter for the <see cref="CfxUrlRequestClient.OnDownloadData"/> callback.
@@ -619,17 +624,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxUrlRequestClientGetAuthCredentialsEventArgs(int isProxy, IntPtr host_str, int host_length, int port, IntPtr realm_str, int realm_length, IntPtr scheme_str, int scheme_length, IntPtr callback) {
-                m_isProxy = isProxy;
-                m_host_str = host_str;
-                m_host_length = host_length;
-                m_port = port;
-                m_realm_str = realm_str;
-                m_realm_length = realm_length;
-                m_scheme_str = scheme_str;
-                m_scheme_length = scheme_length;
-                m_callback = callback;
-            }
+            internal CfxUrlRequestClientGetAuthCredentialsEventArgs() {}
 
             /// <summary>
             /// Get the IsProxy parameter for the <see cref="CfxUrlRequestClient.GetAuthCredentials"/> callback.

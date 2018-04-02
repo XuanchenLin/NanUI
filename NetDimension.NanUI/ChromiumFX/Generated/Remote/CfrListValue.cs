@@ -23,14 +23,17 @@ namespace Chromium.Remote {
         internal static CfrListValue Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrListValue)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrListValue(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrListValue)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrListValue(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -42,9 +45,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public static CfrListValue Create() {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxListValueCreateRemoteCall();
-            call.RequestExecution();
-            return CfrListValue.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrListValue.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -62,9 +66,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsValid {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxListValueIsValidRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -78,9 +83,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsOwned {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxListValueIsOwnedRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -95,9 +101,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsReadOnly {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxListValueIsReadOnlyRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -111,9 +118,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public ulong Size {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxListValueGetSizeRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -128,10 +136,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfrListValue that) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueIsSameRemoteCall();
             call.@this = RemotePtr.ptr;
+            if(!CfrObject.CheckConnection(that, connection)) throw new ArgumentException("Render process connection mismatch.", "that");
             call.that = CfrObject.Unwrap(that).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -144,10 +154,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool IsEqual(CfrListValue that) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueIsEqualRemoteCall();
             call.@this = RemotePtr.ptr;
+            if(!CfrObject.CheckConnection(that, connection)) throw new ArgumentException("Render process connection mismatch.", "that");
             call.that = CfrObject.Unwrap(that).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -159,10 +171,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfrListValue Copy() {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueCopyRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrListValue.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrListValue.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -174,10 +187,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetSize(ulong size) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetSizeRemoteCall();
             call.@this = RemotePtr.ptr;
             call.size = size;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -189,9 +203,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool Clear() {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueClearRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -203,10 +218,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool Remove(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueRemoveRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -218,10 +234,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfxValueType GetType(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetTypeRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return (CfxValueType)call.__retval;
         }
 
@@ -237,11 +254,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfrValue GetValue(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetValueRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrValue.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrValue.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -252,10 +270,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool GetBool(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetBoolRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -267,10 +286,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public int GetInt(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetIntRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -282,10 +302,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public double GetDouble(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetDoubleRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -297,10 +318,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public string GetString(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetStringRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -313,11 +335,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfrBinaryValue GetBinary(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetBinaryRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrBinaryValue.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrBinaryValue.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -330,11 +353,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfrDictionaryValue GetDictionary(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetDictionaryRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrDictionaryValue.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrDictionaryValue.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -347,11 +371,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public CfrListValue GetList(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueGetListRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrListValue.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrListValue.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -367,11 +392,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetValue(ulong index, CfrValue value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetValueRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
+            if(!CfrObject.CheckConnection(value, connection)) throw new ArgumentException("Render process connection mismatch.", "value");
             call.value = CfrObject.Unwrap(value).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -384,10 +411,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetNull(ulong index) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetNullRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -400,11 +428,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetBool(ulong index, bool value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetBoolRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
             call.value = value;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -417,11 +446,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetInt(ulong index, int value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetIntRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
             call.value = value;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -434,11 +464,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetDouble(ulong index, double value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetDoubleRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
             call.value = value;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -451,11 +482,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetString(ulong index, string value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetStringRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
             call.value = value;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -471,11 +503,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetBinary(ulong index, CfrBinaryValue value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetBinaryRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
+            if(!CfrObject.CheckConnection(value, connection)) throw new ArgumentException("Render process connection mismatch.", "value");
             call.value = CfrObject.Unwrap(value).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -491,11 +525,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetDictionary(ulong index, CfrDictionaryValue value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetDictionaryRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
+            if(!CfrObject.CheckConnection(value, connection)) throw new ArgumentException("Render process connection mismatch.", "value");
             call.value = CfrObject.Unwrap(value).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -511,11 +547,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_values_capi.h">cef/include/capi/cef_values_capi.h</see>.
         /// </remarks>
         public bool SetList(ulong index, CfrListValue value) {
+            var connection = RemotePtr.connection;
             var call = new CfxListValueSetListRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
+            if(!CfrObject.CheckConnection(value, connection)) throw new ArgumentException("Render process connection mismatch.", "value");
             call.value = CfrObject.Unwrap(value).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
     }

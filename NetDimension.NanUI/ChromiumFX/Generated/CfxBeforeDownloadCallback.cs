@@ -21,16 +21,15 @@ namespace Chromium {
 
         internal static CfxBeforeDownloadCallback Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxBeforeDownloadCallback)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxBeforeDownloadCallback(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxBeforeDownloadCallback)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxBeforeDownloadCallback(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 

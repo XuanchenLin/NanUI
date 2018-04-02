@@ -98,7 +98,7 @@ namespace Chromium.Remote {
                 get {
                     CheckAccess();
                     if(!m_string_fetched) {
-                        m_string = call.string_str == IntPtr.Zero ? null : (call.string_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(call.string_str), call.string_length));
+                        m_string = call.string_str == IntPtr.Zero ? null : (call.string_length == 0 ? String.Empty : CfrRuntime.Marshal.PtrToStringUni(new RemotePtr(connection, call.string_str), call.string_length));
                         m_string_fetched = true;
                     }
                     return m_string;

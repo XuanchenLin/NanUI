@@ -22,16 +22,15 @@ namespace Chromium {
 
         internal static CfxDomNode Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxDomNode)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxDomNode(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxDomNode)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxDomNode(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 

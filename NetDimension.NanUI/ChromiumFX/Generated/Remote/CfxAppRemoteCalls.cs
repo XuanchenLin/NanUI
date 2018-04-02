@@ -70,8 +70,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrOnBeforeCommandLineProcessingEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_OnBeforeCommandLineProcessing?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             command_line_release = e.m_command_line_wrapped == null? 1 : 0;
         }
     }
@@ -105,8 +106,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrOnRegisterCustomSchemesEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_OnRegisterCustomSchemes?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             if(e.m_registrar_wrapped != null) e.m_registrar_wrapped.Dispose();
         }
     }
@@ -141,8 +143,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrGetResourceBundleHandlerEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_GetResourceBundleHandler?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = CfrObject.Unwrap(e.m_returnValue).ptr;
         }
     }
@@ -177,8 +180,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrGetRenderProcessHandlerEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_GetRenderProcessHandler?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             __retval = CfrObject.Unwrap(e.m_returnValue).ptr;
         }
     }

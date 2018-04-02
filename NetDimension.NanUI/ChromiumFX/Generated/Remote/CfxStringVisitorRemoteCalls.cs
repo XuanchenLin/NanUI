@@ -64,8 +64,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrStringVisitorVisitEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_Visit?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
         }
     }
 

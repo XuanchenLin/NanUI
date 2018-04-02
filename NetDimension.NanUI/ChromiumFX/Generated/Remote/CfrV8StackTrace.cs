@@ -27,14 +27,17 @@ namespace Chromium.Remote {
         internal static CfrV8StackTrace Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrV8StackTrace)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrV8StackTrace(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrV8StackTrace)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrV8StackTrace(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -47,10 +50,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public static CfrV8StackTrace GetCurrent(int frameLimit) {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxV8StackTraceGetCurrentRemoteCall();
             call.frameLimit = frameLimit;
-            call.RequestExecution();
-            return CfrV8StackTrace.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrV8StackTrace.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -67,9 +71,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsValid {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxV8StackTraceIsValidRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -83,9 +88,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public int FrameCount {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxV8StackTraceGetFrameCountRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -98,11 +104,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_v8_capi.h">cef/include/capi/cef_v8_capi.h</see>.
         /// </remarks>
         public CfrV8StackFrame GetFrame(int index) {
+            var connection = RemotePtr.connection;
             var call = new CfxV8StackTraceGetFrameRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
-            return CfrV8StackFrame.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrV8StackFrame.Wrap(new RemotePtr(connection, call.__retval));
         }
     }
 }

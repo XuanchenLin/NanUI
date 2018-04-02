@@ -42,7 +42,11 @@ namespace Chromium {
                 image_release = 1;
                 return;
             }
-            var e = new CfxDownloadImageCallbackOnDownloadImageFinishedEventArgs(image_url_str, image_url_length, http_status_code, image);
+            var e = new CfxDownloadImageCallbackOnDownloadImageFinishedEventArgs();
+            e.m_image_url_str = image_url_str;
+            e.m_image_url_length = image_url_length;
+            e.m_http_status_code = http_status_code;
+            e.m_image = image;
             self.m_OnDownloadImageFinished?.Invoke(self, e);
             e.m_isInvalid = true;
             image_release = e.m_image_wrapped == null? 1 : 0;
@@ -124,12 +128,7 @@ namespace Chromium {
             internal IntPtr m_image;
             internal CfxImage m_image_wrapped;
 
-            internal CfxDownloadImageCallbackOnDownloadImageFinishedEventArgs(IntPtr image_url_str, int image_url_length, int http_status_code, IntPtr image) {
-                m_image_url_str = image_url_str;
-                m_image_url_length = image_url_length;
-                m_http_status_code = http_status_code;
-                m_image = image;
-            }
+            internal CfxDownloadImageCallbackOnDownloadImageFinishedEventArgs() {}
 
             /// <summary>
             /// Get the ImageUrl parameter for the <see cref="CfxDownloadImageCallback.OnDownloadImageFinished"/> callback.

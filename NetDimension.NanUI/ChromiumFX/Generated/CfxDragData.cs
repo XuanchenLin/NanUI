@@ -22,16 +22,15 @@ namespace Chromium {
 
         internal static CfxDragData Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxDragData)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxDragData(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxDragData)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxDragData(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 
@@ -231,6 +230,48 @@ namespace Chromium {
         public string FileName {
             get {
                 return StringFunctions.ConvertStringUserfree(CfxApi.DragData.cfx_drag_data_get_file_name(NativePtr));
+            }
+        }
+
+        /// <summary>
+        /// Get the image representation of drag data. May return NULL if no image
+        /// representation is available.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
+        /// </remarks>
+        public CfxImage Image {
+            get {
+                return CfxImage.Wrap(CfxApi.DragData.cfx_drag_data_get_image(NativePtr));
+            }
+        }
+
+        /// <summary>
+        /// Get the image hotspot (drag start location relative to image dimensions).
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
+        /// </remarks>
+        public CfxPoint ImageHotspot {
+            get {
+                var __retval = CfxApi.DragData.cfx_drag_data_get_image_hotspot(NativePtr);
+                if(__retval == IntPtr.Zero) throw new OutOfMemoryException();
+                return CfxPoint.WrapOwned(__retval);
+            }
+        }
+
+        /// <summary>
+        /// Returns true (1) if an image representation of drag data is available.
+        /// </summary>
+        /// <remarks>
+        /// See also the original CEF documentation in
+        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_drag_data_capi.h">cef/include/capi/cef_drag_data_capi.h</see>.
+        /// </remarks>
+        public bool HasImage {
+            get {
+                return 0 != CfxApi.DragData.cfx_drag_data_has_image(NativePtr);
             }
         }
 

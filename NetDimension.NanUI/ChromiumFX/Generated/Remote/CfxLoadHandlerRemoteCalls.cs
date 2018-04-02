@@ -73,8 +73,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrOnLoadingStateChangeEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_OnLoadingStateChange?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
         }
     }
@@ -120,8 +121,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrOnLoadStartEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_OnLoadStart?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
             frame_release = e.m_frame_wrapped == null? 1 : 0;
         }
@@ -168,8 +170,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrOnLoadEndEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_OnLoadEnd?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
             frame_release = e.m_frame_wrapped == null? 1 : 0;
         }
@@ -228,8 +231,9 @@ namespace Chromium.Remote {
                 return;
             }
             var e = new CfrOnLoadErrorEventArgs(this);
+            e.connection = CfxRemoteCallContext.CurrentContext.connection;
             self.m_OnLoadError?.Invoke(self, e);
-            e.m_isInvalid = true;
+            e.connection = null;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
             frame_release = e.m_frame_wrapped == null? 1 : 0;
         }

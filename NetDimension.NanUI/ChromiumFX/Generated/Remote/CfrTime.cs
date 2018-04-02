@@ -23,14 +23,7 @@ namespace Chromium.Remote {
         internal static CfrTime Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrTime)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrTime(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
-            }
+            return (CfrTime)weakCache.GetOrAdd(remotePtr.ptr, () => new CfrTime(remotePtr));
         }
 
 

@@ -41,7 +41,8 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxSetCookieCallbackOnCompleteEventArgs(success);
+            var e = new CfxSetCookieCallbackOnCompleteEventArgs();
+            e.m_success = success;
             self.m_OnComplete?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -111,9 +112,7 @@ namespace Chromium {
 
             internal int m_success;
 
-            internal CfxSetCookieCallbackOnCompleteEventArgs(int success) {
-                m_success = success;
-            }
+            internal CfxSetCookieCallbackOnCompleteEventArgs() {}
 
             /// <summary>
             /// Get the Success parameter for the <see cref="CfxSetCookieCallback.OnComplete"/> callback.

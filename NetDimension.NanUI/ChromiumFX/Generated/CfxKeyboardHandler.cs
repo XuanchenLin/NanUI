@@ -46,7 +46,10 @@ namespace Chromium {
                 is_keyboard_shortcut = default(int);
                 return;
             }
-            var e = new CfxOnPreKeyEventEventArgs(browser, @event, os_event);
+            var e = new CfxOnPreKeyEventEventArgs();
+            e.m_browser = browser;
+            e.m_event = @event;
+            e.m_os_event = os_event;
             self.m_OnPreKeyEvent?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -67,7 +70,10 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnKeyEventEventArgs(browser, @event, os_event);
+            var e = new CfxOnKeyEventEventArgs();
+            e.m_browser = browser;
+            e.m_event = @event;
+            e.m_os_event = os_event;
             self.m_OnKeyEvent?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -191,11 +197,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnPreKeyEventEventArgs(IntPtr browser, IntPtr @event, IntPtr os_event) {
-                m_browser = browser;
-                m_event = @event;
-                m_os_event = os_event;
-            }
+            internal CfxOnPreKeyEventEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxKeyboardHandler.OnPreKeyEvent"/> callback.
@@ -286,11 +288,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnKeyEventEventArgs(IntPtr browser, IntPtr @event, IntPtr os_event) {
-                m_browser = browser;
-                m_event = @event;
-                m_os_event = os_event;
-            }
+            internal CfxOnKeyEventEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxKeyboardHandler.OnKeyEvent"/> callback.

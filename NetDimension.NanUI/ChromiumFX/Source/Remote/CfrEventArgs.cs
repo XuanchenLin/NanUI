@@ -12,9 +12,9 @@ namespace Chromium.Remote
     /// </summary>
     public class CfrEventArgs : EventArgs {
         
-        internal bool m_isInvalid = false;
+        internal RemoteConnection connection;
         internal void CheckAccess() {
-            if(m_isInvalid)
+            if(connection == null)
                 throw new CfxException("Do not keep/use a reference to callback event arguments outside the scope of the event handler.");
         }
     }

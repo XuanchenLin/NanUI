@@ -330,7 +330,10 @@ namespace Chromium {
                 message_release = 1;
                 return;
             }
-            var e = new CfxOnProcessMessageReceivedEventArgs(browser, source_process, message);
+            var e = new CfxOnProcessMessageReceivedEventArgs();
+            e.m_browser = browser;
+            e.m_source_process = source_process;
+            e.m_message = message;
             self.m_OnProcessMessageReceived?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -1084,8 +1087,7 @@ namespace Chromium {
             internal CfxContextMenuHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetContextMenuHandlerEventArgs() {
-            }
+            internal CfxGetContextMenuHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetContextMenuHandler"/> callback.
@@ -1125,8 +1127,7 @@ namespace Chromium {
             internal CfxDialogHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetDialogHandlerEventArgs() {
-            }
+            internal CfxGetDialogHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetDialogHandler"/> callback.
@@ -1164,8 +1165,7 @@ namespace Chromium {
             internal CfxDisplayHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetDisplayHandlerEventArgs() {
-            }
+            internal CfxGetDisplayHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetDisplayHandler"/> callback.
@@ -1205,8 +1205,7 @@ namespace Chromium {
             internal CfxDownloadHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetDownloadHandlerEventArgs() {
-            }
+            internal CfxGetDownloadHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetDownloadHandler"/> callback.
@@ -1244,8 +1243,7 @@ namespace Chromium {
             internal CfxDragHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetDragHandlerEventArgs() {
-            }
+            internal CfxGetDragHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetDragHandler"/> callback.
@@ -1283,8 +1281,7 @@ namespace Chromium {
             internal CfxFindHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetFindHandlerEventArgs() {
-            }
+            internal CfxGetFindHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetFindHandler"/> callback.
@@ -1322,8 +1319,7 @@ namespace Chromium {
             internal CfxFocusHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetFocusHandlerEventArgs() {
-            }
+            internal CfxGetFocusHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetFocusHandler"/> callback.
@@ -1363,8 +1359,7 @@ namespace Chromium {
             internal CfxGeolocationHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetGeolocationHandlerEventArgs() {
-            }
+            internal CfxGetGeolocationHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetGeolocationHandler"/> callback.
@@ -1404,8 +1399,7 @@ namespace Chromium {
             internal CfxJsDialogHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetJsDialogHandlerEventArgs() {
-            }
+            internal CfxGetJsDialogHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetJsDialogHandler"/> callback.
@@ -1443,8 +1437,7 @@ namespace Chromium {
             internal CfxKeyboardHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetKeyboardHandlerEventArgs() {
-            }
+            internal CfxGetKeyboardHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetKeyboardHandler"/> callback.
@@ -1482,8 +1475,7 @@ namespace Chromium {
             internal CfxLifeSpanHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetLifeSpanHandlerEventArgs() {
-            }
+            internal CfxGetLifeSpanHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetLifeSpanHandler"/> callback.
@@ -1521,8 +1513,7 @@ namespace Chromium {
             internal CfxLoadHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetLoadHandlerEventArgs() {
-            }
+            internal CfxGetLoadHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetLoadHandler"/> callback.
@@ -1560,8 +1551,7 @@ namespace Chromium {
             internal CfxRenderHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetRenderHandlerEventArgs() {
-            }
+            internal CfxGetRenderHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetRenderHandler"/> callback.
@@ -1599,8 +1589,7 @@ namespace Chromium {
             internal CfxRequestHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetRequestHandlerEventArgs() {
-            }
+            internal CfxGetRequestHandlerEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxClient.GetRequestHandler"/> callback.
@@ -1647,11 +1636,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnProcessMessageReceivedEventArgs(IntPtr browser, int source_process, IntPtr message) {
-                m_browser = browser;
-                m_source_process = source_process;
-                m_message = message;
-            }
+            internal CfxOnProcessMessageReceivedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxClient.OnProcessMessageReceived"/> callback.

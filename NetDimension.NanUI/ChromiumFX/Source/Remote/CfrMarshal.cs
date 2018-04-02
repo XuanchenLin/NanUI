@@ -14,18 +14,18 @@ namespace Chromium.Remote {
 
         /// <summary>
         /// Provides access to the remote process unmanaged memory.
-        /// A thread must be in a remote context in order to access these function.
         /// </summary>
         public class Marshal {
 
             /// <summary>
             /// Call Marshal.AllocHGlobal in the target process.
+            /// A thread must be in a remote context in order to access this function.
             /// </summary>
             public static RemotePtr AllocHGlobal(int cb) {
                 var call = new CfrMarshalAllocHGlobalRemoteCall();
                 call.cb = cb;
                 call.RequestExecution();
-                return new RemotePtr(call.__retval);
+                return new RemotePtr(CfxRemoteCallContext.CurrentContext.connection, call.__retval);
             }
 
             /// <summary>

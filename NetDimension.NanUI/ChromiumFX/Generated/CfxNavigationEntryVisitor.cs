@@ -43,7 +43,11 @@ namespace Chromium {
                 entry_release = 1;
                 return;
             }
-            var e = new CfxNavigationEntryVisitorVisitEventArgs(entry, current, index, total);
+            var e = new CfxNavigationEntryVisitorVisitEventArgs();
+            e.m_entry = entry;
+            e.m_current = current;
+            e.m_index = index;
+            e.m_total = total;
             self.m_Visit?.Invoke(self, e);
             e.m_isInvalid = true;
             entry_release = e.m_entry_wrapped == null? 1 : 0;
@@ -131,12 +135,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxNavigationEntryVisitorVisitEventArgs(IntPtr entry, int current, int index, int total) {
-                m_entry = entry;
-                m_current = current;
-                m_index = index;
-                m_total = total;
-            }
+            internal CfxNavigationEntryVisitorVisitEventArgs() {}
 
             /// <summary>
             /// Get the Entry parameter for the <see cref="CfxNavigationEntryVisitor.Visit"/> callback.

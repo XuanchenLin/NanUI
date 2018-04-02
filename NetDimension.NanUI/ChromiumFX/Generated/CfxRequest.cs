@@ -22,16 +22,15 @@ namespace Chromium {
 
         internal static CfxRequest Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxRequest)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxRequest(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxRequest)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxRequest(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 
@@ -163,10 +162,10 @@ namespace Chromium {
         }
 
         /// <summary>
-        /// Set the URL to the first party for cookies used in combination with
+        /// Get the URL to the first party for cookies used in combination with
         /// CfxUrlRequest.
         /// 
-        /// Get the URL to the first party for cookies used in combination with
+        /// Set the URL to the first party for cookies used in combination with
         /// CfxUrlRequest.
         /// </summary>
         /// <remarks>

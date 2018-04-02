@@ -46,7 +46,9 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnTakeFocusEventArgs(browser, next);
+            var e = new CfxOnTakeFocusEventArgs();
+            e.m_browser = browser;
+            e.m_next = next;
             self.m_OnTakeFocus?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -65,7 +67,9 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnSetFocusEventArgs(browser, source);
+            var e = new CfxOnSetFocusEventArgs();
+            e.m_browser = browser;
+            e.m_source = source;
             self.m_OnSetFocus?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -84,7 +88,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnGotFocusEventArgs(browser);
+            var e = new CfxOnGotFocusEventArgs();
+            e.m_browser = browser;
             self.m_OnGotFocus?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -229,10 +234,7 @@ namespace Chromium {
             internal CfxBrowser m_browser_wrapped;
             internal int m_next;
 
-            internal CfxOnTakeFocusEventArgs(IntPtr browser, int next) {
-                m_browser = browser;
-                m_next = next;
-            }
+            internal CfxOnTakeFocusEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxFocusHandler.OnTakeFocus"/> callback.
@@ -288,10 +290,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnSetFocusEventArgs(IntPtr browser, int source) {
-                m_browser = browser;
-                m_source = source;
-            }
+            internal CfxOnSetFocusEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxFocusHandler.OnSetFocus"/> callback.
@@ -351,9 +350,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnGotFocusEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnGotFocusEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxFocusHandler.OnGotFocus"/> callback.

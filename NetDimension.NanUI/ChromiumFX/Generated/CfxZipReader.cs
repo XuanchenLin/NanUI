@@ -23,16 +23,15 @@ namespace Chromium {
 
         internal static CfxZipReader Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxZipReader)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxZipReader(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxZipReader)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxZipReader(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 

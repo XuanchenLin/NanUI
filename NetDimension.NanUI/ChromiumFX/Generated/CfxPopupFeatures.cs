@@ -154,17 +154,6 @@ namespace Chromium {
             }
         }
 
-        public int LocationBarVisible {
-            get {
-                int value;
-                CfxApi.PopupFeatures.cfx_popup_features_get_locationBarVisible(nativePtrUnchecked, out value);
-                return value;
-            }
-            set {
-                CfxApi.PopupFeatures.cfx_popup_features_set_locationBarVisible(nativePtrUnchecked, value);
-            }
-        }
-
         public int ScrollbarsVisible {
             get {
                 int value;
@@ -173,55 +162,6 @@ namespace Chromium {
             }
             set {
                 CfxApi.PopupFeatures.cfx_popup_features_set_scrollbarsVisible(nativePtrUnchecked, value);
-            }
-        }
-
-        public int Resizable {
-            get {
-                int value;
-                CfxApi.PopupFeatures.cfx_popup_features_get_resizable(nativePtrUnchecked, out value);
-                return value;
-            }
-            set {
-                CfxApi.PopupFeatures.cfx_popup_features_set_resizable(nativePtrUnchecked, value);
-            }
-        }
-
-        public int Fullscreen {
-            get {
-                int value;
-                CfxApi.PopupFeatures.cfx_popup_features_get_fullscreen(nativePtrUnchecked, out value);
-                return value;
-            }
-            set {
-                CfxApi.PopupFeatures.cfx_popup_features_set_fullscreen(nativePtrUnchecked, value);
-            }
-        }
-
-        public int Dialog {
-            get {
-                int value;
-                CfxApi.PopupFeatures.cfx_popup_features_get_dialog(nativePtrUnchecked, out value);
-                return value;
-            }
-            set {
-                CfxApi.PopupFeatures.cfx_popup_features_set_dialog(nativePtrUnchecked, value);
-            }
-        }
-
-        public System.Collections.Generic.List<string> AdditionalFeatures {
-            get {
-                IntPtr value;
-                CfxApi.PopupFeatures.cfx_popup_features_get_additionalFeatures(nativePtrUnchecked, out value);
-                return StringFunctions.WrapCfxStringList(value);
-            }
-            set {
-                PinnedString[] value_handles;
-                var value_unwrapped = StringFunctions.UnwrapCfxStringList(value, out value_handles);
-                CfxApi.PopupFeatures.cfx_popup_features_set_additionalFeatures(nativePtrUnchecked, value_unwrapped);
-                StringFunctions.FreePinnedStrings(value_handles);
-                StringFunctions.CfxStringListCopyToManaged(value_unwrapped, value);
-                CfxApi.Runtime.cfx_string_list_free(value_unwrapped);
             }
         }
 

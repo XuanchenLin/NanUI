@@ -40,7 +40,9 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxResolveCallbackOnResolveCompletedEventArgs(result, resolved_ips);
+            var e = new CfxResolveCallbackOnResolveCompletedEventArgs();
+            e.m_result = result;
+            e.m_resolved_ips = resolved_ips;
             self.m_OnResolveCompleted?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -48,9 +50,9 @@ namespace Chromium {
         public CfxResolveCallback() : base(CfxApi.ResolveCallback.cfx_resolve_callback_ctor) {}
 
         /// <summary>
-        /// Called after the ResolveHost request has completed. |Result| will be the
-        /// result code. |ResolvedIps| will be the list of resolved IP addresses or
-        /// NULL if the resolution failed.
+        /// Called on the UI thread after the ResolveHost request has completed.
+        /// |Result| will be the result code. |ResolvedIps| will be the list of
+        /// resolved IP addresses or NULL if the resolution failed.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -90,9 +92,9 @@ namespace Chromium {
     namespace Event {
 
         /// <summary>
-        /// Called after the ResolveHost request has completed. |Result| will be the
-        /// result code. |ResolvedIps| will be the list of resolved IP addresses or
-        /// NULL if the resolution failed.
+        /// Called on the UI thread after the ResolveHost request has completed.
+        /// |Result| will be the result code. |ResolvedIps| will be the list of
+        /// resolved IP addresses or NULL if the resolution failed.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -101,9 +103,9 @@ namespace Chromium {
         public delegate void CfxResolveCallbackOnResolveCompletedEventHandler(object sender, CfxResolveCallbackOnResolveCompletedEventArgs e);
 
         /// <summary>
-        /// Called after the ResolveHost request has completed. |Result| will be the
-        /// result code. |ResolvedIps| will be the list of resolved IP addresses or
-        /// NULL if the resolution failed.
+        /// Called on the UI thread after the ResolveHost request has completed.
+        /// |Result| will be the result code. |ResolvedIps| will be the list of
+        /// resolved IP addresses or NULL if the resolution failed.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in
@@ -114,10 +116,7 @@ namespace Chromium {
             internal int m_result;
             internal IntPtr m_resolved_ips;
 
-            internal CfxResolveCallbackOnResolveCompletedEventArgs(int result, IntPtr resolved_ips) {
-                m_result = result;
-                m_resolved_ips = resolved_ips;
-            }
+            internal CfxResolveCallbackOnResolveCompletedEventArgs() {}
 
             /// <summary>
             /// Get the Result parameter for the <see cref="CfxResolveCallback.OnResolveCompleted"/> callback.

@@ -46,7 +46,10 @@ namespace Chromium {
                 dragData_release = 1;
                 return;
             }
-            var e = new CfxOnDragEnterEventArgs(browser, dragData, mask);
+            var e = new CfxOnDragEnterEventArgs();
+            e.m_browser = browser;
+            e.m_dragData = dragData;
+            e.m_mask = mask;
             self.m_OnDragEnter?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -66,7 +69,11 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnDraggableRegionsChangedEventArgs(browser, regions, regionsCount, regions_structsize);
+            var e = new CfxOnDraggableRegionsChangedEventArgs();
+            e.m_browser = browser;
+            e.m_regions = regions;
+            e.m_regions_structsize = regions_structsize;
+            e.m_regionsCount = regionsCount;
             self.m_OnDraggableRegionsChanged?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -191,11 +198,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnDragEnterEventArgs(IntPtr browser, IntPtr dragData, int mask) {
-                m_browser = browser;
-                m_dragData = dragData;
-                m_mask = mask;
-            }
+            internal CfxOnDragEnterEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxDragHandler.OnDragEnter"/> callback.
@@ -272,17 +275,12 @@ namespace Chromium {
 
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
-            IntPtr m_regions;
-            int m_regions_structsize;
-            UIntPtr m_regionsCount;
+            internal IntPtr m_regions;
+            internal int m_regions_structsize;
+            internal UIntPtr m_regionsCount;
             internal CfxDraggableRegion[] m_regions_managed;
 
-            internal CfxOnDraggableRegionsChangedEventArgs(IntPtr browser, IntPtr regions, UIntPtr regionsCount, int regions_structsize) {
-                m_browser = browser;
-                m_regions = regions;
-                m_regions_structsize = regions_structsize;
-                m_regionsCount = regionsCount;
-            }
+            internal CfxOnDraggableRegionsChangedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxDragHandler.OnDraggableRegionsChanged"/> callback.

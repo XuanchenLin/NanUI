@@ -51,7 +51,11 @@ namespace Chromium {
                 model_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeContextMenuEventArgs(browser, frame, parameters, model);
+            var e = new CfxOnBeforeContextMenuEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_params = parameters;
+            e.m_model = model;
             self.m_OnBeforeContextMenu?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -77,7 +81,12 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxRunContextMenuEventArgs(browser, frame, parameters, model, callback);
+            var e = new CfxRunContextMenuEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_params = parameters;
+            e.m_model = model;
+            e.m_callback = callback;
             self.m_RunContextMenu?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -103,7 +112,12 @@ namespace Chromium {
                 params_release = 1;
                 return;
             }
-            var e = new CfxOnContextMenuCommandEventArgs(browser, frame, parameters, command_id, event_flags);
+            var e = new CfxOnContextMenuCommandEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_params = parameters;
+            e.m_command_id = command_id;
+            e.m_event_flags = event_flags;
             self.m_OnContextMenuCommand?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -125,7 +139,9 @@ namespace Chromium {
                 frame_release = 1;
                 return;
             }
-            var e = new CfxOnContextMenuDismissedEventArgs(browser, frame);
+            var e = new CfxOnContextMenuDismissedEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
             self.m_OnContextMenuDismissed?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -321,12 +337,7 @@ namespace Chromium {
             internal IntPtr m_model;
             internal CfxMenuModel m_model_wrapped;
 
-            internal CfxOnBeforeContextMenuEventArgs(IntPtr browser, IntPtr frame, IntPtr parameters, IntPtr model) {
-                m_browser = browser;
-                m_frame = frame;
-                m_params = parameters;
-                m_model = model;
-            }
+            internal CfxOnBeforeContextMenuEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxContextMenuHandler.OnBeforeContextMenu"/> callback.
@@ -416,13 +427,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxRunContextMenuEventArgs(IntPtr browser, IntPtr frame, IntPtr parameters, IntPtr model, IntPtr callback) {
-                m_browser = browser;
-                m_frame = frame;
-                m_params = parameters;
-                m_model = model;
-                m_callback = callback;
-            }
+            internal CfxRunContextMenuEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxContextMenuHandler.RunContextMenu"/> callback.
@@ -534,13 +539,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnContextMenuCommandEventArgs(IntPtr browser, IntPtr frame, IntPtr parameters, int command_id, int event_flags) {
-                m_browser = browser;
-                m_frame = frame;
-                m_params = parameters;
-                m_command_id = command_id;
-                m_event_flags = event_flags;
-            }
+            internal CfxOnContextMenuCommandEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxContextMenuHandler.OnContextMenuCommand"/> callback.
@@ -633,10 +632,7 @@ namespace Chromium {
             internal IntPtr m_frame;
             internal CfxFrame m_frame_wrapped;
 
-            internal CfxOnContextMenuDismissedEventArgs(IntPtr browser, IntPtr frame) {
-                m_browser = browser;
-                m_frame = frame;
-            }
+            internal CfxOnContextMenuDismissedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxContextMenuHandler.OnContextMenuDismissed"/> callback.

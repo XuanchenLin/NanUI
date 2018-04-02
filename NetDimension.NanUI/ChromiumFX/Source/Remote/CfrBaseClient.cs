@@ -20,7 +20,7 @@ namespace Chromium.Remote {
             GCHandle handle = GCHandle.Alloc(this, GCHandleType.Weak);
             call.gcHandlePtr = GCHandle.ToIntPtr(handle);
             call.RequestExecution();
-            SetRemotePtr(new RemotePtr(call.__retval));
+            SetRemotePtr(new RemotePtr(CfxRemoteCallContext.CurrentContext.connection, call.__retval));
             //if(this is CfrTask) Debug.Print("CfrTask created: " + System.Threading.Interlocked.Increment(ref cfrTaskCount));
         }
 

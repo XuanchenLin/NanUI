@@ -456,7 +456,7 @@ namespace Chromium.Remote {
             public CfrListValue ExtraInfo {
                 get {
                     CheckAccess();
-                    if(m_extra_info_wrapped == null) m_extra_info_wrapped = CfrListValue.Wrap(new RemotePtr(call.extra_info));
+                    if(m_extra_info_wrapped == null) m_extra_info_wrapped = CfrListValue.Wrap(new RemotePtr(connection, call.extra_info));
                     return m_extra_info_wrapped;
                 }
             }
@@ -501,7 +501,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -541,7 +541,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -629,7 +629,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -639,7 +639,7 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(connection, call.frame));
                     return m_frame_wrapped;
                 }
             }
@@ -649,7 +649,7 @@ namespace Chromium.Remote {
             public CfrRequest Request {
                 get {
                     CheckAccess();
-                    if(m_request_wrapped == null) m_request_wrapped = CfrRequest.Wrap(new RemotePtr(call.request));
+                    if(m_request_wrapped == null) m_request_wrapped = CfrRequest.Wrap(new RemotePtr(connection, call.request));
                     return m_request_wrapped;
                 }
             }
@@ -730,7 +730,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -740,7 +740,7 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(connection, call.frame));
                     return m_frame_wrapped;
                 }
             }
@@ -750,7 +750,7 @@ namespace Chromium.Remote {
             public CfrV8Context Context {
                 get {
                     CheckAccess();
-                    if(m_context_wrapped == null) m_context_wrapped = CfrV8Context.Wrap(new RemotePtr(call.context));
+                    if(m_context_wrapped == null) m_context_wrapped = CfrV8Context.Wrap(new RemotePtr(connection, call.context));
                     return m_context_wrapped;
                 }
             }
@@ -794,7 +794,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -804,7 +804,7 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(connection, call.frame));
                     return m_frame_wrapped;
                 }
             }
@@ -814,7 +814,7 @@ namespace Chromium.Remote {
             public CfrV8Context Context {
                 get {
                     CheckAccess();
-                    if(m_context_wrapped == null) m_context_wrapped = CfrV8Context.Wrap(new RemotePtr(call.context));
+                    if(m_context_wrapped == null) m_context_wrapped = CfrV8Context.Wrap(new RemotePtr(connection, call.context));
                     return m_context_wrapped;
                 }
             }
@@ -862,7 +862,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -872,7 +872,7 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(connection, call.frame));
                     return m_frame_wrapped;
                 }
             }
@@ -882,7 +882,7 @@ namespace Chromium.Remote {
             public CfrV8Context Context {
                 get {
                     CheckAccess();
-                    if(m_context_wrapped == null) m_context_wrapped = CfrV8Context.Wrap(new RemotePtr(call.context));
+                    if(m_context_wrapped == null) m_context_wrapped = CfrV8Context.Wrap(new RemotePtr(connection, call.context));
                     return m_context_wrapped;
                 }
             }
@@ -892,7 +892,7 @@ namespace Chromium.Remote {
             public CfrV8Exception Exception {
                 get {
                     CheckAccess();
-                    if(m_exception_wrapped == null) m_exception_wrapped = CfrV8Exception.Wrap(new RemotePtr(call.exception));
+                    if(m_exception_wrapped == null) m_exception_wrapped = CfrV8Exception.Wrap(new RemotePtr(connection, call.exception));
                     return m_exception_wrapped;
                 }
             }
@@ -902,7 +902,7 @@ namespace Chromium.Remote {
             public CfrV8StackTrace StackTrace {
                 get {
                     CheckAccess();
-                    if(m_stackTrace_wrapped == null) m_stackTrace_wrapped = CfrV8StackTrace.Wrap(new RemotePtr(call.stackTrace));
+                    if(m_stackTrace_wrapped == null) m_stackTrace_wrapped = CfrV8StackTrace.Wrap(new RemotePtr(connection, call.stackTrace));
                     return m_stackTrace_wrapped;
                 }
             }
@@ -954,7 +954,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -964,7 +964,7 @@ namespace Chromium.Remote {
             public CfrFrame Frame {
                 get {
                     CheckAccess();
-                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(call.frame));
+                    if(m_frame_wrapped == null) m_frame_wrapped = CfrFrame.Wrap(new RemotePtr(connection, call.frame));
                     return m_frame_wrapped;
                 }
             }
@@ -974,7 +974,7 @@ namespace Chromium.Remote {
             public CfrDomNode Node {
                 get {
                     CheckAccess();
-                    if(m_node_wrapped == null) m_node_wrapped = CfrDomNode.Wrap(new RemotePtr(call.node));
+                    if(m_node_wrapped == null) m_node_wrapped = CfrDomNode.Wrap(new RemotePtr(connection, call.node));
                     return m_node_wrapped;
                 }
             }
@@ -1022,7 +1022,7 @@ namespace Chromium.Remote {
             public CfrBrowser Browser {
                 get {
                     CheckAccess();
-                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(call.browser));
+                    if(m_browser_wrapped == null) m_browser_wrapped = CfrBrowser.Wrap(new RemotePtr(connection, call.browser));
                     return m_browser_wrapped;
                 }
             }
@@ -1041,7 +1041,7 @@ namespace Chromium.Remote {
             public CfrProcessMessage Message {
                 get {
                     CheckAccess();
-                    if(m_message_wrapped == null) m_message_wrapped = CfrProcessMessage.Wrap(new RemotePtr(call.message));
+                    if(m_message_wrapped == null) m_message_wrapped = CfrProcessMessage.Wrap(new RemotePtr(connection, call.message));
                     return m_message_wrapped;
                 }
             }

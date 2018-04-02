@@ -41,7 +41,9 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxRunFileDialogCallbackOnFileDialogDismissedEventArgs(selected_accept_filter, file_paths);
+            var e = new CfxRunFileDialogCallbackOnFileDialogDismissedEventArgs();
+            e.m_selected_accept_filter = selected_accept_filter;
+            e.m_file_paths = file_paths;
             self.m_OnFileDialogDismissed?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -121,10 +123,7 @@ namespace Chromium {
             internal int m_selected_accept_filter;
             internal IntPtr m_file_paths;
 
-            internal CfxRunFileDialogCallbackOnFileDialogDismissedEventArgs(int selected_accept_filter, IntPtr file_paths) {
-                m_selected_accept_filter = selected_accept_filter;
-                m_file_paths = file_paths;
-            }
+            internal CfxRunFileDialogCallbackOnFileDialogDismissedEventArgs() {}
 
             /// <summary>
             /// Get the SelectedAcceptFilter parameter for the <see cref="CfxRunFileDialogCallback.OnFileDialogDismissed"/> callback.

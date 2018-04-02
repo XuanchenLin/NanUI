@@ -24,14 +24,17 @@ namespace Chromium.Remote {
         internal static CfrPostDataElement Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrPostDataElement)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrPostDataElement(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrPostDataElement)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrPostDataElement(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -43,9 +46,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public static CfrPostDataElement Create() {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxPostDataElementCreateRemoteCall();
-            call.RequestExecution();
-            return CfrPostDataElement.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrPostDataElement.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -60,9 +64,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsReadOnly {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxPostDataElementIsReadOnlyRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -76,9 +81,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfxPostdataElementType Type {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxPostDataElementGetTypeRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return (CfxPostdataElementType)call.__retval;
             }
         }
@@ -92,9 +98,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string File {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxPostDataElementGetFileRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -108,9 +115,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public ulong BytesCount {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxPostDataElementGetBytesCountRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -123,9 +131,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public void SetToEmpty() {
+            var connection = RemotePtr.connection;
             var call = new CfxPostDataElementSetToEmptyRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -136,10 +145,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public void SetToFile(string fileName) {
+            var connection = RemotePtr.connection;
             var call = new CfxPostDataElementSetToFileRemoteCall();
             call.@this = RemotePtr.ptr;
             call.fileName = fileName;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -151,11 +161,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public void SetToBytes(ulong size, RemotePtr bytes) {
+            var connection = RemotePtr.connection;
             var call = new CfxPostDataElementSetToBytesRemoteCall();
             call.@this = RemotePtr.ptr;
             call.size = size;
+            if(bytes.connection != connection) throw new ArgumentException("Render process connection mismatch.", "bytes");
             call.bytes = bytes.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
         }
 
         /// <summary>
@@ -167,11 +179,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_request_capi.h">cef/include/capi/cef_request_capi.h</see>.
         /// </remarks>
         public ulong GetBytes(ulong size, RemotePtr bytes) {
+            var connection = RemotePtr.connection;
             var call = new CfxPostDataElementGetBytesRemoteCall();
             call.@this = RemotePtr.ptr;
             call.size = size;
+            if(bytes.connection != connection) throw new ArgumentException("Render process connection mismatch.", "bytes");
             call.bytes = bytes.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
     }

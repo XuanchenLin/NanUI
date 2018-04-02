@@ -42,7 +42,8 @@ namespace Chromium {
                 document_release = 1;
                 return;
             }
-            var e = new CfxDomVisitorVisitEventArgs(document);
+            var e = new CfxDomVisitorVisitEventArgs();
+            e.m_document = document;
             self.m_Visit?.Invoke(self, e);
             e.m_isInvalid = true;
             document_release = e.m_document_wrapped == null? 1 : 0;
@@ -123,9 +124,7 @@ namespace Chromium {
             internal IntPtr m_document;
             internal CfxDomDocument m_document_wrapped;
 
-            internal CfxDomVisitorVisitEventArgs(IntPtr document) {
-                m_document = document;
-            }
+            internal CfxDomVisitorVisitEventArgs() {}
 
             /// <summary>
             /// Get the Document parameter for the <see cref="CfxDomVisitor.Visit"/> callback.

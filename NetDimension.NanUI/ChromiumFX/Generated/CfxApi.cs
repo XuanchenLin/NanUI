@@ -143,6 +143,10 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate int cfx_launch_process_delegate(IntPtr command_line);
             public static cfx_launch_process_delegate cfx_launch_process;
+            // CEF_EXPORT void cef_load_crlsets_file(const cef_string_t* path);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_load_crlsets_file_delegate(IntPtr path_str, int path_length);
+            public static cfx_load_crlsets_file_delegate cfx_load_crlsets_file;
             // CEF_EXPORT int64 cef_now_from_system_trace_time();
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate long cfx_now_from_system_trace_time_delegate();
@@ -336,6 +340,17 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_string_multimap_free_delegate(IntPtr map);
             public static cfx_string_multimap_free_delegate cfx_string_multimap_free;
+        }
+
+        internal static class AccessibilityHandler {
+
+            static AccessibilityHandler () {
+                CfxApiLoader.LoadCfxAccessibilityHandlerApi();
+            }
+
+            public static cfx_ctor_with_gc_handle_delegate cfx_accessibility_handler_ctor;
+            public static cfx_set_callback_delegate cfx_accessibility_handler_set_callback;
+
         }
 
         internal static class App {
@@ -905,6 +920,26 @@ namespace Chromium {
             public delegate IntPtr cfx_browser_host_get_visible_navigation_entry_delegate(IntPtr self);
             public static cfx_browser_host_get_visible_navigation_entry_delegate cfx_browser_host_get_visible_navigation_entry;
 
+            // static void cfx_browser_host_set_accessibility_state(cef_browser_host_t* self, cef_state_t accessibility_state)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_browser_host_set_accessibility_state_delegate(IntPtr self, int accessibility_state);
+            public static cfx_browser_host_set_accessibility_state_delegate cfx_browser_host_set_accessibility_state;
+
+            // static void cfx_browser_host_set_auto_resize_enabled(cef_browser_host_t* self, int enabled, const cef_size_t* min_size, const cef_size_t* max_size)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_browser_host_set_auto_resize_enabled_delegate(IntPtr self, int enabled, IntPtr min_size, IntPtr max_size);
+            public static cfx_browser_host_set_auto_resize_enabled_delegate cfx_browser_host_set_auto_resize_enabled;
+
+            // static cef_extension_t* cfx_browser_host_get_extension(cef_browser_host_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_browser_host_get_extension_delegate(IntPtr self);
+            public static cfx_browser_host_get_extension_delegate cfx_browser_host_get_extension;
+
+            // static int cfx_browser_host_is_background_host(cef_browser_host_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_browser_host_is_background_host_delegate(IntPtr self);
+            public static cfx_browser_host_is_background_host_delegate cfx_browser_host_is_background_host;
+
         }
 
         internal static class BrowserProcessHandler {
@@ -1054,15 +1089,6 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_browser_settings_get_javascript_delegate(IntPtr self, out int javascript);
             public static cfx_browser_settings_get_javascript_delegate cfx_browser_settings_get_javascript;
-
-            // static void cfx_browser_settings_set_javascript_open_windows(cef_browser_settings_t *self, cef_state_t javascript_open_windows)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_browser_settings_set_javascript_open_windows_delegate(IntPtr self, int javascript_open_windows);
-            public static cfx_browser_settings_set_javascript_open_windows_delegate cfx_browser_settings_set_javascript_open_windows;
-            // static void cfx_browser_settings_get_javascript_open_windows(cef_browser_settings_t *self, cef_state_t* javascript_open_windows)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_browser_settings_get_javascript_open_windows_delegate(IntPtr self, out int javascript_open_windows);
-            public static cfx_browser_settings_get_javascript_open_windows_delegate cfx_browser_settings_get_javascript_open_windows;
 
             // static void cfx_browser_settings_set_javascript_close_windows(cef_browser_settings_t *self, cef_state_t javascript_close_windows)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
@@ -2442,6 +2468,21 @@ namespace Chromium {
             public delegate void cfx_drag_data_add_file_delegate(IntPtr self, IntPtr path_str, int path_length, IntPtr display_name_str, int display_name_length);
             public static cfx_drag_data_add_file_delegate cfx_drag_data_add_file;
 
+            // static cef_image_t* cfx_drag_data_get_image(cef_drag_data_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_drag_data_get_image_delegate(IntPtr self);
+            public static cfx_drag_data_get_image_delegate cfx_drag_data_get_image;
+
+            // static cef_point_t* cfx_drag_data_get_image_hotspot(cef_drag_data_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_drag_data_get_image_hotspot_delegate(IntPtr self);
+            public static cfx_drag_data_get_image_hotspot_delegate cfx_drag_data_get_image_hotspot;
+
+            // static int cfx_drag_data_has_image(cef_drag_data_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_drag_data_has_image_delegate(IntPtr self);
+            public static cfx_drag_data_has_image_delegate cfx_drag_data_has_image;
+
         }
 
         internal static class DragHandler {
@@ -2494,6 +2535,66 @@ namespace Chromium {
 
             public static cfx_ctor_with_gc_handle_delegate cfx_end_tracing_callback_ctor;
             public static cfx_set_callback_delegate cfx_end_tracing_callback_set_callback;
+
+        }
+
+        internal static class Extension {
+
+            static Extension () {
+                CfxApiLoader.LoadCfxExtensionApi();
+            }
+
+            // static cef_string_userfree_t cfx_extension_get_identifier(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_extension_get_identifier_delegate(IntPtr self);
+            public static cfx_extension_get_identifier_delegate cfx_extension_get_identifier;
+
+            // static cef_string_userfree_t cfx_extension_get_path(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_extension_get_path_delegate(IntPtr self);
+            public static cfx_extension_get_path_delegate cfx_extension_get_path;
+
+            // static cef_dictionary_value_t* cfx_extension_get_manifest(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_extension_get_manifest_delegate(IntPtr self);
+            public static cfx_extension_get_manifest_delegate cfx_extension_get_manifest;
+
+            // static int cfx_extension_is_same(cef_extension_t* self, cef_extension_t* that)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_extension_is_same_delegate(IntPtr self, IntPtr that);
+            public static cfx_extension_is_same_delegate cfx_extension_is_same;
+
+            // static cef_extension_handler_t* cfx_extension_get_handler(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_extension_get_handler_delegate(IntPtr self);
+            public static cfx_extension_get_handler_delegate cfx_extension_get_handler;
+
+            // static cef_request_context_t* cfx_extension_get_loader_context(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_extension_get_loader_context_delegate(IntPtr self);
+            public static cfx_extension_get_loader_context_delegate cfx_extension_get_loader_context;
+
+            // static int cfx_extension_is_loaded(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_extension_is_loaded_delegate(IntPtr self);
+            public static cfx_extension_is_loaded_delegate cfx_extension_is_loaded;
+
+            // static void cfx_extension_unload(cef_extension_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_extension_unload_delegate(IntPtr self);
+            public static cfx_extension_unload_delegate cfx_extension_unload;
+
+        }
+
+        internal static class ExtensionHandler {
+
+            static ExtensionHandler () {
+                CfxApiLoader.LoadCfxExtensionHandlerApi();
+            }
+
+            public static cfx_ctor_with_gc_handle_delegate cfx_extension_handler_ctor;
+            public static cfx_get_gc_handle_delegate cfx_extension_handler_get_gc_handle;
+            public static cfx_set_callback_delegate cfx_extension_handler_set_callback;
 
         }
 
@@ -2789,6 +2890,24 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_geoposition_get_error_message_delegate(IntPtr self, out IntPtr error_message_str, out int error_message_length);
             public static cfx_geoposition_get_error_message_delegate cfx_geoposition_get_error_message;
+
+        }
+
+        internal static class GetExtensionResourceCallback {
+
+            static GetExtensionResourceCallback () {
+                CfxApiLoader.LoadCfxGetExtensionResourceCallbackApi();
+            }
+
+            // static void cfx_get_extension_resource_callback_cont(cef_get_extension_resource_callback_t* self, cef_stream_reader_t* stream)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_get_extension_resource_callback_cont_delegate(IntPtr self, IntPtr stream);
+            public static cfx_get_extension_resource_callback_cont_delegate cfx_get_extension_resource_callback_cont;
+
+            // static void cfx_get_extension_resource_callback_cancel(cef_get_extension_resource_callback_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_get_extension_resource_callback_cancel_delegate(IntPtr self);
+            public static cfx_get_extension_resource_callback_cancel_delegate cfx_get_extension_resource_callback_cancel;
 
         }
 
@@ -3982,15 +4101,6 @@ namespace Chromium {
             public delegate void cfx_popup_features_get_toolBarVisible_delegate(IntPtr self, out int toolBarVisible);
             public static cfx_popup_features_get_toolBarVisible_delegate cfx_popup_features_get_toolBarVisible;
 
-            // static void cfx_popup_features_set_locationBarVisible(cef_popup_features_t *self, int locationBarVisible)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_set_locationBarVisible_delegate(IntPtr self, int locationBarVisible);
-            public static cfx_popup_features_set_locationBarVisible_delegate cfx_popup_features_set_locationBarVisible;
-            // static void cfx_popup_features_get_locationBarVisible(cef_popup_features_t *self, int* locationBarVisible)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_get_locationBarVisible_delegate(IntPtr self, out int locationBarVisible);
-            public static cfx_popup_features_get_locationBarVisible_delegate cfx_popup_features_get_locationBarVisible;
-
             // static void cfx_popup_features_set_scrollbarsVisible(cef_popup_features_t *self, int scrollbarsVisible)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_popup_features_set_scrollbarsVisible_delegate(IntPtr self, int scrollbarsVisible);
@@ -3999,42 +4109,6 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_popup_features_get_scrollbarsVisible_delegate(IntPtr self, out int scrollbarsVisible);
             public static cfx_popup_features_get_scrollbarsVisible_delegate cfx_popup_features_get_scrollbarsVisible;
-
-            // static void cfx_popup_features_set_resizable(cef_popup_features_t *self, int resizable)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_set_resizable_delegate(IntPtr self, int resizable);
-            public static cfx_popup_features_set_resizable_delegate cfx_popup_features_set_resizable;
-            // static void cfx_popup_features_get_resizable(cef_popup_features_t *self, int* resizable)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_get_resizable_delegate(IntPtr self, out int resizable);
-            public static cfx_popup_features_get_resizable_delegate cfx_popup_features_get_resizable;
-
-            // static void cfx_popup_features_set_fullscreen(cef_popup_features_t *self, int fullscreen)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_set_fullscreen_delegate(IntPtr self, int fullscreen);
-            public static cfx_popup_features_set_fullscreen_delegate cfx_popup_features_set_fullscreen;
-            // static void cfx_popup_features_get_fullscreen(cef_popup_features_t *self, int* fullscreen)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_get_fullscreen_delegate(IntPtr self, out int fullscreen);
-            public static cfx_popup_features_get_fullscreen_delegate cfx_popup_features_get_fullscreen;
-
-            // static void cfx_popup_features_set_dialog(cef_popup_features_t *self, int dialog)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_set_dialog_delegate(IntPtr self, int dialog);
-            public static cfx_popup_features_set_dialog_delegate cfx_popup_features_set_dialog;
-            // static void cfx_popup_features_get_dialog(cef_popup_features_t *self, int* dialog)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_get_dialog_delegate(IntPtr self, out int dialog);
-            public static cfx_popup_features_get_dialog_delegate cfx_popup_features_get_dialog;
-
-            // static void cfx_popup_features_set_additionalFeatures(cef_popup_features_t *self, cef_string_list_t additionalFeatures)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_set_additionalFeatures_delegate(IntPtr self, IntPtr additionalFeatures);
-            public static cfx_popup_features_set_additionalFeatures_delegate cfx_popup_features_set_additionalFeatures;
-            // static void cfx_popup_features_get_additionalFeatures(cef_popup_features_t *self, cef_string_list_t* additionalFeatures)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_popup_features_get_additionalFeatures_delegate(IntPtr self, out IntPtr additionalFeatures);
-            public static cfx_popup_features_get_additionalFeatures_delegate cfx_popup_features_get_additionalFeatures;
 
         }
 
@@ -4707,6 +4781,31 @@ namespace Chromium {
             public delegate int cfx_request_context_resolve_host_cached_delegate(IntPtr self, IntPtr origin_str, int origin_length, IntPtr resolved_ips);
             public static cfx_request_context_resolve_host_cached_delegate cfx_request_context_resolve_host_cached;
 
+            // static void cfx_request_context_load_extension(cef_request_context_t* self, char16 *root_directory_str, int root_directory_length, cef_dictionary_value_t* manifest, cef_extension_handler_t* handler)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_request_context_load_extension_delegate(IntPtr self, IntPtr root_directory_str, int root_directory_length, IntPtr manifest, IntPtr handler);
+            public static cfx_request_context_load_extension_delegate cfx_request_context_load_extension;
+
+            // static int cfx_request_context_did_load_extension(cef_request_context_t* self, char16 *extension_id_str, int extension_id_length)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_request_context_did_load_extension_delegate(IntPtr self, IntPtr extension_id_str, int extension_id_length);
+            public static cfx_request_context_did_load_extension_delegate cfx_request_context_did_load_extension;
+
+            // static int cfx_request_context_has_extension(cef_request_context_t* self, char16 *extension_id_str, int extension_id_length)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_request_context_has_extension_delegate(IntPtr self, IntPtr extension_id_str, int extension_id_length);
+            public static cfx_request_context_has_extension_delegate cfx_request_context_has_extension;
+
+            // static int cfx_request_context_get_extensions(cef_request_context_t* self, cef_string_list_t extension_ids)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_request_context_get_extensions_delegate(IntPtr self, IntPtr extension_ids);
+            public static cfx_request_context_get_extensions_delegate cfx_request_context_get_extensions;
+
+            // static cef_extension_t* cfx_request_context_get_extension(cef_request_context_t* self, char16 *extension_id_str, int extension_id_length)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_request_context_get_extension_delegate(IntPtr self, IntPtr extension_id_str, int extension_id_length);
+            public static cfx_request_context_get_extension_delegate cfx_request_context_get_extension;
+
         }
 
         internal static class RequestContextHandler {
@@ -4990,9 +5089,9 @@ namespace Chromium {
                 CfxApiLoader.LoadCfxSchemeRegistrarApi();
             }
 
-            // static int cfx_scheme_registrar_add_custom_scheme(cef_scheme_registrar_t* self, char16 *scheme_name_str, int scheme_name_length, int is_standard, int is_local, int is_display_isolated, int is_secure, int is_cors_enabled)
+            // static int cfx_scheme_registrar_add_custom_scheme(cef_scheme_registrar_t* self, char16 *scheme_name_str, int scheme_name_length, int is_standard, int is_local, int is_display_isolated, int is_secure, int is_cors_enabled, int is_csp_bypassing)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate int cfx_scheme_registrar_add_custom_scheme_delegate(IntPtr self, IntPtr scheme_name_str, int scheme_name_length, int is_standard, int is_local, int is_display_isolated, int is_secure, int is_cors_enabled);
+            public delegate int cfx_scheme_registrar_add_custom_scheme_delegate(IntPtr self, IntPtr scheme_name_str, int scheme_name_length, int is_standard, int is_local, int is_display_isolated, int is_secure, int is_cors_enabled, int is_csp_bypassing);
             public static cfx_scheme_registrar_add_custom_scheme_delegate cfx_scheme_registrar_add_custom_scheme;
 
         }
@@ -5074,6 +5173,95 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_select_client_certificate_callback_select_delegate(IntPtr self, IntPtr cert);
             public static cfx_select_client_certificate_callback_select_delegate cfx_select_client_certificate_callback_select;
+
+        }
+
+        internal static class Server {
+
+            static Server () {
+                CfxApiLoader.LoadCfxServerApi();
+            }
+
+            // CEF_EXPORT void cef_server_create(const cef_string_t* address, uint16 port, int backlog, cef_server_handler_t* handler);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_create_delegate(IntPtr address_str, int address_length, ushort port, int backlog, IntPtr handler);
+            public static cfx_server_create_delegate cfx_server_create;
+
+            // static cef_task_runner_t* cfx_server_get_task_runner(cef_server_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_server_get_task_runner_delegate(IntPtr self);
+            public static cfx_server_get_task_runner_delegate cfx_server_get_task_runner;
+
+            // static void cfx_server_shutdown(cef_server_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_shutdown_delegate(IntPtr self);
+            public static cfx_server_shutdown_delegate cfx_server_shutdown;
+
+            // static int cfx_server_is_running(cef_server_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_server_is_running_delegate(IntPtr self);
+            public static cfx_server_is_running_delegate cfx_server_is_running;
+
+            // static cef_string_userfree_t cfx_server_get_address(cef_server_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate IntPtr cfx_server_get_address_delegate(IntPtr self);
+            public static cfx_server_get_address_delegate cfx_server_get_address;
+
+            // static int cfx_server_has_connection(cef_server_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_server_has_connection_delegate(IntPtr self);
+            public static cfx_server_has_connection_delegate cfx_server_has_connection;
+
+            // static int cfx_server_is_valid_connection(cef_server_t* self, int connection_id)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_server_is_valid_connection_delegate(IntPtr self, int connection_id);
+            public static cfx_server_is_valid_connection_delegate cfx_server_is_valid_connection;
+
+            // static void cfx_server_send_http200response(cef_server_t* self, int connection_id, char16 *content_type_str, int content_type_length, const void* data, size_t data_size)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_send_http200response_delegate(IntPtr self, int connection_id, IntPtr content_type_str, int content_type_length, IntPtr data, UIntPtr data_size);
+            public static cfx_server_send_http200response_delegate cfx_server_send_http200response;
+
+            // static void cfx_server_send_http404response(cef_server_t* self, int connection_id)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_send_http404response_delegate(IntPtr self, int connection_id);
+            public static cfx_server_send_http404response_delegate cfx_server_send_http404response;
+
+            // static void cfx_server_send_http500response(cef_server_t* self, int connection_id, char16 *error_message_str, int error_message_length)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_send_http500response_delegate(IntPtr self, int connection_id, IntPtr error_message_str, int error_message_length);
+            public static cfx_server_send_http500response_delegate cfx_server_send_http500response;
+
+            // static void cfx_server_send_http_response(cef_server_t* self, int connection_id, int response_code, char16 *content_type_str, int content_type_length, int64 content_length, cef_string_multimap_t extra_headers)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_send_http_response_delegate(IntPtr self, int connection_id, int response_code, IntPtr content_type_str, int content_type_length, long content_length, IntPtr extra_headers);
+            public static cfx_server_send_http_response_delegate cfx_server_send_http_response;
+
+            // static void cfx_server_send_raw_data(cef_server_t* self, int connection_id, const void* data, size_t data_size)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_send_raw_data_delegate(IntPtr self, int connection_id, IntPtr data, UIntPtr data_size);
+            public static cfx_server_send_raw_data_delegate cfx_server_send_raw_data;
+
+            // static void cfx_server_close_connection(cef_server_t* self, int connection_id)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_close_connection_delegate(IntPtr self, int connection_id);
+            public static cfx_server_close_connection_delegate cfx_server_close_connection;
+
+            // static void cfx_server_send_web_socket_message(cef_server_t* self, int connection_id, const void* data, size_t data_size)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate void cfx_server_send_web_socket_message_delegate(IntPtr self, int connection_id, IntPtr data, UIntPtr data_size);
+            public static cfx_server_send_web_socket_message_delegate cfx_server_send_web_socket_message;
+
+        }
+
+        internal static class ServerHandler {
+
+            static ServerHandler () {
+                CfxApiLoader.LoadCfxServerHandlerApi();
+            }
+
+            public static cfx_ctor_with_gc_handle_delegate cfx_server_handler_ctor;
+            public static cfx_set_callback_delegate cfx_server_handler_set_callback;
 
         }
 
@@ -5305,15 +5493,6 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_settings_get_uncaught_exception_stack_size_delegate(IntPtr self, out int uncaught_exception_stack_size);
             public static cfx_settings_get_uncaught_exception_stack_size_delegate cfx_settings_get_uncaught_exception_stack_size;
-
-            // static void cfx_settings_set_context_safety_implementation(cef_settings_t *self, int context_safety_implementation)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_settings_set_context_safety_implementation_delegate(IntPtr self, int context_safety_implementation);
-            public static cfx_settings_set_context_safety_implementation_delegate cfx_settings_set_context_safety_implementation;
-            // static void cfx_settings_get_context_safety_implementation(cef_settings_t *self, int* context_safety_implementation)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_settings_get_context_safety_implementation_delegate(IntPtr self, out int context_safety_implementation);
-            public static cfx_settings_get_context_safety_implementation_delegate cfx_settings_get_context_safety_implementation;
 
             // static void cfx_settings_set_ignore_certificate_errors(cef_settings_t *self, int ignore_certificate_errors)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
@@ -5834,6 +6013,11 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate IntPtr cfx_urlrequest_get_response_delegate(IntPtr self);
             public static cfx_urlrequest_get_response_delegate cfx_urlrequest_get_response;
+
+            // static int cfx_urlrequest_response_was_cached(cef_urlrequest_t* self)
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
+            public delegate int cfx_urlrequest_response_was_cached_delegate(IntPtr self);
+            public static cfx_urlrequest_response_was_cached_delegate cfx_urlrequest_response_was_cached;
 
             // static void cfx_urlrequest_cancel(cef_urlrequest_t* self)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
@@ -6627,15 +6811,6 @@ namespace Chromium {
             public delegate void cfx_window_info_linux_get_windowless_rendering_enabled_delegate(IntPtr self, out int windowless_rendering_enabled);
             public static cfx_window_info_linux_get_windowless_rendering_enabled_delegate cfx_window_info_linux_get_windowless_rendering_enabled;
 
-            // static void cfx_window_info_linux_set_transparent_painting_enabled(cef_window_info_t *self, int transparent_painting_enabled)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_window_info_linux_set_transparent_painting_enabled_delegate(IntPtr self, int transparent_painting_enabled);
-            public static cfx_window_info_linux_set_transparent_painting_enabled_delegate cfx_window_info_linux_set_transparent_painting_enabled;
-            // static void cfx_window_info_linux_get_transparent_painting_enabled(cef_window_info_t *self, int* transparent_painting_enabled)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_window_info_linux_get_transparent_painting_enabled_delegate(IntPtr self, out int transparent_painting_enabled);
-            public static cfx_window_info_linux_get_transparent_painting_enabled_delegate cfx_window_info_linux_get_transparent_painting_enabled;
-
             // static void cfx_window_info_linux_set_window(cef_window_info_t *self, cef_window_handle_t window)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_window_info_linux_set_window_delegate(IntPtr self, IntPtr window);
@@ -6747,15 +6922,6 @@ namespace Chromium {
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
             public delegate void cfx_window_info_windows_get_windowless_rendering_enabled_delegate(IntPtr self, out int windowless_rendering_enabled);
             public static cfx_window_info_windows_get_windowless_rendering_enabled_delegate cfx_window_info_windows_get_windowless_rendering_enabled;
-
-            // static void cfx_window_info_windows_set_transparent_painting_enabled(cef_window_info_t *self, int transparent_painting_enabled)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_window_info_windows_set_transparent_painting_enabled_delegate(IntPtr self, int transparent_painting_enabled);
-            public static cfx_window_info_windows_set_transparent_painting_enabled_delegate cfx_window_info_windows_set_transparent_painting_enabled;
-            // static void cfx_window_info_windows_get_transparent_painting_enabled(cef_window_info_t *self, int* transparent_painting_enabled)
-            [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]
-            public delegate void cfx_window_info_windows_get_transparent_painting_enabled_delegate(IntPtr self, out int transparent_painting_enabled);
-            public static cfx_window_info_windows_get_transparent_painting_enabled_delegate cfx_window_info_windows_get_transparent_painting_enabled;
 
             // static void cfx_window_info_windows_set_window(cef_window_info_t *self, cef_window_handle_t window)
             [UnmanagedFunctionPointer(CallingConvention.Cdecl, SetLastError = false)]

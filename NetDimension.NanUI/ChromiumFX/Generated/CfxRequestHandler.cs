@@ -75,7 +75,11 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeBrowseEventArgs(browser, frame, request, is_redirect);
+            var e = new CfxOnBeforeBrowseEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_is_redirect = is_redirect;
             self.m_OnBeforeBrowse?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -98,7 +102,13 @@ namespace Chromium {
                 frame_release = 1;
                 return;
             }
-            var e = new CfxOnOpenUrlfromTabEventArgs(browser, frame, target_url_str, target_url_length, target_disposition, user_gesture);
+            var e = new CfxOnOpenUrlfromTabEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_target_url_str = target_url_str;
+            e.m_target_url_length = target_url_length;
+            e.m_target_disposition = target_disposition;
+            e.m_user_gesture = user_gesture;
             self.m_OnOpenUrlfromTab?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -122,7 +132,11 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnBeforeResourceLoadEventArgs(browser, frame, request, callback);
+            var e = new CfxOnBeforeResourceLoadEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_callback = callback;
             self.m_OnBeforeResourceLoad?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -147,7 +161,10 @@ namespace Chromium {
                 request_release = 1;
                 return;
             }
-            var e = new CfxGetResourceHandlerEventArgs(browser, frame, request);
+            var e = new CfxGetResourceHandlerEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
             self.m_GetResourceHandler?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -171,7 +188,13 @@ namespace Chromium {
                 response_release = 1;
                 return;
             }
-            var e = new CfxOnResourceRedirectEventArgs(browser, frame, request, response, new_url_str, new_url_length);
+            var e = new CfxOnResourceRedirectEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_response = response;
+            e.m_new_url_str = new_url_str;
+            e.m_new_url_length = new_url_length;
             self.m_OnResourceRedirect?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -201,7 +224,11 @@ namespace Chromium {
                 response_release = 1;
                 return;
             }
-            var e = new CfxOnResourceResponseEventArgs(browser, frame, request, response);
+            var e = new CfxOnResourceResponseEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_response = response;
             self.m_OnResourceResponse?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -227,7 +254,11 @@ namespace Chromium {
                 response_release = 1;
                 return;
             }
-            var e = new CfxGetResourceResponseFilterEventArgs(browser, frame, request, response);
+            var e = new CfxGetResourceResponseFilterEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_response = response;
             self.m_GetResourceResponseFilter?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -252,7 +283,13 @@ namespace Chromium {
                 response_release = 1;
                 return;
             }
-            var e = new CfxOnResourceLoadCompleteEventArgs(browser, frame, request, response, status, received_content_length);
+            var e = new CfxOnResourceLoadCompleteEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_request = request;
+            e.m_response = response;
+            e.m_status = status;
+            e.m_received_content_length = received_content_length;
             self.m_OnResourceLoadComplete?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -276,7 +313,18 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxRequestHandlerGetAuthCredentialsEventArgs(browser, frame, isProxy, host_str, host_length, port, realm_str, realm_length, scheme_str, scheme_length, callback);
+            var e = new CfxRequestHandlerGetAuthCredentialsEventArgs();
+            e.m_browser = browser;
+            e.m_frame = frame;
+            e.m_isProxy = isProxy;
+            e.m_host_str = host_str;
+            e.m_host_length = host_length;
+            e.m_port = port;
+            e.m_realm_str = realm_str;
+            e.m_realm_length = realm_length;
+            e.m_scheme_str = scheme_str;
+            e.m_scheme_length = scheme_length;
+            e.m_callback = callback;
             self.m_GetAuthCredentials?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -299,7 +347,12 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnQuotaRequestEventArgs(browser, origin_url_str, origin_url_length, new_size, callback);
+            var e = new CfxOnQuotaRequestEventArgs();
+            e.m_browser = browser;
+            e.m_origin_url_str = origin_url_str;
+            e.m_origin_url_length = origin_url_length;
+            e.m_new_size = new_size;
+            e.m_callback = callback;
             self.m_OnQuotaRequest?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -320,7 +373,10 @@ namespace Chromium {
                 allow_os_execution = default(int);
                 return;
             }
-            var e = new CfxOnProtocolExecutionEventArgs(browser, url_str, url_length);
+            var e = new CfxOnProtocolExecutionEventArgs();
+            e.m_browser = browser;
+            e.m_url_str = url_str;
+            e.m_url_length = url_length;
             self.m_OnProtocolExecution?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -342,7 +398,13 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnCertificateErrorEventArgs(browser, cert_error, request_url_str, request_url_length, ssl_info, callback);
+            var e = new CfxOnCertificateErrorEventArgs();
+            e.m_browser = browser;
+            e.m_cert_error = cert_error;
+            e.m_request_url_str = request_url_str;
+            e.m_request_url_length = request_url_length;
+            e.m_ssl_info = ssl_info;
+            e.m_callback = callback;
             self.m_OnCertificateError?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -366,7 +428,17 @@ namespace Chromium {
                 callback_release = 1;
                 return;
             }
-            var e = new CfxOnSelectClientCertificateEventArgs(browser, isProxy, host_str, host_length, port, certificates, certificatesCount, callback);
+            var e = new CfxOnSelectClientCertificateEventArgs();
+            e.m_browser = browser;
+            e.m_isProxy = isProxy;
+            e.m_host_str = host_str;
+            e.m_host_length = host_length;
+            e.m_port = port;
+            e.m_certificates = new IntPtr[(ulong)certificatesCount];
+            if(e.m_certificates.Length > 0) {
+                System.Runtime.InteropServices.Marshal.Copy(certificates, e.m_certificates, 0, (int)certificatesCount);
+            }
+            e.m_callback = callback;
             self.m_OnSelectClientCertificate?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -387,7 +459,10 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnPluginCrashedEventArgs(browser, plugin_path_str, plugin_path_length);
+            var e = new CfxOnPluginCrashedEventArgs();
+            e.m_browser = browser;
+            e.m_plugin_path_str = plugin_path_str;
+            e.m_plugin_path_length = plugin_path_length;
             self.m_OnPluginCrashed?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -405,7 +480,8 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnRenderViewReadyEventArgs(browser);
+            var e = new CfxOnRenderViewReadyEventArgs();
+            e.m_browser = browser;
             self.m_OnRenderViewReady?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -423,7 +499,9 @@ namespace Chromium {
                 browser_release = 1;
                 return;
             }
-            var e = new CfxOnRenderProcessTerminatedEventArgs(browser, status);
+            var e = new CfxOnRenderProcessTerminatedEventArgs();
+            e.m_browser = browser;
+            e.m_status = status;
             self.m_OnRenderProcessTerminated?.Invoke(self, e);
             e.m_isInvalid = true;
             browser_release = e.m_browser_wrapped == null? 1 : 0;
@@ -1071,12 +1149,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnBeforeBrowseEventArgs(IntPtr browser, IntPtr frame, IntPtr request, int is_redirect) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_is_redirect = is_redirect;
-            }
+            internal CfxOnBeforeBrowseEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnBeforeBrowse"/> callback.
@@ -1192,14 +1265,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnOpenUrlfromTabEventArgs(IntPtr browser, IntPtr frame, IntPtr target_url_str, int target_url_length, int target_disposition, int user_gesture) {
-                m_browser = browser;
-                m_frame = frame;
-                m_target_url_str = target_url_str;
-                m_target_url_length = target_url_length;
-                m_target_disposition = target_disposition;
-                m_user_gesture = user_gesture;
-            }
+            internal CfxOnOpenUrlfromTabEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnOpenUrlfromTab"/> callback.
@@ -1305,12 +1371,7 @@ namespace Chromium {
             internal CfxReturnValue m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnBeforeResourceLoadEventArgs(IntPtr browser, IntPtr frame, IntPtr request, IntPtr callback) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_callback = callback;
-            }
+            internal CfxOnBeforeResourceLoadEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnBeforeResourceLoad"/> callback.
@@ -1404,11 +1465,7 @@ namespace Chromium {
             internal CfxResourceHandler m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetResourceHandlerEventArgs(IntPtr browser, IntPtr frame, IntPtr request) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-            }
+            internal CfxGetResourceHandlerEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.GetResourceHandler"/> callback.
@@ -1499,14 +1556,7 @@ namespace Chromium {
             internal string m_new_url_wrapped;
             internal bool m_new_url_changed;
 
-            internal CfxOnResourceRedirectEventArgs(IntPtr browser, IntPtr frame, IntPtr request, IntPtr response, IntPtr new_url_str, int new_url_length) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_response = response;
-                m_new_url_str = new_url_str;
-                m_new_url_length = new_url_length;
-            }
+            internal CfxOnResourceRedirectEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnResourceRedirect"/> callback.
@@ -1607,12 +1657,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnResourceResponseEventArgs(IntPtr browser, IntPtr frame, IntPtr request, IntPtr response) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_response = response;
-            }
+            internal CfxOnResourceResponseEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnResourceResponse"/> callback.
@@ -1706,12 +1751,7 @@ namespace Chromium {
             internal CfxResponseFilter m_returnValue;
             private bool returnValueSet;
 
-            internal CfxGetResourceResponseFilterEventArgs(IntPtr browser, IntPtr frame, IntPtr request, IntPtr response) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_response = response;
-            }
+            internal CfxGetResourceResponseFilterEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.GetResourceResponseFilter"/> callback.
@@ -1806,14 +1846,7 @@ namespace Chromium {
             internal int m_status;
             internal long m_received_content_length;
 
-            internal CfxOnResourceLoadCompleteEventArgs(IntPtr browser, IntPtr frame, IntPtr request, IntPtr response, int status, long received_content_length) {
-                m_browser = browser;
-                m_frame = frame;
-                m_request = request;
-                m_response = response;
-                m_status = status;
-                m_received_content_length = received_content_length;
-            }
+            internal CfxOnResourceLoadCompleteEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnResourceLoadComplete"/> callback.
@@ -1934,19 +1967,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxRequestHandlerGetAuthCredentialsEventArgs(IntPtr browser, IntPtr frame, int isProxy, IntPtr host_str, int host_length, int port, IntPtr realm_str, int realm_length, IntPtr scheme_str, int scheme_length, IntPtr callback) {
-                m_browser = browser;
-                m_frame = frame;
-                m_isProxy = isProxy;
-                m_host_str = host_str;
-                m_host_length = host_length;
-                m_port = port;
-                m_realm_str = realm_str;
-                m_realm_length = realm_length;
-                m_scheme_str = scheme_str;
-                m_scheme_length = scheme_length;
-                m_callback = callback;
-            }
+            internal CfxRequestHandlerGetAuthCredentialsEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.GetAuthCredentials"/> callback.
@@ -2086,13 +2107,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnQuotaRequestEventArgs(IntPtr browser, IntPtr origin_url_str, int origin_url_length, long new_size, IntPtr callback) {
-                m_browser = browser;
-                m_origin_url_str = origin_url_str;
-                m_origin_url_length = origin_url_length;
-                m_new_size = new_size;
-                m_callback = callback;
-            }
+            internal CfxOnQuotaRequestEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnQuotaRequest"/> callback.
@@ -2184,11 +2199,7 @@ namespace Chromium {
             internal string m_url;
             internal int m_allow_os_execution;
 
-            internal CfxOnProtocolExecutionEventArgs(IntPtr browser, IntPtr url_str, int url_length) {
-                m_browser = browser;
-                m_url_str = url_str;
-                m_url_length = url_length;
-            }
+            internal CfxOnProtocolExecutionEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnProtocolExecution"/> callback.
@@ -2267,14 +2278,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnCertificateErrorEventArgs(IntPtr browser, int cert_error, IntPtr request_url_str, int request_url_length, IntPtr ssl_info, IntPtr callback) {
-                m_browser = browser;
-                m_cert_error = cert_error;
-                m_request_url_str = request_url_str;
-                m_request_url_length = request_url_length;
-                m_ssl_info = ssl_info;
-                m_callback = callback;
-            }
+            internal CfxOnCertificateErrorEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnCertificateError"/> callback.
@@ -2396,18 +2400,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxOnSelectClientCertificateEventArgs(IntPtr browser, int isProxy, IntPtr host_str, int host_length, int port, IntPtr certificates, UIntPtr certificatesCount, IntPtr callback) {
-                m_browser = browser;
-                m_isProxy = isProxy;
-                m_host_str = host_str;
-                m_host_length = host_length;
-                m_port = port;
-                m_certificates = new IntPtr[(ulong)certificatesCount];
-                if(m_certificates.Length > 0) {
-                    System.Runtime.InteropServices.Marshal.Copy(certificates, m_certificates, 0, (int)certificatesCount);
-                }
-                m_callback = callback;
-            }
+            internal CfxOnSelectClientCertificateEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnSelectClientCertificate"/> callback.
@@ -2516,11 +2509,7 @@ namespace Chromium {
             internal int m_plugin_path_length;
             internal string m_plugin_path;
 
-            internal CfxOnPluginCrashedEventArgs(IntPtr browser, IntPtr plugin_path_str, int plugin_path_length) {
-                m_browser = browser;
-                m_plugin_path_str = plugin_path_str;
-                m_plugin_path_length = plugin_path_length;
-            }
+            internal CfxOnPluginCrashedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnPluginCrashed"/> callback.
@@ -2573,9 +2562,7 @@ namespace Chromium {
             internal IntPtr m_browser;
             internal CfxBrowser m_browser_wrapped;
 
-            internal CfxOnRenderViewReadyEventArgs(IntPtr browser) {
-                m_browser = browser;
-            }
+            internal CfxOnRenderViewReadyEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnRenderViewReady"/> callback.
@@ -2617,10 +2604,7 @@ namespace Chromium {
             internal CfxBrowser m_browser_wrapped;
             internal int m_status;
 
-            internal CfxOnRenderProcessTerminatedEventArgs(IntPtr browser, int status) {
-                m_browser = browser;
-                m_status = status;
-            }
+            internal CfxOnRenderProcessTerminatedEventArgs() {}
 
             /// <summary>
             /// Get the Browser parameter for the <see cref="CfxRequestHandler.OnRenderProcessTerminated"/> callback.

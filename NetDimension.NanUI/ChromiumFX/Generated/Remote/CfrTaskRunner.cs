@@ -29,14 +29,17 @@ namespace Chromium.Remote {
         internal static CfrTaskRunner Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrTaskRunner)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrTaskRunner(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrTaskRunner)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrTaskRunner(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -50,9 +53,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public static CfrTaskRunner GetForCurrentThread() {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxTaskRunnerGetForCurrentThreadRemoteCall();
-            call.RequestExecution();
-            return CfrTaskRunner.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrTaskRunner.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -63,10 +67,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public static CfrTaskRunner GetForThread(CfxThreadId threadId) {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxTaskRunnerGetForThreadRemoteCall();
             call.threadId = (int)threadId;
-            call.RequestExecution();
-            return CfrTaskRunner.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrTaskRunner.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -81,10 +86,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool IsSame(CfrTaskRunner that) {
+            var connection = RemotePtr.connection;
             var call = new CfxTaskRunnerIsSameRemoteCall();
             call.@this = RemotePtr.ptr;
+            if(!CfrObject.CheckConnection(that, connection)) throw new ArgumentException("Render process connection mismatch.", "that");
             call.that = CfrObject.Unwrap(that).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -96,9 +103,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool BelongsToCurrentThread() {
+            var connection = RemotePtr.connection;
             var call = new CfxTaskRunnerBelongsToCurrentThreadRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -110,10 +118,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool BelongsToThread(CfxThreadId threadId) {
+            var connection = RemotePtr.connection;
             var call = new CfxTaskRunnerBelongsToThreadRemoteCall();
             call.@this = RemotePtr.ptr;
             call.threadId = (int)threadId;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -126,10 +135,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool PostTask(CfrTask task) {
+            var connection = RemotePtr.connection;
             var call = new CfxTaskRunnerPostTaskRemoteCall();
             call.@this = RemotePtr.ptr;
+            if(!CfrObject.CheckConnection(task, connection)) throw new ArgumentException("Render process connection mismatch.", "task");
             call.task = CfrObject.Unwrap(task).ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -144,11 +155,13 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_task_capi.h">cef/include/capi/cef_task_capi.h</see>.
         /// </remarks>
         public bool PostDelayedTask(CfrTask task, long delayMs) {
+            var connection = RemotePtr.connection;
             var call = new CfxTaskRunnerPostDelayedTaskRemoteCall();
             call.@this = RemotePtr.ptr;
+            if(!CfrObject.CheckConnection(task, connection)) throw new ArgumentException("Render process connection mismatch.", "task");
             call.task = CfrObject.Unwrap(task).ptr;
             call.delayMs = delayMs;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
     }

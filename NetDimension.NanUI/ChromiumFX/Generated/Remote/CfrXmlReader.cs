@@ -25,14 +25,17 @@ namespace Chromium.Remote {
         internal static CfrXmlReader Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrXmlReader)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrXmlReader(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrXmlReader)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrXmlReader(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -45,12 +48,14 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public static CfrXmlReader Create(CfrStreamReader stream, CfxXmlEncodingType encodingType, string uri) {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxXmlReaderCreateRemoteCall();
+            if(!CfrObject.CheckConnection(stream, connection)) throw new ArgumentException("Render process connection mismatch.", "stream");
             call.stream = CfrObject.Unwrap(stream).ptr;
             call.encodingType = (int)encodingType;
             call.uri = uri;
-            call.RequestExecution();
-            return CfrXmlReader.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrXmlReader.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -65,9 +70,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool HasError {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderHasErrorRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -81,9 +87,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public CfxXmlNodeType Type {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetTypeRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return (CfxXmlNodeType)call.__retval;
             }
         }
@@ -97,9 +104,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public int Depth {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetDepthRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -114,9 +122,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string LocalName {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetLocalNameRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -131,9 +140,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string Prefix {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetPrefixRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -148,9 +158,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string QualifiedName {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetQualifiedNameRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -165,9 +176,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string NamespaceUri {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetNamespaceUriRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -182,9 +194,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string BaseUri {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetBaseUriRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -199,9 +212,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string XmlLang {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetXmlLangRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -216,9 +230,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool IsEmptyElement {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderIsEmptyElementRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -232,9 +247,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool HasValue {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderHasValueRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -248,9 +264,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string Value {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetValueRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -264,9 +281,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public bool HasAttributes {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderHasAttributesRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -280,9 +298,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public ulong AttributeCount {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetAttributeCountRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -296,9 +315,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string InnerXml {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetInnerXmlRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -312,9 +332,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public string OuterXml {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetOuterXmlRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -328,9 +349,10 @@ namespace Chromium.Remote {
         /// </remarks>
         public int LineNumber {
             get {
+                var connection = RemotePtr.connection;
                 var call = new CfxXmlReaderGetLineNumberRemoteCall();
                 call.@this = RemotePtr.ptr;
-                call.RequestExecution(RemotePtr.connection);
+                call.RequestExecution(connection);
                 return call.__retval;
             }
         }
@@ -345,9 +367,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToNextNode() {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToNextNodeRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -360,9 +383,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool Close() {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderCloseRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -374,9 +398,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public string GetError() {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderGetErrorRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -388,10 +413,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public string GetAttribute(int index) {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderGetAttributeByIndexRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -403,10 +429,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public string GetAttribute(string qualifiedName) {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderGetAttributeByQNameRemoteCall();
             call.@this = RemotePtr.ptr;
             call.qualifiedName = qualifiedName;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -419,11 +446,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public string GetAttribute(string localName, string namespaceURI) {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderGetAttributeByLNameRemoteCall();
             call.@this = RemotePtr.ptr;
             call.localName = localName;
             call.namespaceURI = namespaceURI;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -436,10 +464,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToAttribute(int index) {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToAttributeByIndexRemoteCall();
             call.@this = RemotePtr.ptr;
             call.index = index;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -452,10 +481,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToAttribute(string qualifiedName) {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToAttributeByQNameRemoteCall();
             call.@this = RemotePtr.ptr;
             call.qualifiedName = qualifiedName;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -469,11 +499,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToAttribute(string localName, string namespaceURI) {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToAttributeByLNameRemoteCall();
             call.@this = RemotePtr.ptr;
             call.localName = localName;
             call.namespaceURI = namespaceURI;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -486,9 +517,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToFirstAttribute() {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToFirstAttributeRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -501,9 +533,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToNextAttribute() {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToNextAttributeRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -516,9 +549,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_xml_reader_capi.h">cef/include/capi/cef_xml_reader_capi.h</see>.
         /// </remarks>
         public bool MoveToCarryingElement() {
+            var connection = RemotePtr.connection;
             var call = new CfxXmlReaderMoveToCarryingElementRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
     }

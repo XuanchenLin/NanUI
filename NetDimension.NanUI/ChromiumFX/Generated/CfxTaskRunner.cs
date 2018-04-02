@@ -27,16 +27,15 @@ namespace Chromium {
 
         internal static CfxTaskRunner Wrap(IntPtr nativePtr) {
             if(nativePtr == IntPtr.Zero) return null;
-            lock(weakCache) {
-                var wrapper = (CfxTaskRunner)weakCache.Get(nativePtr);
-                if(wrapper == null) {
-                    wrapper = new CfxTaskRunner(nativePtr);
-                    weakCache.Add(wrapper);
-                } else {
-                    CfxApi.cfx_release(nativePtr);
-                }
-                return wrapper;
+            bool isNew = false;
+            var wrapper = (CfxTaskRunner)weakCache.GetOrAdd(nativePtr, () =>  {
+                isNew = true;
+                return new CfxTaskRunner(nativePtr);
+            });
+            if(!isNew) {
+                CfxApi.cfx_release(nativePtr);
             }
+            return wrapper;
         }
 
 

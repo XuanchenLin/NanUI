@@ -51,7 +51,10 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxV8AccessorGetEventArgs(name_str, name_length, @object);
+            var e = new CfxV8AccessorGetEventArgs();
+            e.m_name_str = name_str;
+            e.m_name_length = name_length;
+            e.m_object = @object;
             self.m_Get?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -86,7 +89,11 @@ namespace Chromium {
                 exception_gc_handle = IntPtr.Zero;
                 return;
             }
-            var e = new CfxV8AccessorSetEventArgs(name_str, name_length, @object, value);
+            var e = new CfxV8AccessorSetEventArgs();
+            e.m_name_str = name_str;
+            e.m_name_length = name_length;
+            e.m_object = @object;
+            e.m_value = value;
             self.m_Set?.Invoke(self, e);
             e.m_isInvalid = true;
             object_release = e.m_object_wrapped == null? 1 : 0;
@@ -223,11 +230,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxV8AccessorGetEventArgs(IntPtr name_str, int name_length, IntPtr @object) {
-                m_name_str = name_str;
-                m_name_length = name_length;
-                m_object = @object;
-            }
+            internal CfxV8AccessorGetEventArgs() {}
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfxV8Accessor.Get"/> callback.
@@ -323,12 +326,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxV8AccessorSetEventArgs(IntPtr name_str, int name_length, IntPtr @object, IntPtr value) {
-                m_name_str = name_str;
-                m_name_length = name_length;
-                m_object = @object;
-                m_value = value;
-            }
+            internal CfxV8AccessorSetEventArgs() {}
 
             /// <summary>
             /// Get the Name parameter for the <see cref="CfxV8Accessor.Set"/> callback.

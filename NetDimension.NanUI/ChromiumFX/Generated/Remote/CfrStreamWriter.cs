@@ -24,14 +24,17 @@ namespace Chromium.Remote {
         internal static CfrStreamWriter Wrap(RemotePtr remotePtr) {
             if(remotePtr == RemotePtr.Zero) return null;
             var weakCache = CfxRemoteCallContext.CurrentContext.connection.weakCache;
-            lock(weakCache) {
-                var cfrObj = (CfrStreamWriter)weakCache.Get(remotePtr.ptr);
-                if(cfrObj == null) {
-                    cfrObj = new CfrStreamWriter(remotePtr);
-                    weakCache.Add(remotePtr.ptr, cfrObj);
-                }
-                return cfrObj;
+            bool isNew = false;
+            var wrapper = (CfrStreamWriter)weakCache.GetOrAdd(remotePtr.ptr, () =>  {
+                isNew = true;
+                return new CfrStreamWriter(remotePtr);
+            });
+            if(!isNew) {
+                var call = new CfxApiReleaseRemoteCall();
+                call.nativePtr = remotePtr.ptr;
+                call.RequestExecution(remotePtr.connection);
             }
+            return wrapper;
         }
 
 
@@ -43,10 +46,11 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public static CfrStreamWriter CreateForFile(string fileName) {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxStreamWriterCreateForFileRemoteCall();
             call.fileName = fileName;
-            call.RequestExecution();
-            return CfrStreamWriter.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrStreamWriter.Wrap(new RemotePtr(connection, call.__retval));
         }
 
         /// <summary>
@@ -57,10 +61,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public static CfrStreamWriter CreateForHandler(CfrWriteHandler handler) {
+            var connection = CfxRemoteCallContext.CurrentContext.connection;
             var call = new CfxStreamWriterCreateForHandlerRemoteCall();
+            if(!CfrObject.CheckConnection(handler, connection)) throw new ArgumentException("Render process connection mismatch.", "handler");
             call.handler = CfrObject.Unwrap(handler).ptr;
-            call.RequestExecution();
-            return CfrStreamWriter.Wrap(new RemotePtr(call.__retval));
+            call.RequestExecution(connection);
+            return CfrStreamWriter.Wrap(new RemotePtr(connection, call.__retval));
         }
 
 
@@ -74,12 +80,14 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public ulong Write(RemotePtr ptr, ulong size, ulong n) {
+            var connection = RemotePtr.connection;
             var call = new CfxStreamWriterWriteRemoteCall();
             call.@this = RemotePtr.ptr;
+            if(ptr.connection != connection) throw new ArgumentException("Render process connection mismatch.", "ptr");
             call.ptr = ptr.ptr;
             call.size = size;
             call.n = n;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -92,11 +100,12 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public int Seek(long offset, int whence) {
+            var connection = RemotePtr.connection;
             var call = new CfxStreamWriterSeekRemoteCall();
             call.@this = RemotePtr.ptr;
             call.offset = offset;
             call.whence = whence;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -108,9 +117,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public long Tell() {
+            var connection = RemotePtr.connection;
             var call = new CfxStreamWriterTellRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -122,9 +132,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public int Flush() {
+            var connection = RemotePtr.connection;
             var call = new CfxStreamWriterFlushRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
 
@@ -138,9 +149,10 @@ namespace Chromium.Remote {
         /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/capi/cef_stream_capi.h">cef/include/capi/cef_stream_capi.h</see>.
         /// </remarks>
         public bool MayBlock() {
+            var connection = RemotePtr.connection;
             var call = new CfxStreamWriterMayBlockRemoteCall();
             call.@this = RemotePtr.ptr;
-            call.RequestExecution(RemotePtr.connection);
+            call.RequestExecution(connection);
             return call.__retval;
         }
     }

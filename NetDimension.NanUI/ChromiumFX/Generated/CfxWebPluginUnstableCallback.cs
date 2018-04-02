@@ -41,7 +41,10 @@ namespace Chromium {
             if(self == null || self.CallbacksDisabled) {
                 return;
             }
-            var e = new CfxWebPluginUnstableCallbackIsUnstableEventArgs(path_str, path_length, unstable);
+            var e = new CfxWebPluginUnstableCallbackIsUnstableEventArgs();
+            e.m_path_str = path_str;
+            e.m_path_length = path_length;
+            e.m_unstable = unstable;
             self.m_IsUnstable?.Invoke(self, e);
             e.m_isInvalid = true;
         }
@@ -117,11 +120,7 @@ namespace Chromium {
             internal string m_path;
             internal int m_unstable;
 
-            internal CfxWebPluginUnstableCallbackIsUnstableEventArgs(IntPtr path_str, int path_length, int unstable) {
-                m_path_str = path_str;
-                m_path_length = path_length;
-                m_unstable = unstable;
-            }
+            internal CfxWebPluginUnstableCallbackIsUnstableEventArgs() {}
 
             /// <summary>
             /// Get the Path parameter for the <see cref="CfxWebPluginUnstableCallback.IsUnstable"/> callback.

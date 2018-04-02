@@ -561,41 +561,6 @@ namespace Chromium {
         }
 
         /// <summary>
-        /// By default CEF V8 references will be invalidated (the IsValid() method will
-        /// return false) after the owning context has been released. This reduces the
-        /// need for external record keeping and avoids crashes due to the use of V8
-        /// references after the associated context has been released.
-        /// 
-        /// CEF currently offers two context safety implementations with different
-        /// performance characteristics. The default implementation (value of 0) uses a
-        /// map of hash values and should provide better performance in situations with
-        /// a small number contexts. The alternate implementation (value of 1) uses a
-        /// hidden value attached to each context and should provide better performance
-        /// in situations with a large number of contexts.
-        /// 
-        /// If you need better performance in the creation of V8 references and you
-        /// plan to manually track context lifespan you can disable context safety by
-        /// specifying a value of -1.
-        /// 
-        /// Also configurable using the "context-safety-implementation" command-line
-        /// switch.
-        /// </summary>
-        /// <remarks>
-        /// See also the original CEF documentation in
-        /// <see href="https://bitbucket.org/chromiumfx/chromiumfx/src/tip/cef/include/internal/cef_types.h">cef/include/internal/cef_types.h</see>.
-        /// </remarks>
-        public bool ContextSafetyImplementation {
-            get {
-                int value;
-                CfxApi.Settings.cfx_settings_get_context_safety_implementation(nativePtrUnchecked, out value);
-                return 0 != value;
-            }
-            set {
-                CfxApi.Settings.cfx_settings_set_context_safety_implementation(nativePtrUnchecked, value ? 1 : 0);
-            }
-        }
-
-        /// <summary>
         /// Set to true (1) to ignore errors related to invalid SSL certificates.
         /// Enabling this setting can lead to potential security vulnerabilities like
         /// "man in the middle" attacks. Applications that load content from the
@@ -646,10 +611,14 @@ namespace Chromium {
         }
 
         /// <summary>
-        /// Opaque background color used for accelerated content. By default the
-        /// background color will be white. Only the RGB compontents of the specified
-        /// value will be used. The alpha component must greater than 0 to enable use
-        /// of the background color but will be otherwise ignored.
+        /// Background color used for the browser before a document is loaded and when
+        /// no document color is specified. The alpha component must be either fully
+        /// opaque (0xFF) or fully transparent (0x00). If the alpha component is fully
+        /// opaque then the RGB components will be used as the background color. If the
+        /// alpha component is fully transparent for a windowed browser then the
+        /// default value of opaque white be used. If the alpha component is fully
+        /// transparent for a windowless (off-screen) browser then transparent painting
+        /// will be enabled.
         /// </summary>
         /// <remarks>
         /// See also the original CEF documentation in

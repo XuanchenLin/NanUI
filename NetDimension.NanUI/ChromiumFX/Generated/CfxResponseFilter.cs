@@ -64,7 +64,11 @@ namespace Chromium {
                 data_out_written = default(UIntPtr);
                 return;
             }
-            var e = new CfxFilterEventArgs(data_in, data_in_size, data_out, data_out_size);
+            var e = new CfxFilterEventArgs();
+            e.m_data_in = data_in;
+            e.m_data_in_size = data_in_size;
+            e.m_data_out = data_out;
+            e.m_data_out_size = data_out_size;
             self.m_Filter?.Invoke(self, e);
             e.m_isInvalid = true;
             data_in_read = e.m_data_in_read;
@@ -199,8 +203,7 @@ namespace Chromium {
             internal bool m_returnValue;
             private bool returnValueSet;
 
-            internal CfxInitFilterEventArgs() {
-            }
+            internal CfxInitFilterEventArgs() {}
 
             /// <summary>
             /// Set the return value for the <see cref="CfxResponseFilter.InitFilter"/> callback.
@@ -300,12 +303,7 @@ namespace Chromium {
             internal CfxResponseFilterStatus m_returnValue;
             private bool returnValueSet;
 
-            internal CfxFilterEventArgs(IntPtr data_in, UIntPtr data_in_size, IntPtr data_out, UIntPtr data_out_size) {
-                m_data_in = data_in;
-                m_data_in_size = data_in_size;
-                m_data_out = data_out;
-                m_data_out_size = data_out_size;
-            }
+            internal CfxFilterEventArgs() {}
 
             /// <summary>
             /// Get the DataIn parameter for the <see cref="CfxResponseFilter.Filter"/> callback.
