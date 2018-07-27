@@ -149,8 +149,6 @@ namespace NetDimension.NanUI.ResourceHandler
 				return;
 			}
 
-
-
 			var fileName = string.IsNullOrEmpty(domain) ? string.Format("{0}{1}", uri.Authority, uri.AbsolutePath) : uri.AbsolutePath;
 
 			if (fileName.StartsWith("/") && fileName.Length > 1)

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BorderlessFormStyleDemoApp.Properties
+namespace WinXPSupportDemoApp.Properties
 {
 
 

@@ -1,4 +1,4 @@
-﻿namespace BorderlessFormStyleDemoApp
+﻿namespace WinXPSupportDemoApp
 {
 	partial class Form1
 	{
