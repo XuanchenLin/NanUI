@@ -1092,7 +1092,7 @@ namespace Chromium.WebBrowser
 
                 scaleFactor = User32.GetOriginalDeviceScaleFactor(parentWindowHandle);
 
-                Console.WriteLine($"!!! {scaleFactor}");
+                //Console.WriteLine($"!!! {scaleFactor}");
 
                 if (scaleFactor != oldScaleFactor)
                 {
