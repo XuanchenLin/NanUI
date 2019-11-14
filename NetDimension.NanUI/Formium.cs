@@ -1,5 +1,4 @@
 ﻿using Chromium.WebBrowser;
-using NetDimension.Windows.Imports;
 using NetDimension.WinForm;
 using System;
 using System.Collections.Generic;
@@ -169,15 +168,29 @@ namespace NetDimension.NanUI
 				BrowserWrapper.SendToBack();
 				webBrowserForm = new WebBrowserFormImplement(this, this.Chromium);
 				Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
-			}
+
+                this.FormDpiChanged += Formium_FormDpiChanged;
+
+            }
 
 			splashPanel = new SplashPanelImplement(this, this.Chromium);
 
 
 		}
 
+        private void Formium_FormDpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            //RECT bounds = new RECT(e.Bounds);
 
-		private FormV8Handler formV8Handler;
+            //var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(bounds));
+
+            //Marshal.StructureToPtr(bounds, ptr, false);
+
+            //User32.SendMessage(BrowserHandle, (uint)WindowsMessages.WM_DPICHANGED, Win32.MakeParam(new IntPtr(e.Dpi.Width), new IntPtr(e.Dpi.Height)), ptr);
+            BrowserHost.NotifyScreenInfoChanged();
+        }
+
+        private FormV8Handler formV8Handler;
 
 		private void WebBrowserCore_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e)
 		{
@@ -214,36 +227,38 @@ namespace NetDimension.NanUI
 			if (BrowserHandle == IntPtr.Zero) return;
 
 			var msg = (WindowsMessages)e.BrowserMessage.Msg;
-			if (CanResize && msg == WindowsMessages.WM_MOUSEMOVE)
-			{
-				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
-				var mode = GetSizeMode(pt);
+			//if (CanResize && msg == WindowsMessages.WM_MOUSEMOVE)
+			//{
+			//	var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
+			//	var mode = GetSizeMode(pt);
 
-				if (mode != HitTest.HTCLIENT)
-				{
-					User32.ClientToScreen(FormHandle, ref pt);
-					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCHITTEST, IntPtr.Zero, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
-					e.Handled = true;
-				}
-			}
+			//	if (mode != HitTest.HTCLIENT)
+			//	{
+			//		User32.ClientToScreen(FormHandle, ref pt);
+			//		User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCHITTEST, IntPtr.Zero, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
+			//		e.Handled = true;
+			//	}
+			//}
 
 			if (msg == WindowsMessages.WM_LBUTTONDOWN)
 			{
 				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
 				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));
 
-				var mode = GetSizeMode(pt);
-				if (CanResize && mode != HitTest.HTCLIENT)
-				{
+				//var mode = GetSizeMode(pt);
+				//if (CanResize && mode != HitTest.HTCLIENT)
+				//{
 
-					User32.ClientToScreen(FormHandle, ref pt);
+				//	User32.ClientToScreen(FormHandle, ref pt);
 
-					User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)mode, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
+				//	User32.PostMessage(FormHandle, (uint)WindowsMessages.WM_NCLBUTTONDOWN, (IntPtr)mode, Win32.MakeParam((IntPtr)pt.x, (IntPtr)pt.y));
 
-					e.Handled = true;
+				//	e.Handled = true;
 
-				}
-				else if (dragable && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
+				//}
+				//else 
+                
+                if (dragable && !(FormBorderStyle == FormBorderStyle.None && WindowState == FormWindowState.Maximized))
 				{
 					Browser.Host.NotifyMoveOrResizeStarted();
 
@@ -254,7 +269,7 @@ namespace NetDimension.NanUI
 				}
 			}
 
-			if (CanResize && msg == WindowsMessages.WM_LBUTTONDBLCLK)
+			if ((FormBorderStyle == FormBorderStyle.SizableToolWindow || FormBorderStyle == FormBorderStyle.Sizable) && msg == WindowsMessages.WM_LBUTTONDBLCLK)
 			{
 				var pt = Win32.GetPostionFromPtr(e.BrowserMessage.LParam);
 				var dragable = (Chromium.DraggableRegion != null && Chromium.DraggableRegion.IsVisible(new Point(pt.x, pt.y)));

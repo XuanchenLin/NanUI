@@ -1,4 +1,4 @@
-﻿namespace NetDimension.Windows.Imports
+﻿namespace NetDimension.WinForm
 {
 	public enum DefMessages
 	{

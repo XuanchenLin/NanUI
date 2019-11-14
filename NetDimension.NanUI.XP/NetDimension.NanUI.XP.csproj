@@ -144,24 +144,28 @@
     <Compile Include="..\NetDimension.NanUI\WinForm\ControlExtensions.cs">
       <Link>WinForm\ControlExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormGlowBorderDecorator.cs">
-      <Link>WinForm\FormShadow\FormGlowBorderDecorator.cs</Link>
+    <Compile Include="..\NetDimension.NanUI\WinForm\Internal\ChromeDecorator.cs">
+      <Link>WinForm\ChromeDecorator.cs</Link>
     </Compile>
-    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormGlowBorderElement.cs">
-      <Link>WinForm\FormShadow\FormGlowBorderElement.cs</Link>
+    <Compile Include="..\NetDimension.NanUI\WinForm\Internal\ChromeShadowElement.cs">
+      <Link>WinForm\ChromeShadowElement.cs</Link>
     </Compile>
-    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadow.cs">
-      <Link>WinForm\FormShadow\FormShadow.cs</Link>
+    <Compile Include="..\NetDimension.NanUI\WinForm\Internal\DpiChangedEventArgs.cs">
+      <Link>WinForm\DpiChangedEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadowDecorator.cs">
-      <Link>WinForm\FormShadow\FormShadowDecorator.cs</Link>
-    </Compile>
-    <Compile Include="..\NetDimension.NanUI\WinForm\FormShadow\FormShadowElement.cs">
-      <Link>WinForm\FormShadow\FormShadowElement.cs</Link>
+    <Compile Include="..\NetDimension.NanUI\WinForm\Internal\FormChrome.cs">
+      <Link>WinForm\FormChrome.cs</Link>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="..\NetDimension.NanUI\WinForm\ModernUIForm.cs">
       <Link>WinForm\ModernUIForm.cs</Link>
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\Utils\FormStyleHelper.cs">
+      <Link>WinForm\FormStyleHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\NetDimension.NanUI\WinForm\Utils\LockBitmap.cs">
+      <Link>WinForm\LockBitmap.cs</Link>
     </Compile>
     <Compile Include="ChromiumFX\Generated\CfxApi.cs" />
     <Compile Include="ChromiumFX\Generated\CfxApiLoader.cs" />

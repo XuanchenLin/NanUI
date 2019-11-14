@@ -410,14 +410,17 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinForm\ControlExtensions.cs" />
-    <Compile Include="WinForm\FormShadow\FormGlowBorderDecorator.cs" />
-    <Compile Include="WinForm\FormShadow\FormGlowBorderElement.cs" />
-    <Compile Include="WinForm\FormShadow\FormShadow.cs" />
-    <Compile Include="WinForm\FormShadow\FormShadowDecorator.cs" />
-    <Compile Include="WinForm\FormShadow\FormShadowElement.cs" />
+    <Compile Include="WinForm\Internal\ChromeDecorator.cs" />
+    <Compile Include="WinForm\Internal\ChromeShadowElement.cs" />
+    <Compile Include="WinForm\Internal\DpiChangedEventArgs.cs" />
+    <Compile Include="WinForm\Internal\FormChrome.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\ModernUIForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinForm\Utils\FormStyleHelper.cs" />
+    <Compile Include="WinForm\Utils\LockBitmap.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

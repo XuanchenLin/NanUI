@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace NetDimension.Windows.Imports
+namespace NetDimension.WinForm
 {
 	//你不需要知道这里面发生了什么。
 	//YOU DO NOT NEED HAVE TO KNOW WHAT IS HAPPEND HERE.
@@ -111,7 +111,67 @@ namespace NetDimension.Windows.Imports
 
 	}
 
-	public struct MARGINS                           // struct for box shadow
+    public enum IDC_STANDARD_CURSORS
+    {
+        IDC_ARROW = 32512,
+        IDC_IBEAM = 32513,
+        IDC_WAIT = 32514,
+        IDC_CROSS = 32515,
+        IDC_UPARROW = 32516,
+        IDC_SIZE = 32640,
+        IDC_ICON = 32641,
+        IDC_SIZENWSE = 32642,
+        IDC_SIZENESW = 32643,
+        IDC_SIZEWE = 32644,
+        IDC_SIZENS = 32645,
+        IDC_SIZEALL = 32646,
+        IDC_NO = 32648,
+        IDC_HAND = 32649,
+        IDC_APPSTARTING = 32650,
+        IDC_HELP = 32651
+    }
+
+    /// <summary>
+    /// The services requested. This member can be a combination of the following values.
+    /// </summary>
+    /// <seealso cref="http://msdn.microsoft.com/en-us/library/ms645604%28v=vs.85%29.aspx"/>
+    [Flags]
+    public enum TMEFlags : uint
+    {
+        /// <summary>
+        /// The caller wants to cancel a prior tracking request. The caller should also specify the type of tracking that it wants to cancel. For example, to cancel hover tracking, the caller must pass the TME_CANCEL and TME_HOVER flags.
+        /// </summary>
+        TME_CANCEL = 0x80000000,
+        /// <summary>
+        /// The caller wants hover notification. Notification is delivered as a WM_MOUSEHOVER message.
+        /// If the caller requests hover tracking while hover tracking is already active, the hover timer will be reset.
+        /// This flag is ignored if the mouse pointer is not over the specified window or area.
+        /// </summary>
+        TME_HOVER = 0x00000001,
+        /// <summary>
+        /// The caller wants leave notification. Notification is delivered as a WM_MOUSELEAVE message. If the mouse is not over the specified window or area, a leave notification is generated immediately and no further tracking is performed.
+        /// </summary>
+        TME_LEAVE = 0x00000002,
+        /// <summary>
+        /// The caller wants hover and leave notification for the nonclient areas. Notification is delivered as WM_NCMOUSEHOVER and WM_NCMOUSELEAVE messages.
+        /// </summary>
+        TME_NONCLIENT = 0x00000010,
+        /// <summary>
+        /// The function fills in the structure instead of treating it as a tracking request. The structure is filled such that had that structure been passed to TrackMouseEvent, it would generate the current tracking. The only anomaly is that the hover time-out returned is always the actual time-out and not HOVER_DEFAULT, if HOVER_DEFAULT was specified during the original TrackMouseEvent request.
+        /// </summary>
+        TME_QUERY = 0x40000000,
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct TRACKMOUSEEVENTS
+    {
+        public uint cbSize;
+        public uint dwFlags;
+        public IntPtr hWnd;
+        public uint dwHoverTime;
+    }
+
+    public struct MARGINS                           // struct for box shadow
 	{
 		public int leftWidth;
 		public int rightWidth;
@@ -805,19 +865,19 @@ namespace NetDimension.Windows.Imports
 	[Flags()]
 	internal enum DCX
 	{
-		DCX_CACHE = 0x2,
-		DCX_CLIPCHILDREN = 0x8,
-		DCX_CLIPSIBLINGS = 0x10,
-		DCX_EXCLUDERGN = 0x40,
-		DCX_EXCLUDEUPDATE = 0x100,
-		DCX_INTERSECTRGN = 0x80,
-		DCX_INTERSECTUPDATE = 0x200,
-		DCX_LOCKWINDOWUPDATE = 0x400,
-		DCX_NORECOMPUTE = 0x100000,
-		DCX_NORESETATTRS = 0x4,
-		DCX_PARENTCLIP = 0x20,
-		DCX_VALIDATE = 0x200000,
-		DCX_WINDOW = 0x1,
+		CACHE = 0x2,
+		CLIPCHILDREN = 0x8,
+        CLIPSIBLINGS = 0x10,
+		EXCLUDERGN = 0x40,
+		EXCLUDEUPDATE = 0x100,
+		INTERSECTRGN = 0x80,
+		INTERSECTUPDATE = 0x200,
+		LOCKWINDOWUPDATE = 0x400,
+        NORECOMPUTE = 0x100000,
+		NORESETATTRS = 0x4,
+		PARENTCLIP = 0x20,
+		VALIDATE = 0x200000,
+		WINDOW = 0x1,
 	}
 
 	[Flags]

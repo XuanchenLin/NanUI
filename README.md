@@ -37,15 +37,49 @@ Another version of NanUI that supports **Windows XP** is now can be downloaded o
 PM> Install-Package NetDimension.NanUI.XP
 ```
 
+**Support for High Dpi Monitors**
+You should add and modify Application Manifest File to enable this feature:
+
+1. Set DpiAware Attribute to true to enable high dpi support.
+```
+<application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
+    </windowsSettings>
+</application>
+```
+
+2. If you are running in Windows 8.1, set DpiAwareness Attribute to PerMonitor to enable per monitor diffirent dpi in mulit monitors.
+```
+<application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
+        <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitor</dpiAwareness>
+    </windowsSettings>
+</application>
+```
+
+3. If you are running in Windows 10 create update (or later), set DpiAwareness Attribute to PerMonitorV2 to enable per monitor diffirent dpi in mulit monitors with advanced features.
+```
+<application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
+        <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2</dpiAwareness>
+    </windowsSettings>
+</application>
+```
+
+
+
 
 
 **Download Manually**
 - [NetDimension.NanUI](https://www.nuget.org/packages/NetDimension.NanUI/) - NanUI main library
-- [NetDimension.NanUI.Cef2987](https://www.nuget.org/packages/NetDimension.NanUI.Cef2987/) - Dependencies of NanUI (Include CEF3.2987.1601.0 and ChromiumFX3.2987.1601 binaries)
+- [NetDimension.NanUI.Cef3239](https://www.nuget.org/packages/NetDimension.NanUI.Cef3239/) - Dependencies of NanUI (Include CEF3.3239.1723 and ChromiumFX3.3239.1723 binaries)
 
 ## Changes
 
-Latest change at 2018/3/2, see [here](https://github.com/NetDimension/NanUI/blob/master/changes.txt) to check the details.
+Latest change at 2019/11/15, see [here](https://github.com/NetDimension/NanUI/blob/master/changes.txt) to check the details.
 
 
 ## Basic Usage
@@ -54,32 +88,32 @@ Latest change at 2018/3/2, see [here](https://github.com/NetDimension/NanUI/blob
 ```C#
 namespace TestApplication
 {
-	using NetDimension.NanUI;
-	static class Program
-	{
-		[STAThread]
-		static void Main(string[] args)
-		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+    using NetDimension.NanUI;
+    static class Program
+    {
+        [STAThread]
+        static void Main(string[] args)
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-			//Initalize: set CEF paths
-			//If you use default structure of the FX folder, you should provide paths of fx folder, resources folder and locales folder.
+            //Initalize: set CEF paths
+            //If you use default structure of the FX folder, you should provide paths of fx folder, resources folder and locales folder.
 
-			var result = Bootstrap.Load();
-			
-			if (result)
-			{
-				// Load embedded html/css resources in assembly.
-				Bootstrap.RegisterAssemblyResources(System.Reflection.Assembly.GetExecutingAssembly());
+            var result = Bootstrap.Load();
+            
+            if (result)
+            {
+                // Load embedded html/css resources in assembly.
+                Bootstrap.RegisterAssemblyResources(System.Reflection.Assembly.GetExecutingAssembly());
 
-				Application.Run(new Form1());
+                Application.Run(new Form1());
 
-				Application.Exit();
-			}
+                Application.Exit();
+            }
 
-		}
-	}
+        }
+    }
 }
 
 ```
@@ -89,17 +123,17 @@ namespace TestApplication
 ```C#
 namespace TestApplication
 {
-	public partial class Form1 : WinFormium
+    public partial class Form1 : WinFormium
 
-	{
+    {
 
-		public Form1()
-			//Load embedded resource index.html and not set form to no border style by the second parameter.
-			: base("http://res.app.local/index.html")
-		{
-			InitializeComponent();
-		}
-	}
+        public Form1()
+            //Load embedded resource index.html and not set form to no border style by the second parameter.
+            : base("http://res.app.local/index.html")
+        {
+            InitializeComponent();
+        }
+    }
 }
 ```
 
@@ -107,17 +141,17 @@ namespace TestApplication
 ```C#
 namespace TestApplication
 {
-	public partial class Form1 : Formium
+    public partial class Form1 : Formium
 
-	{
+    {
 
-		public Form1()
-			//Load embedded resource index.html and set form to no border style by igrone the second parameter or set it to true.
-			: base("http://res.app.local/index.html")
-		{
-			InitializeComponent();
-		}
-	}
+        public Form1()
+            //Load embedded resource index.html and set form to no border style by igrone the second parameter or set it to true.
+            : base("http://res.app.local/index.html")
+        {
+            InitializeComponent();
+        }
+    }
 }
 ```
 

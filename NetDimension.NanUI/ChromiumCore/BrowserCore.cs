@@ -4,7 +4,6 @@ using Chromium.Remote;
 using Chromium.Remote.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
-using NetDimension.Windows.Imports;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NetDimension.NanUI;
+using NetDimension.WinForm;
 
 namespace Chromium.WebBrowser
 {
@@ -220,6 +220,7 @@ namespace Chromium.WebBrowser
 
 
 		private Region draggableRegion = null;
+        private float oldScaleFactor = 0f;
 		private float scaleFactor = 1.0f;
 
 		private readonly object browserSyncRoot = new object();
@@ -1052,7 +1053,7 @@ namespace Chromium.WebBrowser
 			}
 		}
 
-
+        
 
 		/// <summary>
 		/// INITIALIZE BROWSER.
@@ -1084,31 +1085,59 @@ namespace Chromium.WebBrowser
 				}
 			};
 
+            
+
 			DragHandler.OnDraggableRegionsChanged += (that, args) =>
 			{
-				var regions = args.Regions;
 
-				if (regions.Length > 0)
+                scaleFactor = User32.GetOriginalDeviceScaleFactor(parentWindowHandle);
+
+                Console.WriteLine($"!!! {scaleFactor}");
+
+                if (scaleFactor != oldScaleFactor)
+                {
+
+                    if (draggableRegion != null)
+                    {
+                        draggableRegion.Dispose();
+                        draggableRegion = null;
+
+                    }
+
+                    oldScaleFactor = scaleFactor;
+
+                    
+
+                    //Console.WriteLine("[DPI CHANGED] Remove draggable region");
+                }
+
+
+
+                var regions = args.Regions;
+
+
+
+                if (regions.Length > 0)
 				{
 					foreach (var region in regions)
 					{
 						var rect = new Rectangle((int)(region.Bounds.X * scaleFactor), (int)(region.Bounds.Y * scaleFactor), (int)(region.Bounds.Width * scaleFactor), (int)(region.Bounds.Height * scaleFactor));
-						if (draggableRegion == null)
-						{
-							draggableRegion = new Region(rect);
-						}
-						else
-						{
-							if (region.Draggable)
-							{
-								draggableRegion.Union(rect);
-							}
-							else
-							{
-								draggableRegion.Exclude(rect);
-							}
-						}
-					}
+                        if (draggableRegion == null)
+                        {
+                            draggableRegion = new Region(rect);
+                        }
+                        else
+                        {
+                            if (region.Draggable)
+                            {
+                                draggableRegion.Union(rect);
+                            }
+                            else
+                            {
+                                draggableRegion.Exclude(rect);
+                            }
+                        }
+                    }
 				}
 			};
 

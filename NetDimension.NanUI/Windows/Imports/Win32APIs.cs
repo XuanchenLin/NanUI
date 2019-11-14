@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace NetDimension.Windows.Imports
+namespace NetDimension.WinForm
 {
 	//你不需要知道这里面发生了什么。
 	//YOU DO NOT NEED HAVE TO KNOW WHAT IS HAPPEND HERE.
@@ -39,7 +39,11 @@ namespace NetDimension.Windows.Imports
 
 	public class User32
 	{
-		[DllImport("User32.dll")]
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        internal static extern bool TrackMouseEvent(ref TRACKMOUSEEVENTS tme);
+
+        [DllImport("User32.dll")]
 		internal static extern IntPtr GetParent(IntPtr hWnd);
 
 		[DllImport("User32.dll")]
@@ -268,7 +272,19 @@ namespace NetDimension.Windows.Imports
 		[DllImport("user32.dll")]
 		public static extern int TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
 
-		public static uint HiWord(IntPtr ptr)
+
+        public static uint LOWORD(IntPtr ptr)
+        {
+            return LoWord(ptr);
+        }
+
+        public static uint HIWORD(IntPtr ptr)
+        {
+            return HiWord(ptr);
+        }
+
+
+        public static uint HiWord(IntPtr ptr)
 		{
 			if (((uint)ptr & 0x80000000) == 0x80000000)
 			{

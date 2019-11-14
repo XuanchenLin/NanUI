@@ -1,6 +1,6 @@
 ﻿using Chromium.Remote;
 using Chromium.WebBrowser;
-using NetDimension.Windows.Imports;
+using NetDimension.WinForm;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
