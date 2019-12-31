@@ -35,8 +35,8 @@ namespace NetDimension.WinForm
         private Size maxSizeState;
         private Stack<Dictionary<Control, AnchorStyles>> anchorsStack;
 
-        protected static readonly Point minimizedFormLocation = new Point(-32000, -32000);
-        protected static readonly Point InvalidPoint = new Point(-10000, -10000);
+        private static readonly Point minimizedFormLocation = new Point(-32000, -32000);
+        internal static readonly Point InvalidPoint = new Point(-10000, -10000);
         private Rectangle regionRect = Rectangle.Empty;
 
         private int isInitializing = 0;
@@ -297,44 +297,39 @@ namespace NetDimension.WinForm
 
             }
 
-            if(processDpiAwareness == PROCESS_DPI_AWARENESS.PROCESS_PER_MONITOR_DPI_AWARE)
+
+            if (FormStyleHelper.IsWindows8OrLower)
             {
-                if (FormStyleHelper.IsWindows8OrLower)
+                float dx, dy;
+                Graphics g = this.CreateGraphics();
+
+                try
                 {
-                    float dx, dy;
-                    Graphics g = this.CreateGraphics();
-
-                    try
-                    {
-                        dx = g.DpiX;
-                        dy = g.DpiY;
-                    }
-                    finally
-                    {
-                        g.Dispose();
-                    }
-
-                    oldDpi = currentDpi;
-
-                    startupDpi = currentDpi = (int)dx;
-
+                    dx = g.DpiX;
+                    dy = g.DpiY;
                 }
-                else
+                finally
                 {
-                    var currentScreen = Screen.FromHandle(Handle);
-                    GetDpiForScreen(currentScreen, DpiType.Effective, out var dpiX, out var dpiY);
-
-                    oldDpi = currentDpi;
-
-                    startupDpi = currentDpi = (int)dpiX;
+                    g.Dispose();
                 }
 
+                oldDpi = currentDpi;
 
-                WriteConsoleLog($"INITIALIZED DPI = {startupDpi}");
+                startupDpi = currentDpi = (int)dx;
+
+            }
+            else
+            {
+                var currentScreen = Screen.FromHandle(Handle);
+                GetDpiForScreen(currentScreen, DpiType.Effective, out var dpiX, out var dpiY);
+
+                oldDpi = currentDpi;
+
+                startupDpi = currentDpi = (int)dpiX;
             }
 
 
-
+            WriteConsoleLog($"INITIALIZED DPI = {startupDpi}");
 
 
         }
@@ -358,7 +353,7 @@ namespace NetDimension.WinForm
         private void HandleDpiChanged()
         {
 
-
+            currentDpi = User32.GetOriginalDeviceDpi(Handle);
 
             float scaleFactor = 1f;
 
@@ -387,6 +382,10 @@ namespace NetDimension.WinForm
                 return;
             }
 
+
+
+
+
             this.maxSizeState = this.MaximumSize;
             this.minSizeState = this.MinimumSize;
             this.MinimumSize = Size.Empty;
@@ -394,6 +393,7 @@ namespace NetDimension.WinForm
 
             this.SaveAnchorStates();
             this.Scale(new SizeF(scaleFactor, scaleFactor));
+            //lastChangedDpi = currentDpi;
             this.RestoreAnchorStates();
 
 
@@ -402,26 +402,16 @@ namespace NetDimension.WinForm
             this.MinimumSize = FormStyleHelper.ScaleSize(minSizeState, new SizeF(scaleFactor, scaleFactor));
             this.MaximumSize = FormStyleHelper.ScaleSize(maxSizeState, new SizeF(scaleFactor, scaleFactor));
 
-            RECT clientRect = new RECT();
-            User32.GetClientRect(Handle, ref clientRect);
-
-
-            OnFormDpiChanged(new DpiChangedEventArgs(currentDpi, currentDpi, clientRect.ToRectangle()));
         }
 
-        public event EventHandler<DpiChangedEventArgs> FormDpiChanged;
 
-        protected virtual void OnFormDpiChanged(DpiChangedEventArgs e)
+
+        protected virtual bool OnWMDpiChanged(ref Message m)
         {
-            FormDpiChanged?.Invoke(this, e);
-        }
-
-        protected virtual void OnWMDpiChanged(ref Message m)
-        {
-
-            if (scaling) {
+            if (scaling)
+            {
                 oldDpi = currentDpi;
-                return;
+                return false;
             }
             else
             {
@@ -430,17 +420,15 @@ namespace NetDimension.WinForm
             }
 
 
-            
+
 
             WriteConsoleLog($"[WM_DPICHANGED]: {oldDpi} -> {currentDpi}");
 
-            
-            
 
 
             if (!loaded)
             {
-                return;
+                return false;
             }
 
             if (oldDpi != currentDpi)
@@ -458,8 +446,11 @@ namespace NetDimension.WinForm
                     shouldScale = false;
                 }
 
-
+                return true;
             }
+
+            return false;
+
         }
 
         protected override void OnResizeBegin(EventArgs e)
@@ -468,53 +459,65 @@ namespace NetDimension.WinForm
 
             base.OnResizeBegin(e);
 
-
-
         }
+
+
 
         protected override void OnResizeEnd(EventArgs e)
         {
             base.OnResizeEnd(e);
 
-
-
             this.isMoving = false;
 
-
-
-            if (shouldScale)
+            if (shouldScale || ShouldPerformScaling())
             {
-                //WriteConsoleLog($"[RESIZE END] {shouldScale} {DpiScaleFactor}");
+                WriteConsoleLog($"[RESIZE END] {shouldScale} {DpiScaleFactor}");
+
+
                 shouldScale = false;
+
+
                 HandleDpiChanged();
-
-
             }
-
-
-
         }
 
         protected override void OnMove(EventArgs e)
         {
             base.OnMove(e);
 
-            if (this.shouldScale && CanPerformScaling())
+            if (this.shouldScale)
             {
-                
                 WriteConsoleLog($"[MOVE CHANGE] {shouldScale} {DpiScaleFactor}");
-                shouldScale = false;
+
+
+                this.shouldScale = false;
+
                 HandleDpiChanged();
             }
+        }
+
+
+        private bool ShouldPerformScaling()
+        {
+            var dpi = User32.GetOriginalDeviceDpi(Handle);
+
+            if(dpi != currentDpi)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private bool CanPerformScaling()
         {
             Screen screen = Screen.FromHandle(Handle);
 
+
+
             //Screen screen = Screen.FromPoint(Location);
 
-            if (screen.Bounds.IntersectsWith(this.Bounds))
+            if (screen.Bounds.Contains(this.Bounds))
             {
                 //WriteConsoleLog($"Form in [{screen}] is {screen.Bounds.Contains(this.Bounds)}");
 
@@ -523,6 +526,7 @@ namespace NetDimension.WinForm
 
             return false;
         }
+
 
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
@@ -576,7 +580,7 @@ namespace NetDimension.WinForm
             if (control.Parent == null)
             {
                 control.Font = newFont;
-                WriteConsoleLog($"[FORM FONT CHANGED]:{oldFont.Size} -> {control.Font.Size} {control.Font.Unit}");
+                //WriteConsoleLog($"[FORM FONT CHANGED]:{oldFont.Size} -> {control.Font.Size} {control.Font.Unit}");
             }
             else if (control.Font != control.TopLevelControl.Font)
             {
@@ -584,7 +588,7 @@ namespace NetDimension.WinForm
                 control.Font = newFont;
 
 
-                WriteConsoleLog($"[CONTROL FONT CHANGED]:{oldFont.Size} -> {control.Font.Size} {control.Font.Unit}");
+                //WriteConsoleLog($"[CONTROL FONT CHANGED]:{oldFont.Size} -> {control.Font.Size} {control.Font.Unit}");
             }
 
 
@@ -759,70 +763,117 @@ namespace NetDimension.WinForm
 
         }
 
-        static readonly Dictionary<FormBorderStyle, Padding> StandardPaddings = new Dictionary<FormBorderStyle, Padding>
-        {
-            [FormBorderStyle.None] = new Padding(0, 0, 0, 0),
-            [FormBorderStyle.FixedSingle] = new Padding(3, 26, 3, 3),
-            [FormBorderStyle.Fixed3D] = new Padding(5, 28, 5, 5),
-            [FormBorderStyle.FixedDialog] = new Padding(3, 26, 3, 3),
-            [FormBorderStyle.Sizable] = new Padding(8, 31, 8, 8),
-            [FormBorderStyle.FixedToolWindow] = new Padding(3, 26, 3, 3),
-            [FormBorderStyle.SizableToolWindow] = new Padding(8, 31, 8, 8),
+        //static readonly Dictionary<FormBorderStyle, Padding> StandardPaddings = new Dictionary<FormBorderStyle, Padding>
+        //{
+        //    [FormBorderStyle.None] = new Padding(0, 0, 0, 0),
+        //    [FormBorderStyle.FixedSingle] = new Padding(3, 26, 3, 3),
+        //    [FormBorderStyle.Fixed3D] = new Padding(5, 28, 5, 5),
+        //    [FormBorderStyle.FixedDialog] = new Padding(3, 26, 3, 3),
+        //    [FormBorderStyle.Sizable] = new Padding(8, 31, 8, 8),
+        //    [FormBorderStyle.FixedToolWindow] = new Padding(3, 26, 3, 3),
+        //    [FormBorderStyle.SizableToolWindow] = new Padding(8, 31, 8, 8),
 
-        };
+        //};
+
+
 
         Padding ScalePadding(Padding value)
         {
 
-
-            var dpi = currentDpi;
-
+            var scaleFactor = 1f;
             var hMonitor = User32.MonitorFromWindow(Handle, (uint)MonitorFromWindowFlags.MONITOR_DEFAULTTONEAREST);
 
             try
             {
-                //GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int x, out int y);
-                User32.GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int x, out int y);
-                dpi = x;
+                User32.GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int dx, out int dy);
 
-                WriteConsoleLog($"SCREEN DPI: {dpi}");
+                scaleFactor = dx / (float)designTimeDpi;
             }
             catch
             {
-
             }
 
-            var scaleFactor = dpi / (float)designTimeDpi;
+            
 
-            var paddings = StandardPaddings[FormBorderStyle]; //something incorect.
+            var standardScale = startupDpi / (float)designTimeDpi;
 
-
+            var standardBorder = (int)Math.Ceiling((value.Bottom - 2) / standardScale) + 2;
+            var standardCaption = (int)Math.Round((SystemInformation.CaptionHeight) / standardScale, MidpointRounding.AwayFromZero);
             Padding result;
 
-            switch (FormBorderStyle)
-            {
+            var border = (int)Math.Floor((standardBorder - 2) * scaleFactor) + 2;
+            var caption = (int)Math.Round((standardCaption) * scaleFactor, MidpointRounding.ToEven) + border;
 
-                case FormBorderStyle.FixedSingle:
-                case FormBorderStyle.Fixed3D:
-                case FormBorderStyle.FixedDialog:
-                case FormBorderStyle.FixedToolWindow:
-                    result = new Padding(paddings.Left, (int)Math.Round((paddings.Top - paddings.Bottom) * scaleFactor, MidpointRounding.AwayFromZero) + paddings.Bottom, paddings.Right, paddings.Bottom);
-                    break;
-                case FormBorderStyle.Sizable:
-                case FormBorderStyle.SizableToolWindow:
-                    result = new Padding(
-                        (int)((paddings.Left - 2) * scaleFactor + 2f),
-                        (int)((paddings.Top - 2) * scaleFactor + 2f),
-                        (int)((paddings.Right - 2) * scaleFactor + 2f),
-                        (int)((paddings.Bottom - 2) * scaleFactor + 2f));
 
-                    break;
-                default:
-                    return value;
-            }
 
+            result = new Padding(border, caption, border, border);
 
             return result;
+
+            //var scaleFactor = dpi / (float)designTimeDpi;
+            //var paddings = StandardPaddings[FormBorderStyle]; //something incorect.
+            //var captionHeight = SystemInformation.CaptionHeight;
+            //var border3DSize = SystemInformation.Border3DSize;
+            //var borderSize = SystemInformation.FixedFrameBorderSize;
+
+            //var sizingBorderSize = SystemInformation.SizingBorderWidth;
+
+
+            //var borderSize = SystemInformation.BorderSize;
+            //var frameBorder = SystemInformation.FrameBorderSize;
+            //var fixedBorder = SystemInformation.FixedFrameBorderSize;
+            //var threeD = SystemInformation.Border3DSize;
+            //var resizeBorder = SystemInformation.SizingBorderWidth;
+
+            //var caption = 0;
+            //var border = 0;
+
+            //if (scaleFactor < 1)
+            //{
+            //    caption = (int)Math.Floor(SystemInformation.CaptionHeight * scaleFactor);
+            //    border = (int)Math.Floor((double)value.Bottom * scaleFactor);
+            //}
+            //else
+            //{
+            //    caption = (int)Math.Ceiling(SystemInformation.CaptionHeight * scaleFactor);
+            //    border = (int)Math.Ceiling((double)value.Bottom * scaleFactor);
+            //}
+
+            //border = (int)(scaleFactor < 0f ? Math.Floor((value.Bottom - 2) * scaleFactor) : Math.Ceiling((value.Bottom - 2) * scaleFactor)) + 2;
+
+            //border = (int)Math.Ceiling((value.Bottom - 2) * scaleFactor) + 2;
+
+
+            //WriteConsoleLog($"Default:\t[C]{standardCaption} [B]{standardBorder}");
+            //WriteConsoleLog($"Scaled:\t\t[C]{caption-border} [B]{border}");
+
+
+
+
+
+            //switch (FormBorderStyle)
+            //{
+
+            //    case FormBorderStyle.FixedSingle:
+            //    case FormBorderStyle.Fixed3D:
+            //    case FormBorderStyle.FixedDialog:
+            //    case FormBorderStyle.FixedToolWindow:
+            //        result = new Padding(paddings.Left, (int)Math.Round((paddings.Top - paddings.Bottom) * scaleFactor, MidpointRounding.ToEven) + paddings.Bottom, paddings.Right, paddings.Bottom);
+            //        break;
+            //    case FormBorderStyle.Sizable:
+            //    case FormBorderStyle.SizableToolWindow:
+            //        result = new Padding(
+            //            (int)((paddings.Left - 2) * scaleFactor + 2f),
+            //            (int)((paddings.Top - 2) * scaleFactor + 2f),
+            //            (int)((paddings.Right - 2) * scaleFactor + 2f),
+            //            (int)((paddings.Bottom - 2) * scaleFactor + 2f));
+
+            //        break;
+            //    default:
+            //        return value;
+            //}
+
+
 
 
         }
@@ -1401,8 +1452,8 @@ namespace NetDimension.WinForm
 
 
 
-            OnMinimumClientSizeChanged();
-            OnMaximumClientSizeChanged();
+            //OnMinimumClientSizeChanged();
+            //OnMaximumClientSizeChanged();
 
             CalcFormBounds();
 
@@ -1854,7 +1905,7 @@ namespace NetDimension.WinForm
             return new Size(rect.right, rect.bottom);
         }
 
-        
+
         #endregion
 
         /// <summary>
@@ -1887,10 +1938,7 @@ namespace NetDimension.WinForm
                 switch ((WindowsMessages)m.Msg)
                 {
                     case WindowsMessages.WM_DPICHANGED:
-
-                        OnWMDpiChanged(ref m);
-
-
+                        processed = OnWMDpiChanged(ref m);
                         break;
 
                     case WindowsMessages.WM_NCPAINT:
@@ -1995,8 +2043,6 @@ namespace NetDimension.WinForm
             if (!processed)
                 base.WndProc(ref m);
         }
-
-
 
         #region Windows Message Handlers
         private void OnWMMove(ref Message m)

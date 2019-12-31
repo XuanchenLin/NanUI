@@ -52,12 +52,12 @@ namespace NetDimension.WinForm
 
         public static Padding ScalePadding(Padding value, SizeF scaleFactor)
         {
-            MidpointRounding mode = MidpointRounding.AwayFromZero;
+            //MidpointRounding mode = MidpointRounding.AwayFromZero;
 
-            if (scaleFactor.Width < 1f)
-            {
-                mode = MidpointRounding.ToEven;
-            }
+            //if (scaleFactor.Width < 1f)
+            //{
+            //    mode = MidpointRounding.ToEven;
+            //}
 
 
 

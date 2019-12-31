@@ -45,22 +45,6 @@ namespace NetDimension.WinForm
 			return new POINT(x, y);
 		}
 
-		//internal static HitTest GetSizeMode(Form form, POINT point)
-		//{
-		//	HitTest mode = HitTest.HTCLIENT;
-
-		//	int x = point.x, y = point.y;
-
-		//	if (form.WindowState == FormWindowState.Normal && (form.FormBorderStyle == FormBorderStyle.SizableToolWindow || form.FormBorderStyle == FormBorderStyle.Sizable))
-		//	{
-		//		var rect = new RECT();
-		//		User32.GetWindowRect(form.Handle, ref rect);
-		//		mode = Win32.GetSizeMode(point, rect.Width, rect.Height);
-		//	}
-
-		//	return mode;
-		//}
-
 		internal static HitTest GetSizeMode(POINT point, int width, int height)
 		{
 			HitTest mode = HitTest.HTCLIENT;

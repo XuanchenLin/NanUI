@@ -85,6 +85,26 @@ namespace NetDimension.WinForm
 
 		}
 
+		public static int GetOriginalDeviceDpi(IntPtr hWnd)
+		{
+			var hMonitor = MonitorFromWindow(hWnd, (uint)MonitorFromWindowFlags.MONITOR_DEFAULTTONEAREST);
+
+			//这句不能正确的检测Win8和8.1
+			//if ((System.Environment.OSVersion.Version.Major >= 8 && System.Environment.OSVersion.Version.Minor >= 1) || System.Environment.OSVersion.Version.Major > 8)
+			try
+			{
+				//GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int x, out int y);
+				GetDpiForMonitor(hMonitor, MonitorDpiType.MDT_DEFAULT, out int x, out int y);
+				return x;
+			}
+			catch
+			{
+				return 96;
+			}
+
+
+		}
+
 
 		[DllImport("Shcore.dll")]
 		public static extern int GetDpiForMonitor(IntPtr hMonitor, MonitorDpiType dpiType, out int dpiX, out int dpiY);

@@ -28,29 +28,29 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.nanUIWebBrower1 = new NetDimension.NanUI.WebBrowserControl();
-			this.SuspendLayout();
-			// 
-			// nanUIWebBrower1
-			// 
-			this.nanUIWebBrower1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.nanUIWebBrower1.Location = new System.Drawing.Point(8, 8);
-			this.nanUIWebBrower1.Name = "nanUIWebBrower1";
-			this.nanUIWebBrower1.Size = new System.Drawing.Size(729, 387);
-			this.nanUIWebBrower1.TabIndex = 1;
-			this.nanUIWebBrower1.Text = "nanUIWebBrower1";
-			// 
-			// Form1
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(749, 558);
-			this.Controls.Add(this.nanUIWebBrower1);
-			this.Name = "Form1";
-			this.Text = "Form1";
-			this.ResumeLayout(false);
+            this.nanUIWebBrower1 = new NetDimension.NanUI.WebBrowserControl();
+            this.SuspendLayout();
+            // 
+            // nanUIWebBrower1
+            // 
+            this.nanUIWebBrower1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nanUIWebBrower1.Location = new System.Drawing.Point(0, 0);
+            this.nanUIWebBrower1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nanUIWebBrower1.Name = "nanUIWebBrower1";
+            this.nanUIWebBrower1.NavigateUrl = "about:blank";
+            this.nanUIWebBrower1.Size = new System.Drawing.Size(1264, 681);
+            this.nanUIWebBrower1.TabIndex = 1;
+            this.nanUIWebBrower1.Text = "nanUIWebBrower1";
+            // 
+            // Form1
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.nanUIWebBrower1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            this.ResumeLayout(false);
 
 		}
 

@@ -169,7 +169,7 @@ namespace NetDimension.NanUI
 				webBrowserForm = new WebBrowserFormImplement(this, this.Chromium);
 				Chromium.OnBrowserMessage += WebBrowserCore_OnBrowserMessage;
 
-                this.FormDpiChanged += Formium_FormDpiChanged;
+                
 
             }
 
@@ -180,13 +180,6 @@ namespace NetDimension.NanUI
 
         private void Formium_FormDpiChanged(object sender, DpiChangedEventArgs e)
         {
-            //RECT bounds = new RECT(e.Bounds);
-
-            //var ptr = Marshal.AllocHGlobal(Marshal.SizeOf(bounds));
-
-            //Marshal.StructureToPtr(bounds, ptr, false);
-
-            //User32.SendMessage(BrowserHandle, (uint)WindowsMessages.WM_DPICHANGED, Win32.MakeParam(new IntPtr(e.Dpi.Width), new IntPtr(e.Dpi.Height)), ptr);
             BrowserHost.NotifyScreenInfoChanged();
         }
 

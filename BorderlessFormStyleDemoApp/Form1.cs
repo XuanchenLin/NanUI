@@ -18,6 +18,8 @@ namespace BorderlessFormStyleDemoApp
 		{
 			InitializeComponent();
 
+			//FormBorderStyle = FormBorderStyle.FixedDialog;
+
 
 			GlobalObject.AddFunction("showDialog").Execute += (_, args) =>
 			{

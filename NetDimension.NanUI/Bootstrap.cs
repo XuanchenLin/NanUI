@@ -113,8 +113,6 @@ namespace NetDimension.NanUI
 		{
 			get
 			{
-
-
 				return CfxRuntime.PlatformArch;
 			}
 		}
