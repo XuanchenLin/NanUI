@@ -36,7 +36,7 @@ namespace NetDimension.WinForm
         private Stack<Dictionary<Control, AnchorStyles>> anchorsStack;
 
         private static readonly Point minimizedFormLocation = new Point(-32000, -32000);
-        private static readonly Point InvalidPoint = new Point(-10000, -10000);
+        internal static readonly Point InvalidPoint = new Point(-10000, -10000);
         private Rectangle regionRect = Rectangle.Empty;
 
         private int isInitializing = 0;
