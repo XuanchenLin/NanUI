@@ -36,7 +36,7 @@ namespace NetDimension.WinForm
         private Stack<Dictionary<Control, AnchorStyles>> anchorsStack;
 
         private static readonly Point minimizedFormLocation = new Point(-32000, -32000);
-        internal static readonly Point InvalidPoint = new Point(-10000, -10000);
+        private static readonly Point InvalidPoint = new Point(-10000, -10000);
         private Rectangle regionRect = Rectangle.Empty;
 
         private int isInitializing = 0;
@@ -147,9 +147,37 @@ namespace NetDimension.WinForm
 
         private void GetDpiForScreen(System.Windows.Forms.Screen screen, DpiType dpiType, out uint dpiX, out uint dpiY)
         {
-            var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
-            var mon = MonitorFromPoint(pnt, 2/*MONITOR_DEFAULTTONEAREST*/);
-            GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+            try
+            {
+                var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
+                var mon = MonitorFromPoint(pnt, 2/*MONITOR_DEFAULTTONEAREST*/);
+                GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+            }
+            catch
+            {
+                
+                Graphics g = this.CreateGraphics();
+
+                try
+                {
+                    dpiX = (uint)g.DpiX;
+                    dpiY = (uint)g.DpiY;
+                }
+                catch
+                {
+                    dpiX = 96;
+                    dpiY = 96;
+                }
+                finally
+                {
+                    g.Dispose();
+                }
+            }
+
+
+
+
+
         }
 
         #endregion
@@ -302,7 +330,7 @@ namespace NetDimension.WinForm
             {
                 float dx, dy;
                 Graphics g = this.CreateGraphics();
-
+                
                 try
                 {
                     dx = g.DpiX;
