@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>NetDimension.Formium.FileResourceHandler</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\..\..\build\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\..\build\Release\</OutputPath>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FormiumLibrary\core\NetDimension.Formium.Core\NetDimension.Formium.Core.csproj" />
+  </ItemGroup>
+
+
+  <Import Project="..\..\shared\FileResourceHandler.SharedProject\FileResourceHandler.SharedProject.projitems" Label="Shared" />
+
+</Project>

@@ -1,174 +1,118 @@
-# Welcome to NanUI
+# NanUI 
 
-[中文说明](https://github.com/NetDimension/NanUI/wiki/%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+[[English](./README.en-US.md)]
 
-[NanUI](http://netdimension.github.io/NanUI/) is a library based on ChromiumFX that can let your Winform application use HTML5/CSS3 as user interface. You can use orginal Winform borders or full view no border form that use all html/css to design the interface.
+**NanUI**是一个开放源代码的.NET项目，它适用于希望使用HTML5 / CSS3等前端技术来构建Windows窗体应用用户界面的.NET / .NET Core开发人员。
 
-NanUI is MIT licensed, so you can use it in both business and free/open source application. For more details, see the [LICENSE](https://github.com/NetDimension/NanUI/blob/master/LICENSE) file.
+**Formium**是NanUI项目的核心，Formium引擎可用于构建.NET / .NET CORE环境下的Windows窗体应用程序，它的底层基于[ChromiumFX](https://bitbucket.org/chromiumfx/chromiumfx)开源项目。Formium专注于使用HTML5/CSS3/Javascript等Web前端技术来构建桌面应用程序的用户界面，他将为软件界面设计工作带来无限可能。
 
-![NanUI](http://img.blog.csdn.net/20171226150643379)
+使用Formium引擎，你可以使用任何你所熟悉的前端技术来搭建用户界面。但强烈建议你使用单页应用（SPA）模式来制作界面，因为这可以给用户带来更好的操作体验。主流的Javascript框架，比如Angular, React, Vue都是可以用来构架SPA应用的明智选择。更多的Formium应用程序实例，请移步[Formium-Demos](https://github.com/NetDimension/Formium-Demos)。
+
+如果你喜欢NanUI项目，请为NanUI项目点亮一颗星！
+
+## 如何编译
+
+你需要使用Visual Studio 2019并安装了.NET Framework SDKs和.NET Core 3.1 SDK才能成功编译编译NanUI项目的源码。如果你不需要编译项目源代码，而是直接使用二进制库文件，那么Visual Studio的版本将不会受到限制。如果需要了解更多关于编译项目的信息，请移步到[这里](src/README.md).
 
 
-## What's new in version 0.6
+## 引用Formium库
 
-- Rewritted codes of no border interface logic, new version is faster than old versions.
-- NanUI now supports Hi-DPI in Windows 8 and later.
-- Combined HtmlUIForm and HtmlContentForm to one Formium which support these two styles.
-- Install Nuget Package of NanUI will add CEF and ChromiumFX dependencies to your application automatically.
+稳定版的库文件我会上传到NuGet平台，你可以通过NuGet的包管理器来安装Formium引擎到你的项目中。与之关联的对应版本的CEF和CFX依赖项目也会自动拷贝到项目文件夹中。
 
-## Build NetDimension.NanUI.dll
+**备注：** NetDimension.Formium.dll最小支持到Microsft .NET Framework 4.0版本
 
-You should use the complier which supports C# 7.0 syntax. Visual Studio 2017 is recommended.
-
-## Releases
-Stable NanUI binaries are released on NuGet. Use following Nuget command to install latest version of NanUI to your Winfrom application. It will install CEF and CFX dependencies too and the dependencies will automatic copy to the **bin** folder.
-
-**NOTE:** NanUI requires .Net Framework 4.0 as minimal support.
-
-**Nuget Package Manager**
 ```
-PM> Install-Package NetDimension.NanUI
+PM> Install-Package NetDimension.Formium
 ```
 
-**Release of NetDimension.NanUI.XP**
+**请注意!** 与之前发布的NanUI库不同， 新的Formium引擎将不再支持Windows XP系统。
 
-Another version of NanUI that supports **Windows XP** is now can be downloaded on Nuget by using following command:
-```
-PM> Install-Package NetDimension.NanUI.XP
-```
+## 帮助文档
 
-**Support for High Dpi Monitors**
-You should add and modify Application Manifest File to enable this feature:
+[帮助文档](documents/zh-CN/README.md)将帮助你轻松快速的开始使用Formium引擎进行开发。如果你愿意帮助翻译不同语言的文档，请与我取得联系，感激不敬。 
 
-1. Set DpiAware Attribute to true to enable high dpi support.
-```
-<application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
-    </windowsSettings>
-</application>
-```
+- [English](documents/en-US/README.md)
 
-2. If you are running in Windows 8.1, set DpiAwareness Attribute to PerMonitor to enable per monitor diffirent dpi in mulit monitors.
-```
-<application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
-        <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitor</dpiAwareness>
-    </windowsSettings>
-</application>
-```
+- [中文文档](documents/zh-CN/README.md)
 
-3. If you are running in Windows 10 create update (or later), set DpiAwareness Attribute to PerMonitorV2 to enable per monitor diffirent dpi in mulit monitors with advanced features.
-```
-<application xmlns="urn:schemas-microsoft-com:asm.v3">
-    <windowsSettings>
-        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
-        <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2</dpiAwareness>
-    </windowsSettings>
-</application>
-```
+## 创建一个最简单的应用
 
+初始化Formium的启动环境。
 
-
-
-
-**Download Manually**
-- [NetDimension.NanUI](https://www.nuget.org/packages/NetDimension.NanUI/) - NanUI main library
-- [NetDimension.NanUI.Cef3239](https://www.nuget.org/packages/NetDimension.NanUI.Cef3239/) - Dependencies of NanUI (Include CEF3.3239.1723 and ChromiumFX3.3239.1723 binaries)
-
-## Changes
-
-Latest change at 2019/11/15, see [here](https://github.com/NetDimension/NanUI/blob/master/changes.txt) to check the details.
-
-
-## Basic Usage
-
-**Initialize Runtime in Main**
 ```C#
-namespace TestApplication
+class Program
 {
-    using NetDimension.NanUI;
-    static class Program
-    {
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            //Initalize: set CEF paths
-            //If you use default structure of the FX folder, you should provide paths of fx folder, resources folder and locales folder.
-
-            var result = Bootstrap.Load();
-            
-            if (result)
-            {
-                // Load embedded html/css resources in assembly.
-                Bootstrap.RegisterAssemblyResources(System.Reflection.Assembly.GetExecutingAssembly());
-
-                Application.Run(new Form1());
-
-                Application.Exit();
-            }
-
-        }
-    }
-}
-
-```
-
-
-**Using native Winform border style**
-```C#
-namespace TestApplication
-{
-    public partial class Form1 : WinFormium
-
-    {
-
-        public Form1()
-            //Load embedded resource index.html and not set form to no border style by the second parameter.
-            : base("http://res.app.local/index.html")
-        {
-            InitializeComponent();
-        }
+   [STAThread]
+   static void Main(string[] args)
+   {
+      // ...
+      Bootstrap
+        .Initialize()
+        .Run(()=>new MainWindow());
     }
 }
 ```
 
-**Using no border style**
+使用浏览器承载窗口，例子中将使用一个原生样式的窗口来打开微软必应。
 ```C#
-namespace TestApplication
+
+using NetDimension.Formium;
+
+class MainWindow : HostWindow
 {
-    public partial class Form1 : Formium
+  // Set the startup url of this window
+  public override string StartUrl => "https://www.bing.com";
 
-    {
+  // Set the style of the host window, here set window to use the native style 
+  public override HostWindowType WindowType =>  HostWindowType.Standard;
 
-        public Form1()
-            //Load embedded resource index.html and set form to no border style by igrone the second parameter or set it to true.
-            : base("http://res.app.local/index.html")
-        {
-            InitializeComponent();
-        }
-    }
+  // If you need to add a splash screen when the web page is first loaded, return the control instance of the splash screen here
+  protected override Control LaunchScreen => null;
+
+  public MainWindow()
+  {
+      // Set the base title of the window
+      Title = "NanUI Application";
+  }
+
+  protected override void OnHostWindowReady(IWebBrowserHandler browserClient)
+  {
+    // Add the processing functions of the CefClient's handlers here, such as DownloadHandler， LifeSpanHandler, DisplayHandler, etc. 
+
+  }
+
+  // Browser's Javascript context initialization is complete
+  protected override void OnRegisterGlobalObject(JSObject global)
+  {
+      // The C# objects can be injected into Javascript Context of this window here
+
+  }
+
+  protected override void OnStandardFormStyle(IStandardHostWindowStyle style)
+  {
+    // Define the basic style of the standard window here
+    style.MinimumSize = new System.Drawing.Size(1024, 640);
+    style.Size = new System.Drawing.Size(1280, 720);
+    style.Icon = <Icon File>;
+  }
 }
 ```
 
-## Documentation
+更多信息请移步 - [开始使用]()
 
-[WiKi](https://github.com/NetDimension/NanUI/wiki)
+## 示例程序
+移步[Formium Demos](https://github.com/NetDimension/Formium-Demos)来下载并体验更多Formium示例程序。
+
+## 资助项目
+NanUI是一个基于MIT协议的开源项目并且它是完全免费的。尽管如此，如果没有适当的资金支持，项目维护和新功能的开发是无法持续下去的。所以如果你喜欢这个项目并认可我的工作，你可以支付我一杯咖啡的钱请我喝一杯咖啡，或者你也可以成为长期的项目资助人以帮助NanUI变得更好。
+
+使用微信或者支付宝扫描下方二维码来进行资金方面的捐助。
+
+![DONATE](documents/images/qrcode.png)
 
 
-## Donate
+海外用户请通过点击下方图标连接到PayPal平台进行捐助。
 
-If you like my work, please buy me a cup of coffee to encourage me continue with this library. 
+[![DONATE](documents/images/paypal.png)](https://www.paypal.me/mrjson)
 
-In China you can donate me by scaning the QR code below in **Alipay** or **WeChat** app.
-
-![Screen Shot](http://ohtrip.cn/media/beg_with_border.png)
-
-Or you can donate me by **Paypal**.
-
-[![DONATE](http://ohtrip.cn/media/PayPal-donate-button.png)](https://www.paypal.me/mrjson)
-
+**NanUI的发展需要你的支持，谢谢！**

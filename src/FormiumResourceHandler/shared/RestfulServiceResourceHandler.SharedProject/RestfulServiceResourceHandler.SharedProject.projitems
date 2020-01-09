@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d676e202-f9e0-4a98-b6e1-a1e4fe294b20</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>RestfulServiceResourceHandler.SharedProject</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ResourceHandlerRegister.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulServiceResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulServiceResourceHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulService\HttpMethodAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulService\RestfulServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulService\Route.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulService\RouteAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulService\RouteCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestfulService\ServiceController.cs" />
+  </ItemGroup>
+</Project>
