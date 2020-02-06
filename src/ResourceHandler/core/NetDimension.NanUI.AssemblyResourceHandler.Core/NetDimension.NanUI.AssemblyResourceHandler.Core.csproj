@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>NetDimension.NanUI.AssemblyResourceHandler</AssemblyName>
+    <RootNamespace>NetDimension.NanUI</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\..\..\build\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\..\build\Release\</OutputPath>
+  </PropertyGroup>
+
+
+  <Import Project="..\..\shared\AssemblyResourceHandler.SharedProject\AssemblyResourceHandler.SharedProject.projitems" Label="Shared" />
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Library\core\NetDimension.NanUI.Core\NetDimension.NanUI.Core.csproj" />
+  </ItemGroup>
+
+</Project>

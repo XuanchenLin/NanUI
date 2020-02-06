@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>NetDimension.NanUI.RestfulResourceHandler</AssemblyName>
+    <RootNamespace>NetDimension.NanUI</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\..\..\build\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\..\..\..\build\Release\</OutputPath>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Library\core\NetDimension.NanUI.Core\NetDimension.NanUI.Core.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\shared\RestfulServiceResourceHandler.SharedProject\RestfulServiceResourceHandler.SharedProject.projitems" Label="Shared" />
+
+</Project>
