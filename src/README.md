@@ -1,4 +1,4 @@
-## Build NanUI
+﻿## Build NanUI
 
 You should use a complier which supports C# 7.0 syntax to build the source code of NanUI.  Visual Studio 2019 (version 16.4 or above) is recommanded.
 

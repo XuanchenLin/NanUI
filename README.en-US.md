@@ -1,14 +1,14 @@
 # NanUI
 ## Introduction
-### About NanUI
+### NanUI Project
 
-**NanUI** is an open source .NET project for .NET / .NET Core developers who want to use front-end technologies such as HTML5 / CSS3 to build user interfaces for Windows Form applications.
+**NanUI** is an open source .NET project for .NET / .NET Core developers who want to use front-end technologies such as HTML5 / CSS3 to build user interfaces for Windows Form applications. It's based on [ChromiumFX](https://bitbucket.org/chromiumfx/chromiumfx) project that is a .NET bindings for the Chromium Embedded Framework.
 
 ### Formium Engine
 
-**Formium** is the core of the NanUI project. The Formium Engine can be used to build Windows Form applications in a .NET / .NET Core environment. It's based on [ChromiumFX](https://bitbucket.org/chromiumfx/chromiumfx) project that is a .NET bindings for the Chromium Embedded Framework. NanUI is focused on using the web front-end technologies such as HTML5 / CSS3 / Javascript to build the user interface of desktop applications. It will bring unlimited possibilities to software interface design work.
+**Formium** is the core of the NanUI project. It is focused on using the web front-end technologies such as HTML5 / CSS3 / Javascript to build the user interface of desktop applications. It will bring unlimited possibilities to software interface design work.
 
-With Formium, you can easily use any front-end techonology you are familiar with to build user interface of applications. It is strongly recommended that you use the Single Page Applicaiton (SPA) to make the user interface, because this can give users a better operation experience. The mainstream Javascript frameworks, Angular, React, Vue are all wise choices that can be used to build SPA apps. For more information and examples about how to build apps with Formium, please see [Formium-Demos](https://github.com/NetDimension/Formium-Demos).
+With Formium Engine, you can easily use any front-end techonology you are familiar with to build user interface of applications. It is strongly recommended that you use the Single Page Applicaiton (SPA) to make the user interface, because this can give users a better operation experience. The mainstream Javascript frameworks, Angular, React, Vue are all wise choices that can be used to build SPA apps. For more information and examples about how to build apps with Formium, please see [Formium-Demos](https://github.com/NetDimension/Formium-Demos).
 
 **If you like NanUI project, please give it a star!**
 
@@ -24,27 +24,35 @@ You need to use Visual Studio 2019 with the .NET Framework SDKs (4.0 and above) 
 
 The stable release of NanUI project uploads to NuGet. Using the commad below in NuGet Package Manager to install latest version of Formium Engine to your project. The dependencies associated with it will be automatically installed into your project too.
 
-**NOTE:** Microsft .NET Framework 4.0 is the minimal version support to NetDimension.Formium.dll
+**For .NET Framework 4.0+**
+
+Microsft .NET Framework 4.0 is the minimal version support to NetDimension.NanUI.dll.
 
 ```
-PM> Install-Package NetDimension.Formium
+PM> Install-Package NetDimension.NanUI
 ```
 
-**ATTENTION!** Unlike previous version of NanUI, this new Formium Engine will no longer provide support for Window XP systems.
+**IMPORTANT!** Unlike previous version of NanUI, this new version will no longer provide support for Window XP.
+
+**For .NET Core 3.1**
+```
+PM> Install-Package NetDimension.NanUI.Core
+```
 
 ## Documentation
 
-The [Documentations](documents/en-US/README.md) will help you to start with Formium quickly. Contact me if you are willing to help translate the documentations. 
+The Documentations will help you to start with Formium quickly. Contact me if you are willing to help translate the documentations. 
 
-- [English](documents/en-US/README.md)
+- [English](documents/README.md)
 
-- [中文文档](documents/zh-CN/README.md)
+- [中文文档](documents/README.md)
 
 ## Basic Usage
 
 Initialize the Runtime.
 
 ```C#
+using NetDimension.NanUI;
 class Program
 {
    [STAThread]
@@ -61,9 +69,9 @@ class Program
 Using a browser host window.
 ```C#
 
-using NetDimension.Formium;
+using NetDimension.NanUI;
 
-class MainWindow : HostWindow
+class MainWindow : Formium
 {
   // Set the startup url of this window
   public override string StartUrl => "https://www.bing.com";
@@ -80,17 +88,15 @@ class MainWindow : HostWindow
       Title = "NanUI Application";
   }
 
-  protected override void OnHostWindowReady(IWebBrowserHandler browserClient)
+  protected override void OnWindowReady(IWebBrowserHandler browserClient)
   {
     // Add the processing functions of the CefClient's handlers here, such as DownloadHandler， LifeSpanHandler, DisplayHandler, etc. 
-
   }
 
   // Browser's Javascript context initialization is complete
   protected override void OnRegisterGlobalObject(JSObject global)
   {
       // The C# objects can be injected into Javascript Context of this window here
-
   }
 
   protected override void OnStandardFormStyle(IStandardHostWindowStyle style)
@@ -102,11 +108,6 @@ class MainWindow : HostWindow
   }
 }
 ```
-
-For more info see - [Getting Started]()
-
-## Demos
-[Formium Demos](https://github.com/NetDimension/Formium-Demos)
 
 ## Donate
 NanUI is an MIT licensed open source project and completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.

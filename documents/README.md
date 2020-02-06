@@ -1,8 +1,6 @@
-# Welcome to NanUI
+ï»¿# Documentation
 
-### NanUI
-
-### Documentation
 - [[English]](en-US/SUMMARY.md) 
-- [[¼òÌåÖÐÎÄ]](zh-CN/SUMMARY.md)
+- [[ç®€ä½“ä¸­æ–‡]](zh-CN/SUMMARY.md)
 
+Documentations will coming soon...

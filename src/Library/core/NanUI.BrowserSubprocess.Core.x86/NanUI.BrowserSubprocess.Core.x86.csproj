@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UseWindowsForms>true</UseWindowsForms>
+        <Platforms>AnyCPU;x86</Platforms>
+        <AssemblyName>NanUI.BrowserSubprocess.x86</AssemblyName>
+        <ApplicationIcon>BrowserSubprocess.ico</ApplicationIcon>
+        <RootNamespace>NanUI.BrowserSubprocess</RootNamespace>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <StartupObject />
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+        <OutputPath>..\..\..\..\build\Debug\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+        <OutputPath>..\..\..\..\build\Release\</OutputPath>
+    </PropertyGroup>
+
+    <Import Project="..\..\shared\BrowserSubprocess.SharedProject\BrowserSubprocess.SharedProject.projitems" Label="Shared" />
+
+    <ItemGroup>
+      <ProjectReference Include="..\NetDimension.NanUI.Core\NetDimension.NanUI.Core.csproj" />
+    </ItemGroup>
+
+
+
+</Project>
