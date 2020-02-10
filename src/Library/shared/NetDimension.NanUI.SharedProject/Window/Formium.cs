@@ -16,19 +16,30 @@ namespace NetDimension.NanUI
         Borderless,
         UserCustom
     }
+    /// <summary>
+    /// The Formium host window
+    /// </summary>
     public abstract class Formium : IWebBrowser
     {
         const string JS_EVENT_RAISER_NAME = "__nanui_raiseHostWindowEvent";
         private readonly ChromeWidgetMessageInterceptor chromeWidgetMessageInterceptor = null;
 
         const string ABOUT_BLANK = "about:blank";
+        /// <summary>
+        /// Specifies a startup url
+        /// </summary>
         abstract public string StartUrl { get; }
+        /// <summary>
+        /// Specifies host window type
+        /// </summary>
         abstract public HostWindowType WindowType { get; }
         private string title = "NanUI Host Window";
         private string subtitle = string.Empty;
 
 
-
+        /// <summary>
+        /// Gets or sets the main title of this window
+        /// </summary>
         public string Title
         {
             get => title;
@@ -39,6 +50,9 @@ namespace NetDimension.NanUI
             }
         }
 
+        /// <summary>
+        /// Gets or sets the subtitle of this window
+        /// </summary>
         public string Subtitle
         {
             get => subtitle;
@@ -66,30 +80,58 @@ namespace NetDimension.NanUI
         }
 
         #region IWebBrowser
+        /// <summary>
+        /// Gets the WebBrowser loading state
+        /// </summary>
         public bool IsLoading => WebBrowser?.Browser?.IsLoading ?? false;
+        /// <summary>
+        /// Gets the WebBrowser can go back
+        /// </summary>
         public bool CanGoBack => WebBrowser?.Browser?.CanGoBack ?? false;
+        /// <summary>
+        /// Gets the WebBrowser can go forward
+        /// </summary>
         public bool CanGoForward => WebBrowser?.Browser?.CanGoForward ?? false;
 
+        /// <summary>
+        /// WebBrowser goes back
+        /// </summary>
         public void GoBack()
         {
             WebBrowser?.Browser?.GoBack();
         }
 
+        /// <summary>
+        /// WebBrowser goes forward
+        /// </summary>
         public void GoForward()
         {
             WebBrowser?.Browser?.GoForward();
         }
 
+        /// <summary>
+        /// Loads a url
+        /// </summary>
+        /// <param name="url">url</param>
         public void LoadUrl(string url)
         {
             WebBrowser?.NavigateToUrl(url);
         }
 
+        /// <summary>
+        /// Loads a string
+        /// </summary>
+        /// <param name="stringVal">Html content</param>
+        /// <param name="url">url</param>
         public void LoadString(string stringVal, string url)
         {
             WebBrowser?.LoadString(stringVal, url);
         }
 
+        /// <summary>
+        /// Loads a string and set url to ABOUT:BLANK 
+        /// </summary>
+        /// <param name="stringVal">Html content</param>
         public void LoadString(string stringVal)
         {
             WebBrowser?.LoadString(stringVal, ABOUT_BLANK);
@@ -97,9 +139,15 @@ namespace NetDimension.NanUI
         #endregion
 
         private bool isFormLoad = false;
+
+        /// <summary>
+        /// Gets or sets if the window can be dragged by DragRegion
+        /// </summary>
         public bool EnableDragRegion { get; set; }
 
-
+        /// <summary>
+        /// Forium constructor
+        /// </summary>
         public Formium()
         {
             BrowserControl = new HostBrowserControl(this) { Dock = DockStyle.Fill, Margin = new Padding(0), Padding = new Padding(0) };
@@ -295,7 +343,7 @@ namespace NetDimension.NanUI
         private void RegisterHostWindowJavascriptExtension()
         {
             hostWindowExtension = new HostWindowJavascriptExtension(this);
-            Chromium.Remote.CfrRuntime.RegisterExtension("Formium/HostWindow", hostWindowExtension.DefinitionJavascriptCode, hostWindowExtension);
+            Chromium.Remote.CfrRuntime.RegisterExtension("NanUI/HostWindow", hostWindowExtension.DefinitionJavascriptCode, hostWindowExtension);
         }
 
         protected Region DraggableRegion
@@ -501,61 +549,104 @@ namespace NetDimension.NanUI
 
         }
 
+        /// <summary>
+        /// Displays the form to the users
+        /// </summary>
         public void Show()
         {
             ContainerForm.Show();
         }
 
+        /// <summary>
+        /// Shows the form with the specified owner to the user.
+        /// </summary>
+        /// <param name="owner">
+        /// Any object that implements System.Windows.Forms.IWin32Window and represents the
+        ///     top-level window that will own this form.
+        /// </param>
         public void Show(IWin32Window owner)
         {
             ContainerForm.Show(owner);
         }
-
+        /// <summary>
+        /// Shows the form with the specified owner to the user.
+        /// </summary>
+        /// <param name="owner">
+        /// Any object that implements System.Windows.Forms.IWin32Window and represents the
+        ///     top-level window that will own this form.
+        /// </param>
         public void Show(Formium owner)
         {
             ContainerForm.Show(owner.ContainerForm);
         }
 
-        public void ShowDialog()
+        /// <summary>
+        /// Shows the form as a modal dialog box.
+        /// </summary>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public DialogResult ShowDialog()
         {
-            ContainerForm.ShowDialog();
+            return ContainerForm.ShowDialog();
         }
 
-        public void ShowDialog(IWin32Window owner)
+        /// <summary>
+        /// Shows the form as a modal dialog box with the specified owner.
+        /// </summary>
+        /// <param name="owner">Any object that implements System.Windows.Forms.IWin32Window that represents the top-level window that will own the modal dialog box.</param>
+        /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
+        public DialogResult ShowDialog(IWin32Window owner)
         {
-            ContainerForm.ShowDialog(owner);
+            return ContainerForm.ShowDialog(owner);
         }
 
-        public void ShowDialog(Formium owner)
+        /// <summary>
+        /// Shows the form as a modal dialog box with the specified owner.
+        /// </summary>
+        /// <param name="owner">Any object that implements Formium that represents the top-level window that will own the modal dialog box.</param>
+        /// <returns></returns>
+        public DialogResult ShowDialog(Formium owner)
         {
-            ContainerForm.ShowDialog(owner.ContainerForm);
+            return ContainerForm.ShowDialog(owner.ContainerForm);
         }
 
+        /// <summary>
+        /// Closes the form.
+        /// </summary>
         public void Close()
         {
             ContainerForm.Close();
         }
 
+        /// <summary>
+        /// Hides the form.
+        /// </summary>
         public void Hide()
         {
             ContainerForm.Hide();
         }
     }
 
-    public class OnBrowserReadyEventArgs : EventArgs
-    {
-        internal OnBrowserReadyEventArgs(IWebBrowserHandler browserHandler, JSObject global)
-        {
-            this.ChromiumBrowserHandlers = browserHandler;
-            this.Global = global;
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    //public class OnBrowserReadyEventArgs : EventArgs
+    //{
+    //    internal OnBrowserReadyEventArgs(IWebBrowserHandler browserHandler, JSObject global)
+    //    {
+    //        this.ChromiumBrowserHandlers = browserHandler;
+    //        this.Global = global;
+    //    }
 
-        public IWebBrowserHandler ChromiumBrowserHandlers { get; }
-        public JSObject Global { get; }
-    }
+    //    public IWebBrowserHandler ChromiumBrowserHandlers { get; }
+    //    public JSObject Global { get; }
+    //}
+
 
     public static class FormControlExtensions
     {
+        /// <summary>
+        /// Invokes actions in UI thread.
+        /// </summary>
         public static void InvokeIfRequired(this Control control, Action action)
         {
             if (control.InvokeRequired)

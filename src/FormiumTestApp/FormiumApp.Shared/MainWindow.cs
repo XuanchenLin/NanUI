@@ -53,7 +53,7 @@ namespace FormiumApp
 
             // 当主页面加载完成后，打开Chromium的开发者工具。
             // When the main page is loadded, open the developer's tool
-            // WebBrowser.ShowDevTools();
+            WebBrowser.ShowDevTools();
 
         }
 
@@ -109,19 +109,19 @@ style.type = ""text/css"";
 
 style.innerHTML=`
 .hp_hor_hdr {
-	-webkit-app-region: drag;
+    -webkit-app-region: drag;
     background-color:rgba(255,255,255,0.1) !important;
     backdrop-filter:blur(15px);
 }
 .hp_hor_hdr ul, .hp_hor_hdr #id_h  {
-	-webkit-app-region: no-drag;
+    -webkit-app-region: no-drag;
 }
 .b_header{
-	-webkit-app-region: drag;
+    -webkit-app-region: drag;
 }
 
 .b_header > * {
-	-webkit-app-region: no-drag;
+    -webkit-app-region: no-drag;
 }
 `;
 

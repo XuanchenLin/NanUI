@@ -32,7 +32,7 @@ namespace FormiumApp
                     // 在此处处理CEF的设置
                     // Handle CEF settings here
                 })
-                .UseDefaultBrowserSubpress()
+                //.UseDefaultBrowserSubpress()
                 .WhenLibCefNotFound(args => {
                     // 如果NanUI启动器没有检测到正确的CEF以及ChromiumFX运行环境，将执行此处理过程。
                     // This process handler will be performed if the NanUI bootstrapper does not detect correct CEF & ChromiumFX runtime enviroment.

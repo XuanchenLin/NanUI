@@ -2,9 +2,9 @@
 
 (function (target) {
 
-  target.__defineGetter__("version", function () {
-    native function Version();
-    return Version();
-  });
-  
+    target.__defineGetter__("version", function () {
+        native function Version();
+        return Version();
+    });
+
 })(NanUI);

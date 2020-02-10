@@ -31,6 +31,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <OutputPath>..\..\..\..\build\Release\</OutputPath>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DocumentationFile>..\..\..\..\build\Release\NetDimension.NanUI.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

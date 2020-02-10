@@ -12,7 +12,8 @@ namespace NetDimension.NanUI.Browser
     {
         
         private RenderProcess renderProcess;
-        //private FormiumJavascriptExtension baseExtension;
+        private FormiumJavascriptExtension baseExtension;
+        private Dictionary<string, ChromiumExtensionBase> customExtensions = new Dictionary<string, ChromiumExtensionBase>();
 
         public RenderProcessHandler(RenderProcess renderProcess)
         {
@@ -38,6 +39,8 @@ namespace NetDimension.NanUI.Browser
                 }
 
                 browserCore.SetRemoteBrowser(e.Browser, renderProcess);
+
+
             }
         }
 
@@ -79,12 +82,20 @@ namespace NetDimension.NanUI.Browser
 
         private void RenderProcessHandler_OnWebKitInitialized(object sender, CfrEventArgs e)
         {
-            var baseExtension = new FormiumJavascriptExtension();
+            baseExtension = new FormiumJavascriptExtension();
+            CfrRuntime.RegisterExtension("NanUI/Base", baseExtension.DefinitionJavascriptCode, baseExtension);
 
-            CfrRuntime.RegisterExtension("Formium/Base", baseExtension.DefinitionJavascriptCode, baseExtension);
+            foreach (var kv in Bootstrap.RegisterChromiumExtensionActions)
+            {
+                var name = kv.Key;
+                var extension = kv.Value?.Invoke();
+                if (extension != null)
+                {
+                    customExtensions.Add(name, extension);
 
-            Bootstrap.RegisterChromiumExtensionActions.ForEach(x => x?.Invoke());
-
+                    CfrRuntime.RegisterExtension(name, extension.DefinitionJavascriptCode, extension);
+                }
+            }
 
             BrowserCore.RaiseWebKitInitialized();
         }

@@ -15,16 +15,25 @@ namespace NetDimension.NanUI
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
+    /// <summary>
+    /// Platform Architecture
+    /// </summary>
     public enum PlatformArchitecture
     {
         x86,
         x64
     }
 
+    /// <summary>
+    /// Bootstrapper of NanUI Runtime
+    /// </summary>
     public class Bootstrap
     {
         public const string CEF_VERSION = "77.1.18.0";
 
+        /// <summary>
+        /// Boostrap instance
+        /// </summary>
         public static Bootstrap CurrentContext { get; private set; } = null;
 
 
@@ -32,6 +41,10 @@ namespace NetDimension.NanUI
 
 
         private static CfxBrowserSettings defaultBrowserSettings;
+
+        /// <summary>
+        /// Default browser settings
+        /// </summary>
         public static CfxBrowserSettings DefaultBrowserSettings
         {
             get
@@ -57,11 +70,14 @@ namespace NetDimension.NanUI
         const string UP_LEVEL_DIR = "..";
 
         private static readonly string applicationRunningDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().EscapedCodeBase).LocalPath);
-        private static string commonDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\", CEF_VERSION);
+        private static readonly string commonDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\", CEF_VERSION);
         private static string appDataDir = Path.Combine(commonDataDir, Application.ProductName);
 
         private static string LibCefSearchPath { get; set; } = applicationRunningDir;
 
+        /// <summary>
+        /// Get the path of this application that stores necessary files for NanUI
+        /// </summary>
         public static string ApplicationDataDirectory
         {
             get => appDataDir;
@@ -76,11 +92,17 @@ namespace NetDimension.NanUI
             }
         }
 
+        /// <summary>
+        /// Get the cache path of Chromium
+        /// </summary>
         public static string CacheDirectory
         {
             get => Path.Combine(ApplicationDataDirectory, "Cache");
         }
 
+        /// <summary>
+        /// Get current system platfom architecture
+        /// </summary>
         public static PlatformArchitecture PlatformArchitecture
         {
             get
@@ -107,6 +129,9 @@ namespace NetDimension.NanUI
             return Directory.Exists(dir) && Directory.GetFiles(dir, "*.pak", SearchOption.TopDirectoryOnly).Length > 0 && Directory.Exists(Path.Combine(dir, "locales"));
         }
 
+        /// <summary>
+        /// Get subprocess path of NanUI
+        /// </summary>
         public static string SubprocessPath
         {
             get
@@ -115,8 +140,10 @@ namespace NetDimension.NanUI
                 if (string.IsNullOrEmpty(subprocessDir))
                 {
 
-                    var searchPlaces = new List<string>();
-                    searchPlaces.Add(Path.Combine(LibCefSearchPath, subprocessFileName));
+                    var searchPlaces = new List<string>
+                    {
+                        Path.Combine(LibCefSearchPath, subprocessFileName)
+                    };
 
                     if (!string.IsNullOrEmpty(libCefDir))
                     {
@@ -137,6 +164,9 @@ namespace NetDimension.NanUI
             }
         }
 
+        /// <summary>
+        /// Get the libcef path
+        /// </summary>
         public static string LibCefDirPath
         {
             get
@@ -169,6 +199,9 @@ namespace NetDimension.NanUI
             }
         }
 
+        /// <summary>
+        /// Get the resource path of libcef
+        /// </summary>
         public static string ResourceDirPath
         {
             get
@@ -207,15 +240,15 @@ namespace NetDimension.NanUI
 
         }
 
-        internal static List<Action> RegisterChromiumExtensionActions = new List<Action>();
+        internal static Dictionary<string,Func<ChromiumExtensionBase>> RegisterChromiumExtensionActions = new Dictionary<string, Func<ChromiumExtensionBase>>();
 
         internal List<Action<string, CfxCommandLine>> CommandLineBuildActions = new List<Action<string, CfxCommandLine>>();
 
         internal List<Action<CfxSettings>> SettingBuildActions = new List<Action<CfxSettings>>();
 
-        private List<Func<Bootstrap, bool>> beforeApplicationRunActions = new List<Func<Bootstrap, bool>>();
+        private readonly List<Func<Bootstrap, bool>> beforeApplicationRunActions = new List<Func<Bootstrap, bool>>();
 
-        private static List<Func<CustomResource>> resourceHandlers = new List<Func<CustomResource>>();
+        private static readonly List<Func<CustomResource>> resourceHandlers = new List<Func<CustomResource>>();
 
         private Action<LibCefNotFoundArgs> LibCefNotFoundHandler = null;
 
@@ -223,7 +256,10 @@ namespace NetDimension.NanUI
         private bool useDefaultBrowserSubprocess = false;
 
 
-
+        /// <summary>
+        /// Register custom resource handler of Chromium
+        /// </summary>
+        /// <param name="resourceHandler"></param>
         public static void RegisterCustomResourceHandler(Func<CustomResource> resourceHandler)
         {
             if (CfxRuntime.LibrariesLoaded)
@@ -244,7 +280,10 @@ namespace NetDimension.NanUI
             }
         }
 
-
+        /// <summary>
+        /// Initialize NanUI Runtime
+        /// </summary>
+        /// <returns>Bootstrap</returns>
         public static Bootstrap Initialize()
         {
             if (CurrentContext == null)
@@ -266,10 +305,10 @@ namespace NetDimension.NanUI
         }
 
         /// <summary>
-        /// Specific a custom path of libcef binary files
+        /// Specifies a custom path of libcef binary files
         /// </summary>
         /// <param name="libCefDirPath"></param>
-        /// <returns></returns>
+        /// <returns>Bootstrap</returns>
         public Bootstrap WithCustomLibCefDirPath(string libCefDirPath)
         {
             LibCefSearchPath = libCefDirPath;
@@ -299,7 +338,7 @@ namespace NetDimension.NanUI
 
                 if (!hasResourceDir)
                 {
-                    throw new DirectoryNotFoundException($"The resources directroy does not exist at specific location。");
+                    throw new DirectoryNotFoundException($"The resources directroy does not exist at Specifies location。");
                 }
 
                 //libCefDir = libCefDirPath;
@@ -315,6 +354,11 @@ namespace NetDimension.NanUI
             return this;
         }
 
+        /// <summary>
+        /// Specifies a data path of NanUI
+        /// </summary>
+        /// <param name="dataDir">Path to set</param>
+        /// <returns>Bootstrap</returns>
         public Bootstrap WithApplicationDataDirectroty(string dataDir)
         {
             appDataDir = dataDir;
@@ -322,6 +366,11 @@ namespace NetDimension.NanUI
             return this;
         }
 
+        /// <summary>
+        /// Specifies command line arguments of Chromium
+        /// </summary>
+        /// <param name="buildAction">Action&lt;CommandLineType, CommandLine&gt;</param>
+        /// <returns>Bootstrap</returns>
         public Bootstrap WithChromiumCommandLineArguments(Action<string, CfxCommandLine> buildAction)
         {
 
@@ -332,6 +381,11 @@ namespace NetDimension.NanUI
             return this;
         }
 
+        /// <summary>
+        /// Specifies settings of Chromium
+        /// </summary>
+        /// <param name="buildAction">Action&lt;Settings&gt;</param>
+        /// <returns>Bootstrap</returns>
         public Bootstrap WithChromiumSettings(Action<CfxSettings> buildAction)
         {
             if (buildAction != null)
@@ -341,6 +395,10 @@ namespace NetDimension.NanUI
             return this;
         }
 
+        /// <summary>
+        /// Use default NanUI subprocess
+        /// </summary>
+        /// <returns>Bootstrap</returns>
         public Bootstrap UseDefaultBrowserSubpress()
         {
             useDefaultBrowserSubprocess = true;
@@ -348,6 +406,11 @@ namespace NetDimension.NanUI
         }
 
         private bool isHighDpiSupportEnabled = true;
+
+        /// <summary>
+        /// Disalbe the HighDPI support in Chromium
+        /// </summary>
+        /// <returns>Bootstrap</returns>
         public Bootstrap DisableHighDpiSupported()
         {
             isHighDpiSupportEnabled = false;
@@ -356,6 +419,10 @@ namespace NetDimension.NanUI
 
         internal static bool IsDebugModeEnabled { get; private set; } = false;
 
+        /// <summary>
+        /// Enable debug mode, this will let you see more info in console
+        /// </summary>
+        /// <returns>Bootstrap</returns>
         public Bootstrap WithDebugModeEnabled()
         {
             IsDebugModeEnabled = true;
@@ -364,6 +431,10 @@ namespace NetDimension.NanUI
 
         public static string[] CommandLineArgs;
 
+        /// <summary>
+        /// Execute render process of Chromium
+        /// </summary>
+        /// <returns>Bootstrap</returns>
         public static int ExecuteProcess()
         {
 
@@ -404,14 +475,15 @@ namespace NetDimension.NanUI
 
             var app = new NanUIApp(this);
 
-            var settings = new CfxSettings();
-
-            settings.JavascriptFlags = "--expose-gc";
-            settings.Locale = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
-            settings.AcceptLanguageList = System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
-            settings.CachePath = CacheDirectory;
-            settings.LogFile = Path.Combine(CacheDirectory, "logs", "cef.log");
-            settings.LogSeverity = CfxLogSeverity.Disable;
+            var settings = new CfxSettings
+            {
+                JavascriptFlags = "--expose-gc",
+                Locale = System.Threading.Thread.CurrentThread.CurrentCulture.ToString(),
+                AcceptLanguageList = System.Threading.Thread.CurrentThread.CurrentCulture.ToString(),
+                CachePath = CacheDirectory,
+                LogFile = Path.Combine(CacheDirectory, "logs", "cef.log"),
+                LogSeverity = CfxLogSeverity.Disable
+            };
 
             foreach (var settingAction in SettingBuildActions)
             {
@@ -500,6 +572,11 @@ namespace NetDimension.NanUI
             RunChromiumMainProcess();
         }
 
+        /// <summary>
+        /// When libcef binnaries are not found automatically, you could handle it by yourself here
+        /// </summary>
+        /// <param name="action">The handler</param>
+        /// <returns>Bootstrap</returns>
         public Bootstrap WhenLibCefNotFound(Action<LibCefNotFoundArgs> action)
         {
             LibCefNotFoundHandler = action;
@@ -508,15 +585,25 @@ namespace NetDimension.NanUI
             return this;
         }
 
+        /// <summary>
+        /// If you want to handle someting before the Application.Run, you could hanld it here
+        /// </summary>
+        /// <param name="beforeRun">The handler</param>
+        /// <returns>Bootstrap</returns>
         public Bootstrap BeforeApplicaitonRun(Func<Bootstrap, bool> beforeRun)
         {
             beforeApplicationRunActions.Add(beforeRun);
             return this;
         }
 
-        public Bootstrap RegisterChromiumExtension(Action register)
+        /// <summary>
+        /// Register Chromim extension with ChromiumExtensionBase
+        /// </summary>
+        /// <param name="register">The handler</param>
+        /// <returns>Bootstrap</returns>
+        public Bootstrap RegisterChromiumExtension(string name , Func<ChromiumExtensionBase> register)
         {
-            RegisterChromiumExtensionActions.Add(register);
+            RegisterChromiumExtensionActions.Add(name, register);
             return this;
         }
 
@@ -561,6 +648,9 @@ namespace NetDimension.NanUI
 
         }
 
+        /// <summary>
+        /// Start without any main window
+        /// </summary>
         public void Run()
         {
             try
@@ -585,6 +675,10 @@ namespace NetDimension.NanUI
             }
         }
 
+        /// <summary>
+        /// Start with Formium host window
+        /// </summary>
+        /// <param name="runAction"></param>
         public void Run(Func<Formium> runAction)
         {
             try
@@ -613,6 +707,10 @@ namespace NetDimension.NanUI
             }
         }
 
+        /// <summary>
+        /// Start with Form
+        /// </summary>
+        /// <param name="runAction"></param>
         public void Run(Func<Form> runAction)
         {
 
@@ -636,6 +734,35 @@ namespace NetDimension.NanUI
                 CustomResource.FreeGCHandles();
             }
 
+        }
+
+        /// <summary>
+        /// Start with ApplicationContext
+        /// </summary>
+        /// <param name="runAction"></param>
+        public void Run(Func<ApplicationContext> runAction)
+        {
+            try
+            {
+                LoadCef();
+
+                var context = runAction?.Invoke();
+
+                var mainForm = context.MainForm;
+
+                RunMainProcess(mainForm);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CfxRuntime.Shutdown();
+                CustomResource.FreeGCHandles();
+            }
         }
 
         #region Logger
