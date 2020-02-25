@@ -669,9 +669,6 @@ namespace NetDimension.NanUI
                 CfxRuntime.Shutdown();
 
                 ColorConsole.WriteLine("[NanUI.MainProcess]".Green(), " has been terminated.".Gray());
-
-
-
             }
         }
 

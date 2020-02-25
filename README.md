@@ -1,8 +1,12 @@
 # NanUI 
 
-[[English](./README.en-US.md)]
+[中文] | [[English](./README.en-US.md)]
+
 
 ## 简介
+
+![screenshot](./screenshot.png)
+
 
 ### NanUI 项目
 
@@ -16,16 +20,21 @@
 
 如果你喜欢NanUI项目，请为NanUI项目点亮一颗星！
 
-## 如何编译
+## 更新
 
-你需要使用Visual Studio 2019并安装了.NET Framework SDKs和.NET Core 3.1 SDK才能成功编译编译NanUI项目的源码。如果你不需要编译项目源代码，而是直接使用二进制库文件，那么Visual Studio的版本将不会受到限制。如果需要了解更多关于编译项目的信息，请移步到[这里](src/README.md).
+如果您需要了解最近更新的日志信息，请查看[日志文档](./src/changelog.md)。
 
+## 帮助文档
 
-## 使用NanUI
+帮助文档将帮助你轻松快速的开始使用Formium引擎进行开发。如果你愿意帮助翻译不同语言的文档，请与我取得联系，感激不敬。 
+
+[中文文档](docs/README.md)
+
+## 使用 NanUI
 
 稳定版的库文件我会上传到NuGet平台，你可以通过NuGet的包管理器来安装NanUI到你的项目中。与之关联的对应版本的CEF和CFX依赖项目也会自动拷贝到项目文件夹中。
 
-**.NET Framework 4.0+**
+**.NET Framework 4.0+ / .NET CORE 3.1**
 
 NetDimension.NanUI.dll最小支持到Microsft .NET Framework 4.0版本
 
@@ -35,18 +44,7 @@ PM> Install-Package NetDimension.NanUI
 
 **请注意!** 与之前发布的NanUI库不同， 新版本将不再支持Windows XP系统。如果有使用XP的需求，请继续使用0.6版本。
 
-**.NET Core 3.1**
-```
-PM> Install-Package NetDimension.NanUI.Core
-```
 
-## 帮助文档
-
-帮助文档将帮助你轻松快速的开始使用Formium引擎进行开发。如果你愿意帮助翻译不同语言的文档，请与我取得联系，感激不敬。 
-
-- [English](documents/README.md)
-
-- [中文文档](documents/README.md)
 
 ## 创建一个最简单的应用
 
@@ -113,16 +111,26 @@ class MainWindow : Formium
 }
 ```
 
+
+## 关于我
+
+各位朋友大家好，我是 NanUI 的作者林选臣，网名 Mr.JSON。本人毕业于西南林业大学计算机与科学技术专业。曾跟大学兄弟一起创过业，写过网站，接过项目；也在本地的各种互联网企业、软件企业摸爬滚打混迹过很多年。目前给自己的评价是：边疆小城里碌碌无为的卢瑟程序员！
+
+我是一个开朗的人，这得益于养育我的父母，爱我的老婆。能够每天开心的活着，高高兴兴的写着代码，我已感到满足。
+
+![胖子](./docs/images/self-contained.jpg)
+
+
 ## 资助项目
 NanUI是一个基于MIT协议的开源项目并且它是完全免费的。尽管如此，如果没有适当的资金支持，项目维护和新功能的开发是无法持续下去的。所以如果你喜欢这个项目并认可我的工作，你可以支付我一杯咖啡的钱请我喝一杯咖啡，或者你也可以成为长期的项目资助人以帮助NanUI变得更好。
 
 使用微信或者支付宝扫描下方二维码来进行资金方面的捐助。
 
-![DONATE](documents/images/qrcode.png)
+![DONATE](docs/images/qrcode.png)
 
 
 海外用户请通过点击下方图标连接到PayPal平台进行捐助。
 
-[![DONATE](documents/images/paypal.png)](https://www.paypal.me/mrjson)
+[![DONATE](docs/images/paypal.png)](https://www.paypal.me/mrjson)
 
 **NanUI的发展需要你的支持，谢谢！**

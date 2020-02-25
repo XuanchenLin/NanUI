@@ -9,7 +9,7 @@ namespace NetDimension.NanUI
 {
     public static class ResourceHandlerRegister
     {
-        public static Bootstrap UserRestfulService(this Bootstrap _, ResourceHandlerScheme scheme, string domain, Action<RestfulService.RestfulServiceProvider> provider = null)
+        public static Bootstrap UseRestfulService(this Bootstrap _, ResourceHandlerScheme scheme, string domain, Action<RestfulService.RestfulServiceProvider> provider = null)
         {
 
 

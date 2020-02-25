@@ -93,6 +93,35 @@ namespace NetDimension.NanUI.RestfulService
             }
         }
 
+
+
+
+        public void RegisterServiceController(ServiceController controller)
+        {
+            if (controller == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            PrepareServiceController(controller.GetType(), controller);
+
+        }
+
+
+        public void ImportServiceAssembly(Assembly assembly)
+        {
+            if (assembly == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var loadable = from x in assembly.GetTypes() where /*Attribute.IsDefined(x, typeof(RouteAttribute)) &&*/ x.IsSubclassOf(typeof(ServiceController)) select x;
+
+            foreach (var type in loadable)
+            {
+                PrepareServiceController(type);
+            }
+        }
         private void PrepareServiceController(Type type, object instance = null)
         {
             if (instance == null)
@@ -168,35 +197,6 @@ namespace NetDimension.NanUI.RestfulService
                 }
             }
 
-        }
-
-
-
-        public void RegisterServiceController(ServiceController controller)
-        {
-            if (controller == null)
-            {
-                throw new NullReferenceException();
-            }
-
-            PrepareServiceController(controller.GetType(), controller);
-
-        }
-
-
-        public void ImportServiceAssembly(Assembly assembly)
-        {
-            if (assembly == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            var loadable = from x in assembly.GetTypes() where /*Attribute.IsDefined(x, typeof(RouteAttribute)) &&*/ x.IsSubclassOf(typeof(ServiceController)) select x;
-
-            foreach (var type in loadable)
-            {
-                PrepareServiceController(type);
-            }
         }
 
     }

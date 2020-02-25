@@ -1,5 +1,14 @@
 # NanUI
+
+[[中文](./README.md)] | [English]
+
+
+
 ## Introduction
+
+![screenshot](./screenshot.png)
+
+
 ### NanUI Project
 
 **NanUI** is an open source .NET project for .NET / .NET Core developers who want to use front-end technologies such as HTML5 / CSS3 to build user interfaces for Windows Form applications. It's based on [ChromiumFX](https://bitbucket.org/chromiumfx/chromiumfx) project that is a .NET bindings for the Chromium Embedded Framework.
@@ -14,17 +23,21 @@ With Formium Engine, you can easily use any front-end techonology you are famili
 
 ## What's new
 
-The latest changes at 2020/1/15, please see [changelog](changelog.md) to check more details.
+The latest changes at 2020/1/15, please see [CHANGES](./src/changelog.md) to check more details.
 
-## Build
 
-You need to use Visual Studio 2019 with the .NET Framework SDKs (4.0 and above) and .NET Core 3.1 SDK installed to  compile the source code of the NanUI project successfully. If you don't need to compile the source code of NanUI, just use the binary library files directly, then the version of Visual Studio will not be limited. More information about how to build the project, please see [here](src/README.md).
+## Documentation
 
-## Release
+The Documentations will help you to start with Formium quickly. Contact me if you are willing to help translate the documentation. 
+
+[Documentation](docs/README.md)
+
+
+## Install
 
 The stable release of NanUI project uploads to NuGet. Using the commad below in NuGet Package Manager to install latest version of Formium Engine to your project. The dependencies associated with it will be automatically installed into your project too.
 
-**For .NET Framework 4.0+**
+**For .NET Framework 4.0+ / .NET Core 3.1**
 
 Microsft .NET Framework 4.0 is the minimal version support to NetDimension.NanUI.dll.
 
@@ -34,18 +47,7 @@ PM> Install-Package NetDimension.NanUI
 
 **IMPORTANT!** Unlike previous version of NanUI, this new version will no longer provide support for Window XP.
 
-**For .NET Core 3.1**
-```
-PM> Install-Package NetDimension.NanUI.Core
-```
 
-## Documentation
-
-The Documentations will help you to start with Formium quickly. Contact me if you are willing to help translate the documentations. 
-
-- [English](documents/README.md)
-
-- [中文文档](documents/README.md)
 
 ## Basic Usage
 
@@ -114,7 +116,7 @@ NanUI is an MIT licensed open source project and completely free to use. However
 
 If you like this project and be sure of my work, you can buy me a cup of coffee, or you can become a backer or sponsor for helping the project better.
 
-[![DONATE](documents/images/paypal.png)](https://www.paypal.me/mrjson)
+[![DONATE](docs/images/paypal.png)](https://www.paypal.me/mrjson)
 
 
 
