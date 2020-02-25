@@ -28,7 +28,8 @@
 
 帮助文档将帮助你轻松快速的开始使用Formium引擎进行开发。如果你愿意帮助翻译不同语言的文档，请与我取得联系，感激不敬。 
 
-[中文文档](docs/README.md)
+- [中文文档](docs/README.md)
+- [NanUI 技术内幕](https://zhuanlan.zhihu.com/nanui)@知乎
 
 ## 使用 NanUI
 
