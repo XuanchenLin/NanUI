@@ -30,7 +30,7 @@ The latest changes at 2020/1/15, please see [CHANGES](./src/changelog.md) to che
 
 The Documentations will help you to start with Formium quickly. Contact me if you are willing to help translate the documentation. 
 
-[Documentation](docs/README.md)
+[Documentation](https://docs.formium.net)
 
 
 ## Install
