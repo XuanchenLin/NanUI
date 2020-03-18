@@ -31,6 +31,13 @@
 - [中文文档](https://docs.formium.net)
 - [NanUI 技术内幕](https://zhuanlan.zhihu.com/nanui)@知乎
 
+## 教学视频
+
+后期将陆续更新《NanUI 入门教程》系列视频以及《NanUI 案例实战》系列视频，您可以访问以下网站收看。
+
+- [B站](https://space.bilibili.com/396855974/channel/detail?cid=113298)
+- [西瓜](https://www.ixigua.com/pseries/6804465191196033540_6798031330459255303/)
+
 ## 使用 NanUI
 
 稳定版的库文件我会上传到NuGet平台，你可以通过NuGet的包管理器来安装NanUI到你的项目中。与之关联的对应版本的CEF和CFX依赖项目也会自动拷贝到项目文件夹中。
