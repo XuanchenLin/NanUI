@@ -120,7 +120,23 @@ namespace NetDimension.NanUI.Window
 
         private const int designTimeDpi = 96;
         private int startupDpi;
+        private static bool? isDesingerProcess = null;
 
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        protected static bool IsDesingerProcess
+        {
+            get
+            {
+                if (isDesingerProcess == null)
+                {
+                    isDesingerProcess = System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv";
+                }
+
+                return isDesingerProcess.Value;
+            }
+        }
+        [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+        protected bool IsDesignMode => DesignMode || LicenseManager.UsageMode == LicenseUsageMode.Designtime || IsDesingerProcess;
         public StandardHostWindow()
         {
             AutoScaleMode = AutoScaleMode.Dpi;
@@ -166,6 +182,33 @@ namespace NetDimension.NanUI.Window
             {
                 var factor = startupDpi / (float)designTimeDpi;
                 this.Scale(new SizeF(factor, factor));
+            }
+
+
+            if (!IsDesignMode)
+            {
+
+
+                if (StartPosition == FormStartPosition.CenterParent && Owner != null)
+                {
+                    Location = new Point(Owner.Location.X + Owner.Width / 2 - Width / 2,
+                    Owner.Location.Y + Owner.Height / 2 - Height / 2);
+
+                }
+                else if (StartPosition == FormStartPosition.CenterScreen || (StartPosition == FormStartPosition.CenterParent && Owner == null))
+                {
+                    var currentScreen = Screen.FromPoint(MousePosition);
+
+                    var initScreen = Screen.FromHandle(Handle);
+
+                    if (currentScreen != initScreen)
+                    {
+                        Location = new Point(Left + currentScreen.WorkingArea.Left, Top + currentScreen.WorkingArea.Top);
+                    }
+
+                    Location = new Point(currentScreen.WorkingArea.Left + (currentScreen.WorkingArea.Width / 2 - this.Width / 2), currentScreen.WorkingArea.Top + (currentScreen.WorkingArea.Height / 2 - this.Height / 2));
+
+                }
             }
         }
 

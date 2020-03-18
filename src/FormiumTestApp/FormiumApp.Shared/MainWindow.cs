@@ -53,7 +53,7 @@ namespace FormiumApp
 
             // 当主页面加载完成后，打开Chromium的开发者工具。
             // When the main page is loadded, open the developer's tool
-            WebBrowser.ShowDevTools();
+            // WebBrowser.ShowDevTools();
 
         }
 

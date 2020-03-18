@@ -70,7 +70,8 @@ namespace NetDimension.NanUI
         const string UP_LEVEL_DIR = "..";
 
         private static readonly string applicationRunningDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().EscapedCodeBase).LocalPath);
-        private static readonly string commonDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\", CEF_VERSION);
+        private static readonly string commonDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Net Dimension Studio\NanUI\");
+        private static readonly string commonCefDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"Net Dimension Studio\NanUI", CEF_VERSION);
         private static string appDataDir = Path.Combine(commonDataDir, Application.ProductName);
 
         private static string LibCefSearchPath { get; set; } = applicationRunningDir;
@@ -142,6 +143,7 @@ namespace NetDimension.NanUI
 
                     var searchPlaces = new List<string>
                     {
+                        Path.Combine(commonCefDir, subprocessFileName),
                         Path.Combine(LibCefSearchPath, subprocessFileName)
                     };
 
@@ -175,7 +177,8 @@ namespace NetDimension.NanUI
                 {
 
                     string[] searchPaths = new string[] {
-                        commonDataDir,
+                        // %ProgrameData%\Net Dimension Studio\NanUI\{CEF Version}\
+                        Path.Combine(commonCefDir, PlatformArchitecture.ToString()),
                         // current directory - [APP_DIR]\
                         LibCefSearchPath,
                         // architecture name in current directory - [APP_DIR]\[ARCHITECTURE_NAME]\
