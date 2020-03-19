@@ -17,7 +17,13 @@ namespace NetDimension.NanUI.ResourceHandler
 
         public int Count => RawQueries.Count;
 
-        public StringValueCollection this[string key] => new StringValueCollection(RawQueries[key]);
+        public StringValueCollection this[string key] { 
+            get {
+                if (!RawQueries.ContainsKey(key)) return null;
+
+                return new StringValueCollection(RawQueries[key]);
+            } 
+        }
 
         public IEnumerator<KeyValuePair<string, StringValueCollection>> GetEnumerator()
         {
