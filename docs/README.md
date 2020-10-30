@@ -1,9 +1,10 @@
+# 文档 / Documentation
 
-# Documentation
+- 请帮助翻译 NanUI 项目文档
+- Please help translate the NanUI project documentation
+  
 
-Please help NanUI translating documentation to different languages.
+## 语言 / Languages
 
-## Languages
-
-- [简体中文](zh-hans/README.md)
-- [English](en/README.md)
+- [中文](zh-CN/README.md)
+- [English](en-US/README.md)
