@@ -1,1 +1,5 @@
-D:/Projects/Repos/NanUI-0.8/CHANGELOG
+What's New in NanUI version 0.8
+
+- Replace the Base Renderer Engine from ChromiumFX to CefGlue.
+- Rewrite the HostWindow, 3 new styles were added.
+- Add ZipFile Resource Handler.
