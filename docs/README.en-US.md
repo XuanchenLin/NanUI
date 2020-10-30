@@ -156,7 +156,7 @@ You can get the source code of NanUI and learn more about each window's implemen
 
 The development documentation will help you quickly and easily start to develop with NanUI.
 
-- [NanUI Documentation](README.md)
+- [NanUI Documentation](documentation.md)
 
 The NanUI document is currently being gradually improved. If you are willing to help translate documents to different languages, please contact me or directly submit a Pull Request for the documents in other languages. Thank you!
 
