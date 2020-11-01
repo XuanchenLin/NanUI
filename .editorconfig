@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0436: 类型与导入类型冲突
+dotnet_diagnostic.CS0436.severity = none
