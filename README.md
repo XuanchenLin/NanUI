@@ -34,7 +34,7 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 
 ### 当前 NanUI 版本：
 
-- **Chromium** `80.1.15`
+- **Chromium** `80.0.3987.163`
 - **NanUI** `0.8.80.120` 
 
 ---
@@ -43,7 +43,7 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 
 帮助文档将帮助您轻松快速的开始使用 NanUI 进行开发。
 
-- [NanUI 0.8 文档](documentation.md)
+- [NanUI 0.8 文档](docs/documentation.md)
 
 此外您还可以在下述平台找到更多关于 NanUI 的话题、文档和视频。
 
