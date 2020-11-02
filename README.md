@@ -53,6 +53,10 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 
 目前 NanUI 文档正在逐步完善，如果您愿意帮助翻译不同语言的文档，请与我取得联系或者直接提交其他语言文档的 Pull Request 即可，感激不敬！
 
+## 示例
+
+您可以通过 [NanUI 示例仓库](https://github.com/XuanchenLin/NanUI-0.8-Examples) 下载 NanUI 0.8 示例程序的全部源码。
+
 ---
 
 ## 版权和协议

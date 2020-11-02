@@ -41,7 +41,9 @@ The Documentation will help you to start developing with NanUI easily and quickl
 
 - [NanUI Documentation for verison 0.8](docs/documentation.md)
 
+## Examples
 
+You can download all the source code of NanUI 0.8 example from [NanUI 0.8 Examples](https://github.com/XuanchenLin/NanUI-0.8-Examples) repository.
 
 ## License
 
