@@ -100,10 +100,10 @@ Formium has built-in the html attribute `formium-command` in the front-end envir
 
 Maximize, minimize, restore and close commands that can be achieved when the user clicks on the HTML element with the `formium-command` attribute.
 
-For example, setting nanui-command="close" can close the form after clicking the element.
+For example, setting formium-command="close" can close the form after clicking the element.
 
 ```html
-<button nanui-command="close">Close</button>
+<button formium-command="close">Close</button>
 ```
 
 Currently, the following formium-command attribute values are provided:

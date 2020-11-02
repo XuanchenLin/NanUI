@@ -100,10 +100,10 @@ Formium 窗体在前端环境中内置了 html 属性`formium-command`以及 Jav
 
 用户点击具有`formium-command`属性的 HTML 元素时可以实现的最大化、最小化、还原及关闭命令。
 
-例如设置 nanui-command="close"可以实现点击该元素后关闭窗体。
+例如设置 formium-command="close"可以实现点击该元素后关闭窗体。
 
 ```html
-<button nanui-command="close">关闭窗口</button>
+<button formium-command="close">关闭窗口</button>
 ```
 
 目前提供有如下几个 formium-command 属性的值：
