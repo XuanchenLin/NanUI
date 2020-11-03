@@ -178,7 +178,7 @@ namespace NetDimension.NanUI
                         throw new ArgumentException($"Extension {extension.Name} already exists.");
                     }
 
-                    runtime.Container.RegisterInstance(extension, extensionName);
+                    runtime.Container.RegisterInstance(extension, extension.Name);
                 };
 
             }, ExtensionExecutePosition.SubProcessStartup);

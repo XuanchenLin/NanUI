@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,15 +93,19 @@ namespace NetDimension.NanUI.JavaScript
 
             var function = Extension.FunctionHandlers.SingleOrDefault(x => x.FuntionName.Equals(name));
 
+            WinFormium.GetLogger().Debug($"{name}");
 
             if (function == null)
             {
 
-                exception = $"{name} is not defined.";
+                exception = $"[NanUI]:{name} is not defined.";
                 returnValue = null;
+
 
                 return true;
             }
+
+
 
             var args = JavaScriptValue.CreateArray();
 
@@ -165,6 +169,8 @@ namespace NetDimension.NanUI.JavaScript
 
 
                 var response = JSBridge.SendExecutionRequest(request);
+
+
 
 
                 if (response.IsSuccess)

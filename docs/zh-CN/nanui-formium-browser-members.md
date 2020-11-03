@@ -140,6 +140,10 @@
 
 停止加载当前浏览器正在加载的页面。
 
+**public void ShowDevTools()**
+
+打开调试工具。
+
 ## 事件
 
 **AddresChanged**

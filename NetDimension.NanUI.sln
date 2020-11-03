@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetDimension.NanUI", "NetDimension.NanUI\NetDimension.NanUI.csproj", "{AA8BF1AF-0655-4839-B94B-583A6D23DB57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetDimension.NanUI", "src\NetDimension.NanUI\NetDimension.NanUI.csproj", "{AA8BF1AF-0655-4839-B94B-583A6D23DB57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

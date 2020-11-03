@@ -1227,6 +1227,7 @@ namespace NetDimension.NanUI
             }
 
 
+
             HostWindowInternal.Load += OnHostWindowLoad;
 
             HostWindowInternal.HandleCreated += OnHostWindowHandleCreated;
@@ -1306,6 +1307,17 @@ namespace NetDimension.NanUI
             ihostWindow.OnWindowsMessage = OnHostWindowWndProc;
 
             ihostWindow.OnDefWindowsMessage = OnHostWindowDefWndProc;
+
+            Mask = new ViewMask(this);
+
+
+            OnViewMaskCreated(Mask);
+
+            if (AutoShowMask)
+            {
+                Mask.Show();
+            }
+
 
         }
 
@@ -1574,26 +1586,6 @@ namespace NetDimension.NanUI
 
 
             OnFullScreenMenuStateChanged();
-
-            Mask = new ViewMask(this);
-
-            if (WindowType != HostWindowType.Acrylic && WindowType != HostWindowType.Layered)
-            {
-
-            }
-
-
-
-            OnViewMaskCreated(Mask);
-
-            if (AutoShowMask)
-            {
-                //Mask.Panel.BringToFront();
-                //Mask.Panel.Visible = true;
-                Mask.Show();
-            }
-
-
 
             CreateBrowser();
         }

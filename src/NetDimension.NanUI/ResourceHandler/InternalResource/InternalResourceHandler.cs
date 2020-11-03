@@ -24,7 +24,7 @@ namespace NetDimension.NanUI.ResourceHandler.InternalResource
                 return response;
             }
 
-            response.TextContent("123");
+            response.TextContent("Hello NanUI!");
 
             return response;
 

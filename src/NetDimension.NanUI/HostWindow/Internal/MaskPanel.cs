@@ -9,9 +9,30 @@ namespace NetDimension.NanUI.HostWindow
 
     internal sealed class DragPanel : Panel
     {
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x00000020; // 实现透明样式
+
+                return cp;
+            }
+        }
+
         public DragPanel()
         {
-            DoubleBuffered = true;
+            SetStyle(ControlStyles.Opaque, true);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            using (var brush = new SolidBrush(Color.FromArgb(0, Color.Transparent)))
+            {
+                e.Graphics.FillRectangle(brush, this.ClientRectangle);
+            }
+
+            base.OnPaint(e);
         }
     }
     internal sealed class MaskPanel : Panel
@@ -27,7 +48,6 @@ namespace NetDimension.NanUI.HostWindow
 
             DragHandlerPanel = new DragPanel
             {
-                BackColor = Color.Transparent,
                 Dock = DockStyle.Fill,
             };
 

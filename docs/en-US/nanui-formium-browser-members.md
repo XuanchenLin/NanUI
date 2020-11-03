@@ -140,7 +140,11 @@ parameter
 
 Stop loading the page currently being loaded by the browser.
 
-## Incident
+**public void ShowDevTools()**
+
+Open the DevTools window.
+
+## Events
 
 **AddresChanged**
 

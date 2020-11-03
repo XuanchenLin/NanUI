@@ -8,11 +8,10 @@
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
-    <!--<PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc</PackageTags>-->
     <Version>0.8.3987.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-07-02",2020))))).TotalDays)</Version>
-    <Company>NetDimension Studio</Company>
+    <Company>Net Dimension Studio</Company>
     <Authors>Xuanchen Lin</Authors>
-    <Copyright>Copyright © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin and members of NetDimension Studio all rights reserved.</Copyright>
+    <Copyright>Copyright © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin and NetDimension Studio all rights reserved.</Copyright>
     <Description>NanUI is an open source .NET project for .NET / .NET Core developers who want to use front-end technologies such as HTML5 / CSS3 to build user interfaces for Windows Form applications.</Description>
     <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -21,13 +20,5 @@
 
     <IncludeSymbols>false</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
-    <!-- Packages versions -->
-    <!--<NerdbankGitVersioningVersion>3.2.31</NerdbankGitVersioningVersion>-->
-    <!-- <SharpGenVersion>1.2.1</SharpGenVersion> -->
   </PropertyGroup>
-
-  <ItemGroup>
-    <!--<PackageReference Include="Nerdbank.GitVersioning" Version="$(NerdbankGitVersioningVersion)" PrivateAssets="all" />-->
-  </ItemGroup>
 </Project>
