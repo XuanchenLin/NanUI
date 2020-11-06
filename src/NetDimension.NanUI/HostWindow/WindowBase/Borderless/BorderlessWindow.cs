@@ -559,7 +559,7 @@ namespace NetDimension.NanUI.HostWindow
                     h = bounds.Height;
                 }
 
-                if (currentScreen != initScreen)
+                if (currentScreen.DeviceName != initScreen.DeviceName)
                 {
                     screenLeft += currentScreen.WorkingArea.Left;
                     screenTop += currentScreen.WorkingArea.Top;

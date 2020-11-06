@@ -142,6 +142,11 @@ namespace NetDimension.NanUI.HostWindow.JavaScriptExtension
             {
                 owner.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             }
+            else if(owner.WindowState == System.Windows.Forms.FormWindowState.Maximized)
+            {
+                owner.WindowState = System.Windows.Forms.FormWindowState.Normal;
+            }
+
             return null;
         }
         private JavaScriptValue Restore(Formium owner, JavaScriptValue[] arguments)

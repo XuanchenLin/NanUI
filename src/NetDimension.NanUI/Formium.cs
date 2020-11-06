@@ -9,6 +9,7 @@ using Xilium.CefGlue;
 using System.Threading.Tasks;
 using NetDimension.NanUI.JavaScript;
 using NetDimension.NanUI.Logging;
+using System.Threading;
 
 namespace NetDimension.NanUI
 {
@@ -46,11 +47,21 @@ namespace NetDimension.NanUI
 
         private bool _isFirstTimeToRun = true;
 
+
+        private readonly object _browserSyncRoot = new object();
+
+        private string _loadUrlDeferred;
+        private string _loadStringDeferred;
+
         private bool _isMinimized = false;
 
         #endregion
 
         internal FormiumWebView WebView { get; private set; }
+
+        internal protected bool IsMainFrameLoaded { get; private set; } = false;
+
+
         internal Form HostWindowInternal { get; private set; }
         /// <summary>
         /// Gets the instance of the CefBrowser using in current window.
@@ -395,12 +406,37 @@ namespace NetDimension.NanUI
         /// be accepted without calling this method.
         /// </summary>
         public event EventHandler<CertificateErrorEventArgs> CertificateError;
+
+        /// <summary>
+        /// Called on the UI thread before browser navigation. Return true to cancel
+        /// the navigation or false to allow the navigation to proceed. The |request|
+        /// object cannot be modified in this callback.
+        /// CefLoadHandler::OnLoadingStateChange will be called twice in all cases.
+        /// If the navigation is allowed CefLoadHandler::OnLoadStart and
+        /// CefLoadHandler::OnLoadEnd will be called. If the navigation is canceled
+        /// CefLoadHandler::OnLoadError will be called with an |errorCode| value of
+        /// ERR_ABORTED. The |user_gesture| value will be true if the browser
+        /// navigated via explicit user gesture (e.g. clicking a link) or false if it
+        /// navigated automatically (e.g. via the DomContentLoaded event).
+        /// </summary>
+        public event EventHandler<BeforeBrowseEventArgs> BeforeBrowse;
+
         /// <summary>
         /// Called on the browser process UI thread when the render process
         /// terminates unexpectedly. |status| indicates how the process
         /// terminated.
         /// </summary>
         public event EventHandler<RenderProcessTerminatedEventArgs> RenderProcessTerminated;
+
+        /// <summary>
+        /// Raises the OnBeforeBrowse event.
+        /// </summary>
+        /// <param name="e"></param>
+        internal protected void OnBeforeBrowse(BeforeBrowseEventArgs e)
+        {
+            BeforeBrowse?.Invoke(this, e);
+        }
+
 
         /// <summary>
         /// Raises the GetAuthCredentials event.
@@ -557,6 +593,14 @@ namespace NetDimension.NanUI
 
         protected ILogger Logger => WinFormium.GetLogger();
 
+        ///// <summary>
+        ///// When the host window is loaded.
+        ///// </summary>
+        //protected virtual void OnWindowLoad()
+        //{
+
+        //}
+
         /// <summary>
         /// Gets or sets  a value indicating whether the formium allows to full screen mode.
         /// </summary>
@@ -690,6 +734,8 @@ namespace NetDimension.NanUI
                 HostWindowInternal.StartPosition = value;
             }
         }
+
+        FormWindowState? _deferredWindowState = null;
         /// <summary>
         /// Gets or sets a value that indicates whether window is minimized, maximized, or normal.
         /// </summary>
@@ -709,7 +755,18 @@ namespace NetDimension.NanUI
 
                 }
 
-                HostWindowInternal.WindowState = value;
+                if (_isWindowLoaded)
+                {
+                    HostWindowInternal.WindowState = value;
+
+                }
+                else
+                {
+                    _deferredWindowState = value;
+                }
+
+
+
             }
         }
         /// <summary>
@@ -1104,6 +1161,33 @@ namespace NetDimension.NanUI
                 Browser?.Reload();
             }
         }
+
+        public void LoadUrl(string url)
+        {
+
+            if (Browser != null && Browser?.GetMainFrame() !=null)
+            {
+                Browser.GetMainFrame().LoadUrl(url);
+
+            }
+            else
+            {
+                lock (_browserSyncRoot)
+                {
+                    if (Browser != null && Browser?.GetMainFrame() != null)
+                    {
+                        Browser.GetMainFrame().LoadUrl(url);
+                    }
+                    else
+                    {
+                        _loadUrlDeferred = url;
+                    }
+                }
+            }
+
+
+        }
+
         /// <summary>
         /// Stop loading the page.
         /// </summary>
@@ -1228,7 +1312,7 @@ namespace NetDimension.NanUI
 
 
 
-            HostWindowInternal.Load += OnHostWindowLoad;
+            
 
             HostWindowInternal.HandleCreated += OnHostWindowHandleCreated;
 
@@ -1318,7 +1402,19 @@ namespace NetDimension.NanUI
                 Mask.Show();
             }
 
+            HostWindowInternal.Load += OnHostWindowLoad;
 
+            HostWindowInternal.Shown += OnHostWindowShown;
+        }
+
+        private void OnHostWindowShown(object sender, EventArgs e)
+        {
+            if (_deferredWindowState.HasValue && _deferredWindowState != FormWindowState.Normal)
+            {
+                HostWindowInternal.WindowState = _deferredWindowState.Value;
+            }
+
+            _deferredWindowState = null;
         }
 
         #region Overrides
@@ -1419,7 +1515,10 @@ namespace NetDimension.NanUI
         {
             RegisterHostWindowJavascriptEventHandler();
 
+
+
             _isWindowLoaded = true;
+
 
         }
 
@@ -1809,16 +1908,13 @@ namespace NetDimension.NanUI
         {
             ChromeWidgetMessageInterceptor.Setup(chromeWidgetMessageInterceptor, this, OnBrowserWindowMessage);
 
-            ResizeBrowserWindow();
-
-            _isBrowserCreated = true;
-
-            if (WindowType != HostWindowType.Acrylic && WindowType != HostWindowType.Layered)
-            {
-            }
 
 
 
+
+            //if (WindowType != HostWindowType.Acrylic && WindowType != HostWindowType.Layered)
+            //{
+            //}
 
 
             InvokeIfRequired(() => BrowserCreated?.Invoke(this, EventArgs.Empty));
@@ -1826,6 +1922,27 @@ namespace NetDimension.NanUI
             InvokeIfRequired(() => OnReady());
 
 
+            ResizeBrowserWindow();
+
+            _isBrowserCreated = true;
+
+
+            ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
+
+        }
+
+        private void AfterSetBrowserTasks(object state)
+        {
+
+            IsMainFrameLoaded = true;
+
+            lock (_browserSyncRoot)
+            {
+                if (_loadUrlDeferred != null)
+                {
+                    Browser.GetMainFrame().LoadUrl(_loadUrlDeferred);
+                }
+            }
         }
 
         private bool OnBrowserWindowMessage(Message m)

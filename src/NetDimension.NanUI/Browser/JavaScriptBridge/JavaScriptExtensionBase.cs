@@ -93,7 +93,7 @@ namespace NetDimension.NanUI.JavaScript
 
             var function = Extension.FunctionHandlers.SingleOrDefault(x => x.FuntionName.Equals(name));
 
-            WinFormium.GetLogger().Debug($"{name}");
+            //WinFormium.GetLogger().Debug($"{name}");
 
             if (function == null)
             {

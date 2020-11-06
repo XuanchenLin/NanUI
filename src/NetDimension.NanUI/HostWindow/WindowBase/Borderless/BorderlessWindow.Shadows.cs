@@ -15,11 +15,23 @@ namespace NetDimension.NanUI.HostWindow
     }
     partial class BorderlessWindow
     {
+
+        private bool _isShown = false;
+
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
 
-            PerformShadows(true);
+            if (_shadowDecorator != null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
+            {
+                PerformShadows(true);
+            }
+            else if(_shadowDecorator != null && MinMaxState != FormWindowState.Normal)
+            {
+                PerformShadows(false);
+            }
+
+            _isShown = true;
 
         }
 
@@ -38,10 +50,29 @@ namespace NetDimension.NanUI.HostWindow
 
             IsResizing = false;
 
-            if(_shadowDecorator!=null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
+            //if(_shadowDecorator!=null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
+            //{
+            //    PerformShadows(true);
+            //}
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (_isShown)
             {
-                PerformShadows(true);
+                if (_shadowDecorator != null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
+                {
+                    PerformShadows(true);
+                }
+                else if (_shadowDecorator != null && _shadowDecorator.IsEnabled && MinMaxState != FormWindowState.Normal)
+                {
+                    PerformShadows(false);
+                }
             }
+
+
         }
 
         private void PerformShadows(bool enabled)

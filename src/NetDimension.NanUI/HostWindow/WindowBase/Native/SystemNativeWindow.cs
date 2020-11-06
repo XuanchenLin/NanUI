@@ -35,10 +35,24 @@ namespace NetDimension.NanUI.HostWindow
 
             ScaleFactor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
 
+
+
+
             base.OnHandleCreated(e);
 
             CheckResetDPIAutoScale(true);
 
+            CorrectFormPostion();
+
+
+
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+
+
+            base.OnLoad(e);
         }
 
         protected override void OnCreateControl()
@@ -48,6 +62,12 @@ namespace NetDimension.NanUI.HostWindow
 
             if (!DesignMode)
             {
+
+
+
+                //
+
+
                 var currentScreenScaleFactor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
 
                 var primaryScreenScaleFactor = DpiHelper.GetScreenDpi(Screen.PrimaryScreen) / 96f;
@@ -59,7 +79,7 @@ namespace NetDimension.NanUI.HostWindow
 
                 Font = new Font(Font.FontFamily, (float)Math.Round(Font.Size * currentScreenScaleFactor), Font.Style);
 
-                CorrectFormPostion();
+
             }
 
         }
@@ -176,21 +196,27 @@ namespace NetDimension.NanUI.HostWindow
 
                 if (DpiHelper.IsPerMonitorV2Awareness)
                 {
-                    var screenDpi = DpiHelper.GetScreenDpiFromPoint(MousePosition);
 
-                    var screenScaleFactor = (screenDpi / 96f) / ScaleFactor;
+                    var factor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
 
-                    var bounds = GetScaledBounds(RealFormRectangle, new SizeF(screenScaleFactor, screenScaleFactor), BoundsSpecified.Size);
+
+                    //var screenDpi = DpiHelper.GetScreenDpiFromPoint(MousePosition);
+
+                    //var screenScaleFactor = (screenDpi / 96f) / ScaleFactor;
+
+                    var bounds = GetScaledBounds(RealFormRectangle, new SizeF(factor, factor), BoundsSpecified.Size);
 
                     w = bounds.Width;
                     h = bounds.Height;
                 }
 
-                if (currentScreen != initScreen)
+                if (currentScreen.DeviceName != initScreen.DeviceName)
                 {
-                    screenLeft += currentScreen.WorkingArea.Left;
-                    screenTop += currentScreen.WorkingArea.Top;
+                    
                 }
+
+                screenLeft += currentScreen.WorkingArea.Left;
+                screenTop += currentScreen.WorkingArea.Top;
 
                 User32.SetWindowPos(Handle, IntPtr.Zero, screenLeft + (currentScreen.WorkingArea.Width - w) / 2, screenTop + (currentScreen.WorkingArea.Height - h) / 2, RealFormRectangle.Width, RealFormRectangle.Height, SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
             }

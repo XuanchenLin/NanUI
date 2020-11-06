@@ -228,7 +228,7 @@ namespace NetDimension.NanUI.ResourceHandler
                 var keyvalue = pair.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                 if (keyvalue.Length == 2)
                 {
-                    retval.Add(keyvalue[0], Uri.EscapeDataString(keyvalue[1]));
+                    retval.Add(keyvalue[0], Uri.UnescapeDataString(keyvalue[1]));
                 }
                 else if (keyvalue.Length == 1)
                 {
@@ -251,7 +251,7 @@ namespace NetDimension.NanUI.ResourceHandler
                 var keyvalue = pair.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
                 if (keyvalue.Length == 2)
                 {
-                    retval.Add(keyvalue[0], Uri.EscapeDataString(keyvalue[1]));
+                    retval.Add(keyvalue[0], Uri.UnescapeDataString(keyvalue[1]));
                 }
                 else if (keyvalue.Length == 1)
                 {

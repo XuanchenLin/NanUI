@@ -62,6 +62,8 @@ namespace NetDimension.NanUI.HostWindow
             ResumeLayout();
         }
 
+        
+
 
 
         protected override void OnCreateControl()
@@ -86,7 +88,9 @@ namespace NetDimension.NanUI.HostWindow
 
                 Font = new Font(Font.FontFamily, (float)Math.Round(Font.Size * currentScreenScaleFactor), Font.Style);
 
+
                 CorrectFormPostion();
+
 
                 UpdateShadows();
 

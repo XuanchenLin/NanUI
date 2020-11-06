@@ -37,7 +37,13 @@ namespace NetDimension.NanUI.Browser
 
             _owner.WebView.ProcessMessageBridge.OnBeforeBrowse(browser, frame);
 
-            return base.OnBeforeBrowse(browser, frame, request, userGesture, isRedirect);
+
+            var e = new BeforeBrowseEventArgs(browser, frame, request, userGesture, isRedirect);
+
+
+            _owner.InvokeIfRequired(() => _owner.OnBeforeBrowse(e));
+
+            return e.Cancelled;
         }
 
         protected override bool GetAuthCredentials(CefBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, CefAuthCallback callback)
@@ -82,6 +88,26 @@ namespace NetDimension.NanUI.Browser
         //{
         //    return base.OnSelectClientCertificate(browser, isProxy, host, port, certificates, callback);
         //}
+    }
+
+    public sealed class BeforeBrowseEventArgs: EventArgs
+    {
+        internal BeforeBrowseEventArgs(CefBrowser browser, CefFrame frame, CefRequest request, bool userGesture, bool isRedirect)
+        {
+            _browser = browser;
+            Frame = frame;
+            Request = request;
+            UserGesture = userGesture;
+            IsRedirect = isRedirect;
+        }
+
+        private readonly CefBrowser _browser;
+        public CefFrame Frame { get; }
+        public CefRequest Request { get; }
+        public bool UserGesture { get; }
+        public bool IsRedirect { get; }
+
+        public bool Cancelled { get; set; } = false;
     }
 
     public sealed class RenderProcessTerminatedEventArgs : EventArgs
