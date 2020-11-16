@@ -35,15 +35,21 @@ Please consider rewarding the project author or sponsoring the project so that t
 - **Chromium** `80.0.3987.163`
 - **NanUI** `0.8.80.120` 
 
-## Documentation
+### Requirement
 
-The Documentation will help you to start developing with NanUI easily and quickly.
+- Windows 7 x86/x64 Service Pack 1 or newer
 
-- [NanUI Documentation for verison 0.8](docs/documentation.md)
+### Platforms
 
-## Examples
+- .NET 4.6.2/4.7/4.7.1/4.7.2/4.8
+- .NET Core 3.1
+- .NET 5.0
 
-You can download all the source code of NanUI 0.8 example from [NanUI 0.8 Examples](https://github.com/XuanchenLin/NanUI-0.8-Examples) repository.
+
+## Getting Start
+
+If you want to learn more about NanUI or want to use NanUI for development as soon as possible, please navigate to [Welcome to NanUI](docs/README.md) to get documentation and sample code.
+
 
 ## License
 

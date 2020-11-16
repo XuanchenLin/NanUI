@@ -23,8 +23,6 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 
 使用 NanUI 界面框架将为传统的 WinForm 应用程序的用户界面设计和开发工作带来无限种可能！
 
-如果您想了解更多关于 NanUI 项目的信息，请移步[NanUI 简介](docs/README.md)。
-
 ![Preview](docs/images/preview.png)
 
 
@@ -37,27 +35,24 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 - **Chromium** `80.0.3987.163`
 - **NanUI** `0.8.80.120` 
 
----
+### 运行要求
 
-## 文档
+- Windows 7 x86/x64 SP1 或更新版本的系统
 
-帮助文档将帮助您轻松快速的开始使用 NanUI 进行开发。
+### 支持框架
 
-- [NanUI 0.8 文档](docs/documentation.md)
-
-此外您还可以在下述平台找到更多关于 NanUI 的话题、文档和视频。
-
-- [[知乎专栏] NanUI 技术内幕](https://zhuanlan.zhihu.com/nanui)
-- [[B 站] 码农 JSON 的 NanUI 入门教程频道](https://space.bilibili.com/396855974/channel/detail?cid=113298)
-- [[西瓜视频] NanUI 入门教程频](https://www.ixigua.com/6804465191196033540?id=6798031330459255303)
-
-目前 NanUI 文档正在逐步完善，如果您愿意帮助翻译不同语言的文档，请与我取得联系或者直接提交其他语言文档的 Pull Request 即可，感激不敬！
-
-## 示例
-
-您可以通过 [NanUI 示例仓库](https://github.com/XuanchenLin/NanUI-0.8-Examples) 下载 NanUI 0.8 示例程序的全部源码。
+- .NET 4.6.2/4.7/4.7.1/4.7.2/4.8
+- .NET Core 3.1
+- .NET 5.0
 
 ---
+
+## 入门
+
+如果想进一步了解有关 NanUI 的更多信息或者想使用 NanUI 尽快进行开发工作，请访问《[欢迎使用 NanUI](docs/README.md)》来获取文档帮助和示例代码。
+
+---
+
 
 ## 版权和协议
 
