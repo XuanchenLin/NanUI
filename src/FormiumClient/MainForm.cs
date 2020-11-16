@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -42,6 +42,8 @@ namespace FormiumClient
 
             StartPosition = FormStartPosition.CenterScreen;
 
+            // Set up settings for BorderlessWindow style.
+
             BorderlessWindowProperties.BorderEffect = BorderEffect.RoundCorner;
             BorderlessWindowProperties.ShadowEffect = ShadowEffect.DropShadow;
             BorderlessWindowProperties.ShadowColor = Color.DimGray;
@@ -52,6 +54,7 @@ namespace FormiumClient
 
         }
 
+        // Create the splash panel
         private void CustomizeMaskPanel()
         {
             var label = new Label
@@ -89,11 +92,8 @@ namespace FormiumClient
             Mask.Image = null;
         }
 
-        protected override CefBrowserSettings OnCreateBrowserSettings(CefBrowserSettings defaultBrowserSettings)
-        {
-            return base.OnCreateBrowserSettings(defaultBrowserSettings);
-        }
 
+        // Raise if browser is ready.
         protected override void OnReady()
         {
             // Set browser settings here.
@@ -110,6 +110,7 @@ namespace FormiumClient
         }
 
 
+        // Handle Before Popup event. If links have a target property that value equals "_blank", open the link in default browser of current system.
         private void MainWindow_BeforePopup(object sender, NetDimension.NanUI.Browser.BeforePopupEventArgs e)
         {
             e.Handled = true;
@@ -119,6 +120,7 @@ namespace FormiumClient
                 OpenExternalUrl(e.TargetUrl);
             });
         }
+
 
         private void OpenExternalUrl(string url)
         {
@@ -131,6 +133,7 @@ namespace FormiumClient
         }
 
 
+        // Example: Map the CLR objects to NanUI's JavaScript context.
         private void MapClrObjectToJavaScript()
         {
             var obj = JavaScriptValue.CreateObject();
@@ -182,6 +185,7 @@ namespace FormiumClient
             RegisterExternalObjectValue("tester", obj);
         }
 
+        // Example: Register JavaScript object in current frame.
         private void RegisterJavaScriptExampleObject()
         {
             var jsDemo = JavaScriptValue.CreateObject();
@@ -214,6 +218,7 @@ namespace FormiumClient
 
         }
 
+        // Add methods for windowExamples object in Formium.external object in JavaScript context.
         private void RegisterWindowStyleExampleObject()
         {
             var windowStyleDemo = JavaScriptValue.CreateObject();
@@ -297,6 +302,7 @@ namespace FormiumClient
 
         }
 
+        // Add methods for demo object in Formium.external object in JavaScript context.
         private void RegisterDemoWindowlObject()
         {
             var demoWindow = JavaScriptValue.CreateObject();
