@@ -1,0 +1,213 @@
+@import "./Variables";
+
+.app {
+  // user-select: none;
+  cursor: default;
+  height: 100%;
+  color: $default-font-color;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: stretch;
+  // background-color: #fafafa;
+
+  .app-side-bar {
+    background-color: #f9fcff;
+    user-select: none;
+    width: 16rem;
+    border-right: solid 1px $mute-color;
+    padding: 1rem 1.5rem 0rem 1.5rem;
+    // box-shadow: 0 0 5px rgba($secondary-color, 1);
+
+    display: flex;
+    flex-direction: column;
+
+    -webkit-app-region: drag;
+
+    .app-nav-menu {
+      padding: 0.5rem 0;
+      -webkit-app-region: no-drag;
+
+      &.extra-menu {
+        > .nav-menu-item {
+          color: #999;
+          .item-icon .icon {
+            fill: #999;
+          }
+        }
+      }
+
+      > .nav-menu-item {
+        padding: 0.5rem 0.5rem 0.5rem 1rem;
+        font-weight: 200;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: background-color ease 200ms;
+
+        display: flex;
+        align-items: center;
+
+        .item-icon {
+          display: flex;
+          margin-right: 1rem;
+          .icon {
+            width: 24px;
+            height: 24px;
+            fill: $primary-color;
+          }
+        }
+
+        &:hover {
+          background-color: rgba($mute-color * 0.95, 0.5);
+
+          &:active {
+            background-color: rgba($mute-color * 0.9, 0.5);
+          }
+        }
+
+        &.active {
+          background-color: $primary-color;
+          color: #fff;
+          cursor: default;
+
+          .item-icon {
+            .icon {
+              fill: white;
+            }
+          }
+
+          &:active {
+            background-color: $primary-color;
+          }
+        }
+      }
+    }
+
+    > .top-aside {
+    }
+
+    > .middle-aside {
+      flex: 1;
+    }
+
+    > .bottom-asisde {
+    }
+  }
+
+  .app-page-view {
+    flex: 1;
+    position: relative;
+    margin-top: 2.5rem;
+
+    .app-command-bar {
+      user-select: none;
+      height: 2.5em;
+      position: absolute;
+      top: -2.5em;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      -webkit-app-region: drag;
+      z-index: 1;
+      background-color: rgba(white, 0.9);
+      backdrop-filter: blur(15px);
+
+      > .title-bar {
+        flex: 1;
+      }
+      > .system-commands {
+        justify-content: flex-end;
+        display: flex;
+        -webkit-app-region: no-drag;
+        padding-right: 10px;
+
+        > div {
+          height: 2.5rem;
+          width: 3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          transition: background-color ease 150ms;
+
+          > span {
+            font-family: "Segoe MDL2 Assets";
+            font-size: 12px;
+            font-weight: 100;
+          }
+
+          &:hover {
+            background-color: $mute-color * 0.95;
+            &:active {
+              background-color: $mute-color * 0.9;
+            }
+          }
+
+          &.close-btn:hover {
+            background-color: #e81123;
+            color: white;
+            &:active {
+              background-color: #dd5d67;
+            }
+          }
+        }
+      }
+    }
+
+    .app-page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding: 0 1.5rem 0 1.5rem;
+      overflow: auto;
+
+      > div {
+        position: relative;
+
+        .switcher {
+          position: sticky;
+          top: 0;
+          left: 0;
+          background-color: white;
+          padding: 1rem 0;
+          margin-bottom: 1rem;
+        }
+      }
+
+      article {
+        section {
+          margin-bottom: 3rem;
+        }
+      }
+
+      &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        top: -2.5rem;
+      }
+
+      &::-webkit-scrollbar-track-piece {
+        background-color: #eee;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        height: 50px;
+        background-color: #ccc;
+        border-radius: 4px;
+        transition: background-color ease 200ms;
+      }
+
+      &::-webkit-scrollbar-thumb:active,
+      &::-webkit-scrollbar-thumb:hover {
+        height: 50px;
+        background-color: #bbb;
+      }
+      &::-webkit-scrollbar {
+        margin-top: 2.5em;
+      }
+    }
+  }
+}

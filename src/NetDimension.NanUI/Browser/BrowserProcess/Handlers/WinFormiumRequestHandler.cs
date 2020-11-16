@@ -32,7 +32,7 @@ namespace NetDimension.NanUI.Browser
                     _owner.WebView.DraggableRegion = null;
                 }
 
-                _owner.WebView.WebViewIsReady = false;
+                //_owner.WebView.WebViewIsReady = false;
             }
 
             _owner.WebView.ProcessMessageBridge.OnBeforeBrowse(browser, frame);

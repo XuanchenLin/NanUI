@@ -223,14 +223,58 @@ public class User32
     [DllImport(USER32, CharSet = CharSet.Unicode, SetLastError = true)]
     internal static extern IntPtr CreateWindowEx(long dwExStyle, IntPtr classAtom, string lpWindowName, long dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
-    [DllImport(USER32, CharSet = CharSet.Unicode)]
-    internal static extern uint GetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex);
+    //[DllImport(USER32, CharSet = CharSet.Unicode)]
+    //internal static extern uint GetWindowLong(IntPtr hWnd, WindowLongFlags nIndex);
 
-    [DllImport(USER32, CharSet = CharSet.Unicode)]
-    internal static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, IntPtr newLong);
+    //[DllImport(USER32, CharSet = CharSet.Unicode)]
+    //internal static extern int SetWindowLong(IntPtr hWnd, WindowLongFlags nIndex, IntPtr newLong);
 
-    [DllImport(USER32, CharSet = CharSet.Unicode)]
-    internal static extern int SetWindowLong(IntPtr hWnd, GetWindowLongFlags nIndex, uint newLong);
+    //[DllImport(USER32, CharSet = CharSet.Unicode)]
+    //internal static extern int SetWindowLong(IntPtr hWnd, WindowLongFlags nIndex, uint newLong);
+
+    [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+
+    static extern IntPtr GetWindowLong32(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
+
+    static extern IntPtr GetWindowLong64(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+
+    static extern IntPtr SetWindowLong32(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+
+    static extern IntPtr SetWindowLong64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    internal static IntPtr GetWindowLongPtr(IntPtr hWnd, WindowLongFlags nIndex)
+
+    {
+
+        if (IntPtr.Size == 8)
+
+            return GetWindowLong64(hWnd, (int)nIndex);
+
+        else
+
+            return GetWindowLong32(hWnd, (int)nIndex);
+
+    }
+
+    internal static IntPtr SetWindowLongPtr(IntPtr hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
+
+    {
+
+        if (IntPtr.Size == 8)
+
+            return SetWindowLong64(hWnd, (int)nIndex, dwNewLong);
+
+        else
+
+            return SetWindowLong32(hWnd, (int)nIndex, dwNewLong);
+
+    }
 
     [DllImport(USER32, SetLastError = true)]
     internal static extern IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
@@ -381,6 +425,7 @@ public class Gdi32
 
     public const int RGN_AND = 1, RGN_OR = 2, RGN_XOR = 3, RGN_DIFF = 4, RGN_COPY = 5;
 
+
     [DllImport(GDI32, EntryPoint = "CreateRoundRectRgn")]
     internal static extern IntPtr CreateRoundRectRgn
         (
@@ -495,6 +540,9 @@ public class Kernel32
 
     [DllImport(KERNEL32)]
     internal static extern uint GetCurrentProcessId();
+
+    [DllImport("kernel32.dll")]
+    internal static extern uint GetLastError();
 }
 
 public class Shcore

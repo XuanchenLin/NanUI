@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netcoreapp3.1;net462;net47;net471;net472;net48;net5.0-windows;</TargetFrameworks>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>NanUI.png</PackageIcon>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>NanUI WinForms Formium CEF Chromium CefGlue</PackageTags>
+        <Description>Local File Resource Handler for NanUI.</Description>
+
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <Optimize>false</Optimize>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\artworks\NanUI.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+    
+    
+    <ItemGroup>
+        <ProjectReference Include="..\NetDimension.NanUI\NetDimension.NanUI.csproj" />
+    </ItemGroup>
+
+</Project>

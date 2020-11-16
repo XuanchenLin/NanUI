@@ -2,6 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace NetDimension.NanUI.HostWindow
@@ -57,12 +58,21 @@ namespace NetDimension.NanUI.HostWindow
 
             base.OnHandleCreated(e);
 
+
+
             CheckResetDPIAutoScale(true);
 
             ResumeLayout();
         }
 
-        
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            UpdateShadows();
+
+        }
+
 
 
 
@@ -92,7 +102,6 @@ namespace NetDimension.NanUI.HostWindow
                 CorrectFormPostion();
 
 
-                UpdateShadows();
 
             }
 
@@ -224,12 +233,11 @@ namespace NetDimension.NanUI.HostWindow
         {
             //TODO:修理一下边框的大小
 
-            if (BorderEffect == BorderEffect.BorderLine)
-            {
-                clientSize.Width += FormBorders.Horizontal;
-                clientSize.Height += FormBorders.Vertical;
-
-            }
+            //if (BorderEffect == BorderEffect.BorderLine)
+            //{
+            //    clientSize.Width -= FormBorders.Horizontal;
+            //    clientSize.Height -= FormBorders.Vertical;
+            //}
 
             return clientSize;
         }
@@ -270,10 +278,6 @@ namespace NetDimension.NanUI.HostWindow
             MaximumSize = maxSizeState;
 
         }
-
-
-
-
 
 
 

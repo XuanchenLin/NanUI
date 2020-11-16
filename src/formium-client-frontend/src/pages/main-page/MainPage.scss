@@ -1,0 +1,81 @@
+@import "../../Variables";
+
+.main-page {
+  article {
+    margin: 0 0 1rem 0;
+    max-width: 1280px;
+
+    .splash {
+      background-color: #6691cc;
+      padding: 2rem 2.5rem;
+      border-radius: 1.5rem;
+      margin: 1.5rem 0 2.5rem 0;
+      color: white;
+      box-shadow: 3px 3px 12px rgba(Gray, 0.5);
+
+      > .intro {
+        line-height: 1.5;
+      }
+
+      .logo {
+        width: 96px;
+      }
+    }
+
+    .advantage {
+      margin: 1.5rem 0 2.5rem 0;
+
+      > .row {
+        > div {
+          display: flex;
+          align-items: stretch;
+
+          .intro {
+            padding: 1rem;
+            border-radius: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 3px 3px 12px rgba(Gray, 0.5);
+
+            &.easy-to-use {
+              background-color: #deffd7;
+            }
+
+            &.fully-documentation {
+              background-color: #d8d7ff;
+            }
+
+            &.new-technology {
+              background-color: #ffd7f5;
+            }
+          }
+        }
+      }
+    }
+
+    .features {
+      margin: 1.5rem 0 2.5rem 0;
+      > .row {
+        > div {
+          display: flex;
+          flex-direction: column;
+
+          .card {
+            flex: 1;
+
+            h5 {
+              color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+
+    .support {
+      margin: 1.5rem 0 2.5rem 0;
+
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}

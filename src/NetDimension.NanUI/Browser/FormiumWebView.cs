@@ -36,7 +36,9 @@ namespace NetDimension.NanUI.Browser
 
         internal JavaScriptCommunicationBridge JSBridge { get; private set; }
 
-        public bool WebViewIsReady { get; internal set; } = false;
+        public bool WebViewIsReady { 
+            get; 
+            internal set; } = false;
 
         private FormiumWebView()
         {

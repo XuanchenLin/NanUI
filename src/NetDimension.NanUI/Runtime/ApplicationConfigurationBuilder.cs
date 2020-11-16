@@ -59,7 +59,7 @@ namespace NetDimension.NanUI
         private Func<ApplicationContext, Formium> _useMainWindow;
 
 
-        public readonly IDictionary<string, object> Properties = new Dictionary<string, object>();
+        internal readonly IDictionary<string, object> Properties = new Dictionary<string, object>();
 
         public ChromiumEnvironment ChromiumEnvironment { get; }
 

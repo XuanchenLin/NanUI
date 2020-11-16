@@ -26,7 +26,7 @@ namespace NetDimension.NanUI.HostWindow
             {
                 PerformShadows(true);
             }
-            else if(_shadowDecorator != null && MinMaxState != FormWindowState.Normal)
+            else if (_shadowDecorator != null && MinMaxState != FormWindowState.Normal)
             {
                 PerformShadows(false);
             }
@@ -49,11 +49,6 @@ namespace NetDimension.NanUI.HostWindow
             base.OnResizeEnd(e);
 
             IsResizing = false;
-
-            //if(_shadowDecorator!=null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
-            //{
-            //    PerformShadows(true);
-            //}
         }
 
         protected override void OnResize(EventArgs e)
@@ -71,16 +66,14 @@ namespace NetDimension.NanUI.HostWindow
                     PerformShadows(false);
                 }
             }
-
-
         }
 
         private void PerformShadows(bool enabled)
         {
-            if (_shadowDecorator == null )
+            if (_shadowDecorator == null)
                 return;
 
-            if(ShadowEffect == ShadowEffect.None)
+            if (ShadowEffect == ShadowEffect.None)
             {
                 _shadowDecorator.Enable(false);
 
@@ -96,7 +89,7 @@ namespace NetDimension.NanUI.HostWindow
             }
         }
 
-        
+
 
         private void UpdateShadows()
         {
@@ -105,14 +98,21 @@ namespace NetDimension.NanUI.HostWindow
                 return;
             }
 
-            if (!IsMdiChild && FormBorderStyle != FormBorderStyle.None && Parent == null)
+            if (!IsMdiChild && FormBorderStyle != FormBorderStyle.None)
             {
                 _shadowDecorator.InitializeShadows();
+
 
                 if (Owner != null)
                 {
                     _shadowDecorator.SetOwner(Owner.Handle);
                 }
+                //else
+                //{
+                //    _shadowDecorator.SetOwner(Handle);
+                //}
+
+
 
             }
         }

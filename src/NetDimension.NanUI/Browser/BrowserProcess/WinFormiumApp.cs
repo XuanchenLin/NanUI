@@ -47,9 +47,7 @@ namespace NetDimension.NanUI.Browser
 
         protected override void OnBeforeCommandLineProcessing(string processType, CefCommandLine commandLine)
         {
-
             WinFormium.Runtime.ChromiumEnvironment.CommandLineConfigurations?.Invoke(commandLine);
-
         }
     }
 }

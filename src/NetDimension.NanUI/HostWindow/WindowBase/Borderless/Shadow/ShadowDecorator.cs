@@ -290,8 +290,15 @@ namespace NetDimension.NanUI.HostWindow
             IsInitialized = true;
 
             AssignHandle(ParentWindowHWnd);
-
+            
             AlignSideShadowToTopMost();
+
+
+
+            //Enable(true);
+
+
+
 
 
             if (ShadowColor == _shadowColor)
@@ -323,7 +330,7 @@ namespace NetDimension.NanUI.HostWindow
                         y = parentWindow.Top,
                         cx = parentWindow.Width,
                         cy = parentWindow.Height,
-                        flags = (uint)SetWindowPosFlags.SWP_SHOWWINDOW
+                        //flags = (uint)SetWindowPosFlags.SWP_SHOWWINDOW
                     });
 
                     //UpdateSizes(parentWindow.Width, parentWindow.Height);
@@ -344,7 +351,10 @@ namespace NetDimension.NanUI.HostWindow
         {
             if (!IsEnabled)
                 return;
+
             UpdateFocus(true);
+
+            UpdateZOrder();
         }
         public void KillFocus()
         {
@@ -352,6 +362,15 @@ namespace NetDimension.NanUI.HostWindow
                 return;
 
             UpdateFocus(false);
+            UpdateZOrder();
+        }
+
+        private void UpdateZOrder()
+        {
+            foreach (var shadow in shadows)
+            {
+                shadow.UpdateZOrder();
+            }
         }
 
         public ShadowDecorator(BorderlessWindow window, bool enable = true)
@@ -410,7 +429,7 @@ namespace NetDimension.NanUI.HostWindow
         protected override void WndProc(ref Message m)
         {
 
-            if (!IsEnabled || IsDisposed)
+            if (IsDisposed)
             {
                 base.WndProc(ref m);
                 return;
@@ -458,9 +477,9 @@ namespace NetDimension.NanUI.HostWindow
                     break;
                 case WindowsMessages.WM_SIZE:
                     {
-                        WmSize(m.WParam, m.LParam);
 
                         base.WndProc(ref m);
+                        WmSize(m.WParam, m.LParam);
 
                         break;
                     }
@@ -478,7 +497,8 @@ namespace NetDimension.NanUI.HostWindow
 
             var windowpos = (WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(WINDOWPOS));
 
-            UpdateLocations(new WINDOWPOS { 
+            UpdateLocations(new WINDOWPOS
+            {
                 x = windowpos.x,
                 y = windowpos.y,
                 cx = windowpos.cx,
@@ -488,19 +508,17 @@ namespace NetDimension.NanUI.HostWindow
 
         private void WmSize(IntPtr wParam, IntPtr lParam)
         {
-           if (!IsEnabled)
-                return;
-            
-            // maximized/minimized
-            if ((int)wParam == 2 || (int)wParam == 1) 
+            if ((int)wParam == 1)
             {
+                _isWindowMinimized = true;
+            }
 
-                if ((int)wParam == 1)
-                {
-                    _isWindowMinimized = true;
-                }
+            if (!IsEnabled)
+                return;
 
-
+            // maximized/minimized
+            if ((int)wParam == 2 || (int)wParam == 1)
+            {
                 ShowBorder(false);
 
             }
@@ -508,7 +526,7 @@ namespace NetDimension.NanUI.HostWindow
             {
                 var rect = new RECT();
 
-                User32.GetWindowRect(parentWindow.TopLevelControl != null ? parentWindow.TopLevelControl.Handle : parentWindow.Handle, ref rect);
+                User32.GetWindowRect(parentWindow.TopLevelControl?.Handle ?? parentWindow.Handle, ref rect);
 
                 ShowBorder(true);
 
@@ -628,6 +646,8 @@ namespace NetDimension.NanUI.HostWindow
                 }
             });
 
+            var isMinimized = User32.IsIconic(Handle);
+
             if (show == true && _isWindowMinimized)
             {
                 if (_isAnimationDelayed)
@@ -672,8 +692,6 @@ namespace NetDimension.NanUI.HostWindow
         private void UpdateLocations(WINDOWPOS location)
         {
             var hDWP = User32.BeginDeferWindowPos(4);
-
-            User32.DeferWindowPos(hDWP, Handle, IntPtr.Zero, location.x, location.y, location.cx, location.cy, location.flags);
 
             foreach (var sideShadow in shadows)
             {

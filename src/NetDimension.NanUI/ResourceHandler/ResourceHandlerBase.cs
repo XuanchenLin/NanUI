@@ -14,6 +14,26 @@ namespace NetDimension.NanUI.ResourceHandler
     public abstract class ResourceHandlerBase
         : CefResourceHandler
     {
+        const string ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+
+        const string ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
+
+        const string ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
+
+        const string ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";
+
+        const string X_FRAME_OPTIONS = "X-Frame-Options";
+
+        const string X_POWERED_BY = "X-Powered-By";
+
+        protected virtual bool DisableCORS
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         private GCHandle _gcHandle;
         private int _readStreamOffset;
         private int? _buffStartPostition = null;
@@ -60,8 +80,8 @@ namespace NetDimension.NanUI.ResourceHandler
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            
-            
+
+
         }
 
         protected override bool Skip(long bytesToSkip, out long bytesSkipped, CefResourceSkipCallback callback)
@@ -86,6 +106,10 @@ namespace NetDimension.NanUI.ResourceHandler
 
             if (statusCode == System.Net.HttpStatusCode.OK)
             {
+
+
+
+
                 responseLength = _resourceResponse.Length;
                 response.MimeType = _resourceResponse.MimeType;
 
@@ -109,10 +133,16 @@ namespace NetDimension.NanUI.ResourceHandler
                     response.SetHeaderByName("Content-Range", $"bytes {startPos}-{endPos}/{_resourceResponse.Length}", true);
                     response.SetHeaderByName("Content-Length", $"{endPos - startPos + 1}", true);
 
+
                     response.Status = 206;
 
-                    Logger.Verbose($"[Content-Range]: {startPos}-{endPos}/{_resourceResponse.Length - 1}");
+                    Logger.Verbose($"[Content-Range]: {startPos}-{endPos}/{_resourceResponse.Length}");
                 }
+
+
+                response.SetHeaderByName("Content-Type", response.MimeType, true);
+
+                response.SetHeaderByName(X_POWERED_BY, $"NanUI/{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}", true);
             }
             else
             {
@@ -211,9 +241,30 @@ namespace NetDimension.NanUI.ResourceHandler
                         throw new NullReferenceException($"ResourceResponse should not be null.");
                     }
 
+                    _resourceResponse.Headers.Set(X_FRAME_OPTIONS, "ALLOWALL");
+
+                    if (DisableCORS)
+                    {
+                        _resourceResponse.Headers.Set(ACCESS_CONTROL_ALLOW_HEADERS, "*");
+                        _resourceResponse.Headers.Set(ACCESS_CONTROL_ALLOW_METHODS, "*");
+                        _resourceResponse.Headers.Set(X_FRAME_OPTIONS, "ALLOWALL");
+
+                        if (!string.IsNullOrEmpty(request.GetHeaderByName("origin")))
+                        {
+                            _resourceResponse.Headers.Set(ACCESS_CONTROL_ALLOW_ORIGIN, request.GetHeaderByName("origin"));
+                            _resourceResponse.Headers.Set(ACCESS_CONTROL_MAX_AGE, "3600");
+                        }
+                        else
+                        {
+                            _resourceResponse.Headers.Set(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+
+                        }
+                    }
+
+                    
+
+
                     Infos.Add($"{(int)_resourceResponse.HttpStatus} {_resourceResponse.HttpStatus}");
-
-
 
                 }
                 catch (Exception ex)
@@ -243,22 +294,23 @@ namespace NetDimension.NanUI.ResourceHandler
 
             var bytesToCopy = (int)(total - _readStreamOffset);
 
-            if (total == 0 || bytesToCopy == 0)
+            if (total == 0 || bytesToCopy <= 0)
             {
                 bytesRead = 0;
                 return false;
             }
 
-            if (bytesToCopy > bytesToRead)
-            {
-                bytesToCopy = bytesToRead;
-            }
+            //if (bytesToCopy > bytesToRead)
+            //{
+            //    bytesToCopy = bytesToRead;
+            //}
+
+            bytesToCopy = Math.Min(bytesToCopy, bytesToRead);
 
             var buff = new byte[bytesToCopy];
 
             _resourceResponse.ContentStream.Position = _readStreamOffset;
             _resourceResponse.ContentStream.Read(buff, 0, bytesToCopy);
-
 
             Marshal.Copy(buff, 0, dataOut, bytesToCopy);
 
@@ -268,7 +320,6 @@ namespace NetDimension.NanUI.ResourceHandler
 
             if (_readStreamOffset == _resourceResponse.Length)
             {
-                _resourceResponse.Dispose();
 
                 if (WinFormium.Runtime.IsDebuggingMode)
                 {
@@ -279,10 +330,15 @@ namespace NetDimension.NanUI.ResourceHandler
                     }
 
                 }
+                _resourceResponse.Dispose();
 
                 _gcHandle.Free();
+
+
             }
+
             return true;
+
         }
 
 

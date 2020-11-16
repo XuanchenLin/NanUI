@@ -38,13 +38,16 @@ namespace NetDimension.NanUI.HostWindow
     internal sealed class MaskPanel : Panel
     {
         internal Panel DragHandlerPanel { get; }
+        internal Formium Owner { get; }
 
-        public MaskPanel()
+        public MaskPanel(Formium owner)
         {
-            Dock = DockStyle.Fill;
             BackgroundImage = Properties.Resources.Powered;
             BackgroundImageLayout = ImageLayout.Center;
             DoubleBuffered = true;
+            //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+            Dock = DockStyle.Fill;
 
             DragHandlerPanel = new DragPanel
             {
@@ -52,6 +55,7 @@ namespace NetDimension.NanUI.HostWindow
             };
 
             DragHandlerPanel.MouseDown += DragHandlerPanel_MouseDown;
+            Owner = owner;
         }
 
         private void DragHandlerPanel_MouseDown(object sender, MouseEventArgs e)

@@ -65,7 +65,7 @@ namespace NetDimension.NanUI.HostWindow.JavaScriptExtension
         private JavaScriptValue GetCultureInfo(Formium owner, JavaScriptValue[] arguments)
         {
             var retval = JavaScriptValue.CreateObject();
-            
+
             retval.SetValue("name", JavaScriptValue.CreateString($"{Thread.CurrentThread.CurrentCulture.Name}"));
 
             retval.SetValue("displayName", JavaScriptValue.CreateString($"{Thread.CurrentThread.CurrentCulture.DisplayName}"));
@@ -142,9 +142,16 @@ namespace NetDimension.NanUI.HostWindow.JavaScriptExtension
             {
                 owner.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             }
-            else if(owner.WindowState == System.Windows.Forms.FormWindowState.Maximized)
+            else if (owner.WindowState == System.Windows.Forms.FormWindowState.Maximized)
             {
-                owner.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                if (owner.IsFullScreen)
+                {
+                    owner.FullScreen(false);
+                }
+                else
+                {
+                    owner.WindowState = System.Windows.Forms.FormWindowState.Normal;
+                }
             }
 
             return null;
@@ -200,8 +207,8 @@ namespace NetDimension.NanUI.HostWindow.JavaScriptExtension
         }
         private JavaScriptValue SizeTo(Formium owner, JavaScriptValue[] arguments)
         {
-            if (!owner.Resizable || owner.WindowState 
-                != System.Windows.Forms.FormWindowState.Normal) 
+            if (!owner.Resizable || owner.WindowState
+                != System.Windows.Forms.FormWindowState.Normal)
                 return null;
 
 

@@ -38,22 +38,18 @@ namespace NetDimension.NanUI.HostWindow
         {
             Owner = formium;
 
-            Panel = new MaskPanel
+            Panel = new MaskPanel(Owner)
             {
                 Visible = false,
-                BackColor = ColorTranslator.FromHtml("#0055CC")
+                BackColor = ColorTranslator.FromHtml("#0055CC"),
             };
-
-            Panel.Paint += OnPaintPanel;
 
             Owner.HostWindowInternal.Controls.Add(Panel);
 
             Owner.LoadEnd += OnBrowserLoadEnd;
         }
 
-        private void OnPaintPanel(object sender, PaintEventArgs e)
-        {
-        }
+
 
         private void OnBrowserLoadEnd(object sender, LoadEndEventArgs e)
         {
@@ -65,8 +61,10 @@ namespace NetDimension.NanUI.HostWindow
 
         internal void Show()
         {
-            Panel.BringHandlerToTop();
+
             Panel.BringToFront();
+
+            Panel.BringHandlerToTop();
             Panel.Visible = true;
 
         }

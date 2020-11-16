@@ -145,7 +145,7 @@ namespace NetDimension.NanUI.JavaScript
                                 }
                                 else
                                 {
-                                    var retval = value.Method?.Invoke(arguments);
+                                    var retval = value.Method?.Invoke(arguments)??JavaScriptValue.CreateNull();
                                     var response = MessageBridgeResponse.CreateSuccessResponse();
 
                                     response.Arguments.Add(MessageValue.CreateString(retval.ToDefinition()));

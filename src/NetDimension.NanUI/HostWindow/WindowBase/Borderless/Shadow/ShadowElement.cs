@@ -35,12 +35,12 @@ namespace NetDimension.NanUI.HostWindow
 
         protected int ShadowSize => _decorator.ShadowSize;
         private readonly ShadowDockPositon _side;
-        private const SetWindowPosFlags NoSizeNoMove = (SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOMOVE);
+        private const SetWindowPosFlags SWP_NOSIZE_NOMOVE = (SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOMOVE);
 
         private bool _parentWindowIsFocused;
 
-        private readonly IntPtr _noTopMost = new IntPtr(-2);
-        private readonly IntPtr _yesTopMost = new IntPtr(-1);
+        private readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+        private readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
 
 
         ID2D1Factory _d2dFactory = null;
@@ -69,7 +69,7 @@ namespace NetDimension.NanUI.HostWindow
 
         internal void SetOwner(IntPtr owner)
         {
-            User32.SetWindowLong(Handle, GetWindowLongFlags.GWL_HWNDPARENT, owner);
+            User32.SetWindowLongPtr(Handle, WindowLongFlags.GWL_HWNDPARENT, owner);
         }
 
         #endregion
@@ -85,6 +85,9 @@ namespace NetDimension.NanUI.HostWindow
 
         private int _view_top;
         private int _view_left;
+
+        private int _lastUpdateHeight, _lastUpdateWidth;
+
 
         internal void SetWindowPos(IntPtr hDWP, WINDOWPOS pos)
         {
@@ -233,9 +236,9 @@ namespace NetDimension.NanUI.HostWindow
                 dwpFlags |= SetWindowPosFlags.SWP_NOMOVE;
             }
 
-            User32.DeferWindowPos(hDWP, Handle, !IsTopMost ? _noTopMost : _yesTopMost, left, top, width, height, (uint)dwpFlags);
+            User32.DeferWindowPos(hDWP, Handle, !IsTopMost ? HWND_NOTOPMOST : HWND_TOPMOST, left, top, width, height, (uint)dwpFlags);
 
-            User32.DeferWindowPos(hDWP, Handle, _parentHandle, 0, 0, 0, 0, (uint)(NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE));
+            User32.DeferWindowPos(hDWP, Handle, _parentHandle, 0, 0, 0, 0, (uint)(SWP_NOSIZE_NOMOVE | SetWindowPosFlags.SWP_NOACTIVATE));
 
 
         }
@@ -243,9 +246,9 @@ namespace NetDimension.NanUI.HostWindow
 
         internal void UpdateZOrder()
         {
-            User32.SetWindowPos(Handle, !IsTopMost ? _noTopMost : _yesTopMost, 0, 0, 0, 0, NoSizeNoMove | SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER);
+            User32.SetWindowPos(Handle, !IsTopMost ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE_NOMOVE | SetWindowPosFlags.SWP_NOACTIVATE);
 
-            User32.SetWindowPos(Handle, _parentHandle, 0, 0, 0, 0, NoSizeNoMove);
+            User32.SetWindowPos(Handle, _parentHandle, 0, 0, 0, 0, SWP_NOSIZE_NOMOVE | SetWindowPosFlags.SWP_NOACTIVATE);
 
             Render(true);
         }
@@ -333,23 +336,16 @@ namespace NetDimension.NanUI.HostWindow
                 WindowExStyles.WS_EX_LEFT |
                 WindowExStyles.WS_EX_LTRREADING |
                 WindowExStyles.WS_EX_RIGHTSCROLLBAR |
-                WindowExStyles.WS_EX_LAYERED |
-                //WindowExStyles.WS_EX_TRANSPARENT |
                 WindowExStyles.WS_EX_TOOLWINDOW);
 
-            if (!_decorator.Resizable)
-            {
-                extendedStyle |= (uint)WindowExStyles.WS_EX_TRANSPARENT;
-            }
+
 
 
             const uint style = (uint)(
-                WindowStyles.WS_CHILD |
                 WindowStyles.WS_CLIPSIBLINGS |
                 WindowStyles.WS_CLIPCHILDREN |
                 WindowStyles.WS_POPUP);
 
-            var owner = User32.GetWindow(_parentHandle, 4);
 
             // Create window
             Handle = User32.CreateWindowExW(
@@ -372,9 +368,20 @@ namespace NetDimension.NanUI.HostWindow
                 return;
             }
 
-            var styles = User32.GetWindowLong(Handle, GetWindowLongFlags.GWL_EXSTYLE);
-            styles = styles | (uint)WindowExStyles.WS_EX_NOACTIVATE;
-            User32.SetWindowLong(Handle, GetWindowLongFlags.GWL_EXSTYLE, styles);
+            var styles = (int)User32.GetWindowLongPtr(Handle, WindowLongFlags.GWL_EXSTYLE);
+
+            //var owner = User32.GetWindow(_parentHandle, 4);
+
+            //User32.SetWindowLong(Handle, GetWindowLongFlags.GWL_HWNDPARENT, owner);
+
+            styles |= (int)(WindowExStyles.WS_EX_LAYERED | WindowExStyles.WS_EX_NOACTIVATE | WindowExStyles.WS_EX_NOPARENTNOTIFY);
+
+            if (!_decorator.Resizable)
+            {
+                styles |= (int)WindowExStyles.WS_EX_TRANSPARENT;
+            }
+
+            User32.SetWindowLongPtr(Handle, WindowLongFlags.GWL_EXSTYLE, new IntPtr(styles));
 
             _screenDC = User32.GetDC(IntPtr.Zero);
             _memDC = Gdi32.CreateCompatibleDC(_screenDC);
@@ -408,7 +415,6 @@ namespace NetDimension.NanUI.HostWindow
             {
                 User32.SendMessage(_parentHandle, message, hWnd, IntPtr.Zero);
                 UpdateZOrder();
-
             }
 
             if (msg == WindowsMessages.WM_SIZE)
@@ -416,7 +422,7 @@ namespace NetDimension.NanUI.HostWindow
                 int width = Win32.SignedLOWORD(lParam);
                 int height = Win32.SignedHIWORD(lParam);
 
-                if(width != _lastUpdateHeight || height != _lastUpdateHeight)
+                if (width != _lastUpdateWidth || height != _lastUpdateHeight)
                 {
                     UpdateLayeredWindow();
                 }
@@ -619,9 +625,6 @@ namespace NetDimension.NanUI.HostWindow
             GC.Collect();
 
         }
-
-
-        private int _lastUpdateHeight, _lastUpdateWidth;
 
         private void UpdateLayeredWindow()
         {

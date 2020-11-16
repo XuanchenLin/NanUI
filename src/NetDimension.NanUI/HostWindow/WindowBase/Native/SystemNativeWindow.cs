@@ -106,7 +106,7 @@ namespace NetDimension.NanUI.HostWindow
         {
             get
             {
-                var s = User32.GetWindowLong(Handle, GetWindowLongFlags.GWL_STYLE);
+                var s = (int)User32.GetWindowLongPtr(Handle, WindowLongFlags.GWL_STYLE);
                 var max = (s & (int)WindowStyles.WS_MAXIMIZE) > 0;
                 if (max)
                     return FormWindowState.Maximized;

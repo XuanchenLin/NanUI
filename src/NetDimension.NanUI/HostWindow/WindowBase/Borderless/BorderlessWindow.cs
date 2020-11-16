@@ -243,7 +243,7 @@ namespace NetDimension.NanUI.HostWindow
 
         private void InitializeReflectedFields()
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             _clientWidthField = typeof(Control).GetField("_clientWidth", BindingFlags.NonPublic | BindingFlags.Instance);
             _clientHeightField = typeof(Control).GetField("_clientHeight", BindingFlags.NonPublic | BindingFlags.Instance);
 #else
@@ -269,7 +269,8 @@ namespace NetDimension.NanUI.HostWindow
         {
             get
             {
-                var s = User32.GetWindowLong(Handle, GetWindowLongFlags.GWL_STYLE);
+                var s = (int)User32.GetWindowLongPtr(Handle, WindowLongFlags.GWL_STYLE);
+
                 var max = (s & (int)WindowStyles.WS_MAXIMIZE) > 0;
                 if (max)
                     return FormWindowState.Maximized;
@@ -375,8 +376,8 @@ namespace NetDimension.NanUI.HostWindow
                             if (vector[section] == 1)
                             {
 
-                                width = restoredWindowBounds.Width + (BorderEffect == BorderEffect.BorderLine ? FormBorders.Horizontal : 0);
-                                height = restoredWindowBounds.Height + (BorderEffect == BorderEffect.BorderLine ? FormBorders.Vertical : 0);
+                                width = restoredWindowBounds.Width; //+ (BorderEffect == BorderEffect.BorderLine ? FormBorders.Horizontal : 0);
+                                height = restoredWindowBounds.Height;// + (BorderEffect == BorderEffect.BorderLine ? FormBorders.Vertical : 0);
 
 
                             }

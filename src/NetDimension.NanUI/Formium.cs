@@ -624,8 +624,17 @@ namespace NetDimension.NanUI
             }
         }
 
+        public void ShowAboutDialog()
+        {
+            var aboutDlg = new AboutDialog();
+
+            aboutDlg.ShowDialog(HostWindow);
+        }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the Mask Panel allows to show on startup.
+        /// </summary>
         public bool AutoShowMask { get; set; } = true;
 
         /// <summary>
@@ -809,6 +818,12 @@ namespace NetDimension.NanUI
             get => HostWindowInternal.Top;
             set => HostWindowInternal.Top = value;
         }
+
+        public bool Visible
+        {
+            get => HostWindowInternal?.Visible ?? false;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether the window can be resize.
         /// </summary>
@@ -939,12 +954,17 @@ namespace NetDimension.NanUI
             });
         }
 
+        public void Active()
+        {
+            HostWindowInternal?.Activate();
+        }
 
         /// <summary>
         /// Displays the form to the users
         /// </summary>
         public void Show()
         {
+            
             HostWindowInternal.Show();
         }
 
@@ -1013,8 +1033,8 @@ namespace NetDimension.NanUI
 
                     _isForceClosing = true;
 
-                    WebView.CloseBrowser();
-                    HostWindowInternal.Close();
+                    WebView?.CloseBrowser();
+                    HostWindowInternal?.Close();
                 }
                 else
                 {
@@ -1165,7 +1185,7 @@ namespace NetDimension.NanUI
         public void LoadUrl(string url)
         {
 
-            if (Browser != null && Browser?.GetMainFrame() !=null)
+            if (Browser != null && Browser?.GetMainFrame() != null)
             {
                 Browser.GetMainFrame().LoadUrl(url);
 
@@ -1312,7 +1332,7 @@ namespace NetDimension.NanUI
 
 
 
-            
+
 
             HostWindowInternal.HandleCreated += OnHostWindowHandleCreated;
 
@@ -1394,13 +1414,15 @@ namespace NetDimension.NanUI
 
             Mask = new ViewMask(this);
 
-
-            OnViewMaskCreated(Mask);
-
-            if (AutoShowMask)
+            if (AutoShowMask && WindowType != HostWindowType.Layered)
             {
                 Mask.Show();
             }
+
+
+
+            //OnViewMaskCreated(Mask);
+
 
             HostWindowInternal.Load += OnHostWindowLoad;
 
@@ -1422,10 +1444,10 @@ namespace NetDimension.NanUI
 
         internal protected ViewMask Mask { get; private set; }
 
-        protected virtual void OnViewMaskCreated(ViewMask mask)
-        {
+        //protected virtual void OnViewMaskCreated(ViewMask mask)
+        //{
 
-        }
+        //}
 
         protected void ShowMask()
         {
@@ -2169,7 +2191,10 @@ namespace NetDimension.NanUI
         /// <summary>
         /// Gets the Formium is disposed.
         /// </summary>
-        public bool IsDisposed { get; private set; }
+        public bool IsDisposed
+        {
+            get => HostWindowInternal == null || HostWindowInternal.IsDisposed;
+        }
         /// <summary>
         /// Release all resources.
         /// </summary>
@@ -2177,6 +2202,9 @@ namespace NetDimension.NanUI
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+
+
+
         }
         /// <summary>
         /// Release all resources.
@@ -2184,7 +2212,7 @@ namespace NetDimension.NanUI
         /// <param name="isDisposing"></param>
         protected virtual void Dispose(bool isDisposing)
         {
-            if (WebView != null && isDisposing)
+            if (isDisposing)
             {
                 WebView.Dispose();
 
@@ -2194,9 +2222,7 @@ namespace NetDimension.NanUI
                 }
 
 
-                IsDisposed = true;
             }
-
 
             WebView = null;
 

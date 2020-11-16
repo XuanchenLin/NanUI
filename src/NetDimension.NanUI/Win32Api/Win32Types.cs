@@ -1173,7 +1173,7 @@ public enum WindowStyles : long
     WS_CHILDWINDOW = 0x40000000
 }
 
-public enum GetWindowLongFlags
+public enum WindowLongFlags
 {
     /// <summary>
     /// Specified GWL_WNDPROC enumeration value.

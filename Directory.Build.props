@@ -8,13 +8,11 @@
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
-    <Version>0.8.3987.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-07-02",2020))))).TotalDays)</Version>
+    <Version>0.8.80.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-07-02",2020))))).TotalDays)</Version>
     <Company>Net Dimension Studio</Company>
     <Authors>Xuanchen Lin</Authors>
-    <Copyright>Copyright © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin and NetDimension Studio all rights reserved.</Copyright>
-    <Description>NanUI is an open source .NET project for .NET / .NET Core developers who want to use front-end technologies such as HTML5 / CSS3 to build user interfaces for Windows Form applications.</Description>
-    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin all rights reserved.</Copyright>
+
     <RepositoryUrl>https://github.com/NetDimension/NanUI</RepositoryUrl>
     <PackageProjectUrl>https://www.formium.net</PackageProjectUrl>
 

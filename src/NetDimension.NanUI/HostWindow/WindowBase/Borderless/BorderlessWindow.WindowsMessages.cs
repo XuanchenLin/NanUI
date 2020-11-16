@@ -244,13 +244,26 @@ namespace NetDimension.NanUI.HostWindow
                 // Allow default processing of activation change
                 m.Result = Win32.MESSAGE_HANDLED;
                 // Message processed, do not pass onto base class for processing
+
+                InvalidateNonClient();
+
+                SendFrameChanged(Handle);
+
             }
 
-            InvalidateNonClient();
 
-            m.Result = Win32.MESSAGE_HANDLED;
 
-            SendFrameChanged(Handle);
+            //if (IsWindowActivated)
+            //{
+            //    _shadowDecorator.SetFocus();
+
+            //}
+            //else
+            //{
+            //    _shadowDecorator.KillFocus();
+            //}
+
+
 
         }
 

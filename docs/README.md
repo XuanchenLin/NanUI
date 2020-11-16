@@ -161,11 +161,11 @@ class MainWindow : Formium
 
 帮助文档将帮助您轻松快速的开始使用 NanUI 进行开发。
 
-- [NanUI 使用帮助](documentation.md)
+- [NanUI 0.8 文档](documentation.md)
+
+此外您还可以在下述平台找到更多关于 NanUI 的话题、文档和视频。
+
 - [[知乎专栏] NanUI 技术内幕](https://zhuanlan.zhihu.com/nanui)
-
-此外您还可以在下述平台收看《NanUI 入门教程》系列视频以及《NanUI 案例实战》系列视频。
-
 - [[B 站] 码农 JSON 的 NanUI 入门教程频道](https://space.bilibili.com/396855974/channel/detail?cid=113298)
 - [[西瓜视频] NanUI 入门教程频](https://www.ixigua.com/6804465191196033540?id=6798031330459255303)
 

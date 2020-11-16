@@ -2,8 +2,14 @@
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net462;</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net462;net47;net471;net472;net48;net5.0-windows;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
+        <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+        <Description>NanUI is an open source .NET/.NET Core component for Windows Form Applications. It's suitable for .NET/.NET Core developers who wants to use front-end technologies suc as HTMM5/CSS3/JavaScript to design the user interface of Windows Form Applications.</Description>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageTags>NanUI WinForms Formium CEF Chromium CefGlue</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>NanUI.png</PackageIcon>
 
     </PropertyGroup>
 
@@ -14,6 +20,7 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Optimize>false</Optimize>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +36,10 @@
         <None Remove="Browser\JavaScriptEvaluator\**" />
         <None Remove="ResourceHandler\Internal\**" />
         <None Remove="third_party_packages\Vortice.Windows\**" />
+        <None Include="..\..\artworks\NanUI.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -44,41 +55,37 @@
         <None Include="third_party_packages\CefGlue\Interop\Base\cef_string_t.disabled.cs" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+        <Reference Include="System.Net.Http" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+    <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.1' And '$(TargetFramework)' != 'net5.0-windows' ">
         <Reference Include="System" />
         <Reference Include="System.Core" />
-        <Reference Include="System.Numerics" />
         <Reference Include="System.Xml.Linq" />
-        <Reference Include="System.Data.DataSetExtensions" />
         <Reference Include="Microsoft.CSharp" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Deployment" />
         <Reference Include="System.Drawing" />
-        <Reference Include="System.Net.Http" />
         <Reference Include="System.Windows.Forms" />
         <Reference Include="System.Xml" />
     </ItemGroup>
 
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-        <!--<PackageReference Include="System.Memory" Version="4.5.4" />
-        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />-->
-    </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
-        <!--<PackageReference Include="System.ValueTuple" Version="4.5.0" />-->
+    <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.1' ">
         <PackageReference Include="System.Text.Encodings.Web" Version="4.7.1" />
         <PackageReference Include="System.Text.Json" Version="4.7.2" />
     </ItemGroup>
-    
+
 
     <ItemGroup>
         <Compile Remove="Browser\BrowserProcess\Handlers\WinFormiumFocusHandler.cs" />
         <Compile Remove="third_party_packages\CefGlue\Interop\Base\cef_string_t.disabled.cs" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <None Remove="HostWindow\WindowBase\Borderless\BorderlessWindow.Overrides.cs~RF29cf8d.TMP" />
     </ItemGroup>
 
     <ItemGroup>
@@ -87,24 +94,24 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Json" Version="4.7.1" />
-      <PackageReference Include="Vortice.Direct2D1" Version="1.8.30" />
+        <PackageReference Include="System.Json" Version="4.7.1" />
+        <PackageReference Include="Vortice.Direct2D1" Version="1.8.30" />
     </ItemGroup>
 
-    
+
 
     <ItemGroup>
         <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.cs">
-          <SubType>Form</SubType>
+            <SubType>Form</SubType>
         </Compile>
         <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.Overrides.cs">
-          <SubType>Form</SubType>
+            <SubType>Form</SubType>
         </Compile>
         <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.Shadows.cs">
-          <SubType>Form</SubType>
+            <SubType>Form</SubType>
         </Compile>
         <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.WindowsMessages.cs">
-          <SubType>Form</SubType>
+            <SubType>Form</SubType>
         </Compile>
         <Compile Update="Properties\Resources.Designer.cs">
             <DependentUpon>Resources.resx</DependentUpon>
