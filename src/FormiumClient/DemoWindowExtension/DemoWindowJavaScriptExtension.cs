@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,29 +11,32 @@ namespace FormiumClient
 {
     public class DemoWindowJavaScriptExtension : JavaScriptExtensionBase
     {
+        // Set name of this extension.
         public override string Name { get; } = "Example/DemoWindow";
+
+        // Set the JavaScript code of this extension.
         public override string JavaScriptCode { get; } = Properties.Resources.DemoWindowJavaScriptCode;
 
         public DemoWindowJavaScriptExtension()
         {
+            // Register native methods
             RegisterFunctionHandler("Test", Test);
             RegisterFunctionHandler("Add", Add);
             RegisterFunctionHandler("Delay", Delay);
-
             RegisterFunctionHandler("Hello", Hello);
             RegisterFunctionHandler("HelloAsync", HelloAsync);
-
             RegisterFunctionHandler("GetTitle", GetTitle);
-
             RegisterFunctionHandler("SetTitle", SetTitle);
         }
 
+        // Register sync method that need communicate with Formium object.
         private JavaScriptValue GetTitle(Formium owner, JavaScriptValue[] arguments)
         {
             return JavaScriptValue.CreateString(owner.Subtitle);
 
         }
 
+        // Register sync method that need communicate with Formium object.
         private JavaScriptValue SetTitle(Formium owner, JavaScriptValue[] arguments)
         {
             var title = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? string.Empty;
@@ -41,6 +44,7 @@ namespace FormiumClient
             return null;
         }
 
+        // Register async method that need communicate with Formium object.
         private void HelloAsync(Formium owner, JavaScriptValue[] arguments, JavaScriptAsyncFunctionCallback callback)
         {
             var time = arguments.FirstOrDefault(x => x.IsNumber)?.GetInt() ?? 1000;
@@ -60,6 +64,7 @@ namespace FormiumClient
 
         }
 
+        // Register sync method that need communicate with Formium object.
         private JavaScriptValue Hello(Formium owner, JavaScriptValue[] arguments)
         {
             var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
@@ -77,11 +82,13 @@ namespace FormiumClient
             return null;
         }
 
+        // Register sync method without communicating with Formium object.
         private JavaScriptValue Test(JavaScriptValue[] arguments)
         {
             return JavaScriptValue.CreateString("OK");
         }
 
+        // Register sync method without communicating with Formium object.
         private JavaScriptValue Add(JavaScriptValue[] arguments)
         {
             if (arguments.Length == 2)
@@ -94,6 +101,7 @@ namespace FormiumClient
             return JavaScriptValue.CreateNull();
         }
 
+        // Register async method without communicating with Formium object.
         private void Delay(JavaScriptValue[] arguments, JavaScriptRendererSideAsyncFunctionCallback callback)
         {
 

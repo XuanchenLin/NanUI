@@ -54,7 +54,7 @@ namespace FormiumClient
                 // You can configure your application settings of NanUI here.
 #if DEBUG
                 // Use this setting if your application running in DEBUG mode, it will allow user to open or clode DevTools by right-clicking mouse button and selecting menu items on context menu.
-                app.UseDebuggingMode();
+                //app.UseDebuggingMode();
 #endif
 
                 // Use this setting if you want only one instance can be run.

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -15,6 +15,7 @@ namespace FormiumClient
 
         public AcrylicStyleForm()
         {
+
             Size = new Size(800, 480);
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Icon = Properties.Resources.DefaultIcon;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +16,7 @@ namespace FormiumClient.DataServices
             return Convert.ToInt64(ts.TotalSeconds).ToString();
         }
 
+        //POST /account/user/login
         [RoutePost("user/login")]
         public ResourceResponse Login(ResourceRequest request)
         {
