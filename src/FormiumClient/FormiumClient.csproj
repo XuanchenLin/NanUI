@@ -8,19 +8,11 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Compile Remove="formium-client-frontend\**" />
-      <EmbeddedResource Remove="formium-client-frontend\**" />
-      <None Remove="formium-client-frontend\**" />
-    </ItemGroup>
+
 
     <ItemGroup>
-      <None Remove="wwwroot\**" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <None Remove="wwwroot\**" />
         <EmbeddedResource Include="wwwroot\**" />
-
     </ItemGroup>
 
     <ItemGroup>
@@ -32,42 +24,42 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Properties\Resources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.resx</DependentUpon>
-      </Compile>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Properties\Resources.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="LayeredDemoResource.zip">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="LocalFiles\index.html">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="LocalFiles\sakura.ogv">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="LocalFiles\sintel_trailer-480p.ogv">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Resources\AcrylicDemoResource.zip">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="LayeredDemoResource.zip">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="LocalFiles\index.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="LocalFiles\sakura.ogv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="LocalFiles\sintel_trailer-480p.ogv">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\AcrylicDemoResource.zip">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 
 
     <ItemGroup>
-      <PackageReference Include="NetDimension.NanUI.Runtime" Version="80.1.15" />
+        <PackageReference Include="NetDimension.NanUI.Runtime" Version="80.1.15" />
     </ItemGroup>
 
 </Project>
