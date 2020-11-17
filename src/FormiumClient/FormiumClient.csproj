@@ -15,37 +15,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="wwwroot\asset-manifest.json" />
-      <None Remove="wwwroot\favicon.ico" />
-      <None Remove="wwwroot\index.html" />
-      <None Remove="wwwroot\static\css\3.1fbc00f4.chunk.css" />
-      <None Remove="wwwroot\static\css\4.0e433876.chunk.css" />
-      <None Remove="wwwroot\static\css\5.ff6790b0.chunk.css" />
-      <None Remove="wwwroot\static\css\6.f06018c2.chunk.css" />
-      <None Remove="wwwroot\static\css\main.e57db133.chunk.css" />
-      <None Remove="wwwroot\static\js\2.chunk.js" />
-      <None Remove="wwwroot\static\js\2.chunk.js.LICENSE.txt" />
-      <None Remove="wwwroot\static\js\3.chunk.js" />
-      <None Remove="wwwroot\static\js\4.chunk.js" />
-      <None Remove="wwwroot\static\js\5.chunk.js" />
-      <None Remove="wwwroot\static\js\6.chunk.js" />
-      <None Remove="wwwroot\static\js\7.chunk.js" />
-      <None Remove="wwwroot\static\js\8.chunk.js" />
-      <None Remove="wwwroot\static\js\9.chunk.js" />
-      <None Remove="wwwroot\static\js\main.chunk.js" />
-      <None Remove="wwwroot\static\js\runtime-main.bundle.js" />
-      <None Remove="wwwroot\static\media\about.0b39cabc.svg" />
-      <None Remove="wwwroot\static\media\devtools.e0382a9a.svg" />
-      <None Remove="wwwroot\static\media\js.2385a9ba.svg" />
-      <None Remove="wwwroot\static\media\license.9d9ef4e5.svg" />
-      <None Remove="wwwroot\static\media\logo.5dcf1774.png" />
-      <None Remove="wwwroot\static\media\main.d804fd77.svg" />
-      <None Remove="wwwroot\static\media\nanui.5dcf1774.png" />
-      <None Remove="wwwroot\static\media\paypal.9d91d032.png" />
-      <None Remove="wwwroot\static\media\preview.30b5cf40.png" />
-      <None Remove="wwwroot\static\media\qrcode.13bf2392.png" />
-      <None Remove="wwwroot\static\media\resource.3d50dbd0.svg" />
-      <None Remove="wwwroot\static\media\window.aa79edc4.svg" />
+      <None Remove="wwwroot\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="wwwroot\**" />
+
     </ItemGroup>
 
     <ItemGroup>
@@ -89,39 +64,7 @@
       </None>
     </ItemGroup>
 
-    <ItemGroup>
-      <EmbeddedResource Include="wwwroot\asset-manifest.json" />
-      <EmbeddedResource Include="wwwroot\favicon.ico" />
-      <EmbeddedResource Include="wwwroot\index.html" />
-      <EmbeddedResource Include="wwwroot\static\css\3.1fbc00f4.chunk.css" />
-      <EmbeddedResource Include="wwwroot\static\css\4.0e433876.chunk.css" />
-      <EmbeddedResource Include="wwwroot\static\css\5.ff6790b0.chunk.css" />
-      <EmbeddedResource Include="wwwroot\static\css\6.f06018c2.chunk.css" />
-      <EmbeddedResource Include="wwwroot\static\css\main.e57db133.chunk.css" />
-      <EmbeddedResource Include="wwwroot\static\js\2.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\2.chunk.js.LICENSE.txt" />
-      <EmbeddedResource Include="wwwroot\static\js\3.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\4.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\5.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\6.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\7.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\8.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\9.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\main.chunk.js" />
-      <EmbeddedResource Include="wwwroot\static\js\runtime-main.bundle.js" />
-      <EmbeddedResource Include="wwwroot\static\media\about.0b39cabc.svg" />
-      <EmbeddedResource Include="wwwroot\static\media\devtools.e0382a9a.svg" />
-      <EmbeddedResource Include="wwwroot\static\media\js.2385a9ba.svg" />
-      <EmbeddedResource Include="wwwroot\static\media\license.9d9ef4e5.svg" />
-      <EmbeddedResource Include="wwwroot\static\media\logo.5dcf1774.png" />
-      <EmbeddedResource Include="wwwroot\static\media\main.d804fd77.svg" />
-      <EmbeddedResource Include="wwwroot\static\media\nanui.5dcf1774.png" />
-      <EmbeddedResource Include="wwwroot\static\media\paypal.9d91d032.png" />
-      <EmbeddedResource Include="wwwroot\static\media\preview.30b5cf40.png" />
-      <EmbeddedResource Include="wwwroot\static\media\qrcode.13bf2392.png" />
-      <EmbeddedResource Include="wwwroot\static\media\resource.3d50dbd0.svg" />
-      <EmbeddedResource Include="wwwroot\static\media\window.aa79edc4.svg" />
-    </ItemGroup>
+
 
     <ItemGroup>
       <PackageReference Include="NetDimension.NanUI.Runtime" Version="80.1.15" />

@@ -16,7 +16,7 @@
     <RepositoryUrl>https://github.com/NetDimension/NanUI</RepositoryUrl>
     <PackageProjectUrl>https://www.formium.net</PackageProjectUrl>
 
-    <IncludeSymbols>false</IncludeSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 </Project>
