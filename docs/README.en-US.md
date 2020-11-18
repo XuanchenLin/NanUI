@@ -115,6 +115,8 @@ The latest version of NanUI supports a variety of window types. The example in t
 
 You can get the source code of NanUI and learn more about each window's implementation. The code of samples above are included in the source code!
 
+You can also download other example program source codes of NanUI 0.8 through [NanUI Example Warehouse](https://github.com/XuanchenLin/NanUI-0.8-Examples).
+
 ### Documentation
 
 The development documentation will help you quickly and easily start to develop with NanUI.

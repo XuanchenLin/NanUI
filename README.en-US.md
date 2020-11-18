@@ -53,15 +53,13 @@ If you want to learn more about NanUI or want to use NanUI for development as so
 
 ## License
 
-NanUI is LGPL-3.0 licensed. **The copyright of NanUI project is owned by the project's founder and developer Xuanchen Lin**.
+NanUI is MIT licensed. **The copyright of NanUI project is owned by the project's founder and developer Xuanchen Lin**.
 
-Follow the LGPL-3.0:
+Follow the MIT:
 
-1. You can reference NanUI's binary library in any commercial software without paying any copyright-related fees;
-2. If your project uses and modifies the source code of NanUI, then your project also needs to use the LGPL agreement to open source, and keep the copyright information of NanUI in your derivative project: `Powered by NanUI`.
-3. If you need to use source code of NanUI in a non-open source application, in order to protect your legal rights, please consider purchasing a commercial license from the project author.
+You should keep the copyright information of NanUI in your derivative project: `Powered by NanUI`.
 
-For more details of LGPL-3.0 [please see](docs/en-US/Licence.md). The NanUI project is based on many open source projects, for dependency licenses [please see](docs/en-US/Dependences.md)。
+For more details of MIT [please see](docs/en-US/License.md). The NanUI project is based on many open source projects, for dependency licenses [please see](docs/en-US/Dependences.md)。
 
 ---
 

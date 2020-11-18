@@ -1,4 +1,4 @@
-The MIT License (MIT)
+## The MIT License (MIT)
 
 Copyright (C) 2014 - 2020, Xuanchen Lin all rights reserved.
 
