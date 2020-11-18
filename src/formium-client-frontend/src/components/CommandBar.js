@@ -43,13 +43,13 @@ const CommandBar = () => {
           <span>{lang === "en-US" ? "中文" : "ENG"}</span>
         </div>
         <div className="minimize-btn" formium-command="minimize">
-          <span>&#xE921;</span>
+          <span>&#xe7bf;</span>
         </div>
         <div className="maximize-btn" formium-command="maximize">
-          {isMaximized ? <span>&#xE923;</span> : <span>&#xE922;</span>}
+          {isMaximized ? <span>&#xe7c0;</span> : <span>&#xe7c1;</span>}
         </div>
         <div className="close-btn" formium-command="close">
-          <span>&#xF78A;</span>
+          <span>&#xe7b4;</span>
         </div>
       </div>
     </div>

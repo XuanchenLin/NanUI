@@ -10,10 +10,8 @@ module.exports = override(
   }),
   (config) => {
     Object.assign(config.output, {
-      // filename: "static/js/[name].bundle.[hash:8].js",
-      // chunkFilename: "static/js/[name].chunk.[chunkhash:8].js",
-      filename: "static/js/[name].bundle.js",
-      chunkFilename: "static/js/[name].chunk.js",
+      filename: "static/js/[name].bundle.[hash:8].js",
+      chunkFilename: "static/js/[name].chunk.[chunkhash:8].js",
     });
 
     const paths = require("react-scripts/config/paths");

@@ -1,5 +1,15 @@
 @import "./Variables";
 
+@font-face {
+  font-family: "iconfont";
+  src: url("./iconfont/iconfont.eot");
+  src: url("./iconfont/iconfont.eot?#iefix") format("embedded-opentype"),
+    url("./iconfont/iconfont.woff2") format("woff2"),
+    url("./iconfont/iconfont.woff") format("woff"),
+    url("./iconfont/iconfont.ttf") format("truetype"),
+    url("./iconfont/iconfont.svg#iconfont") format("svg");
+}
+
 .app {
   // user-select: none;
   cursor: default;
@@ -131,8 +141,9 @@
           transition: background-color ease 150ms;
 
           > span {
-            font-family: "Segoe MDL2 Assets";
+            font-family: "iconfont" !important;
             font-size: 12px;
+            font-style: normal;
             font-weight: 100;
           }
 
