@@ -123,6 +123,9 @@
   <data name="AboutDialog.Title" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="Browser.Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
   <data name="ContextMenu.CloseDevTools" xml:space="preserve">
     <value>&amp;Close DevTools</value>
   </data>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using NetDimension.NanUI.Resources;
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.Browser
@@ -21,40 +22,15 @@ namespace NetDimension.NanUI.Browser
         {
             base.OnAfterCreated(browser);
 
-            //var message = CefProcessMessage.Create(WebViewCore.MSG_ON_BROWSER_CREATED);
-
-            //message.Arguments.SetInt(0, browser.Identifier);
-
-            //browser.GetMainFrame().SendProcessMessage(CefProcessId.Renderer, message);
-
-
             _owner.WebView.OnBrowserCreated(browser);
         }
 
-        //protected override bool DoClose(CefBrowser browser)
-        //{
-
-        //    return true;
-        //    var e = new FormiumCloseEventArgs();
-
-        //    _owner.InvokeIfRequired(() => _owner.OnBeforeClose(e));
-
-
-        //    if (!e.Canceled)
-        //    {
-        //        _owner.Close(true);
-
-        //        return false;
-        //    }
-
-        //    return e.Canceled;
-        //}
-
         protected override void OnBeforeClose(CefBrowser browser)
         {
-            //_owner.Close(true);
-
             _owner.WebView.ProcessMessageBridge.OnBeforeClose(browser);
+
+            _owner.InvokeIfRequired(() => _owner?.HostWindowInternal?.Close());
+            
         }
 
         protected override bool OnBeforePopup(CefBrowser browser, CefFrame frame, string targetUrl, string targetFrameName, CefWindowOpenDisposition targetDisposition, bool userGesture, CefPopupFeatures popupFeatures, CefWindowInfo windowInfo, ref CefClient client, CefBrowserSettings settings, ref CefDictionaryValue extraInfo, ref bool noJavascriptAccess)
@@ -98,7 +74,7 @@ namespace NetDimension.NanUI.Browser
 
 
 
-                windowInfo.SetAsPopup(IntPtr.Zero, $"正在加载 - {_owner.Title}");
+                windowInfo.SetAsPopup(IntPtr.Zero, $"{Messages.Browser_Loading} - {_owner.Title}");
 
                 client = new PopupBrowserClient(_owner);
             }

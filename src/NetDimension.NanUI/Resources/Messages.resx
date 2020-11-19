@@ -123,6 +123,9 @@
   <data name="AboutDialog.Title" xml:space="preserve">
     <value>关于 NanUI 界面框架</value>
   </data>
+  <data name="Browser.Loading" xml:space="preserve">
+    <value>正在加载</value>
+  </data>
   <data name="ContextMenu.CloseDevTools" xml:space="preserve">
     <value>关闭 DevTools(&amp;C)</value>
   </data>

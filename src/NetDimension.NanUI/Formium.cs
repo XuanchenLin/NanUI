@@ -1030,12 +1030,11 @@ namespace NetDimension.NanUI
             {
                 if (force)
                 {
-
+                    
+                    WebView.BrowserHost.CloseBrowser(true);
                     _isForceClosing = true;
 
-                    //WebView?.CloseBrowser();
-                    WebView.BrowserHost.CloseBrowser(true);
-                    HostWindowInternal?.Close();
+                    //HostWindowInternal?.Close();
                 }
                 else
                 {
