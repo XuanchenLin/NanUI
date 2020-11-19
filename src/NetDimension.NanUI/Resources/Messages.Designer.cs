@@ -47,8 +47,8 @@ namespace NetDimension.NanUI.Resources {
         }
         
         /// <summary>
-        ///   重写当前线程的 CurrentUICulture 属性
-        ///   重写当前线程的 CurrentUICulture 属性。
+        ///   重写当前线程的 CurrentUICulture 属性，对
+        ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
@@ -75,6 +75,15 @@ namespace NetDimension.NanUI.Resources {
         internal static string AboutDialog_Title {
             get {
                 return ResourceManager.GetString("AboutDialog.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在加载 的本地化字符串。
+        /// </summary>
+        internal static string Browser_Loading {
+            get {
+                return ResourceManager.GetString("Browser.Loading", resourceCulture);
             }
         }
         
