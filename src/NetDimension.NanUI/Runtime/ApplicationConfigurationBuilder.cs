@@ -58,6 +58,8 @@ namespace NetDimension.NanUI
 
         private Func<ApplicationContext, Formium> _useMainWindow;
 
+        private Func<ApplicationContext> _useApplicationContext;
+
 
         internal readonly IDictionary<string, object> Properties = new Dictionary<string, object>();
 
@@ -98,6 +100,18 @@ namespace NetDimension.NanUI
             return this;
         }
 
+        public ApplicationConfigurationBuilder UseApplicationContext(Func<ApplicationContext> useApplicationContext)
+        {
+            if (_useApplicationContext != null)
+            {
+                throw new InvalidOperationException(nameof(UseApplicationContext));
+            }
+
+            _useApplicationContext = useApplicationContext;
+
+            return this;
+        }
+
         public ApplicationConfigurationBuilder UseDebuggingMode()
         {
             
@@ -122,7 +136,7 @@ namespace NetDimension.NanUI
                 }
             }
 
-
+            config.UseApplicationContext = _useApplicationContext;
             config.UseMainWindow = _useMainWindow;
             return config;
         }

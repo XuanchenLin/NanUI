@@ -237,6 +237,20 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
 
             var context = GetAppContext();
 
+            if(context == null)
+            {
+                context = ApplicationConfiguration.UseApplicationContext?.Invoke();
+
+                if (context != null)
+                {
+                    context.ThreadExit += (_, args) =>
+                    {
+                        Application.Exit();
+                    };
+                }
+
+            }
+
             if (context != null)
             {
                 Application.Run(context);

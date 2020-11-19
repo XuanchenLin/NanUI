@@ -86,18 +86,20 @@ namespace FormiumClient
                 app.UseDataServiceResource("https", "api.app.local"); ;
 
                 // Set a main window class inherit Formium here to start appliation message loop.
-                app.UseMainWindow(context =>
-                {
-                    
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
+                //app.UseMainWindow(context =>
+                //{
 
-                    // You should return a Formium instatnce here or you can use context.MainForm property to set a Form which does not inherit Formium.
+                //    Application.EnableVisualStyles();
+                //    Application.SetCompatibleTextRenderingDefault(false);
 
-                    // context.MainForm = new Form();
+                //    // You should return a Formium instatnce here or you can use context.MainForm property to set a Form which does not inherit Formium.
 
-                    return new MainForm();
-                });
+                //    // context.MainForm = new Form();
+
+                //    return new MainForm();
+                //});
+
+                app.UseApplicationContext(() => new ApplicationContext());
 
             })
             // Build the NanUI runtime

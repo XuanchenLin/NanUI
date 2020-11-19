@@ -3,3 +3,7 @@ What's New in NanUI version 0.8
 - Replace the Base Renderer Engine from ChromiumFX to CefGlue.
 - Rewrite the HostWindow, 3 new styles were added.
 - Add ZipFile Resource Handler.
+
+### 2020/11/19
+
+为AppBuilder添加了UseApplicationContext方法。VSTO或者其他什么不需要启动窗体的项目类型可以使用这个方法来初始化NanUI和CEF。
