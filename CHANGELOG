@@ -6,4 +6,5 @@ What's New in NanUI version 0.8
 
 ### 2020/11/19
 
-为AppBuilder添加了UseApplicationContext方法。VSTO或者其他什么不需要启动窗体的项目类型可以使用这个方法来初始化NanUI和CEF。
+- 为AppBuilder添加了UseApplicationContext方法。VSTO或者其他什么不需要启动窗体的项目类型可以使用这个方法来初始化NanUI和CEF。
+- 解决了VSTO项目中抛异常的问题（该问题由NamePipe命名不规范造成）。

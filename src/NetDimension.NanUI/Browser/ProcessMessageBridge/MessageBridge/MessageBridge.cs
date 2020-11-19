@@ -12,7 +12,7 @@ namespace NetDimension.NanUI.Browser
 
         internal const string PROCESS_MESSAGE_BRIDGE_MESSAGE = MESSAGE_PREFIX + "ProcessMessageBridge";
 
-        internal const string NAMED_PIPE_BASE_ADDRESS = "formium://ProcessMessageProxy";
+        internal const string NAMED_PIPE_BASE_ADDRESS = "formium//ProcessMessageProxy";
 
 
         internal static string GetServiceName(int browserId)
