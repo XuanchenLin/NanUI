@@ -69,11 +69,11 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
 
-
-
-    <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.1' ">
-        <PackageReference Include="System.Text.Encodings.Web" Version="4.7.1" />
-        <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <ItemGroup>
+        <PackageReference Include="System.Json" Version="4.7.1" />
+        <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0" />
+        <PackageReference Include="System.Text.Json" Version="5.0.0" />
+        <PackageReference Include="Vortice.Direct2D1" Version="1.8.31" />
     </ItemGroup>
 
 
@@ -83,19 +83,13 @@
     </ItemGroup>
 
 
-    <ItemGroup>
-      <None Remove="HostWindow\WindowBase\Borderless\BorderlessWindow.Overrides.cs~RF29cf8d.TMP" />
-    </ItemGroup>
 
     <ItemGroup>
         <None Include="Browser\BrowserProcess\Handlers\WinFormiumFocusHandler.cs" />
         <None Include="third_party_packages\CefGlue\Interop\Base\cef_string_t.disabled.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.Json" Version="4.7.1" />
-        <PackageReference Include="Vortice.Direct2D1" Version="1.8.30" />
-    </ItemGroup>
+
 
 
 

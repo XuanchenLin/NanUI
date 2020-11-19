@@ -46,7 +46,7 @@ const Page = () => {
             documents.
           </p>
           <h3>MIT License</h3>
-          <p>Copyright (c) 2020 Xilium CefGlue Authors</p>
+          <p>Copyright (c) 2014-2020 Xuanchen Lin all rights reserved.</p>
           <p>
             Permission is hereby granted, free of charge, to any person
             obtaining a copy of this software and associated documentation files

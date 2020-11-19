@@ -31,20 +31,24 @@ namespace NetDimension.NanUI.Browser
             _owner.WebView.OnBrowserCreated(browser);
         }
 
-        protected override bool DoClose(CefBrowser browser)
-        {
-            var e = new FormiumCloseEventArgs();
+        //protected override bool DoClose(CefBrowser browser)
+        //{
 
-            _owner.InvokeIfRequired(() => _owner.OnBeforeClose(e));
+        //    return true;
+        //    var e = new FormiumCloseEventArgs();
+
+        //    _owner.InvokeIfRequired(() => _owner.OnBeforeClose(e));
 
 
-            if (!e.Canceled)
-            {
-                _owner.Close(true);
-            }
+        //    if (!e.Canceled)
+        //    {
+        //        _owner.Close(true);
 
-            return e.Canceled;
-        }
+        //        return false;
+        //    }
+
+        //    return e.Canceled;
+        //}
 
         protected override void OnBeforeClose(CefBrowser browser)
         {

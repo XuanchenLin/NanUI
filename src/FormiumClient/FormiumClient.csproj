@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
+        <OutputType>WinExe</OutputType>
         <TargetFrameworks>netcoreapp3.1;net472;net5.0-windows;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\DemoIcon.ico</ApplicationIcon>
-        <Platforms>AnyCPU</Platforms>
+        <Platforms>AnyCPU;x64;x86</Platforms>
     </PropertyGroup>
 
 

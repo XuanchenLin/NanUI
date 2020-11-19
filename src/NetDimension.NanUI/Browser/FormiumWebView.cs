@@ -131,7 +131,7 @@ namespace NetDimension.NanUI.Browser
                     BrowserHost?.CloseBrowser(true);
                     BrowserHost?.Dispose();
                     Browser?.Dispose();
-
+                    
                     Dispose();
                 }
             }

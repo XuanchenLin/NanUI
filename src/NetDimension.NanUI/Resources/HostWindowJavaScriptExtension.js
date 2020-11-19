@@ -42,8 +42,13 @@ var Formium = Formium || {};
 
                 if (srcElement) {
                     const command = srcElement.getAttribute(CMD_ATTR_PREFIX).toLowerCase();
+                    
+                    if (command && $this.hostWindow && $this.hostWindow[command]) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        $this.hostWindow[command].apply($this);
+                    }
 
-                    command && $this.hostWindow && $this.hostWindow[command] && $this.hostWindow[command].apply($this);
                 }
             });
 

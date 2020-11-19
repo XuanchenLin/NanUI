@@ -1033,12 +1033,21 @@ namespace NetDimension.NanUI
 
                     _isForceClosing = true;
 
-                    WebView?.CloseBrowser();
+                    //WebView?.CloseBrowser();
+                    WebView.BrowserHost.CloseBrowser(true);
                     HostWindowInternal?.Close();
                 }
                 else
                 {
-                    WebView.BrowserHost.CloseBrowser();
+                    var e = new FormiumCloseEventArgs();
+
+                    OnBeforeClose(e);
+
+                    if (!e.Canceled) { 
+                        WebView.BrowserHost.CloseBrowser(true);
+                        _isForceClosing = true;
+                    }
+
                 }
             });
         }

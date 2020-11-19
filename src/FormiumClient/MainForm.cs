@@ -107,6 +107,17 @@ namespace FormiumClient
             RegisterJavaScriptExampleObject();
 
             BeforePopup += MainWindow_BeforePopup;
+
+            BeforeClose += MainForm_BeforeClose;
+        }
+
+        // Handle BeforeClose event. If you want to do something before user closing this window, you can handle this event.
+        private void MainForm_BeforeClose(object sender, NetDimension.NanUI.Browser.FormiumCloseEventArgs e)
+        {
+            if(MessageBox.Show(this.HostWindow, "Are your sure to quit?", "Quit this App", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
+            {
+                e.Canceled = true;
+            }
         }
 
 
