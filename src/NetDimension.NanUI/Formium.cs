@@ -1939,17 +1939,16 @@ namespace NetDimension.NanUI
             }
         }
 
-        internal void OnBrowserCreated()
+        internal void AttachChromeWidgetMessageHandler()
         {
             ChromeWidgetMessageInterceptor.Setup(chromeWidgetMessageInterceptor, this, OnBrowserWindowMessage);
 
+        }
 
+        internal void OnBrowserCreated()
+        {
 
-
-
-            //if (WindowType != HostWindowType.Acrylic && WindowType != HostWindowType.Layered)
-            //{
-            //}
+            AttachChromeWidgetMessageHandler();
 
 
             InvokeIfRequired(() => BrowserCreated?.Invoke(this, EventArgs.Empty));

@@ -122,20 +122,20 @@ namespace NetDimension.NanUI.Browser
             CefBrowserHost.CreateBrowser(windowInfo, BrowserClient, _settings, _startUrl);
         }
 
-        internal void CloseBrowser()
-        {
-            unsafe
-            {
-                if (Browser != null && typeof(CefBrowser).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Browser) is Pointer self && Pointer.Unbox(self) != null)
-                {
-                    BrowserHost?.CloseBrowser(true);
-                    BrowserHost?.Dispose();
-                    Browser?.Dispose();
+        //internal void CloseBrowser()
+        //{
+        //    unsafe
+        //    {
+        //        if (Browser != null && typeof(CefBrowser).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(Browser) is Pointer self && Pointer.Unbox(self) != null)
+        //        {
+        //            BrowserHost?.CloseBrowser(true);
+        //            BrowserHost?.Dispose();
+        //            Browser?.Dispose();
                     
-                    Dispose();
-                }
-            }
-        }
+        //            Dispose();
+        //        }
+        //    }
+        //}
 
         public void Dispose()
         {

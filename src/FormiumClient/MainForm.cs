@@ -109,6 +109,15 @@ namespace FormiumClient
             BeforePopup += MainWindow_BeforePopup;
 
             BeforeClose += MainForm_BeforeClose;
+
+            RenderProcessTerminated += MainForm_RenderProcessTerminated;
+        }
+
+        // Raises if the render process is terminated. You can restart it or handle it by yourself. 
+        private void MainForm_RenderProcessTerminated(object sender, NetDimension.NanUI.Browser.RenderProcessTerminatedEventArgs e)
+        {
+            // Set this property to true to restart renderer process automaticlly.
+            e.ShouldTryResetProcess = true;
         }
 
         // Handle BeforeClose event. If you want to do something before user closing this window, you can handle this event.

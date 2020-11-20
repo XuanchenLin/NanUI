@@ -26,7 +26,7 @@ namespace NetDimension.NanUI.Browser
             commandLine.AppendArgument("--ignore-certificate-errors");
 
 
-            WinFormium.Runtime.ChromiumEnvironment.CommandLineConfigurations?.Invoke(commandLine);
+            //WinFormium.Runtime.ChromiumEnvironment.CommandLineConfigurations?.Invoke(commandLine);
 
             commandLine.AppendSwitch("--libcef-dir-path", WinFormium.Runtime.ChromiumEnvironment.LibCefDir);
             commandLine.AppendSwitch("--host-process-id", System.Diagnostics.Process.GetCurrentProcess().Id.ToString());

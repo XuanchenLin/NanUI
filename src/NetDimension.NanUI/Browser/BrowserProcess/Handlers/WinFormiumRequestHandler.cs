@@ -81,6 +81,8 @@ namespace NetDimension.NanUI.Browser
             if (e.ShouldTryResetProcess && status != CefTerminationStatus.Termination)
             {
                 browser.Reload();
+
+                _owner.AttachChromeWidgetMessageHandler();
             }
         }
 
