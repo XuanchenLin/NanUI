@@ -1026,29 +1026,32 @@ namespace NetDimension.NanUI
         public void Close(bool force = false)
         {
 
-            ((IFormiumHostWindow)HostWindowInternal).PostUIThread(() =>
+            //((IFormiumHostWindow)HostWindowInternal).PostUIThread(() =>
+            //{
+
+            //});
+
+            if (force)
             {
-                if (force)
+
+                WebView.BrowserHost.CloseBrowser(true);
+                _isForceClosing = true;
+
+                //HostWindowInternal?.Close();
+            }
+            else
+            {
+                var e = new FormiumCloseEventArgs();
+
+                OnBeforeClose(e);
+
+                if (!e.Canceled)
                 {
-                    
                     WebView.BrowserHost.CloseBrowser(true);
                     _isForceClosing = true;
-
-                    //HostWindowInternal?.Close();
                 }
-                else
-                {
-                    var e = new FormiumCloseEventArgs();
 
-                    OnBeforeClose(e);
-
-                    if (!e.Canceled) { 
-                        WebView.BrowserHost.CloseBrowser(true);
-                        _isForceClosing = true;
-                    }
-
-                }
-            });
+            }
         }
 
         /// <summary>
@@ -1543,6 +1546,9 @@ namespace NetDimension.NanUI
 
         private void OnHostWindowLoad(object sender, EventArgs e)
         {
+            CreateBrowser();
+
+
             RegisterHostWindowJavascriptEventHandler();
 
 
@@ -1716,7 +1722,6 @@ namespace NetDimension.NanUI
 
             OnFullScreenMenuStateChanged();
 
-            CreateBrowser();
         }
 
         private void CreateBrowser()

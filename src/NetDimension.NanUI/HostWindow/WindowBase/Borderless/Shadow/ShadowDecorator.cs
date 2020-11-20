@@ -569,7 +569,7 @@ namespace NetDimension.NanUI.HostWindow
 
         private void HandleWindowVisibleChanged(object sender, EventArgs e)
         {
-            ShowBorder(parentWindow.Visible);
+            ShowBorder(parentWindow?.Visible??false);
         }
 
         private void HandleSideMouseDown(object sender, FormShadowResizeArgs e)
@@ -617,6 +617,8 @@ namespace NetDimension.NanUI.HostWindow
 
         private void CloseShadows()
         {
+            //Enable(false);
+
             foreach (var sideShadow in shadows)
             {
                 sideShadow.Close();
@@ -766,9 +768,10 @@ namespace NetDimension.NanUI.HostWindow
 
                 _isDisposed = true;
 
+                UnregisterEvents();
+
                 DestroyShadows();
 
-                UnregisterEvents();
 
                 this.ReleaseHandle();
 

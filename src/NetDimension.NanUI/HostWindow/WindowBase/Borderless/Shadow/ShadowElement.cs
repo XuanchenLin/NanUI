@@ -54,7 +54,6 @@ namespace NetDimension.NanUI.HostWindow
         #endregion
 
         #region constuctor
-        protected IntPtr Region { get; set; } = IntPtr.Zero;
 
 
         internal ShadowElement(ShadowDockPositon side, IntPtr parent, ShadowDecorator decorator)
@@ -290,13 +289,10 @@ namespace NetDimension.NanUI.HostWindow
 
         internal void Close()
         {
-            if (Region != IntPtr.Zero)
-            {
-                User32.SetWindowRgn(Handle, IntPtr.Zero, false);
-                Gdi32.DeleteObject(Region);
-            }
-            User32.CloseWindow(Handle);
             User32.SetParent((int)Handle, 0);
+
+            User32.CloseWindow(Handle);
+
             User32.DestroyWindow(Handle);
         }
 

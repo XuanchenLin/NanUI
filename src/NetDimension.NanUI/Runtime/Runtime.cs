@@ -105,9 +105,9 @@ namespace NetDimension.NanUI
             }
 
             CefRuntime.Load(ChromiumEnvironment.LibCefDir);
-            
+
             IsRuntimeInitialized = true;
-            
+
             if (!ChromiumEnvironment.ForceHighDpiSupportDisabled)
             {
                 CefRuntime.EnableHighDpiSupport();
@@ -136,7 +136,7 @@ namespace NetDimension.NanUI
 
                 var currentProcess = Process.GetCurrentProcess();
 
-                
+
 
                 ApplicationConfiguration.UseExtensions[(int)ExtensionExecutePosition.MainProcessStartup]?.Invoke(this, ApplicationProperties);
             }
@@ -237,7 +237,7 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
 
             var context = GetAppContext();
 
-            if(context == null)
+            if (context == null)
             {
                 context = ApplicationConfiguration.UseApplicationContext?.Invoke();
 
@@ -254,6 +254,7 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
             if (context != null)
             {
                 Application.Run(context);
+
                 return 0;
             }
 
