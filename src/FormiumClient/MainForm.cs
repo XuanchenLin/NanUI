@@ -52,7 +52,11 @@ namespace FormiumClient
 
             CustomizeMaskPanel();
 
+            // If you don't want show the splash on starup, set AutoShowMask to false.
+            //AutoShowMask = false;
+
         }
+
 
         // Create the splash panel
         private void CustomizeMaskPanel()

@@ -40,15 +40,20 @@ namespace NetDimension.NanUI.HostWindow
 
             Panel = new MaskPanel(Owner)
             {
-                Visible = false,
                 BackColor = ColorTranslator.FromHtml("#0055CC"),
+                Visible = false
             };
 
             Owner.HostWindowInternal.Controls.Add(Panel);
 
+
             Owner.LoadEnd += OnBrowserLoadEnd;
         }
 
+        internal void AdjustPanelSize()
+        {
+            Panel.Size = new Size(Owner.Width, Owner.Height);
+        }
 
 
         private void OnBrowserLoadEnd(object sender, LoadEndEventArgs e)
@@ -61,11 +66,10 @@ namespace NetDimension.NanUI.HostWindow
 
         internal void Show()
         {
-
+            
             Panel.BringToFront();
-
-            Panel.BringHandlerToTop();
             Panel.Visible = true;
+            Panel.BringHandlerToTop();
 
         }
         internal void Close()

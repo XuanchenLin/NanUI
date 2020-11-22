@@ -45,6 +45,7 @@ namespace NetDimension.NanUI.HostWindow
             BackgroundImage = Properties.Resources.Powered;
             BackgroundImageLayout = ImageLayout.Center;
             DoubleBuffered = true;
+            AutoSize = false;
             //Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
             Dock = DockStyle.Fill;

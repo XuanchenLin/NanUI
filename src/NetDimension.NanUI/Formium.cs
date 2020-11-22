@@ -683,7 +683,10 @@ namespace NetDimension.NanUI
         public Size Size
         {
             get => HostWindowInternal.Size;
-            set => HostWindowInternal.ClientSize = value;
+            set {
+                HostWindowInternal.ClientSize = value;
+                Mask.AdjustPanelSize();
+            }
         }
         /// <summary>
         /// Gets or sets the size of the client area of the window.
@@ -1425,15 +1428,6 @@ namespace NetDimension.NanUI
 
             Mask = new ViewMask(this);
 
-            if (AutoShowMask && WindowType != HostWindowType.Layered)
-            {
-                Mask.Show();
-            }
-
-
-
-            //OnViewMaskCreated(Mask);
-
 
             HostWindowInternal.Load += OnHostWindowLoad;
 
@@ -1455,8 +1449,9 @@ namespace NetDimension.NanUI
 
         internal protected ViewMask Mask { get; private set; }
 
-        //protected virtual void OnViewMaskCreated(ViewMask mask)
+        //protected virtual void CustomizeMaskView(Control.ControlCollection view)
         //{
+            
 
         //}
 
@@ -1551,7 +1546,14 @@ namespace NetDimension.NanUI
 
             RegisterHostWindowJavascriptEventHandler();
 
+            Mask.AdjustPanelSize();
 
+            //CustomizeMaskView(Mask.Content);
+
+            if (AutoShowMask && WindowType != HostWindowType.Layered)
+            {
+                Mask.Show();
+            }
 
             _isWindowLoaded = true;
 
