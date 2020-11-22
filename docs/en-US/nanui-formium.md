@@ -9,7 +9,7 @@
   - [Form Styles](#form-styles)
   - [Use NanUI Built-in Commands](#use-nanui-built-in-commands)
 
-**Formium** is named after `Form` in WinForms programming and ʻium`in`Chromium`. As the name implies, it is the combination of `WinForms`and`Chromium`, `Form`+ʻium`=`Formium`.
+**Formium** is named after `Form` in WinForms programming and `ium`in`Chromium`. As the name implies, it is the combination of `WinForms`and`Chromium`, `Form`+`ium`=`Formium`.
 
 Formium wraps most of the forms of `System.Window.Forms.Form`, and combines with the CEF framework. The goal is to bring NanUI users the same development experience as WinForms.
 
@@ -53,7 +53,7 @@ Overload the OnReady method in Formium, you can set the browser-related content 
 
 ## Form Styles
 
-Currently `WindowType` of `Formium` supports 5 specific styles: `System`, `Borderless`, `Kiosk`, `Layered` and ʻAcrylic`:
+Currently `WindowType` of `Formium` supports 5 specific styles: `System`, `Borderless`, `Kiosk`, `Layered` and `Acrylic`:
 
 - **System**: System native window style.
 
@@ -90,7 +90,7 @@ Currently `WindowType` of `Formium` supports 5 specific styles: `System`, `Borde
 
   ![原生样式](../images/acrylic-style.png)
 
-  To learn more about the ʻAcrylic` window type system, please refer to the [Using Win10 Acrylic Special Effects Style Window](using-acrylic-style-window.md) chapter.
+  To learn more about the `Acrylic` window type system, please refer to the [Using Win10 Acrylic Special Effects Style Window](using-acrylic-style-window.md) chapter.
 
 ## Use NanUI Built-in Commands
 

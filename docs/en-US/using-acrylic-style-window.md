@@ -53,7 +53,7 @@ AcrylicWindowProperties.ShadowEffect = ShadowEffect.Shadow;
 
   ![None](../images/shadoweffect-dropshadow.png)
 
-The shadow also supports setting the color. Set the `ShadowColor` property to set the shadow color in the active state of the window; set the ʻInactiveShadowColor` property to set the shadow color in the inactive state. When ʻInactiveShadowColor` is set to NULL, NanUI will automatically calculate a suitable color based on the color value of `ShadowColor` for the shadow of the Formium window.
+The shadow also supports setting the color. Set the `ShadowColor` property to set the shadow color in the active state of the window; set the `InactiveShadowColor` property to set the shadow color in the inactive state. When `InactiveShadowColor` is set to NULL, NanUI will automatically calculate a suitable color based on the color value of `ShadowColor` for the shadow of the Formium window.
 
 ```C#
 AcrylicWindowProperties.ShadowEffect = ShadowEffect.DropShadow;

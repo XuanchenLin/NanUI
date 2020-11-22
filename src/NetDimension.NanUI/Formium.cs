@@ -1548,7 +1548,6 @@ namespace NetDimension.NanUI
 
             Mask.AdjustPanelSize();
 
-            //CustomizeMaskView(Mask.Content);
 
             if (AutoShowMask && WindowType != HostWindowType.Layered)
             {

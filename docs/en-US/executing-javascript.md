@@ -9,7 +9,7 @@
 
 ## Execute JavaScript code (no return value)
 
-In the Formium form, use the ʻExecuteJavaScript` method to execute JavaScript code. The ʻExecuteJavaScript` method needs to be called after the browser is initialized, so the best location should be in the ʻOnReady` overload method.
+In the Formium form, use the `ExecuteJavaScript` method to execute JavaScript code. The `ExecuteJavaScript` method needs to be called after the browser is initialized, so the best location should be in the `OnReady` overload method.
 
 ```C#
 ExecuteJavaScript(@"alert('Hello NanUI!')");
@@ -17,7 +17,7 @@ ExecuteJavaScript(@"alert('Hello NanUI!')");
 
 ## Execute JavaScript code (with return value)
 
-Use ʻEvaluateJavaScriptAsync` method to asynchronously execute JavaScript code with return value.
+Use `EvaluateJavaScriptAsync` method to asynchronously execute JavaScript code with return value.
 
 ```C#
 var result = await EvaluateJavaScriptAsync("(function(){ return {a:1,b:\"hello\",c:(s)=>alert(s)}; })()");

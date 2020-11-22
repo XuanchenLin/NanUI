@@ -32,7 +32,7 @@ Set or get whether the current form can use the "minimize" command. This setting
 
 Get the size of the user area of ​​the current form.
 
-**Height {get; set; }** ʻint`
+**Height {get; set; }** `int`
 
 Set or get the height of the current form.
 
@@ -44,7 +44,7 @@ Set or get the icon of the current form.
 
 Indicates whether the current window is in full screen state. This setting is invalid when `WindowType` is `Kiosk` or `Layered`.
 
-**Left {get; set; }** ʻint`
+**Left {get; set; }** `int`
 
 Set or get the abscissa of the screen where the form is currently located.
 
@@ -88,7 +88,7 @@ Set or get the subtitle of the current window.
 
 Set or get the main title of the current window. When the subtitle is empty, the window displays the main title; when the subtitle is composed of content, it will display "[Subtitle]-[Main Title]". If you need to modify the display style, you can specify it by overloading the `GetWindowTitle` method.
 
-**Top {get; set; }** ʻint`
+**Top {get; set; }** `int`
 
 Set or get the ordinate of the current window.
 
@@ -96,7 +96,7 @@ Set or get the ordinate of the current window.
 
 Set or get whether the current window is the top-level window.
 
-**Width {get; set; }** ʻint`
+**Width {get; set; }** `int`
 
 Set or get the width of the current window.
 
@@ -132,19 +132,19 @@ Hide the current window.
 
 **public void Show(Formium owner|.IWin32Window owner|void)**
 
-Display the current form. You can specify the ʻowner` parameter for this method to set its parent form. When the ʻowner` parameter is not specified, the secondary window has no parent window.
+Display the current form. You can specify the `owner` parameter for this method to set its parent form. When the `owner` parameter is not specified, the secondary window has no parent window.
 
 parameter
 
-- _owner:`Formium`|owner:ʻIWin32Window`|void_: You can specify the parent form of Formium and IWin32Window type. When this parameter is omitted, the window has no parent window.
+- _owner:`Formium`|owner:`IWin32Window`|void_: You can specify the parent form of Formium and IWin32Window type. When this parameter is omitted, the window has no parent window.
 
 **public void ShowDialog(Formium owner|.IWin32Window owner|void)**
 
-Open the current window modally. You can specify the ʻowner` parameter for this method to set its parent form. When the ʻowner` parameter is not specified, the secondary window has no parent window.
+Open the current window modally. You can specify the `owner` parameter for this method to set its parent form. When the `owner` parameter is not specified, the secondary window has no parent window.
 
 parameter
 
-- _owner:`Formium`|owner:ʻIWin32Window`|void_: You can specify the parent form of Formium and IWin32Window type. When this parameter is omitted, the window has no parent window.
+- _owner:`Formium`|owner:`IWin32Window`|void_: You can specify the parent form of Formium and IWin32Window type. When this parameter is omitted, the window has no parent window.
 
 **public void ShowDevTools()**
 

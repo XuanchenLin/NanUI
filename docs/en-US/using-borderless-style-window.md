@@ -50,7 +50,7 @@ NanUI has built-in three styles for Formium's borderless forms: `Borderless`, `W
   // BorderlessWindowProperties.InactiveBorderColor = Color.DarkRed;
   ```
 
-  Set the `BorderColor` property to set the border color in the active state of the window; set the ʻInactiveBorderColor` property to set the border color in the inactive state. When ʻInactiveBorderColor` is set to NULL, NanUI will automatically use the color value of `BorderColor` to calculate a suitable color for the border of the Formium window.
+  Set the `BorderColor` property to set the border color in the active state of the window; set the `InactiveBorderColor` property to set the border color in the inactive state. When `InactiveBorderColor` is set to NULL, NanUI will automatically use the color value of `BorderColor` to calculate a suitable color for the border of the Formium window.
 
   ![None](../images/bordereffect-borderline.png)
 
@@ -96,4 +96,4 @@ BorderlessWindowProperties.ShadowEffect = BorderEffect.Shadow;
 
   ![None](../images/shadoweffect-dropshadow.png)
 
-The shadow also supports setting the color. Set the `ShadowColor` property to set the shadow color in the active state of the window; set the ʻInactiveShadowColor` property to set the shadow color in the inactive state. When ʻInactiveShadowColor` is set to NULL, NanUI will automatically calculate a suitable color based on the color value of `ShadowColor` for the shadow of the Formium window.
+The shadow also supports setting the color. Set the `ShadowColor` property to set the shadow color in the active state of the window; set the `InactiveShadowColor` property to set the shadow color in the inactive state. When `InactiveShadowColor` is set to NULL, NanUI will automatically calculate a suitable color based on the color value of `ShadowColor` for the shadow of the Formium window.

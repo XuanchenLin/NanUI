@@ -17,7 +17,7 @@ Whether the current browser page can perform the "back" operation.
 
 Whether the current browser page can perform "foreground" operations.
 
-**FrameCount {get; }** ʻint`
+**FrameCount {get; }** `int`
 
 Get the number of frames (Frame) of the current form in the browser, usually including the browser's main frame itself.
 
@@ -25,7 +25,7 @@ Get the number of frames (Frame) of the current form in the browser, usually inc
 
 Get whether the current browser has a Document object.
 
-**Identifier {get; }** ʻint`
+**Identifier {get; }** `int`
 
 Get the ID of the current form browser object.
 
@@ -77,11 +77,11 @@ return value
 
 **public CefFrame GetFrame(string name|int identifier)**
 
-Get the frame instance based on the frame name `name` or frame number ʻidentifier`.
+Get the frame instance based on the frame name `name` or frame number `identifier`.
 
 parameter
 
-- _name:`string`|identifier:ʻint`_: frame name or frame number identifier.
+- _name:`string`|identifier:`int`_: frame name or frame number identifier.
 
 return value
 
@@ -121,7 +121,7 @@ Advance to the next page of the browser history. Need to cooperate with `CanGoFo
 
 **public void RegisterExternalObjectValue(string name, JavaScriptValue value)**
 
-Register the .NET object mapping with the browser environment. Use `JavaScriptValue` to create an object of JavaScript type ʻObject`, and map the properties or methods of the .NET object to it.
+Register the .NET object mapping with the browser environment. Use `JavaScriptValue` to create an object of JavaScript type `Object`, and map the properties or methods of the .NET object to it.
 
 parameter
 

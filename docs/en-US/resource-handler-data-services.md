@@ -51,7 +51,7 @@ Import and register the data service from the assembly file located in `fileName
 
 **ImportDataServiceAssembly(Assembly assembly)**
 
-Import and register data service from assembly ʻassembly`.
+Import and register data service from assembly `assembly`.
 
 **ImportDataServiceAssemblies(string[] files)**
 
@@ -99,7 +99,7 @@ In addition, if the data processing program does not specify the Http method, an
 
 **PassportService**
 
-This example simulates a user login request. The front end submits the login information through the POST method, and uses the JSON deserialization method `DeserializeObjectFromJson` of the `ResourceRequest` object to deserialize the submitted data to the ʻUserInfo` type, and then simulates a delay of 2000 After milliseconds, the result of successful login is returned.
+This example simulates a user login request. The front end submits the login information through the POST method, and uses the JSON deserialization method `DeserializeObjectFromJson` of the `ResourceRequest` object to deserialize the submitted data to the `UserInfo` type, and then simulates a delay of 2000 After milliseconds, the result of successful login is returned.
 
 ```C#
 using NetDimension.NanUI.DataServiceResource;
@@ -137,7 +137,7 @@ public class PassportService: DataService
 }
 ```
 
-The `PassportService` in the example specifies the `DataRoute` property, and the data handler `Login` method also specifies the `RoutePost` property and specifies the routing address data. If the routing characteristics are ignored. The route of the data service and data processing program should be `passport/login`. By adding the routing feature, the route of this method becomes ʻaccount/user/login`.
+The `PassportService` in the example specifies the `DataRoute` property, and the data handler `Login` method also specifies the `RoutePost` property and specifies the routing address data. If the routing characteristics are ignored. The route of the data service and data processing program should be `passport/login`. By adding the routing feature, the route of this method becomes `account/user/login`.
 
 At the same time, because the data processing program `Login` specifies the `RoutePost` feature, it means that this method only accepts POST requests, and other requests will be ignored. You can superimpose multiple characteristics to specify multiple Http methods. For example, you can specify the `RouteGet` and `RoutePost` characteristics at the same time, and specify different routing addresses for the two characteristics.
 
@@ -153,7 +153,7 @@ public ResourceResponse Test(ResourceRequest reqeust)
 
 ## Use resource processor
 
-The assembly resource processor needs to be registered in the WinFormium startup processing method. Use the ʻUseEmbeddedFileResource`method in the`application configuration agent` method to register the assembly resource handler scheme.
+The assembly resource processor needs to be registered in the WinFormium startup processing method. Use the `UseEmbeddedFileResource`method in the`application configuration agent` method to register the assembly resource handler scheme.
 
 ### Register the data service in the current assembly
 

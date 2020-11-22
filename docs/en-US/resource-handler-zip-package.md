@@ -18,7 +18,7 @@ PM> Install NetDimension.NanUI.ZippedResource
 
 **Registration plan**
 
-The assembly resource processor needs to be registered in the WinFormium startup processing method. Use the ʻUseEmbeddedFileResource`method in the`application configuration agent` method to register the assembly resource handler scheme.
+The assembly resource processor needs to be registered in the WinFormium startup processing method. Use the `UseEmbeddedFileResource`method in the`application configuration agent` method to register the assembly resource handler scheme.
 
 **Use Zip file in local directory**
 
