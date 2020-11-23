@@ -362,6 +362,7 @@ namespace NetDimension.NanUI.HostWindow
                 return;
 
             UpdateFocus(false);
+
             UpdateZOrder();
         }
 
@@ -581,7 +582,7 @@ namespace NetDimension.NanUI.HostWindow
 
             if (Resizable)
             {
-                User32.SendMessage(ParentWindowHWnd, (uint)WindowsMessages.WM_SYSCOMMAND, (IntPtr)(GetSizeMode(e.Mode)), IntPtr.Zero);
+                User32.PostMessage(ParentWindowHWnd, (uint)WindowsMessages.WM_SYSCOMMAND, (IntPtr)(GetSizeMode(e.Mode)), IntPtr.Zero);
             }
 
         }
