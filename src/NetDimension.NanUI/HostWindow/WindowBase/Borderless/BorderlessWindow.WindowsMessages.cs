@@ -241,6 +241,17 @@ namespace NetDimension.NanUI.HostWindow
             else
             {
 
+
+                if (IsWindowActivated)
+                {
+                    _shadowDecorator.SetFocus();
+
+                }
+                else
+                {
+                    _shadowDecorator.KillFocus();
+                }
+
                 // Allow default processing of activation change
                 m.Result = Win32.MESSAGE_HANDLED;
                 // Message processed, do not pass onto base class for processing
@@ -253,15 +264,7 @@ namespace NetDimension.NanUI.HostWindow
 
 
 
-            //if (IsWindowActivated)
-            //{
-            //    _shadowDecorator.SetFocus();
 
-            //}
-            //else
-            //{
-            //    _shadowDecorator.KillFocus();
-            //}
 
 
 

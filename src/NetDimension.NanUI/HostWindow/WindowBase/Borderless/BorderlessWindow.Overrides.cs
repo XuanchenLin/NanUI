@@ -280,6 +280,28 @@ namespace NetDimension.NanUI.HostWindow
         }
 
 
+        public new DialogResult ShowDialog(IWin32Window owner)
+        {
+            return base.ShowDialog(CheckOwner(owner));
+        }
+        static IWin32Window CheckOwner(IWin32Window owner)
+        {
+            var form = owner as BorderlessWindow;
+            if (form != null)
+            {
+                if (form.Location == InvalidPoint)
+                {
+                    return form.OwnedForms.FirstOrDefault(x => IsAppropriateOwner(x));
+                }
+            }
+            return owner;
+        }
+        static bool IsAppropriateOwner(Form condidateForm)
+        {
+            return true;
+        }
+
+
 
     }
 }
