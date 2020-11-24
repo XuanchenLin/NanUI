@@ -267,10 +267,12 @@ namespace NetDimension.NanUI.HostWindow
             set
             {
                 var needRefresh = false;
+                
                 if (_parentWindowIsFocused != value)
                 {
                     needRefresh = true;
                 }
+
                 _parentWindowIsFocused = value;
 
                 if (needRefresh)

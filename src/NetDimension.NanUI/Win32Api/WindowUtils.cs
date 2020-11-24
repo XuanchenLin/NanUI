@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -46,6 +46,11 @@ public static class WindowUtils
     {
         if (window is null)
             throw new ArgumentNullException(nameof(window));
+
+        if(Environment.OSVersion.Version <= new Version(6,1) || !ApiHelper.IsApiAvailable("user32.dll", "SetWindowCompositionAttribute"))
+        {
+            return;
+        }
 
         var accent = new AccentPolicy();
         accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
