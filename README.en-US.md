@@ -45,10 +45,35 @@ Please consider rewarding the project author or sponsoring the project so that t
 - .NET Core 3.1
 - .NET 5.0
 
+### Compile the source code
+
+NanUI supports the framework from .NET 4.6.2 to the latest .NET 5.0, if you need to compile NanUI source code, you need to use __Visual Studio 2019 16.8 or higher__, and you need to install the corresponding .NET framework version:
+
+- .NET 4.6.2/4.7/4.7.1/4.7.2/4.8 SDK
+- .NET Core 3.1 SDK
+- .NET 5.0 SDK
+
+If you only want to compile NanUI for a specific framework platform, please modify the `TargetFrameworks` property value in the project file yourself.
+
+
+---
+
 
 ## Getting Start
 
 If you want to learn more about NanUI or want to use NanUI for development as soon as possible, please navigate to [Welcome to NanUI](docs/README.md) to get documentation and sample code.
+
+
+The source code contains a sample project FormiumClient, you can quickly learn the relevant knowledge of NanUI through the source code of this project, it will also teach you how to use HTML / CSS / JavaScript to create your application.
+
+- [formium-client-frontend](src/formium-client-frontend/README.md)
+
+  The front-end code of this project uses two hot frameworks, ReactJS and Bootstrap.
+
+- [FormiumClient](src/FormiumClient/README.md)
+
+  This project mainly shows you some examples of NanUI's form types, the use of resource controllers to load resources, and the communication between NanUI and JavaScript.
+
 
 
 ## License

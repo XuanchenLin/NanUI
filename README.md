@@ -45,11 +45,34 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 - .NET Core 3.1
 - .NET 5.0
 
+
+### 编译源码
+
+因为 NanUI 支持从 .NET 4.6.2 到最新的 .NET 5.0 框架，所以如需要编译 NanUI 源码需要使用 __Visual Studio 2019 16.8 或更高版本__，并且需要安装对应的 .NET 框架版本：
+
+- .NET 4.6.2/4.7/4.7.1/4.7.2/4.8 SDK
+- .NET Core 3.1 SDK
+- .NET 5.0 SDK
+
+如果您只希望编译特定框架平台的 NanUI，请自行修改项目文件（.csproj）中的 `TargetFrameworks` 属性值。
+
 ---
 
 ## 入门
 
 如果想进一步了解有关 NanUI 的更多信息或者想使用 NanUI 尽快进行开发工作，请访问《[欢迎使用 NanUI](docs/README.md)》来获取文档帮助和示例代码。
+
+在项目源代码中包括了一个综合性的展示项目 FormiumClient，您可以通过这个项目的源代码快速学习 NanUI 的相关知识并掌握如何使用 HTML / CSS / JavaScript 来创建您的应用程序。
+
+- [formium-client-frontend](src/formium-client-frontend/README.md)
+
+  此项目的前端代码，使用了 ReactJS 和 Bootstrap 两个主流的框架。
+
+- [FormiumClient](src/FormiumClient/README.md)
+
+  此项目主要为您展示了 NanUI 的窗体类型、使用资源控制器加载资源以及 NanUI 与 JavaScript 进行通信的一些例子。
+
+
 
 ---
 
