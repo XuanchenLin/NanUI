@@ -74,6 +74,7 @@ The source code contains a sample project FormiumClient, you can quickly learn t
 
   This project mainly shows you some examples of NanUI's form types, the use of resource controllers to load resources, and the communication between NanUI and JavaScript.
 
+![Formium Client](docs/images/formium-client-preview-enUS.png)
 
 
 ## License

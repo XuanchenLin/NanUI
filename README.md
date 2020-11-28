@@ -72,7 +72,7 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 
   此项目主要为您展示了 NanUI 的窗体类型、使用资源控制器加载资源以及 NanUI 与 JavaScript 进行通信的一些例子。
 
-
+![Formium Client](docs/images/formium-client-preview-zhCN.png)
 
 ---
 
