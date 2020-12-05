@@ -69,15 +69,7 @@ namespace FormiumClient
         {
             var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
 
-            if (owner.WindowState != FormWindowState.Maximized)
-            {
-                owner.WindowState = FormWindowState.Maximized;
-            }
-            else
-            {
-                owner.WindowState = FormWindowState.Normal;
-            }
-
+            MessageBox.Show(owner.HostWindow, msg, "Hello from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             return null;
         }

@@ -131,7 +131,7 @@ const Page = () => (
       </div>
     </div>
 
-    <h2>功能简介</h2>
+    <h2>Features</h2>
     <div className="features ">
       <div className="row">
         <div className="col-md-4">

@@ -565,7 +565,7 @@ namespace NetDimension.NanUI
         /// <summary>
         /// 
         /// </summary>
-        internal protected IWin32Window HostWindow => HostWindowInternal;
+        public IWin32Window HostWindow => HostWindowInternal;
         /// <summary>
         /// Gets a value indicating whether the Formium is in full screen mode.
         /// </summary>
@@ -1899,28 +1899,24 @@ namespace NetDimension.NanUI
 
             User32.GetClientRect(HostWindowHandle, ref rect);
 
-            User32.SetWindowPos(BrowserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER);
+            //User32.SetWindowPos(BrowserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER);
 
 
 
 
-            //if (visible)
-            //{
-            //    User32.SetWindowPos(BrowserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_NOCOPYBITS | SetWindowPosFlags.SWP_ASYNCWINDOWPOS);
+            if (Visible)
+            {
+                User32.SetWindowPos(BrowserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_NOCOPYBITS | SetWindowPosFlags.SWP_ASYNCWINDOWPOS);
 
-            //    User32.SetWindowLong(BrowserWindowHandle, GetWindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_VISIBLE));
+                User32.SetWindowLongPtr(BrowserWindowHandle, WindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_VISIBLE));
+            }
+            else
+            {
 
+                User32.SetWindowPos(BrowserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_HIDEWINDOW | SetWindowPosFlags.SWP_ASYNCWINDOWPOS);
 
-            //}
-            //else
-            //{
-
-            //    User32.SetWindowPos(BrowserWindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_HIDEWINDOW | SetWindowPosFlags.SWP_ASYNCWINDOWPOS);
-
-            //    User32.SetWindowLong(BrowserWindowHandle, GetWindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_DISABLED));
-
-
-            //}
+                User32.SetWindowLongPtr(BrowserWindowHandle, WindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_DISABLED));
+            }
         }
         #endregion
 

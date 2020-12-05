@@ -47,6 +47,15 @@ namespace NetDimension.NanUI.LocalFileResource
                 }    
             }
 
+            if (!File.Exists(physicalFilePath) && Configuration.OnFallback != null)
+            {
+                var fallbackFile = Configuration.OnFallback.Invoke(filePath);
+
+                physicalFilePath = Path.GetFullPath( Path.Combine(Configuration.LocalResourceDiretory, fallbackFile));
+            }
+
+
+
             if (File.Exists(physicalFilePath))
             {
                 response.ContentStream = File.OpenRead(physicalFilePath);

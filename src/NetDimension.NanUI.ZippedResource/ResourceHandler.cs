@@ -53,6 +53,19 @@ namespace NetDimension.NanUI.ZippedResource
                     }
                 }
 
+                if(fileEntry == null && Configuration.OnFallback != null)
+                {
+                    var fallbackFile = Configuration.OnFallback.Invoke(filePath);
+                    
+                    fileEntry = archive.GetEntry(fallbackFile);
+
+                    if (fileEntry != null)
+                    {
+                        response.MimeType = GetMimeType(fallbackFile);
+                        
+                    }
+                }
+
                 if (fileEntry != null)
                 {
                     using (var entryStream = fileEntry.Open())

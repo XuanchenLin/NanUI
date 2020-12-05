@@ -313,15 +313,17 @@ namespace NetDimension.NanUI.HostWindow
 
             CreateParams cp = this.CreateParams;
 
-            if (this.IsHandleCreated)
-            {
-                screenClient = this.RectangleToScreen(this.ClientRectangle);
-            }
-            else
-            {
-                screenClient = this.ClientRectangle;
-                screenClient.Offset(-this.Location.X, -this.Location.Y);
-            }
+            //if (this.IsHandleCreated)
+            //{
+            //    screenClient = this.RectangleToScreen(this.ClientRectangle);
+            //}
+            //else
+            //{
+
+            //}
+
+            screenClient = this.ClientRectangle;
+            screenClient.Offset(-this.Location.X, -this.Location.Y);
 
             boundsRect.left = screenClient.Left;
             boundsRect.top = screenClient.Top;
@@ -330,7 +332,7 @@ namespace NetDimension.NanUI.HostWindow
 
             Padding result;
 
-            AdjustWindowRectEx(ref boundsRect, cp.Style, this.MainMenuStrip != null, cp.ExStyle);
+            AdjustWindowRectEx(ref boundsRect, cp.Style, false, cp.ExStyle);
 
             result = new Padding(
                         screenClient.Left - boundsRect.left,

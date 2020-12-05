@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <TargetFrameworks>netcoreapp3.1;net472;net5.0-windows;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\DemoIcon.ico</ApplicationIcon>
@@ -15,6 +15,9 @@
         <None Remove="wwwroot\**" />
         <EmbeddedResource Include="wwwroot\**" />
     </ItemGroup>
+
+   
+    
 
     <ItemGroup>
         <ProjectReference Include="..\NetDimension.NanUI.DataServiceResource\NetDimension.NanUI.DataServiceResource.csproj" />

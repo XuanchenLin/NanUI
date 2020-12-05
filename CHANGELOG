@@ -4,7 +4,12 @@ What's New in NanUI version 0.8
 - Rewrite the HostWindow, 3 new styles were added.
 - Add ZipFile Resource Handler.
 
+### 2020/12/5
+- 修复了JavaScript不能传大于1K数据内容的问题
+- 为资源控制器增加了OnFallback处理函数，现在可以支持各类前端框架的浏览器路由了（之前是建议使用哈希路由）
+- 尝试添加了对Blazor WebAssembly使用嵌入式打包的支持(.NET5.0)
+
 ### 2020/11/19
 
-- ΪAppBuilder������UseApplicationContext������VSTO��������ʲô����Ҫ�����������Ŀ���Ϳ���ʹ�������������ʼ��NanUI��CEF��
-- �����VSTO��Ŀ�����쳣�����⣨��������NamePipe�������淶��ɣ���
+- 为AppBuilder添加了UseApplicationContext方法。VSTO或者其他什么不需要启动窗体的项目类型可以使用这个方法来初始化NanUI和CEF。
+- 解决了VSTO项目中抛异常的问题（该问题由NamePipe命名不规范造成）。

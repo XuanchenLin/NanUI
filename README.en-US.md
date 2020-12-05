@@ -33,7 +33,7 @@ Please consider rewarding the project author or sponsoring the project so that t
 ### Current Version：
 
 - **Chromium** `80.0.3987.163`
-- **NanUI** `0.8.80.120` 
+- **NanUI** `0.8.80.120`
 
 ### Requirement
 
@@ -47,7 +47,7 @@ Please consider rewarding the project author or sponsoring the project so that t
 
 ### Compile the source code
 
-NanUI supports the framework from .NET 4.6.2 to the latest .NET 5.0, if you need to compile NanUI source code, you need to use __Visual Studio 2019 16.8 or higher__, and you need to install the corresponding .NET framework version:
+NanUI supports the framework from .NET 4.6.2 to the latest .NET 5.0, if you need to compile NanUI source code, you need to use **Visual Studio 2019 16.8 or higher**, and you need to install the corresponding .NET framework version:
 
 - .NET 4.6.2/4.7/4.7.1/4.7.2/4.8 SDK
 - .NET Core 3.1 SDK
@@ -55,14 +55,11 @@ NanUI supports the framework from .NET 4.6.2 to the latest .NET 5.0, if you need
 
 If you only want to compile NanUI for a specific framework platform, please modify the `TargetFrameworks` property value in the project file yourself.
 
-
 ---
-
 
 ## Getting Start
 
-If you want to learn more about NanUI or want to use NanUI for development as soon as possible, please navigate to [Welcome to NanUI](docs/README.md) to get documentation and sample code.
-
+If you want to learn more about NanUI or want to use NanUI for development as soon as possible, please navigate to [Welcome to NanUI](docs/README.en-US.md) to get documentation and sample code.
 
 The source code contains a sample project FormiumClient, you can quickly learn the relevant knowledge of NanUI through the source code of this project, it will also teach you how to use HTML / CSS / JavaScript to create your application.
 
@@ -75,7 +72,6 @@ The source code contains a sample project FormiumClient, you can quickly learn t
   This project mainly shows you some examples of NanUI's form types, the use of resource controllers to load resources, and the communication between NanUI and JavaScript.
 
 ![Formium Client](docs/images/formium-client-preview-enUS.png)
-
 
 ## License
 

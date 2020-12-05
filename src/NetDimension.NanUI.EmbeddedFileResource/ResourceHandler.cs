@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -24,7 +25,39 @@ namespace NetDimension.NanUI.EmbeddedFileResource
         public SchemeConfiguration Configuration { get; }
 
 
-        // https://stackoverflow.com/questions/5769705/retrieving-embedded-resources-with-special-characters
+        private string GetResourceName(string relativePath, string baseName, string rootPath)
+        {
+            var filePath = relativePath;
+            if (!string.IsNullOrEmpty(rootPath))
+            {
+                filePath = $"{rootPath.Trim('/', '\\')}/{filePath}".Trim('/');
+            }
+
+            var endTrimIndex = filePath.LastIndexOf('/');
+
+
+            if (endTrimIndex > -1)
+            {
+
+                // https://stackoverflow.com/questions/5769705/retrieving-embedded-resources-with-special-characters
+
+                var path = filePath.Substring(0, endTrimIndex);
+                path = path.Replace("-", "_");
+                path = path.Replace("/", ".");
+                if (Regex.IsMatch(path, "\\.(\\d+)"))
+                {
+                    path = Regex.Replace(path, "\\.(\\d+)", "._$1");
+                }
+
+                filePath = $"{path}{filePath.Substring(endTrimIndex)}";
+            }
+
+            var resourceName = $"{baseName}.{filePath.Replace('/', '.')}";
+
+            return resourceName;
+
+        }
+
 
 
         protected override ResourceResponse GetResourceResponse(ResourceRequest request)
@@ -42,34 +75,42 @@ namespace NetDimension.NanUI.EmbeddedFileResource
                 return response;
             }
 
-            var filePath = response.RelativePath;
+            //var filePath = response.RelativePath;
 
 
 
-            if (!string.IsNullOrEmpty(Configuration.RootPath))
-            {
-                filePath = $"{Configuration.RootPath.Trim('/', '\\')}/{filePath}".Trim('/');
-            }
+            //if (!string.IsNullOrEmpty(Configuration.RootPath))
+            //{
+            //    filePath = $"{Configuration.RootPath.Trim('/', '\\')}/{filePath}".Trim('/');
+            //}
 
-            var endTrimIndex = filePath.LastIndexOf('/');
-
-
-            if (endTrimIndex > -1)
-            {
-                var path = filePath.Substring(0, endTrimIndex);
-                path = path.Replace("-", "_");
-                path = path.Replace("/", ".");
-                if(Regex.IsMatch(path, "\\.(\\d+)"))
-                {
-                    path = Regex.Replace(path, "\\.(\\d+)", "._$1");
-                }
-
-                filePath = $"{path}{filePath.Substring(endTrimIndex)}";
-            }
+            //var endTrimIndex = filePath.LastIndexOf('/');
 
 
+            //if (endTrimIndex > -1)
+            //{
 
-            var resourceName = $"{mainAssembly.GetName().Name}.{filePath.Replace('/', '.')}";
+            //    // https://stackoverflow.com/questions/5769705/retrieving-embedded-resources-with-special-characters
+
+            //    var path = filePath.Substring(0, endTrimIndex);
+            //    path = path.Replace("-", "_");
+            //    path = path.Replace("/", ".");
+            //    if(Regex.IsMatch(path, "\\.(\\d+)"))
+            //    {
+            //        path = Regex.Replace(path, "\\.(\\d+)", "._$1");
+            //    }
+
+            //    filePath = $"{path}{filePath.Substring(endTrimIndex)}";
+            //}
+
+
+
+            //var resourceName = $"{mainAssembly.GetName().Name}.{filePath.Replace('/', '.')}";
+
+
+            //Debug.Assert(resourceName == GetResourceName(response.RelativePath, mainAssembly.GetName().Name, Configuration.RootPath));
+
+            var resourceName = GetResourceName(response.RelativePath, mainAssembly.GetName().Name, Configuration.RootPath);
 
 
             Assembly satelliteAssembly = null;
@@ -90,9 +131,6 @@ namespace NetDimension.NanUI.EmbeddedFileResource
             {
 
             }
-
-
-
 
             var embeddedResources = mainAssembly.GetManifestResourceNames().Select(x => new { Target = mainAssembly, Name = x, IsSatellite = false });
 
@@ -123,10 +161,22 @@ namespace NetDimension.NanUI.EmbeddedFileResource
                 }
             }
 
+            if(resource == null && Configuration.OnFallback != null)
+            {
+                var fallbackFile = Configuration.OnFallback.Invoke(requestUrl);
+
+                var test = Path.GetFullPath(fallbackFile);
+
+                resourceName = GetResourceName(fallbackFile, mainAssembly.GetName().Name, Configuration.RootPath);
+
+                resource = embeddedResources.SingleOrDefault(x => x.Name.Equals(resourceName, StringComparison.CurrentCultureIgnoreCase));
+
+            }
+
 
             if (resource != null)
             {
-                var manifestResourceName = resourceName;
+                var manifestResourceName = resource.Name;
 
                 if (resource.IsSatellite)
                 {

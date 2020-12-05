@@ -10,15 +10,19 @@ namespace NetDimension.NanUI.ZippedResource
 {
     internal class SchemeConfiguration : ResourceSchemeConfiguration
     {
-        public SchemeConfiguration(string scheme, string domainName, string zipFilePath)
-    : this(scheme, domainName, ()=>new FileStream(zipFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+        public Func<string, string> OnFallback { get; }
+
+
+        public SchemeConfiguration(string scheme, string domainName, string zipFilePath, Func<string, string> onFallback = null)
+    : this(scheme, domainName, () => new FileStream(zipFilePath, FileMode.Open, FileAccess.Read, FileShare.Read), onFallback)
         {
 
         }
 
-        public SchemeConfiguration(string scheme, string domainName, Func<Stream> getZipFileStream)
+        public SchemeConfiguration(string scheme, string domainName, Func<Stream> getZipFileStream, Func<string, string> onFallback = null)
 : base(scheme, domainName)
         {
+
             var zipFileStream = getZipFileStream.Invoke();
             using (var stream = new MemoryStream())
             {
@@ -28,6 +32,9 @@ namespace NetDimension.NanUI.ZippedResource
 
                 ZipFileBuffer = stream.ToArray();
             }
+
+            OnFallback = onFallback;
+
         }
 
         public byte[] ZipFileBuffer { get; }
@@ -40,16 +47,16 @@ namespace NetDimension.NanUI.ZippedResource
 
     public static class ExtensionRegister
     {
-        public static ApplicationConfigurationBuilder UseZippedResource(this ApplicationConfigurationBuilder @this, string scheme, string domainName, string zipFilePath)
+        public static ApplicationConfigurationBuilder UseZippedResource(this ApplicationConfigurationBuilder @this, string scheme, string domainName, string zipFilePath, Func<string, string> onFallback = null)
         {
-            @this.UseCustomResourceHandler(()=>new SchemeConfiguration(scheme, domainName, zipFilePath));
+            @this.UseCustomResourceHandler(() => new SchemeConfiguration(scheme, domainName, zipFilePath, onFallback));
 
             return @this;
         }
 
-        public static ApplicationConfigurationBuilder UseZippedResource(this ApplicationConfigurationBuilder @this, string scheme, string domainName, Func<Stream> zipFileStream)
+        public static ApplicationConfigurationBuilder UseZippedResource(this ApplicationConfigurationBuilder @this, string scheme, string domainName, Func<Stream> zipFileStream, Func<string, string> onFallback = null)
         {
-            @this.UseCustomResourceHandler(() => new SchemeConfiguration(scheme, domainName, zipFileStream));
+            @this.UseCustomResourceHandler(() => new SchemeConfiguration(scheme, domainName, zipFileStream, onFallback));
 
             return @this;
         }

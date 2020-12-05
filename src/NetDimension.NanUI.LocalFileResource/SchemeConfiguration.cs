@@ -9,12 +9,15 @@ namespace NetDimension.NanUI.LocalFileResource
     internal class SchemeConfiguration : ResourceSchemeConfiguration
     {
         public string LocalResourceDiretory { get; }
+        public Func<string, string> OnFallback { get; }
 
 
-        public SchemeConfiguration(string scheme, string domainName, string localResourceDiretory) 
+        public SchemeConfiguration(string scheme, string domainName, string localResourceDiretory, Func<string, string> onFallback = null) 
             : base(scheme, domainName)
         {
             LocalResourceDiretory = localResourceDiretory;
+            OnFallback = onFallback;
+
         }
 
 
@@ -23,9 +26,9 @@ namespace NetDimension.NanUI.LocalFileResource
 
     public static class ExtensionRegister
     {
-        public static ApplicationConfigurationBuilder UseLocalFileResource(this ApplicationConfigurationBuilder @this, string scheme, string domainName, string localFileResourceDirectory)
+        public static ApplicationConfigurationBuilder UseLocalFileResource(this ApplicationConfigurationBuilder @this, string scheme, string domainName, string localFileResourceDirectory, Func<string, string> onFallback = null)
         {
-            @this.UseCustomResourceHandler(() => new SchemeConfiguration(scheme, domainName, localFileResourceDirectory));
+            @this.UseCustomResourceHandler(() => new SchemeConfiguration(scheme, domainName, localFileResourceDirectory, onFallback));
 
             return @this;
         }

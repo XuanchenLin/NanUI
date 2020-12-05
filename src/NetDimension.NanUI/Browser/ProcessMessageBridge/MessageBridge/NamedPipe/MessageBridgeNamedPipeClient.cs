@@ -12,6 +12,8 @@ namespace NetDimension.NanUI.Browser.ProcessMessageBridge
     {
         private string _pipeName;
         private CancellationTokenSource _cancellationTokenSource;
+        const int BUFFER_SIZE = 4096;
+
         public MessageBridgeRenderSide JavascriptBridge { get; }
 
         public MessageBridgeNamedPipeClient(MessageBridgeRenderSide jsBridge, string pipeName, CancellationTokenSource cancellationTokenSource)
@@ -29,14 +31,29 @@ namespace NetDimension.NanUI.Browser.ProcessMessageBridge
                 try
                 {
                     pipe.Connect();
-                    var reader = new StreamReader(pipe);
-                    var writer = new StreamWriter(pipe);
+                    pipe.ReadMode = PipeTransmissionMode.Message;
 
-                    writer.Write(request.ToJson());
-                    writer.Flush();
+                    var buff = Encoding.UTF8.GetBytes(request.ToJson());
+
+                    pipe.Write(buff, 0, buff.Length);
+                    pipe.Flush();
                     pipe.WaitForPipeDrain();
 
-                    var json = reader.ReadToEnd();
+                    buff = new byte[BUFFER_SIZE];
+                    var ms = new MemoryStream();
+
+                    do
+                    {
+                        ms.Write(buff, 0, pipe.Read(buff, 0, buff.Length));
+                    }
+                    while (!pipe.IsMessageComplete);
+
+                    var json = Encoding.UTF8.GetString(ms.ToArray());
+                    ms.Close();
+                    ms.Dispose();
+
+                    buff = null;
+
 
                     if (string.IsNullOrEmpty(json))
                     {
@@ -49,7 +66,7 @@ namespace NetDimension.NanUI.Browser.ProcessMessageBridge
                     return MessageBridgeResponse.CreateSuccessResponse(json);
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return MessageBridgeResponse.CreateFailureResponse(ex.Message);
                 }
