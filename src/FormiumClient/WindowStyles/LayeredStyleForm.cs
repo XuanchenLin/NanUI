@@ -9,7 +9,7 @@ namespace FormiumClient
     public class LayeredStyleForm : Formium
     {
         public override HostWindowType WindowType => HostWindowType.Layered;
-        public override string StartUrl => "layered.example.local";
+        public override string StartUrl => "http://layered.example.local";
 
         public LayeredStyleForm()
         {
