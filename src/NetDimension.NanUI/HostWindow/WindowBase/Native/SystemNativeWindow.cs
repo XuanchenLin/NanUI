@@ -48,24 +48,18 @@ namespace NetDimension.NanUI.HostWindow
 
         }
 
-        protected override void OnLoad(EventArgs e)
-        {
-
-
-            base.OnLoad(e);
-        }
-
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-            Scale(new SizeF(ScaleFactor, ScaleFactor));
 
             if (!DesignMode)
             {
 
 
-
-                //
+                if (ScaleFactor != 1.0f)
+                {
+                    Scale(new SizeF(ScaleFactor, ScaleFactor));
+                }
 
 
                 var currentScreenScaleFactor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
@@ -93,6 +87,12 @@ namespace NetDimension.NanUI.HostWindow
                         WmDpiChanged(ref m);
                         break;
                     }
+                case WindowsMessages.WM_SYSCOMMAND:
+                    {
+                        WmSystemCommand(ref m);
+
+                        break;
+                    }
                 default:
                     {
                         base.WndProc(ref m);
@@ -102,20 +102,28 @@ namespace NetDimension.NanUI.HostWindow
             
         }
 
-        protected FormWindowState MinMaxState
+        private void WmSystemCommand(ref Message m)
         {
-            get
+            var state = (SystemCommandFlags)m.WParam;
+
+            if (state == SystemCommandFlags.SC_MAXIMIZE)
             {
-                var s = (int)User32.GetWindowLongPtr(Handle, WindowLongFlags.GWL_STYLE);
-                var max = (s & (int)WindowStyles.WS_MAXIMIZE) > 0;
-                if (max)
-                    return FormWindowState.Maximized;
-                var min = (s & (int)WindowStyles.WS_MINIMIZE) > 0;
-                if (min)
-                    return FormWindowState.Minimized;
-                return FormWindowState.Normal;
+
+            }
+
+            if (state == SystemCommandFlags.SC_CLOSE)
+            {
+                var pi = typeof(Form).GetProperty("CloseReason", BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.NonPublic);
+
+                pi.SetValue(this, CloseReason.UserClosing, null);
+            }
+
+            if (state != SystemCommandFlags.SC_KEYMENU)
+            {
+                DefWndProc(ref m);
             }
         }
+
 
         protected void CheckResetDPIAutoScale(bool force = false)
         {
@@ -140,7 +148,21 @@ namespace NetDimension.NanUI.HostWindow
 
             _deviceDpi = newDeviceDpi;
 
+            var maxSizeState = MaximumSize;
+            var minSizeState = MinimumSize;
+            MinimumSize = Size.Empty;
+            MaximumSize = Size.Empty;
+
+
             User32.SetWindowPos(Handle, IntPtr.Zero, suggestedRect.left, suggestedRect.top, suggestedRect.Width, suggestedRect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE);
+
+
+            var scaleFactor = (float)newDeviceDpi / oldDeviceDpi;
+
+            MinimumSize = DpiHelper.CalcScaledSize(minSizeState, new SizeF(scaleFactor, scaleFactor));
+            MaximumSize = DpiHelper.CalcScaledSize(maxSizeState, new SizeF(scaleFactor, scaleFactor));
+
+
 
             OnWmDpiChanged(oldDeviceDpi, newDeviceDpi, suggestedRect.ToRectangle());
         }

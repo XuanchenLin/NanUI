@@ -151,7 +151,7 @@ namespace NetDimension.NanUI
 Welcome to NanUI/0.8 Dev ({WinFormium.PlatformArchitecture}); Chromium/{CefRuntime.ChromeVersion}; WinFormium/{Assembly.GetExecutingAssembly().GetName().Version};
 Copyrights (C) 2015-{DateTime.Now.Year} NetDimension Studio all rights reserved. Powered by Xuanchen Lin. 
 {NanUI.Properties.Resources.ASCII_NanUI_Logo}
-This project is under LGPL-3.0 License.
+This project is under MIT License.
 https://github.com/NetDimension/NanUI/blob/master/LICENCE
 ";
 

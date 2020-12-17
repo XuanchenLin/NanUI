@@ -97,15 +97,6 @@
         <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.cs">
             <SubType>Form</SubType>
         </Compile>
-        <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.Overrides.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.Shadows.cs">
-            <SubType>Form</SubType>
-        </Compile>
-        <Compile Update="HostWindow\WindowBase\Borderless\BorderlessWindow.WindowsMessages.cs">
-            <SubType>Form</SubType>
-        </Compile>
         <Compile Update="Properties\Resources.Designer.cs">
             <DependentUpon>Resources.resx</DependentUpon>
             <DesignTime>True</DesignTime>

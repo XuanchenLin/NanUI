@@ -18,6 +18,10 @@ using System.Windows.Forms;
 
 namespace NetDimension.NanUI.HostWindow
 {
+    internal partial class FakeClassToDisableWinFormDesigner
+    {
+
+    }
 
     public enum BorderEffect
     {
@@ -46,11 +50,8 @@ namespace NetDimension.NanUI.HostWindow
         }
     }
 
-    internal partial class FakeClassToDisableWinFormDesigner
-    {
 
-    }
-    public partial class BorderlessWindow : Form
+    public class BorderlessWindow : Form
     {
 
         private int _deviceDpi;
@@ -647,7 +648,740 @@ namespace NetDimension.NanUI.HostWindow
 
 
 
+        #region Overrides
 
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        internal protected new AutoScaleMode AutoScaleMode => AutoScaleMode.None;
+        internal ShadowDecorator _shadowDecorator;
+
+        public BorderlessWindow()
+        {
+            base.AutoScaleMode = AutoScaleMode.None;
+
+            base.BackColor = Color.FromArgb(33, 33, 33);
+
+            DpiHelper.InitializeDpiHelper();
+
+            InitializeReflectedFields();
+
+            _deviceDpi = DpiHelper.DeviceDpi;
+
+
+
+            _shadowDecorator = new ShadowDecorator(this, false);
+
+            SuspendLayout();
+        }
+
+
+
+        protected override void OnHandleCreated(EventArgs e)
+        {
+
+            try
+            {
+                UxTheme.SetWindowTheme(Handle, string.Empty, string.Empty);
+                User32.DisableProcessWindowsGhosting();
+
+                ScaleFactor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
+
+
+            }
+            catch { }
+
+            base.OnHandleCreated(e);
+
+
+
+            CheckResetDPIAutoScale(true);
+
+            ResumeLayout();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            UpdateShadows();
+
+        }
+
+
+
+
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+
+            if (!DesignMode)
+            {
+                if (ScaleFactor != 1.0f)
+                {
+                    Scale(new SizeF(ScaleFactor, ScaleFactor));
+                }
+
+                var currentScreenScaleFactor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
+
+                var primaryScreenScaleFactor = DpiHelper.GetScreenDpi(Screen.PrimaryScreen) / 96f;
+
+                if (primaryScreenScaleFactor != 1.0f)
+                {
+                    Font = new Font(Font.FontFamily, (float)Math.Round(Font.Size / primaryScreenScaleFactor), Font.Style);
+                }
+
+                Font = new Font(Font.FontFamily, (float)Math.Round(Font.Size * currentScreenScaleFactor), Font.Style);
+
+
+                CorrectFormPostion();
+
+
+
+            }
+
+            _isLoaded = true;
+
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+
+            IsWindowActivated = true;
+        }
+
+        protected override void OnDeactivate(EventArgs e)
+        {
+            base.OnDeactivate(e);
+
+            IsWindowActivated = false;
+        }
+
+
+
+        protected override Rectangle GetScaledBounds(Rectangle bounds, SizeF factor, BoundsSpecified specified)
+        {
+
+            var rect = base.GetScaledBounds(bounds, factor, specified);
+
+            Size sz = SizeFromClientSize(Size.Empty);
+            if (!GetStyle(ControlStyles.FixedWidth) && ((specified & BoundsSpecified.Width) != BoundsSpecified.None))
+            {
+                int clientWidth = bounds.Width - sz.Width;
+                rect.Width = ((int)Math.Round((double)(clientWidth * factor.Width))) + sz.Width;
+            }
+            if (!GetStyle(ControlStyles.FixedHeight) && ((specified & BoundsSpecified.Height) != BoundsSpecified.None))
+            {
+                int clientHeight = bounds.Height - sz.Height;
+                rect.Height = ((int)Math.Round((double)(clientHeight * factor.Height))) + sz.Height;
+            }
+
+            return rect;
+        }
+
+        protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+        {
+
+            if (!_allowBoundsChange)
+            {
+                return;
+            }
+
+            if (DesignMode)
+            {
+                base.SetBoundsCore(x, y, width, height, specified);
+
+                return;
+            }
+
+            if (_isMaximizedTest && WindowState != FormWindowState.Minimized)
+            {
+                if (y != Top)
+                {
+                    y = Top;
+
+                }
+
+                if (x != Left)
+                {
+                    x = Left;
+                }
+
+                _isMaximizedTest = false;
+            }
+
+            var size = PatchFormSizeInRestoreWindowBoundsIfNecessary(width, height);
+
+            base.SetBoundsCore(x, y, size.Width, size.Height, specified);
+        }
+
+        Size startupSize = Size.Empty;
+
+
+        protected override void SetClientSizeCore(int x, int y)
+        {
+
+            if (_clientWidthField != null && _clientHeightField != null && _formStateField != null && _formStateSetClientSizeField != null)
+            {
+
+                _clientWidthField.SetValue(this, x);
+                _clientHeightField.SetValue(this, y);
+
+                BitVector32.Section section = (BitVector32.Section)_formStateSetClientSizeField.GetValue(this);
+
+                var vector = (BitVector32)_formStateField.GetValue(this);
+
+                vector[section] = 1;
+
+                _formStateField.SetValue(this, vector);
+
+                OnClientSizeChanged(EventArgs.Empty);
+
+                vector[section] = 0;
+
+                _formStateField.SetValue(this, vector);
+
+                Size = SizeFromClientSize(new Size(x, y));
+
+                //Size = new Size(x, y);
+
+                if (startupSize == Size.Empty)
+                {
+                    startupSize = Size;
+                }
+
+            }
+            else
+            {
+                base.SetClientSizeCore(x, y);
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            _shadowDecorator.Dispose();
+            base.OnClosed(e);
+        }
+
+        protected override Size SizeFromClientSize(Size clientSize)
+        {
+            //TODO:修理一下边框的大小
+
+            //if (BorderEffect == BorderEffect.BorderLine)
+            //{
+            //    clientSize.Width -= FormBorders.Horizontal;
+            //    clientSize.Height -= FormBorders.Vertical;
+            //}
+
+            return clientSize;
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+
+
+            PatchClientSize();
+
+            base.OnSizeChanged(e);
+        }
+
+
+
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            var maxSizeState = MaximumSize;
+            var minSizeState = MinimumSize;
+
+            MinimumSize = Size.Empty;
+            MaximumSize = Size.Empty;
+
+            base.ScaleControl(factor, specified);
+
+
+            if (minSizeState != Size.Empty)
+            {
+                minSizeState = new Size((int)Math.Round(minSizeState.Width * factor.Width), (int)Math.Round(minSizeState.Height * factor.Height));
+            }
+            if (maxSizeState != Size.Empty)
+            {
+                maxSizeState = new Size((int)Math.Round(maxSizeState.Width * factor.Width), (int)Math.Round(maxSizeState.Height * factor.Height));
+            }
+
+            MinimumSize = minSizeState;
+            MaximumSize = maxSizeState;
+
+        }
+
+
+        public new DialogResult ShowDialog(IWin32Window owner)
+        {
+            return base.ShowDialog(CheckOwner(owner));
+        }
+        static IWin32Window CheckOwner(IWin32Window owner)
+        {
+            var form = owner as BorderlessWindow;
+            if (form != null)
+            {
+                if (form.Location == InvalidPoint)
+                {
+                    return form.OwnedForms.FirstOrDefault(x => IsAppropriateOwner(x));
+                }
+            }
+            return owner;
+        }
+        static bool IsAppropriateOwner(Form condidateForm)
+        {
+            return true;
+        }
+
+
+        #endregion
+
+        #region Shadows
+        private bool _isShown = false;
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            if (_shadowDecorator != null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
+            {
+                PerformShadows(true);
+            }
+            else if (_shadowDecorator != null && MinMaxState != FormWindowState.Normal)
+            {
+                PerformShadows(false);
+            }
+
+            _isShown = true;
+
+        }
+
+        protected bool IsResizing { get; set; } = false;
+
+        protected override void OnResizeBegin(EventArgs e)
+        {
+            base.OnResizeBegin(e);
+
+            IsResizing = true;
+        }
+
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            base.OnResizeEnd(e);
+
+            IsResizing = false;
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            if (_isShown)
+            {
+                if (_shadowDecorator != null && !_shadowDecorator.IsEnabled && MinMaxState == FormWindowState.Normal)
+                {
+                    PerformShadows(true);
+                }
+                else if (_shadowDecorator != null && _shadowDecorator.IsEnabled && MinMaxState != FormWindowState.Normal)
+                {
+                    PerformShadows(false);
+                }
+            }
+        }
+
+        private void PerformShadows(bool enabled)
+        {
+            if (_shadowDecorator == null)
+                return;
+
+            if (ShadowEffect == ShadowEffect.None)
+            {
+                _shadowDecorator.Enable(false);
+
+                return;
+
+            }
+
+            _shadowDecorator.Enable(enabled);
+
+            if (IsWindowActivatedCore && enabled)
+            {
+                _shadowDecorator.SetFocus();
+            }
+        }
+
+
+
+        private void UpdateShadows()
+        {
+            if (DesignMode || _shadowDecorator == null)
+            {
+                return;
+            }
+
+            if (!IsMdiChild && FormBorderStyle != FormBorderStyle.None)
+            {
+                _shadowDecorator.InitializeShadows();
+
+
+                if (Owner != null)
+                {
+                    _shadowDecorator.SetOwner(Owner.Handle);
+                }
+                //else
+                //{
+                //    _shadowDecorator.SetOwner(Handle);
+                //}
+
+
+
+            }
+        }
+
+        #endregion
+
+        #region Messages
+        private bool _allowBoundsChange = true;
+        private bool _isMaximizedTest;
+
+        protected override void WndProc(ref Message m)
+        {
+            switch ((WindowsMessages)m.Msg)
+            {
+                case WindowsMessages.WM_DPICHANGED:
+                    {
+                        WmDpiChanged(ref m);
+                        break;
+                    }
+                case WindowsMessages.WM_NCCALCSIZE:
+                    {
+                        WmNCCalcSize(ref m);
+
+                        base.WndProc(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_NCPAINT:
+                    {
+                        WmNCPaint(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_NCACTIVATE:
+                    {
+                        WmNCActivate(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_SIZE:
+                    {
+                        WmSize(ref m);
+
+                        base.WndProc(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_SYSCOMMAND:
+                    {
+                        WmSystemCommand(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_ACTIVATEAPP:
+                    {
+                        InvalidateNonClient();
+                        SendFrameChanged(Handle);
+                        break;
+                    }
+                case WindowsMessages.WM_NCLBUTTONDOWN:
+                    {
+
+                        InvalidateNonClient();
+                        SendFrameChanged(Handle);
+
+                        base.WndProc(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_NCLBUTTONUP:
+                case WindowsMessages.WM_NCLBUTTONDBLCLK:
+                    {
+                        InvalidateNonClient();
+                        SendFrameChanged(Handle);
+
+                        base.WndProc(ref m);
+
+                        break;
+                    }
+                case WindowsMessages.WM_NCMOUSEMOVE:
+                case WindowsMessages.WM_NCMOUSELEAVE:
+                case WindowsMessages.WM_NCUAHDRAWCAPTION:
+                case WindowsMessages.WM_NCUAHDRAWFRAME:
+                case WindowsMessages.WM_UNKNOWN_GHOST:
+                    {
+                        InvalidateNonClient();
+                        SendFrameChanged(Handle);
+                        m.Result = Win32.FALSE;
+                    }
+
+                    break;
+                default:
+                    {
+
+                        base.WndProc(ref m);
+                        break;
+                    }
+            }
+        }
+
+        private void WmSystemCommand(ref Message m)
+        {
+            var state = (SystemCommandFlags)m.WParam;
+
+            if (state == SystemCommandFlags.SC_MAXIMIZE)
+            {
+
+            }
+
+            if (state == SystemCommandFlags.SC_CLOSE)
+            {
+                var pi = typeof(Form).GetProperty("CloseReason", BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.NonPublic);
+
+                pi.SetValue(this, CloseReason.UserClosing, null);
+            }
+
+            if (state != SystemCommandFlags.SC_KEYMENU)
+            {
+                DefWndProc(ref m);
+
+                InvalidateNonClient();
+
+            }
+        }
+
+
+        private void WmDpiChanged(ref Message m)
+        {
+
+            var oldDeviceDpi = _deviceDpi;
+            var newDeviceDpi = Win32.SignedHIWORD(m.WParam);
+
+            var suggestedRect = (RECT)Marshal.PtrToStructure(m.LParam, typeof(RECT));
+
+            ScaleFactor = DpiHelper.GetScaleFactorForCurrentWindow(Handle);
+
+            _deviceDpi = newDeviceDpi;
+
+            var maxSizeState = MaximumSize;
+            var minSizeState = MinimumSize;
+            MinimumSize = Size.Empty;
+            MaximumSize = Size.Empty;
+
+            User32.SetWindowPos(Handle, IntPtr.Zero, suggestedRect.left, suggestedRect.top, suggestedRect.Width, suggestedRect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE);
+
+            var scaleFactor = (float)newDeviceDpi / oldDeviceDpi;
+
+            MinimumSize = DpiHelper.CalcScaledSize(minSizeState, new SizeF(scaleFactor, scaleFactor));
+            MaximumSize = DpiHelper.CalcScaledSize(maxSizeState, new SizeF(scaleFactor, scaleFactor));
+
+            OnWmDpiChanged(oldDeviceDpi, newDeviceDpi, suggestedRect.ToRectangle());
+        }
+
+        private void OnWmDpiChanged(int oldDeviceDpi, int newDeviceDpi, Rectangle suggestedRectangle)
+        {
+            _allowBoundsChange = false;
+
+
+
+            CheckResetDPIAutoScale(true);
+            PerformLayout();
+            Update();
+
+            _allowBoundsChange = true;
+
+
+            SystemDpiChanged?.Invoke(this, new WindowDpiChangedEventArgs(oldDeviceDpi, newDeviceDpi));
+
+        }
+
+        private void WmNCPaint(ref Message m)
+        {
+            if (!IsHandleCreated)
+            {
+                return;
+            }
+
+            Rectangle bounds = RealFormRectangle;
+
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                return;
+            }
+
+            int getDCEXFlags = (int)(DCX.WINDOW | DCX.CACHE | DCX.CLIPSIBLINGS | DCX.VALIDATE);
+            IntPtr hRegion = IntPtr.Zero;
+
+            if (m.WParam != (IntPtr)1)
+            {
+                getDCEXFlags |= (int)DCX.INTERSECTRGN;
+                hRegion = m.WParam;
+            }
+
+
+            IntPtr hDC = User32.GetDCEx(Handle, hRegion, getDCEXFlags);
+
+            try
+            {
+                if (hDC != IntPtr.Zero)
+                {
+                    using (Graphics drawingSurface = Graphics.FromHdc(hDC))
+                    {
+                        OnNCPaint(drawingSurface, bounds);
+                    }
+                }
+            }
+            finally
+            {
+                User32.ReleaseDC(m.HWnd, hDC);
+            }
+
+            m.Result = Win32.MESSAGE_PROCESS;
+
+        }
+
+
+
+        private void WmNCActivate(ref Message m)
+        {
+            IsWindowActivated = (m.WParam == Win32.TRUE);
+
+
+
+            if (MinMaxState == FormWindowState.Minimized)
+            {
+                DefWndProc(ref m);
+            }
+            else
+            {
+
+
+                if (IsWindowActivated)
+                {
+                    _shadowDecorator.SetFocus();
+
+                }
+                else
+                {
+                    _shadowDecorator.KillFocus();
+                }
+
+                // Allow default processing of activation change
+                m.Result = Win32.MESSAGE_HANDLED;
+                // Message processed, do not pass onto base class for processing
+
+                InvalidateNonClient();
+
+                SendFrameChanged(Handle);
+
+            }
+
+
+
+
+
+
+
+        }
+
+        private void WmSize(ref Message m)
+        {
+
+            if (DesignMode || !_isLoaded)
+                return;
+
+
+            var formBounds = Bounds;
+
+            if (WindowState == FormWindowState.Maximized)
+            {
+                _isMaximizedTest = true;
+
+
+                var screen = Screen.FromHandle(Handle);
+
+                var bounds = FormBorderStyle == FormBorderStyle.None ? screen.Bounds : screen.WorkingArea;
+
+                var regionBounds = new Rectangle(bounds.X - formBounds.X, bounds.Y - formBounds.Y, formBounds.Width - (formBounds.Width - bounds.Width), formBounds.Height - (formBounds.Height - bounds.Height));
+
+                SetRegion(new Region(regionBounds), regionBounds);
+            }
+            else if (BorderEffect != BorderEffect.RoundCorner && WindowState == FormWindowState.Normal)
+            {
+                SetRegion(null, Rectangle.Empty);
+            }
+            else if (BorderEffect == BorderEffect.RoundCorner && MinMaxState == FormWindowState.Normal)
+            {
+                var rect = RealFormRectangle;
+
+                SetRegion(GetRoundedRegion(rect), rect);
+            }
+
+            SendFrameChanged(Handle);
+
+        }
+
+        private void WmNCCalcSize(ref Message m)
+        {
+            if (m.WParam == Win32.TRUE)
+            {
+                var rcSize = (NCCALCSIZE_PARAMS)Marshal.PtrToStructure(m.LParam, typeof(NCCALCSIZE_PARAMS));
+
+                var ncMargin = GetNonclientArea();
+
+                var calculatedBorderSize = FormBorders;
+
+
+                if (FormBorderStyle == FormBorderStyle.None)
+                {
+                    calculatedBorderSize = Padding.Empty;
+                    ncMargin = Padding.Empty;
+                }
+
+                rcSize.rectProposed.top -= ncMargin.Top;
+                rcSize.rectBeforeMove = rcSize.rectProposed;
+
+
+
+
+                if (WindowState != FormWindowState.Maximized)
+                {
+                    rcSize.rectProposed.right += ncMargin.Right;
+                    rcSize.rectProposed.bottom += ncMargin.Bottom;
+                    rcSize.rectProposed.left -= ncMargin.Left;
+
+                    if (BorderEffect == BorderEffect.BorderLine)
+                    {
+                        rcSize.rectProposed.top += calculatedBorderSize.Top;
+                        rcSize.rectProposed.left += calculatedBorderSize.Left;
+                        rcSize.rectProposed.right -= calculatedBorderSize.Right;
+                        rcSize.rectProposed.bottom -= calculatedBorderSize.Bottom;
+                    }
+
+                }
+                else if (WindowState == FormWindowState.Maximized)
+                {
+                    rcSize.rectProposed.top += ncMargin.Bottom;
+                }
+
+
+                Marshal.StructureToPtr(rcSize, m.LParam, false);
+                m.Result = (IntPtr)0x0400;
+            }
+        }
+        #endregion
 
 
     }

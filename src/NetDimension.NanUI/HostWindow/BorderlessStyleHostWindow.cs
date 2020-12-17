@@ -21,7 +21,6 @@ namespace NetDimension.NanUI.HostWindow
 
         private BorderlessStyleHostWindow()
         {
-            //SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             MinimumSize = new Size(200, 100);
         }
         internal BorderlessStyleHostWindow(Formium formium) : this()
