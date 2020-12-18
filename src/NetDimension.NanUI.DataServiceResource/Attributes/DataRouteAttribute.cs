@@ -7,7 +7,7 @@ namespace NetDimension.NanUI.DataServiceResource
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public sealed class DataRouteAttribute : Attribute
     {
-        public DataRouteAttribute(string routePath)
+        public DataRouteAttribute(string routePath = null)
         {
             RoutePath = routePath;
         }

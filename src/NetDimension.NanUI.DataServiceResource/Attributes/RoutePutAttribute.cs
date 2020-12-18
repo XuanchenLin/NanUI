@@ -2,10 +2,10 @@
 
 namespace NetDimension.NanUI.DataServiceResource
 {
-    public sealed class RoutePutAttribute 
+    public sealed class RoutePutAttribute
         : RouteMethodAttribute
     {
-        public RoutePutAttribute(string routePath)
+        public RoutePutAttribute(string routePath = null)
     : base(Method.PUT, routePath)
         {
 

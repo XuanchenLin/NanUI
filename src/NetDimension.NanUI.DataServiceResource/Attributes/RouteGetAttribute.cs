@@ -5,7 +5,7 @@ namespace NetDimension.NanUI.DataServiceResource
     public sealed class RouteGetAttribute 
         : RouteMethodAttribute
     {
-        public RouteGetAttribute(string routePath) 
+        public RouteGetAttribute(string routePath = null) 
             : base(Method.GET, routePath)
         {
 

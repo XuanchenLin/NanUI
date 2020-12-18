@@ -10,7 +10,7 @@ namespace NetDimension.NanUI.DataServiceResource
     public class RouteMethodAttribute : Attribute
     {
 
-        public RouteMethodAttribute(Method method, string routePath)
+        public RouteMethodAttribute(Method method, string routePath = null)
         {
             RouteMethod = method;
             RoutePath = routePath;
