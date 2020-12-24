@@ -198,11 +198,16 @@ namespace FormiumClient
 
                     var rnd = new Random(DateTime.Now.Millisecond);
 
-                    var rndValue = rnd.Next(3000, 6000);
+                    var rndValue = rnd.Next(1000, 2000);
 
                     await Task.Delay(rndValue);
-                    callback.Success(JavaScriptValue.CreateString($"Delayed {rndValue} milliseconds"));
+                    var obj = JavaScriptValue.CreateObject();
 
+                    obj.SetValue("delayed", JavaScriptValue.CreateNumber(rndValue));
+                    obj.SetValue("message", JavaScriptValue.CreateString($"Delayed {rndValue} milliseconds"));
+
+
+                    callback.Success(obj);
                 });
             }));
 

@@ -23,6 +23,8 @@ namespace NetDimension.NanUI
 
         const string JS_EVENT_RAISER_NAME = "__formium_raiseHostWindowEvent";
 
+
+
         private string _title = Resources.Messages.HostWindow_DefaultTitle;
 
         private string _subtitle = string.Empty;
@@ -427,6 +429,14 @@ namespace NetDimension.NanUI
         /// terminated.
         /// </summary>
         public event EventHandler<RenderProcessTerminatedEventArgs> RenderProcessTerminated;
+
+        public event EventHandler<GetResourceRequestHandlerEventArgs> GetResourceRequestHandler;
+
+
+        internal protected virtual void OnGetResourceRequestHandler(GetResourceRequestHandlerEventArgs e)
+        {
+            GetResourceRequestHandler?.Invoke(this, e);
+        }
 
         /// <summary>
         /// Raises the OnBeforeBrowse event.

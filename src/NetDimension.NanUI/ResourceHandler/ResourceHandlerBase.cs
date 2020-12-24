@@ -241,7 +241,6 @@ namespace NetDimension.NanUI.ResourceHandler
                         throw new NullReferenceException($"ResourceResponse should not be null.");
                     }
 
-                    _resourceResponse.Headers.Set(X_FRAME_OPTIONS, "ALLOWALL");
 
                     if (DisableCORS)
                     {

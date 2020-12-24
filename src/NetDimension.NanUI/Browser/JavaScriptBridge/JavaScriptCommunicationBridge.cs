@@ -783,7 +783,17 @@ namespace NetDimension.NanUI.JavaScript
 
                 foreach (var func in source)
                 {
-                    func.Function.ExecuteFunctionWithContext(func.Context, null, args.ToCefV8Arguments());
+                    var context = func.Context;
+                    try
+                    {
+                        context.Enter();
+                        func.Function.ExecuteFunctionWithContext(context, null, args.ToCefV8Arguments());
+
+                    }
+                    finally
+                    {
+                        context.Exit();
+                    }
                 }
 
                 foreach (var func in JavaScriptObjectRepository.AsyncFunctions.Where(x => /*x.ObjectName == objectKey && x.FunctionName == key &&*/ x.UUID == uuid))

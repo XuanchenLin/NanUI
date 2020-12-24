@@ -16,7 +16,13 @@ namespace NetDimension.NanUI.Browser
 
         protected override CefResourceRequestHandler GetResourceRequestHandler(CefBrowser browser, CefFrame frame, CefRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
         {
-            return null;
+            var e = new GetResourceRequestHandlerEventArgs(browser, frame, request, isNavigation, isDownload, requestInitiator);
+
+            _owner.OnGetResourceRequestHandler(e);
+
+            disableDefaultHandling = e.DisableDefaultHandling;
+
+            return e.Handler;
         }
 
         protected override bool OnBeforeBrowse(CefBrowser browser, CefFrame frame, CefRequest request, bool userGesture, bool isRedirect)
@@ -90,6 +96,31 @@ namespace NetDimension.NanUI.Browser
         //{
         //    return base.OnSelectClientCertificate(browser, isProxy, host, port, certificates, callback);
         //}
+    }
+
+
+    public sealed class GetResourceRequestHandlerEventArgs : EventArgs
+    {
+        private readonly CefBrowser _browser;
+
+        internal GetResourceRequestHandlerEventArgs(CefBrowser browser, CefFrame frame, CefRequest request, bool isNavigation, bool isDownload, string requestInitiator)
+        {
+            _browser = browser;
+            Frame = frame;
+            Request = request;
+            IsNavigation = isNavigation;
+            IsDownload = isDownload;
+            RequestInitiator = requestInitiator;
+        }
+
+        public bool DisableDefaultHandling { get; set; } = false;
+        public CefFrame Frame { get; }
+        public CefRequest Request { get; }
+        public bool IsNavigation { get; }
+        public bool IsDownload { get; }
+        public string RequestInitiator { get; }
+
+        public CefResourceRequestHandler Handler { get; set; }
     }
 
     public sealed class BeforeBrowseEventArgs: EventArgs
