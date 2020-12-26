@@ -115,9 +115,9 @@ namespace NetDimension.NanUI
             var searchPaths = new string[]
             {
                 WinFormium.ApplicationRunningDirectory,
-                Path.Combine(WinFormium.CommonCefRuntimeDirectory, WinFormium.PlatformArchitecture.ToString()),
                 Path.Combine(WinFormium.ApplicationRunningDirectory, WinFormium.PlatformArchitecture.ToString()),
-                Path.Combine(WinFormium.ApplicationRunningDirectory, DEFAULT_FORMIUM_CEF_DIR, WinFormium.PlatformArchitecture.ToString())
+                Path.Combine(WinFormium.ApplicationRunningDirectory, DEFAULT_FORMIUM_CEF_DIR, WinFormium.PlatformArchitecture.ToString()),
+                Path.Combine(WinFormium.CommonCefRuntimeDirectory, WinFormium.PlatformArchitecture.ToString()),
             };
 
             foreach (var path in searchPaths)
