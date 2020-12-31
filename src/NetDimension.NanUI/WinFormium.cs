@@ -71,7 +71,7 @@ namespace NetDimension.NanUI
         /// <summary>
         /// Gets the startup directory of running application now.
         /// </summary>
-        public static string ApplicationRunningDirectory => Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().EscapedCodeBase).LocalPath);
+        public static string ApplicationRunningDirectory => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);//Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().Location).LocalPath);
 
         /// <summary>
         /// Gets the common data directoy for NanUI. Usually it's in %APPDATA%\Net Dimension\NanUI\
