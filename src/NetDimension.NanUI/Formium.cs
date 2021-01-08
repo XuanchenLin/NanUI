@@ -603,13 +603,6 @@ namespace NetDimension.NanUI
 
         protected ILogger Logger => WinFormium.GetLogger();
 
-        ///// <summary>
-        ///// When the host window is loaded.
-        ///// </summary>
-        //protected virtual void OnWindowLoad()
-        //{
-
-        //}
 
         /// <summary>
         /// Gets or sets  a value indicating whether the formium allows to full screen mode.
@@ -672,7 +665,7 @@ namespace NetDimension.NanUI
             }
         }
         /// <summary>
-        /// Gets or sets the icon for the form.
+        /// <inheritdoc/>
         /// </summary>
         public Icon Icon
         {
@@ -680,7 +673,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.Icon = value;
         }
         /// <summary>
-        /// Gets or sets the System.Drawing.Point that represents the upper-left corner of current window in screen coordinates.
+        /// <inheritdoc/>
         /// </summary>
         public Point Location
         {
@@ -688,7 +681,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.Location = value;
         }
         /// <summary>
-        /// Gets or sets the size of the window.
+        /// <inheritdoc/>
         /// </summary>
         public Size Size
         {
@@ -699,7 +692,7 @@ namespace NetDimension.NanUI
             }
         }
         /// <summary>
-        /// Gets or sets the size of the client area of the window.
+        /// <inheritdoc/>
         /// </summary>
         public Size ClientSize
         {
@@ -709,7 +702,7 @@ namespace NetDimension.NanUI
             }
         }
         /// <summary>
-        /// Gets the maximum size the window can be resized to.
+        /// <inheritdoc/>
         /// </summary>
         public Size MaximumSize
         {
@@ -725,7 +718,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.MinimumSize = value;
         }
         /// <summary>
-        /// Gets or sets a value indicating whether the window is displayed in the Windows taskbar.
+        /// <inheritdoc/>
         /// </summary>
         public bool ShowInTaskbar
         {
@@ -741,7 +734,7 @@ namespace NetDimension.NanUI
             }
         }
         /// <summary>
-        /// Gets or sets the starting position of the window at run time.
+        /// <inheritdoc/>
         /// </summary>
         public FormStartPosition StartPosition
         {
@@ -759,7 +752,7 @@ namespace NetDimension.NanUI
 
         FormWindowState? _deferredWindowState = null;
         /// <summary>
-        /// Gets or sets a value that indicates whether window is minimized, maximized, or normal.
+        /// <inheritdoc/>
         /// </summary>
         public FormWindowState WindowState
         {
@@ -792,7 +785,7 @@ namespace NetDimension.NanUI
             }
         }
         /// <summary>
-        /// Gets or sets a value indicating whether the window should be displayed as a topmost 
+        /// <inheritdoc/>
         /// </summary>
         public bool TopMost
         {
@@ -800,7 +793,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.TopMost = value;
         }
         /// <summary>
-        /// Gets or sets the width of the window.
+        /// <inheritdoc/>
         /// </summary>
         public int Width
         {
@@ -808,7 +801,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.Width = value;
         }
         /// <summary>
-        /// Gets or sets the height of the window.
+        /// <inheritdoc/>
         /// </summary>
         public int Height
         {
@@ -816,7 +809,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.Height = value;
         }
         /// <summary>
-        /// Gets or sets the distance, in pixels, between the left edge of the window and the left edge in current desktop area.
+        /// <inheritdoc/>
         /// </summary>
         public int Left
         {
@@ -824,7 +817,7 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.Left = value;
         }
         /// <summary>
-        /// Gets or sets the distance, in pixels, between the top edge of the window and the top edge in current desktop area.
+        /// <inheritdoc/>
         /// </summary>
         public int Top
         {
@@ -832,9 +825,21 @@ namespace NetDimension.NanUI
             set => HostWindowInternal.Top = value;
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public bool Visible
         {
             get => HostWindowInternal?.Visible ?? false;
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public DialogResult DialogResult
+        {
+            get => HostWindowInternal.DialogResult;
+            set => HostWindowInternal.DialogResult = value;
         }
 
         /// <summary>
