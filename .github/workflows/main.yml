@@ -6,6 +6,10 @@ jobs:
   ci:
     runs-on: windows-latest
     steps:
+      - name: Setup MSBuild
+        id: setup_msbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
       - name: Checkout repository
         id: checkout_repo
         uses: actions/checkout@v2
@@ -15,7 +19,7 @@ jobs:
       - name: Build solution
         continue-on-error: true
         id: build_solution
-        shell: pwsh
+        shell: powershell
         run: |
           msbuild .\NetDimension.NanUI.sln
 
