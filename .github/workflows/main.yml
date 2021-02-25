@@ -17,9 +17,8 @@ jobs:
           fetch-depth: 0
 
       - name: Build solution
-        continue-on-error: true
         id: build_solution
-        shell: powershell
+        shell: cmd
         run: |
           msbuild .\NetDimension.NanUI.sln
 
