@@ -17,6 +17,6 @@ jobs:
         id: build_solution
         shell: pwsh
         run: |
-          dotnet build .\NetDimension.NanUI.sln
+          dotnet build .\NetDimension.NanUI.sln --framework 'net472'
 
 # Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
