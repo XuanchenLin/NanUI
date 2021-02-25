@@ -6,15 +6,11 @@ jobs:
   ci:
     runs-on: windows-latest
     steps:
-      - name: Setup MSBuild
-        id: setup_msbuild
-        uses: microsoft/setup-msbuild@v1.0.2
-
       - name: Checkout repository
         id: checkout_repo
         uses: actions/checkout@v2
         with:
-          fetch-depth: 50
+          fetch-depth: 0
 
       - name: Build solution
         continue-on-error: true
