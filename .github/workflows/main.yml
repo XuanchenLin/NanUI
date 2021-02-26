@@ -16,6 +16,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Clean .NET cache
+        id: clean_dotnet_cache
+        shell: pwsh
+        run: |
+          dotnet clean .\NetDimension.NanUI.sln
+          dotnet nuget locals all --clear
+
+      - name: Install NuGet packages
+        id: install_nuget_packages
+        shell: pwsh
+        run: |
+          nuget restore .\NetDimension.NanUI.sln
+
       - name: Build solution
         id: build_solution
         shell: pwsh
