@@ -1,0 +1,38 @@
+name: NanUI CI/CD Pipeline
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  ci:
+    runs-on: windows-latest
+    steps:
+      - name: Setup MSBuild
+        id: setup_msbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Checkout repository
+        id: checkout_repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Clean .NET cache
+        id: clean_dotnet_cache
+        shell: pwsh
+        run: |
+          dotnet clean .\NetDimension.NanUI.sln
+          dotnet nuget locals all --clear
+
+      - name: Install NuGet packages
+        id: install_nuget_packages
+        shell: pwsh
+        run: |
+          nuget restore .\NetDimension.NanUI.sln
+
+      - name: Build solution
+        id: build_solution
+        shell: pwsh
+        run: |
+          msbuild .\NetDimension.NanUI.sln
+
+# Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
