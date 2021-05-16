@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Vortice;
+using Vortice.DCommon;
 using Vortice.Direct2D1;
 using Xilium.CefGlue;
 
@@ -62,7 +63,7 @@ namespace NetDimension.NanUI.Browser
                 {
                     Type = RenderTargetType.Hardware,
                     Usage = RenderTargetUsage.ForceBitmapRemoting,
-                    PixelFormat = new Vortice.Direct2D1.PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied),
+                    PixelFormat = new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied),
                     MinLevel = FeatureLevel.Default,
                     DpiX = 96,
                     DpiY = 96
@@ -291,7 +292,7 @@ namespace NetDimension.NanUI.Browser
 
                 _cachedPopupImage = _renderTarget.CreateSharedBitmap(bmp, new BitmapProperties
                 {
-                    PixelFormat = new Vortice.Direct2D1.PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)
+                    PixelFormat = new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)
                 });
 
                 bmp.Dispose();

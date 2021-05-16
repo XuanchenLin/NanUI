@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Vortice;
+using Vortice.DCommon;
 using Vortice.Direct2D1;
 
 namespace NetDimension.NanUI.HostWindow
@@ -536,7 +537,7 @@ namespace NetDimension.NanUI.HostWindow
 
             var bmpProps = new BitmapProperties
             {
-                PixelFormat = new Vortice.Direct2D1.PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied),
+                PixelFormat = new Vortice.DCommon.PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied),
                 DpiX = 96,
                 DpiY = 96
             };
@@ -567,7 +568,7 @@ namespace NetDimension.NanUI.HostWindow
                 {
                     Type = RenderTargetType.Hardware,
                     Usage = RenderTargetUsage.None,
-                    PixelFormat = new Vortice.Direct2D1.PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied),
+                    PixelFormat = new Vortice.DCommon.PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied),
                     MinLevel = FeatureLevel.Default
                 };
 
