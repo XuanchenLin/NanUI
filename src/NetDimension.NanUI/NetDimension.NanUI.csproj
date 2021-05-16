@@ -56,7 +56,7 @@
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
         <Reference Include="System.Net.Http" />
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.1" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' != 'netcoreapp3.1' And '$(TargetFramework)' != 'net5.0-windows' ">
@@ -71,9 +71,9 @@
 
     <ItemGroup>
         <PackageReference Include="System.Json" Version="4.7.1" />
-        <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0" />
-        <PackageReference Include="System.Text.Json" Version="5.0.0" />
-        <PackageReference Include="Vortice.Direct2D1" Version="1.8.54" />
+        <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
+        <PackageReference Include="System.Text.Json" Version="5.0.2" />
+        <PackageReference Include="Vortice.Direct2D1" Version="1.9.65" />
     </ItemGroup>
 
 
