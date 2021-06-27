@@ -53,7 +53,7 @@ namespace FormiumClient
             CustomizeMaskPanel();
 
             // If you don't want show the splash on starup, set AutoShowMask to false.
-            //AutoShowMask = false;
+            AutoShowMask = false;
 
         }
 
@@ -300,7 +300,7 @@ namespace FormiumClient
                     if (acrylicStyleForm == null || acrylicStyleForm.IsDisposed)
                     {
                         acrylicStyleForm = new AcrylicStyleForm();
-                        acrylicStyleForm.Show(HostWindow);
+                        acrylicStyleForm.Show();
                     }
                     else
                     {

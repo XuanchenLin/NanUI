@@ -660,7 +660,7 @@ namespace NetDimension.NanUI.HostWindow
         {
             base.AutoScaleMode = AutoScaleMode.None;
 
-            base.BackColor = Color.FromArgb(33, 33, 33);
+            base.BackColor = Color.White;//Color.FromArgb(33, 33, 33);
 
             DpiHelper.InitializeDpiHelper();
 

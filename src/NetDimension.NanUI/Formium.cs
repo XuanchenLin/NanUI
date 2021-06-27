@@ -1753,7 +1753,8 @@ namespace NetDimension.NanUI
 
             var windowInfo = CefWindowInfo.Create();
 
-            //windowInfo.StyleEx |= Xilium.CefGlue.Platform.Windows.WindowStyleEx.WS_EX_NOACTIVATE;
+
+            windowInfo.StyleEx |= Xilium.CefGlue.Platform.Windows.WindowStyleEx.WS_EX_NOACTIVATE;
 
             if (WindowType == HostWindowType.Acrylic || WindowType == HostWindowType.Layered)
             {
@@ -1763,7 +1764,7 @@ namespace NetDimension.NanUI
             {
                 var rect = new RECT();
                 User32.GetWindowRect(HostWindowHandle, ref rect);
-                windowInfo.SetAsChild(HostWindowHandle, new CefRectangle(0, 0, rect.Width, rect.Height));
+                //windowInfo.SetAsChild(HostWindowHandle, new CefRectangle(0, 0, rect.Width, rect.Height));
             }
 
             WebView.CreateBrowser(windowInfo);

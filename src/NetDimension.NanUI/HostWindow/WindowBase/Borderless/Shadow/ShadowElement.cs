@@ -375,6 +375,9 @@ namespace NetDimension.NanUI.HostWindow
 
             styles |= (int)(WindowExStyles.WS_EX_LAYERED | WindowExStyles.WS_EX_NOACTIVATE | WindowExStyles.WS_EX_NOPARENTNOTIFY);
 
+            //styles |= (int)WindowExStyles.WS_EX_TRANSPARENT;
+
+
             if (!_decorator.Resizable)
             {
                 styles |= (int)WindowExStyles.WS_EX_TRANSPARENT;
@@ -701,7 +704,7 @@ namespace NetDimension.NanUI.HostWindow
 
             _renderTarget.BeginDraw();
 
-            _renderTarget.Clear(Color.Transparent);
+            _renderTarget.Clear(Color.Red);
 
             if (_side == ShadowDockPositon.Bottom || _side == ShadowDockPositon.Top)
             {
