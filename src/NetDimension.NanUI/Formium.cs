@@ -1764,7 +1764,7 @@ namespace NetDimension.NanUI
             {
                 var rect = new RECT();
                 User32.GetWindowRect(HostWindowHandle, ref rect);
-                //windowInfo.SetAsChild(HostWindowHandle, new CefRectangle(0, 0, rect.Width, rect.Height));
+                windowInfo.SetAsChild(HostWindowHandle, new CefRectangle(0, 0, rect.Width, rect.Height));
             }
 
             WebView.CreateBrowser(windowInfo);

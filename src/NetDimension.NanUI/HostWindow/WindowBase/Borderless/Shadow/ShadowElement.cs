@@ -704,7 +704,7 @@ namespace NetDimension.NanUI.HostWindow
 
             _renderTarget.BeginDraw();
 
-            _renderTarget.Clear(Color.Red);
+            _renderTarget.Clear(Color.Transparent);
 
             if (_side == ShadowDockPositon.Bottom || _side == ShadowDockPositon.Top)
             {
