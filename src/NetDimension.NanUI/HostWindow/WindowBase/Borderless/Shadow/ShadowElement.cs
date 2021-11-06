@@ -545,7 +545,7 @@ namespace NetDimension.NanUI.HostWindow
                 DpiY = 96
             };
 
-            var d2d1Bmp = renderTarget.CreateBitmap(new Vortice.Mathematics.Size(destBitmap.Width, destBitmap.Height), IntPtr.Zero, bmpData.Stride, bmpProps);
+            var d2d1Bmp = renderTarget.CreateBitmap(new Size(destBitmap.Width, destBitmap.Height), IntPtr.Zero, bmpData.Stride, bmpProps);
 
             d2d1Bmp.CopyFromMemory(byteData, bmpData.Stride);
 

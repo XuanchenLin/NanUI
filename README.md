@@ -65,7 +65,13 @@ NanUI 的渲染引擎 WinFormium 基于谷歌可嵌入的浏览器框架 Chromiu
 
 ## 入门
 
-如果想进一步了解有关 NanUI 的更多信息或者想使用 NanUI 尽快进行开发工作，请访问《[欢迎使用 NanUI](docs/README.md)》来获取文档帮助和示例代码。
+如果想进一步了解有关 NanUI 的更多信息或者想使用 NanUI 尽快进行开发工作，请访问《[欢迎使用 NanUI](docs/README.md)》来获取文档帮助，也可以通过下载示例代码来了解 NanUI 运作机制。
+
+### 文档
+
+- [NanUI 使用文档](docs/documentation.md)
+
+### 示例
 
 在项目源代码中包括了一个综合性的展示项目 FormiumClient，您可以通过这个项目的源代码快速学习 NanUI 的相关知识并掌握如何使用 HTML / CSS / JavaScript 来创建您的应用程序。
 

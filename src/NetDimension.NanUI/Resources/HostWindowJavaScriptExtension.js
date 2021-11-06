@@ -44,9 +44,13 @@ var Formium = Formium || {};
                     const command = srcElement.getAttribute(CMD_ATTR_PREFIX).toLowerCase();
                     
                     if (command && $this.hostWindow && $this.hostWindow[command]) {
+
                         e.stopPropagation();
                         e.preventDefault();
+
                         $this.hostWindow[command].apply($this);
+
+
                     }
 
                 }

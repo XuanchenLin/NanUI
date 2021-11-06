@@ -9,7 +9,7 @@ The assembly resource processor (EmbeddedFileResource) is used to load various r
 Before installing the assembly resource processor, please ensure that the project has been correctly installed and referenced the NanUI base library and runtime dependencies. It is recommended to use the NuGet package manager to install the NuGet package of the assembly resource processor.
 
 ```
-PM> Install NetDimension.NanUI.AssemblyResourceHandler
+PM> Install NetDimension.NanUI.EmbeddedFileResource
 ```
 
 ## Organize resources
