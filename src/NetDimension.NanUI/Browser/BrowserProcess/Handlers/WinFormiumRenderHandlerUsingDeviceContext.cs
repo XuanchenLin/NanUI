@@ -268,7 +268,7 @@ namespace NetDimension.NanUI.Browser
             if (type == CefPaintElementType.View)
             {
 
-                var bmp = _renderTarget.CreateBitmap(new Vortice.Mathematics.Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
+                var bmp = _renderTarget.CreateBitmap(new Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
 
                 if (!_isPopupShown)
                 {
@@ -281,7 +281,7 @@ namespace NetDimension.NanUI.Browser
             }
             else if (type == CefPaintElementType.Popup)
             {
-                var bmp = _renderTarget.CreateBitmap(new Vortice.Mathematics.Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
+                var bmp = _renderTarget.CreateBitmap(new Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
 
                 if (_cachedPopupImage != null)
                 {

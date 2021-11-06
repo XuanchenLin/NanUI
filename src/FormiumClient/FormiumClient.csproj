@@ -7,6 +7,7 @@
         <ApplicationIcon>Resources\DemoIcon.ico</ApplicationIcon>
         <Platforms>AnyCPU;x64;x86</Platforms>
         <Title>WinFormium Demo Application</Title>
+        <AssemblyName>NanUI FormiumClient Application</AssemblyName>
     </PropertyGroup>
 
 

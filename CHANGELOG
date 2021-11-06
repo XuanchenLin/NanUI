@@ -13,3 +13,8 @@ What's New in NanUI version 0.8
 
 - 为AppBuilder添加了UseApplicationContext方法。VSTO或者其他什么不需要启动窗体的项目类型可以使用这个方法来初始化NanUI和CEF。
 - 解决了VSTO项目中抛异常的问题（该问题由NamePipe命名不规范造成）。
+
+### 2021/11/6
+
+- 修改了嵌入程序集资源处理器EmbeddedFileResource的相关逻辑，现在可以正确加载程序集名称和默认命名空间不同的程序集内的资源文件了
+- 修复了一个BUG，当前端使用a标签作为formium-command="close"内置命令为载体关闭应用时抛出异常的问题。

@@ -55,7 +55,7 @@ namespace NetDimension.NanUI.Browser
                 {
                     Hwnd = _owner.HostWindowHandle,
                     PresentOptions = PresentOptions.RetainContents,
-                    PixelSize = new Vortice.Mathematics.Size(_owner.HostWindowInternal.ClientRectangle.Width, _owner.HostWindowInternal.ClientRectangle.Height)
+                    PixelSize = new Size(_owner.HostWindowInternal.ClientRectangle.Width, _owner.HostWindowInternal.ClientRectangle.Height)
                 };
 
                 _renderTarget = _d2dFactory.CreateHwndRenderTarget(renderProps, hwndRenderTargetProperties);
@@ -140,7 +140,7 @@ namespace NetDimension.NanUI.Browser
                 _view_width = clientRect.Width;
                 _view_height = clientRect.Height;
 
-                _renderTarget?.Resize(new Vortice.Mathematics.Size(_view_width, _view_height));
+                _renderTarget?.Resize(new Size(_view_width, _view_height));
             }
 
         }
@@ -225,7 +225,7 @@ namespace NetDimension.NanUI.Browser
             if (type == CefPaintElementType.View)
             {
 
-                var bmp = _renderTarget.CreateBitmap(new Vortice.Mathematics.Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
+                var bmp = _renderTarget.CreateBitmap(new Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
 
                 if (!_isPopupShown)
                 {
@@ -240,7 +240,7 @@ namespace NetDimension.NanUI.Browser
             }
             else if (type == CefPaintElementType.Popup)
             {
-                var bmp = _renderTarget.CreateBitmap(new Vortice.Mathematics.Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
+                var bmp = _renderTarget.CreateBitmap(new Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
 
                 if (_cachedPopupImage != null)
                 {

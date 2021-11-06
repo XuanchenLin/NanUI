@@ -1052,10 +1052,12 @@ namespace NetDimension.NanUI
             if (force)
             {
 
-                WebView.BrowserHost.CloseBrowser(true);
+                //WebView.BrowserHost.CloseBrowser();
                 _isForceClosing = true;
 
-                //HostWindowInternal?.Close();
+                HostWindowInternal?.Close();
+
+
             }
             else
             {
@@ -1065,8 +1067,11 @@ namespace NetDimension.NanUI
 
                 if (!e.Canceled)
                 {
-                    WebView.BrowserHost.CloseBrowser(true);
+                    //WebView.BrowserHost.CloseBrowser();
                     _isForceClosing = true;
+
+                    HostWindowInternal?.Close();
+
                 }
 
             }
@@ -1433,7 +1438,7 @@ namespace NetDimension.NanUI
             };
 
 
-            HostWindowInternal.FormClosing += OnHostWindowClosing;
+            //HostWindowInternal.FormClosing += OnHostWindowClosing;
 
             var ihostWindow = GetIHostWindow();
 
@@ -1701,7 +1706,7 @@ namespace NetDimension.NanUI
             {
                 e.Cancel = true;
 
-                Close();
+                //Close();
             }
         }
 

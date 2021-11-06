@@ -73,7 +73,7 @@
         <PackageReference Include="System.Json" Version="4.7.1" />
         <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
         <PackageReference Include="System.Text.Json" Version="5.0.2" />
-        <PackageReference Include="Vortice.Direct2D1" Version="1.9.65" />
+        <PackageReference Include="Vortice.Direct2D1" Version="1.9.143" />
     </ItemGroup>
 
 

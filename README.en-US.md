@@ -61,6 +61,12 @@ If you only want to compile NanUI for a specific framework platform, please modi
 
 If you want to learn more about NanUI or want to use NanUI for development as soon as possible, please navigate to [Welcome to NanUI](docs/README.en-US.md) to get documentation and sample code.
 
+### Documentation
+
+- [Documentation for NanUI](docs/documentation.md)
+
+### Example
+
 The source code contains a sample project FormiumClient, you can quickly learn the relevant knowledge of NanUI through the source code of this project, it will also teach you how to use HTML / CSS / JavaScript to create your application.
 
 - [formium-client-frontend](src/formium-client-frontend/README.md)

@@ -15,7 +15,7 @@
 在安装程序集资源处理器前，请确保项目已正确安装并引用了 NanUI 基础库以及运行时依赖。推荐使用 NuGet 包管理器来安装程序集资源处理器的 NuGet 包。
 
 ```
-PM> Install NetDimension.NanUI.AssemblyResourceHandler
+PM> Install NetDimension.NanUI.EmbeddedFileResource
 ```
 
 ## 整理资源
