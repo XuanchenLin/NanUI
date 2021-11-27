@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net462;net47;net471;net472;net48;net5.0-windows;</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net462;net47;net471;net472;net48;net5.0-windows;net6.0-windows;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <Description>NanUI is an open source .NET/.NET Core component for Windows Form Applications. It's suitable for .NET/.NET Core developers who wants to use front-end technologies suc as HTMM5/CSS3/JavaScript to design the user interface of Windows Form Applications.</Description>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -71,9 +71,9 @@
 
     <ItemGroup>
         <PackageReference Include="System.Json" Version="4.7.1" />
-        <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
-        <PackageReference Include="System.Text.Json" Version="5.0.2" />
-        <PackageReference Include="Vortice.Direct2D1" Version="1.9.143" />
+        <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
+        <PackageReference Include="System.Text.Json" Version="6.0.0" />
+        <PackageReference Include="Vortice.Direct2D1" Version="1.9.130" />
     </ItemGroup>
 
 

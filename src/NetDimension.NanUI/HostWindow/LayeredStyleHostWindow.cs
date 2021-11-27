@@ -31,7 +31,6 @@ namespace NetDimension.NanUI.HostWindow
             FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
-
         internal LayeredStyleHostWindow(Formium formium) : this()
         {
             _formium = formium;
