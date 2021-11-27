@@ -14,14 +14,18 @@ namespace NetDimension.NanUI.EmbeddedFileResource
         public string RootPath { get; }
         public Func<string, string> OnFallback { get; }
 
+        public string DefaultNameSpace { get; }
+
+
         protected override ResourceHandlerBase GetResourceHandler(CefBrowser browser, CefFrame frame, CefRequest request) => new ResourceHandler(this);
 
-        public SchemeConfiguration(Assembly resourceAssebmly, string scheme, string domainName, string rootPath = null, Func<string, string> onFallback = null)
+        public SchemeConfiguration(Assembly resourceAssebmly, string scheme, string domainName, string rootPath = null, Func<string, string> onFallback = null, string defaultNameSpace = null)
             : base(scheme, domainName)
         {
             ResourceAssebmly = resourceAssebmly;
             RootPath = rootPath;
             OnFallback = onFallback;
+            DefaultNameSpace = defaultNameSpace;
         }
     }
 
@@ -43,10 +47,12 @@ namespace NetDimension.NanUI.EmbeddedFileResource
 
     public static class ExtensionRegister
     {
-        public static ApplicationConfigurationBuilder UseEmbeddedFileResource(this ApplicationConfigurationBuilder appBuilder, string scheme, string domainName, Assembly resourceAssembly, string resourceFileRootPath = null, Func<string,string> onFallback = null)
+        public static ApplicationConfigurationBuilder UseEmbeddedFileResource(this ApplicationConfigurationBuilder appBuilder, string scheme, string domainName, Assembly resourceAssembly, string resourceFileRootPath = null, Func<string,string> onFallback = null, string defaultNameSpace = null)
         {
+            var ns = defaultNameSpace ?? (resourceAssembly.EntryPoint?.DeclaringType.Namespace ?? resourceAssembly.GetName().Name);
 
-            appBuilder.UseCustomResourceHandler(() => new SchemeConfiguration(resourceAssembly, scheme, domainName, resourceFileRootPath, onFallback));
+
+            appBuilder.UseCustomResourceHandler(() => new SchemeConfiguration(resourceAssembly, scheme, domainName, resourceFileRootPath, onFallback, ns));
 
             return appBuilder;
         }

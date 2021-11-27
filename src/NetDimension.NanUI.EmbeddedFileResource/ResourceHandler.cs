@@ -25,7 +25,7 @@ namespace NetDimension.NanUI.EmbeddedFileResource
         public SchemeConfiguration Configuration { get; }
 
 
-        private string GetResourceName(string relativePath, Assembly baseAssembly, string rootPath)
+        private string GetResourceName(string relativePath, string rootPath)
         {
             var filePath = relativePath;
             if (!string.IsNullOrEmpty(rootPath))
@@ -52,7 +52,7 @@ namespace NetDimension.NanUI.EmbeddedFileResource
                 filePath = $"{path}{filePath.Substring(endTrimIndex)}";
             }
 
-            var resourceName = $"{baseAssembly.GetHashCode()}.{filePath.Replace('/', '.')}";
+            var resourceName = $"{Configuration.DefaultNameSpace}.{filePath.Replace('/', '.')}";
 
             return resourceName;
 
@@ -110,14 +110,14 @@ namespace NetDimension.NanUI.EmbeddedFileResource
 
             //Debug.Assert(resourceName == GetResourceName(response.RelativePath, mainAssembly.GetName().Name, Configuration.RootPath));
 
-            var resourceName = GetResourceName(response.RelativePath, mainAssembly, Configuration.RootPath);
+            var resourceName = GetResourceName(response.RelativePath, Configuration.RootPath);
 
 
             Assembly satelliteAssembly = null;
 
             try
             {
-                var fileInfo = new FileInfo(new Uri(mainAssembly.EscapedCodeBase).LocalPath);
+                var fileInfo = new FileInfo(new Uri(mainAssembly.Location).LocalPath);
 
                 var satelliteFilePath = Path.Combine(fileInfo.DirectoryName, $"{Thread.CurrentThread.CurrentCulture}", $"{Path.GetFileNameWithoutExtension(fileInfo.Name)}.resources.dll");
 
@@ -142,7 +142,7 @@ namespace NetDimension.NanUI.EmbeddedFileResource
                 embeddedResources = embeddedResources.Union(satelliteAssembly.GetManifestResourceNames().Select(x => new { Target = satelliteAssembly, Name = ProcessCultureName(x), ResourceName= ProcessCultureName(x), IsSatellite = true }));
             }
 
-            embeddedResources = embeddedResources.Select(x => new { x.Target, Name = $"{mainAssembly.GetHashCode()}{x.Name.Substring(x.Name.IndexOf('.'))}", x.ResourceName, x.IsSatellite, });
+            embeddedResources = embeddedResources.Select(x => new { x.Target, Name = $"{Configuration.DefaultNameSpace}{x.Name.Substring($"{Configuration.DefaultNameSpace}".Length)}", x.ResourceName, x.IsSatellite, });
 
 
             var resource = embeddedResources.SingleOrDefault(x => x.Name.Equals(resourceName, StringComparison.CurrentCultureIgnoreCase));
@@ -167,9 +167,9 @@ namespace NetDimension.NanUI.EmbeddedFileResource
             {
                 var fallbackFile = Configuration.OnFallback.Invoke(requestUrl);
 
-                var test = Path.GetFullPath(fallbackFile);
+                //var test = Path.GetFullPath(fallbackFile);
 
-                resourceName = GetResourceName(fallbackFile, mainAssembly, Configuration.RootPath);
+                resourceName = GetResourceName(fallbackFile, Configuration.RootPath);
 
                 resource = embeddedResources.SingleOrDefault(x => x.Name.Equals(resourceName, StringComparison.CurrentCultureIgnoreCase));
 

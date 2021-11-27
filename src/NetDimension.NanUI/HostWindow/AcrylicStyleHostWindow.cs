@@ -172,7 +172,17 @@ namespace NetDimension.NanUI.HostWindow
         }
 
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var createParams = base.CreateParams;
 
+                createParams.ExStyle |= 0x00200000;
+
+                return createParams;
+            }
+        }
 
 
         #region OSR Event handlers

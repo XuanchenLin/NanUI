@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netcoreapp3.1;net462;net47;net471;net472;net48;net5.0-windows;</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net462;net47;net471;net472;net48;net5.0-windows;net6.0-windows;</TargetFrameworks>
         <PackageIcon>Plugins.png</PackageIcon>
         <RepositoryType>git</RepositoryType>
         <PackageTags>NanUI WinForms Formium CEF Chromium CefGlue</PackageTags>
