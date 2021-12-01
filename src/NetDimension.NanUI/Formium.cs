@@ -1786,9 +1786,6 @@ namespace NetDimension.NanUI
 
         private bool OnHostWindowWndProc(ref Message m)
         {
-
-
-
             switch ((WindowsMessages)m.Msg)
             {
                 case WindowsMessages.WM_SIZE:

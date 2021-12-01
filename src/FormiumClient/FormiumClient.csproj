@@ -2,12 +2,13 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net472;net5.0-windows;</TargetFrameworks>
+        <TargetFrameworks>net472;net6.0-windows;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\DemoIcon.ico</ApplicationIcon>
         <Platforms>AnyCPU;x64;x86</Platforms>
         <Title>WinFormium Demo Application</Title>
         <AssemblyName>NanUI FormiumClient Application</AssemblyName>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
 
