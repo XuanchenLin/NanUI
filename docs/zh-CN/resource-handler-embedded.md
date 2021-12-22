@@ -3,20 +3,11 @@
 [[返回目录](README.md)]
 
 - [程序集资源处理器](#程序集资源处理器)
-  - [安装](#安装)
   - [整理资源](#整理资源)
   - [使用资源处理器](#使用资源处理器)
   - [使用资源](#使用资源)
 
 程序集资源处理器（EmbeddedFileResource）用于加载作为`嵌入的资源`打包到程序集里的各种资源文件。这是 NanUI 应用中最常见的资源打包方式。
-
-## 安装
-
-在安装程序集资源处理器前，请确保项目已正确安装并引用了 NanUI 基础库以及运行时依赖。推荐使用 NuGet 包管理器来安装程序集资源处理器的 NuGet 包。
-
-```
-PM> Install NetDimension.NanUI.EmbeddedFileResource
-```
 
 ## 整理资源
 
@@ -29,6 +20,20 @@ PM> Install NetDimension.NanUI.EmbeddedFileResource
 上图示例使用了 WebPack 打包的资源，其中只需选中需要的文件，没必要的文件无需设置为`嵌入的资源`。
 
 遵循上述操作，当您的项目成功编译后，选中的资源就自动打包到您的程序集中了。
+
+对于 .NET Core 3.1 及以上版本的项目文件，您可以在 Visual Studio 中直接双击打开项目文件修改配置的方法来设置嵌入资源，而且您还可以使用通配符来简化操作。
+
+例如，如果需要把`build`文件家中的所有文件设置为嵌入资源，那么直接添加以下配置：
+
+```xml
+<ItemGroup>
+  <None Remove="build\**\*" />
+</ItemGroup>
+
+<ItemGroup>
+  <EmbeddedResource Include="build\**\*" />
+</ItemGroup>
+```
 
 ## 使用资源处理器
 

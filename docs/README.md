@@ -6,7 +6,41 @@
 
 ---
 
-## 使用 NanUI
+## 文档和示例
+
+### 文档
+
+帮助文档将帮助您轻松快速的开始使用 NanUI 进行开发。
+
+- [NanUI 文档](documentation.md)
+
+此外您还可以在下述平台找到更多关于 NanUI 的话题、文档和视频。
+
+- [[知乎专栏] NanUI 技术内幕](https://zhuanlan.zhihu.com/nanui)
+- [[B 站] 码农 JSON 的 NanUI 入门教程频道](https://space.bilibili.com/396855974/channel/detail?cid=113298)
+- [[西瓜视频] NanUI 入门教程频](https://www.ixigua.com/6804465191196033540?id=6798031330459255303)
+
+目前 NanUI 文档正在逐步完善，如果您愿意帮助翻译不同语言的文档，请与我取得联系或者直接提交其他语言文档的 Pull Request 即可，感激不敬！
+
+### 示例
+
+![示例](images/preview-animation.png)
+
+最新版本的 NanUI 支持多种窗体类型，上面动图中的示例包括了常用的 `系统原生窗口样式`、`无边框窗口样式`、`Win10 亚克力特效窗口样式`以及`异形窗口样式`几种窗口类型。
+
+您可以获取 NanUI 源码后详细了解每种窗口实现方式，以上示例代码均已包含！
+
+您还可以从下述仓库下载 NanUI 的其他示例程序源代码。
+
+- [NanUI 示例仓库@GitHub](https://github.com/XuanchenLin/NanUI-0.9-Examples) 
+- [NanUI 示例仓库@Gitee](https://gitee.com/linxuanchen/NanUI-0.9-Examples) 
+
+
+
+---
+
+
+## 快速开始使用 NanUI
 
 ### 第一步：引用 NanUI 必要程序集及组件
 
@@ -102,33 +136,8 @@ class MainWindow : Formium
 
 没有复杂的步骤！只需简单操作 NanUI 项目就可以顺利运行。
 
-如果需要了解更多内容，请参考[示例和文档](#示例和文档)章节中的内容。
+如果需要了解更多内容，请参考《[示例和文档](#示例和文档)》章节中的内容。
 
----
 
-## 示例和文档
 
-### 示例
-
-![示例](images/preview-animation.png)
-
-最新版本的 NanUI 支持多种窗体类型，上面动图中的示例包括了常用的 `系统原生窗口样式`、`无边框窗口样式`、`Win10 亚克力特效窗口样式`以及`异形窗口样式`几种窗口类型。
-
-您可以获取 NanUI 源码后详细了解每种窗口实现方式，以上示例代码均已包含！
-
-您还可以通过 [NanUI 示例仓库](https://github.com/XuanchenLin/NanUI-0.8-Examples) 下载 NanUI 0.8 的其他示例程序源代码。
-
-### 文档
-
-帮助文档将帮助您轻松快速的开始使用 NanUI 进行开发。
-
-- [NanUI 0.8 文档](documentation.md)
-
-此外您还可以在下述平台找到更多关于 NanUI 的话题、文档和视频。
-
-- [[知乎专栏] NanUI 技术内幕](https://zhuanlan.zhihu.com/nanui)
-- [[B 站] 码农 JSON 的 NanUI 入门教程频道](https://space.bilibili.com/396855974/channel/detail?cid=113298)
-- [[西瓜视频] NanUI 入门教程频](https://www.ixigua.com/6804465191196033540?id=6798031330459255303)
-
-目前 NanUI 文档正在逐步完善，如果您愿意帮助翻译不同语言的文档，请与我取得联系或者直接提交其他语言文档的 Pull Request 即可，感激不敬！
 

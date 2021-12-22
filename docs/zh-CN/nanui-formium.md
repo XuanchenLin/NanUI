@@ -11,7 +11,7 @@ Formium 包装了`System.Window.Forms.Form`的窗体大多数，并且结合 CEF
   - [设置窗体相关属性](#设置窗体相关属性)
   - [设置浏览器相关属性](#设置浏览器相关属性)
   - [窗体样式](#窗体样式)
-  - [使用 NanUI 内置命令](#使用-nanui-内置命令)
+  - [在 HTML 中使用 NanUI 内置命令](#在-html-中使用-nanui-内置命令)
 
 ## 初始化 Formium
 
@@ -53,7 +53,7 @@ public override string StartUrl => "https://example.com";
 
 ## 窗体样式
 
-目前`Formium`的`WindowType`支持 5 中特定样式：`System`、`Borderless`、`Kiosk`、`Layered`和`Acrylic`：
+目前`Formium`的`WindowType`支持 5 中特定样式：`System`、`Borderless`、`Kiosk`、`Layered`和`SystemBorderless`：
 
 - **System**：系统原生窗体样式。
 
@@ -63,17 +63,20 @@ public override string StartUrl => "https://example.com";
 
   要了解更多有关于`System`窗口类型的系统，请参考[使用原生样式窗体](using-system-style-window.md)章节。
 
-- **Borderless**：无边框窗体样式。
+- **Borderless** 和 **SystemBorderless**：无边框窗体样式。
 
-  在无边框窗体样式中系统原生的标题栏和边框被隐藏，您可以使用整个窗体区域来绘制您的应用程序界面。Borderless 模式提供了多种窗体投影效果以及色彩设置，还提供了`BorderLine`、`Rounded`和`None`三种边框样式可供选择。
+  在无边框窗体样式中系统原生的标题栏和边框被隐藏，您可以使用整个窗体区域来绘制您的应用程序界面。
+
+  Borderless 和 SystemBorderless 的区别在于前者使用了完全定制化的界面呈现方案，所以您能够在 Borderless 模式中使用多种窗体投影效果以及色彩设置，它还提供了多种圆角样式可供选择。而 SystemBorderless 基于 Windows 系统 DWM 来管理窗体绘制，所以投影效果（Win8/8.1没有不支持投影效果）和圆角效果(Win11)均由 Windows 系统决定。
 
   ![原生样式](../images/borderless-style.png)
 
   要了解更多有关于`Borderless`窗口类型的系统，请参考[使用无边框样式窗体](using-borderless-style-window.md)章节。
 
-- **Kiosk**：Kiosk 模式样式。
+- **Kiosk**：Kiosk 样式。
 
   Kiosk 样式的窗体普遍用于需要全屏展示窗体内容的场景，例如：工控上位机界面、查询机界面、数据大屏幕等。
+
   要了解更多有关于`Kiosk`窗口类型的系统，请参考[使用 Kiosk 样式窗体](using-kiosk-style-window.md)章节。
 
 - **Layered**：异形窗口样式。
@@ -84,23 +87,15 @@ public override string StartUrl => "https://example.com";
 
   要了解更多有关于`Layered`窗口类型的系统，请参考[使用异形样式窗体](using-layered-style-window.md)章节。
 
-- **Acrylic**：亚克力特效窗体样式。
+## 在 HTML 中使用 NanUI 内置命令
 
-  亚克力特效是 Windows 10 创意者更新版之后提供的新功能，它允许窗体的透明或半透明区域与桌面元素进行模糊混合，实现特殊的磨砂亚克力效果。与 Layered 样式相同，根据网页中透明或者半透明区域的设置，将实现特定效果的磨砂玻璃效果。
-
-  ![原生样式](../images/acrylic-style.png)
-
-  要了解更多有关于`Acrylic`窗口类型的系统，请参考[使用 Win10 亚克力特效样式窗体](using-acrylic-style-window.md)章节。
-
-## 使用 NanUI 内置命令
-
-Formium 窗体在前端环境中内置了 html 属性`formium-command`以及 JavaScript 上下文中的`Formium`对象。
+Formium 窗体在前端环境中内置了 html 属性`formium-command`以及 JavaScript 环境中的`Formium`对象。
 
 **formium-command 属性**
 
 用户点击具有`formium-command`属性的 HTML 元素时可以实现的最大化、最小化、还原及关闭命令。
 
-例如设置 formium-command="close"可以实现点击该元素后关闭窗体。
+例如在元素上设置 **formium-command="close"** 属性可以实现点击该元素后关闭窗体的功能。
 
 ```html
 <button formium-command="close">关闭窗口</button>
@@ -114,6 +109,7 @@ Formium 窗体在前端环境中内置了 html 属性`formium-command`以及 Jav
 | minimize | 最小化窗口   |
 | restore  | 还原窗口     |
 | close    | 关闭当前窗口 |
+| fullscreen    | 全屏化当前窗口 |
 
 **Formium 对象**
 
@@ -250,11 +246,11 @@ window.addEventListener("hoststatechanged", (e) => {
 
 Formium 窗体在不同的状态时会向 DOM 的根标签 html 添加一些 class 名称来方便编写前端页面 CSS 时为特定状态设置效果。目前包括了以下几个特殊的内置 class 名称：
 
-- **formium-focus**
+- **formium-activated**
 
   当前窗体处于激活状态时，html 标签具备名为`formium-focus`的 class 名称。
 
-- **formium-blur**
+- **formium-deactivate**
 
   当前窗体处于后台状态时，html 标签具备名为`formium-blur`的 class 名称。
 
@@ -273,12 +269,12 @@ Formium 窗体在不同的状态时会向 DOM 的根标签 html 添加一些 cla
 **CSS**
 
 ```css
-html.formium-focus .my-div {
+html.formium-activated .my-div {
   background-color: #red;
   color: white;
 }
 
-html.formium-blur .my-div {
+html.formium-deactivate .my-div {
   background-color: #gray;
   color: black;
 }

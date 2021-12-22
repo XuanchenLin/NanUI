@@ -20,7 +20,6 @@
 
 - [嵌入程序集中的资源](resource-handler-embedded.md)
 - [本地文件资源](resource-handler-local-file.md)
-- [ZIP 文件资源](resource-handler-zip-package.md)
 - [使用数据资源](resource-handler-data-services.md)
 
 [执行 JavaScript](executing-javascript.md)
@@ -32,6 +31,5 @@
 
 ## 问题合集
 
-[在高分屏下画面出现撕裂或重影](faqs/hidpi-troubleshoot.md)
-
-[所有标签的工具提示都不显示了](faqs/tooltip-troubleshoot.md)
+- [在高分屏下画面出现撕裂或重影](faq-hidpi-troubleshoot.md)
+- [所有标签的工具提示都不显示了](faq-tooltip-troubleshoot.md)

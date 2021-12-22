@@ -14,48 +14,53 @@
 使用 JavaScriptValue 创建对象，可以为 JavaScriptValue 对象添加`属性`，`值`，`同步方法`，`异步方法`这几种数据类型。具体请看以下示例。
 
 ```C#
-var obj = JavaScriptValue.CreateObject();
+var obj = new JavaScriptValueObject();
 
 //注册只读属性
-obj.SetValue("now", JavaScriptValue.CreateProperty(() =>
-{
-    return JavaScriptValue.CreateDateTime(DateTime.Now);
-}));
+obj.DefineProperty("now", () => new JavaScriptValue(DateTime.Now));
 
 //注册值
-obj.SetValue("version", JavaScriptValue.CreateString(Assembly.GetExecutingAssembly().GetName().Version?.ToString()));
+obj.Add("version", Assembly.GetExecutingAssembly().GetName().Version?.ToString());
 
 //注册可读写属性
-obj.SetValue("subtitle", JavaScriptValue.CreateProperty(() => JavaScriptValue.CreateString(Subtitle), title => Subtitle = title.GetString()));
+obj.DefineProperty("title", 
+  // Getter
+  () => new JavaScriptValue(Title), 
+  // Setter
+  (v) =>
+  {
+      InvokeIfRequired(() => Title = v);
+  }
+);
 
 //注册同步方法
-obj.SetValue("messagebox", JavaScriptValue.CreateFunction(args =>
+obj.Add("messagebox", (args =>
 {
-  var msg = args.FirstOrDefault(x => x.IsString);
+  var msg = args.FirstOrDefault(x => x.IsString)?.GetString() ?? "Nothing";
 
   var text = msg?.GetString();
 
   InvokeIfRequired(() =>
   {
-      MessageBox.Show(HostWindow, text, "Message from JS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      // WindowHWND - 承载窗体Win32句柄
+      MessageBox.Show(WindowHWND, text, "Message from JS", MessageBoxButtons.OK, MessageBoxIcon.Information);
   });
 
-  return JavaScriptValue.CreateString(text);
+  return new JavaScriptValue(text);
 }));
 
 //注册异步方法
-obj.SetValue("asyncmethod", JavaScriptValue.CreateFunction((args, callback) =>
+obj.SetValue("asyncmethod", async (args, promise) =>
 {
-  Task.Run(async () =>
-  {
-    var rnd = new Random(DateTime.Now.Millisecond);
+    var delayedExpire = new Random().Next(3000);
 
-    var rndValue = rnd.Next(3000, 6000);
+    await Task.Delay(delayedExpire);
 
-    await Task.Delay(rndValue);
-    callback.Success(JavaScriptValue.CreateString($"Delayed {rndValue} milliseconds"));
-  });
-}));
+    promise.Resovle(new JavaScriptValue($"[RESOLVE] Delayed for {delayedExpire} ms"));
+
+    //promise.Reject($"[REJECT]: Something goes wrong in {delayedExpire} ms");
+
+});
 ```
 
 ## 注册对象
@@ -63,7 +68,7 @@ obj.SetValue("asyncmethod", JavaScriptValue.CreateFunction((args, callback) =>
 然后将这个对象注册到 JavaScript 环境的`Formium.external`里，并取名`tester`。
 
 ```C#
-RegisterExternalObjectValue("tester", obj);
+RegisterJavaScriptObject("tester", obj);
 ```
 
 ## 调用
@@ -80,5 +85,17 @@ RegisterExternalObjectValue("tester", obj);
 ```
 
 测试异步方法
+
+**Resovle**
+```console
+> new Promise(Formium.external.tester.asyncmethod()).then(r=>console.log(r)).catch(e=>console.log(e))
+< [RESOLVE] Delayed for 1433 ms
+```
+
+**Reject**
+```console
+> new Promise(Formium.external.tester.asyncmethod()).then(r=>console.log(r)).catch(e=>console.log(e))
+< Error: [REJECT]: Something goes wrong in 886 ms
+```
 
 ![async](../images/js-object-async-method.png)

@@ -14,4 +14,4 @@
 public override HostWindowType WindowType => HostWindowType.Kiosk;
 ```
 
-Kiosk 样式不具备特殊样式属性设置，因此`KioskWindowProperties`属性值内没有内容，该属性只是为了未来扩展需要而保留。
+Kiosk 样式不具备特殊样式属性设置，因此`KioskWindowStyle`属性中没有内容，该属性只是为了未来扩展需要而保留。
