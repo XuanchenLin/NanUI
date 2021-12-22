@@ -3,7 +3,6 @@
 [[返回目录](README.md)]
 
 - [数据资源处理器](#数据资源处理器)
-  - [安装](#安装)
   - [DataServiceProvider 数据服务适配器](#dataserviceprovider-数据服务适配器)
   - [DataService 数据服务](#dataservice-数据服务)
   - [使用资源处理器](#使用资源处理器)
@@ -20,14 +19,6 @@
 第一种方法如果数据量很大时，生成的 JSON 字符串非常长，那么就有很大的几率造成内存溢出从而导致客户端崩溃；第二种方法虽然稳定但代码编写起来很繁琐：在`Browser 进程`和`Renderer 进程`之间来回传递消息，而且数据需要在 CefValue 和 CefV8value 之间平凡转换，难免产生各种奇葩的 BUG 还非常难以调试。
 
 综合以上，数据资源处理器的出现解决了想客户端提供数据的难题。数据资源处理器能自动反射当前程序集（或其他指定程序集）内的数据服务控制器`DataService`的派生类，并能根据路由特性`RouteAttribute`或者控制器的名称自动生成路由表。在前端环境中可使用任意数据请求技术（Fetch，XHR，等等）来获取数据，并且还能向后端数据服务控制器提交数据（GET、POST、PUT 等）。
-
-## 安装
-
-在安装程数据资源处理器前，请确保项目已正确安装并引用了 NanUI 基础库以及运行时依赖。推荐使用 NuGet 包管理器来安装程序集资源处理器的 NuGet 包。
-
-```
-PM> Install NetDimension.NanUI.DataServiceResource
-```
 
 ## DataServiceProvider 数据服务适配器
 
@@ -78,8 +69,8 @@ _bool_ **RemoveDataServiceProvider(string domainName)**
 此示例在前端请求`http://api.app.local/hello/hi`时，将返回 ContentType 为 `text/plain` 的字符串 `Hello NanUI!`。
 
 ```C#
-using NetDimension.NanUI.DataServiceResource;
-using NetDimension.NanUI.ResourceHandler;
+using NetDimension.NanUI.Resource.Data;
+using NetDimension.NanUI.Browser.ResourceHandler;
 
 // All: /Hello/Hi
 public class HelloService : DataService
@@ -102,8 +93,8 @@ public class HelloService : DataService
 此示例模拟了一个用户登录的请求，前端通过 POST 方法提交登录信息，使用`ResourceRequest`对象的 JSON 反序列化方法`DeserializeObjectFromJson`将提交过来的数据反序列化为`UserInfo`类型，然后模拟延迟 2000 毫秒后返回登录成功的结果。
 
 ```C#
-using NetDimension.NanUI.DataServiceResource;
-using NetDimension.NanUI.ResourceHandler;
+using NetDimension.NanUI.Resource.Data;
+using NetDimension.NanUI.Browser.ResourceHandler;
 
 [DataRoute("/account")]
 public class PassportService : DataService

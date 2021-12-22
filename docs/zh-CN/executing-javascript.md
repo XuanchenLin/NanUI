@@ -28,7 +28,7 @@ if (result.Success)
 
   MessageBox.Show($"a={retval.GetInt("a")} b={retval.GetString("b")}", "Value from JavaScript");
 
-  await retval.GetValue("c").ExecuteFunctionAsync(GetMainFrame(), new JavaScriptValue[] { JavaScriptValue.CreateString("Hello from C#") });
+  await retval.GetValue("c").ExecuteFunctionAsync(GetMainFrame(), new JavaScriptValue[] { new JavaScriptValue("Hello from C#") });
 }
 ```
 
@@ -51,21 +51,21 @@ var clrObject = new
     "https://www.formium.net" }
 };
 
-var nanuiObject = JavaScriptValue.CreateObject();
+// 对象
+var nanuiObject = new JavaScriptObject();
 
-nanuiObject.SetValue(nameof(clrObject.Name), JavaScriptValue.CreateString(clrObject.Name));
-nanuiObject.SetValue(nameof(clrObject.Age), JavaScriptValue.CreateNumber(clrObject.Age));
-nanuiObject.SetValue(nameof(clrObject.CreatedAt), JavaScriptValue.CreateDateTime(clrObject.CreatedAt));
-nanuiObject.SetValue(nameof(clrObject.Active), JavaScriptValue.CreateBool(clrObject.Active));
+nanuiObject.Add(nameof(clrObject.Name), new JavaScriptValue(clrObject.Name));
+nanuiObject.Add(nameof(clrObject.Age), new JavaScriptValue(clrObject.Age));
+nanuiObject.Add(nameof(clrObject.CreatedAt), new JavaScriptValue(clrObject.CreatedAt));
+nanuiObject.Add(nameof(clrObject.Active), new JavaScriptValue(clrObject.Active));
 
-var nanuiArray = JavaScriptValue.CreateArray();
+// 数组
+var nanuiArray = new JavaScriptArray();
 
 foreach (var host in clrObject.Hosts)
 {
-    nanuiArray.AddArrayValue(JavaScriptValue.CreateString(host));
+    nanuiArray.Add(host);
 }
 
-nanuiObject.SetValue(nameof(clrObject.Hosts), nanuiArray);
+nanuiObject.Add(nameof(clrObject.Hosts), nanuiArray);
 ```
-
-目前看来，.NET 数据转换到 JavaScriptValue 的映射过程稍显复杂，在后续的版本中可能会考虑增加它们之间的数据类型转化器`Converter`来简化上述操作。

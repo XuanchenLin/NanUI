@@ -4,7 +4,7 @@
 
 - [资源处理器](#资源处理器)
   - [创建资源处理器](#创建资源处理器)
-  - [使用资源处理器](#使用资源处理器)
+  - [使用自定义资源处理器](#使用自定义资源处理器)
   - [ResourceRequest 和 ResourceResponse](#resourcerequest-和-resourceresponse)
     - [ResourceRequest 对象](#resourcerequest-对象)
     - [ResourceResponse 对象](#resourceresponse-对象)
@@ -82,7 +82,7 @@ public class UrlEchoResourceHandler : ResourceHandlerBase
 }
 ```
 
-## 使用资源处理器
+## 使用自定义资源处理器
 
 **注册资源处理器方案**
 

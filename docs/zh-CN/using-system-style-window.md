@@ -8,4 +8,4 @@
 public override HostWindowType WindowType => HostWindowType.System;
 ```
 
-原生样式不具备特殊样式属性设置，因此`SystemWindowProperties`属性值内没有内容，该属性只是为了未来扩展需要而保留。
+原生样式不具备特殊样式属性设置，因此`SystemWindowStyle`属性值内没有内容，该属性只是为了未来扩展需要而保留。
