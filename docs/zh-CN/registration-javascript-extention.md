@@ -92,7 +92,7 @@ public class HostWindowExtension : JavaScriptExtensionBase
         RegisterFunctionHandler("Hello", Hello);
         RegisterFunctionHandler("HelloAsync", HelloAsync);
 
-        RegisterFunctionHandler("GetTitle", (owner, arguments) => JavaScriptValue.CreateString(owner.Subtitle));
+        RegisterFunctionHandler("GetTitle", (owner, arguments) => new JavaScriptValue(owner.Subtitle));
 
         RegisterFunctionHandler("SetTitle", (owner, arguments) => {
             var title = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? string.Empty;
@@ -102,7 +102,7 @@ public class HostWindowExtension : JavaScriptExtensionBase
     }
 
     // 关联当前 Formium 窗体的异步执行方法。
-    private void HelloAsync(Formium owner, JavaScriptValue[] arguments, JavaScriptAsyncFunctionCallback callback)
+    private void HelloAsync(Formium owner, JavaScriptArray arguments, JavaScriptFunctionPromise callback)
     {
         var time = arguments.FirstOrDefault(x => x.IsNumber)?.GetInt() ?? 1000;
         var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
@@ -113,13 +113,13 @@ public class HostWindowExtension : JavaScriptExtensionBase
 
             MessageBox.Show($"Delayed {time / 1000f} sec.");
 
-            callback.Success(JavaScriptValue.CreateString(msg));
+            callback.Resolve(new JavaScriptValue(msg));
         });
 
     }
 
     // 关联当前 Formium 窗体的同步执行方法。
-    private JavaScriptValue Hello(Formium owner, JavaScriptValue[] arguments)
+    private JavaScriptValue Hello(Formium owner, JavaScriptArray arguments)
     {
         var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
 
@@ -137,26 +137,26 @@ public class HostWindowExtension : JavaScriptExtensionBase
     }
 
     // 与当前 Formium 窗体无关的同步执行方法。
-    private JavaScriptValue Test(JavaScriptValue[] arguments)
+    private JavaScriptValue Test(JavaScriptArray arguments)
     {
-        return JavaScriptValue.CreateString("OK");
+        return new JavaScriptValue("OK");
     }
 
     // 与当前 Formium 窗体无关的带参数的同步执行方法。
-    private JavaScriptValue Add(JavaScriptValue[] arguments)
+    private JavaScriptValue Add(JavaScriptArray arguments)
     {
         if(arguments.Length == 2)
         {
             var retval = arguments[0].GetDouble() + arguments[1].GetDouble();
 
-            return JavaScriptValue.CreateNumber(retval);
+            return new JavaScriptValue(retval);
         }
 
-        return JavaScriptValue.CreateNull();
+        return null;
     }
 
     // 与当前 Formium 窗体无关的带参数的异步执行方法。
-    private void Delay(JavaScriptValue[] arguments, JavaScriptRendererSideAsyncFunctionCallback callback)
+    private void Delay(JavaScriptArray arguments, JavaScriptFunctionPromise callback)
     {
 
         var time = arguments.FirstOrDefault(x => x.IsNumber)?.GetInt() ?? 1000;
@@ -168,7 +168,7 @@ public class HostWindowExtension : JavaScriptExtensionBase
         {
             await Task.Delay(time);
 
-            callback.Success(JavaScriptValue.CreateString($"Say: {msg}! after {time / 1000f} sec."));
+            callback.Resolve(new JavaScriptValue($"Say: {msg}! after {time / 1000f} sec."));
 
         });
 

@@ -1,6 +1,6 @@
 ## The MIT License (MIT)
 
-Copyright (C) 2014 - 2020, Xuanchen Lin all rights reserved.
+Copyright (C) 2014 - 2022, Xuanchen Lin all rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
