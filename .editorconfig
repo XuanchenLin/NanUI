@@ -1,0 +1,16 @@
+﻿[*.cs]
+
+# CS0436: 类型与导入类型冲突
+dotnet_diagnostic.CS0436.severity = none
+
+csharp_style_namespace_declarations = file_scoped:error
+csharp_style_var_for_built_in_types=true:warning
+csharp_style_var_when_type_is_apparent=true:warning
+csharp_style_var_elsewhere=true:suggestion
+csharp_prefer_braces=true:suggestion
+csharp_using_directive_placement=outside_namespace:silent
+
+
+[*.{cs,vb}]
+end_of_line=lf
+dotnet_style_require_accessibility_modifiers=for_non_interface_members:suggestion
