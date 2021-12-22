@@ -56,7 +56,7 @@ If you want to learn more about NanUI or want to use NanUI for development work 
 
 ### Documentation
 
--[Documentation](docs/documentation.md)
+- [Documentation](docs/documentation.md)
 
 ### Example
 
@@ -74,8 +74,8 @@ A comprehensive demonstration project, FormiumClient, is included in the project
 
 You can also download the source code of other NanUI sample programs from the following repos.
 
--[NanUI Examples@GitHub](https://github.com/XuanchenLin/NanUI-0.9-Examples)
--[NanUI Examples@Gitee](https://gitee.com/linxuanchen/NanUI-0.9-Examples)
+- [NanUI Examples@GitHub](https://github.com/XuanchenLin/NanUI-0.9-Examples)
+- [NanUI Examples@Gitee](https://gitee.com/linxuanchen/NanUI-0.9-Examples)
 
 ### Case show
 
