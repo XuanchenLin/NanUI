@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/window-styles/static/js/main.bundle.8ed7a1b0.js",
+    "main.css": "/window-styles/static/css/main.99375463.css",
+    "static/js/27.chunk.2b858127.js": "/window-styles/static/js/27.chunk.2b858127.js",
+    "static/media/kitty-meow.mp3": "/window-styles/static/media/kitty-meow.6f94f1bfedbd33eb8cb7.mp3",
+    "static/media/Oswald-Regular.ttf": "/window-styles/static/media/Oswald-Regular.78dbb14f9e4bc321815c.ttf",
+    "static/media/global.svg": "/window-styles/static/media/global.4558ac7c57569b2872f4a0023aa3ef98.svg",
+    "static/media/iconfont.eot": "/window-styles/static/media/iconfont.06dba4d0032f56b7e384.eot",
+    "static/media/iconfont.ttf": "/window-styles/static/media/iconfont.1aa22223408fdabd3581.ttf",
+    "static/media/iconfont.svg": "/window-styles/static/media/iconfont.19731cc8bad1889002e4.svg",
+    "static/media/iconfont.woff": "/window-styles/static/media/iconfont.6b4b1cfca7913616cfcb.woff",
+    "static/media/iconfont.woff2": "/window-styles/static/media/iconfont.7d4648fcfa3062133c0d.woff2",
+    "index.html": "/window-styles/index.html"
+  },
+  "entrypoints": [
+    "static/js/main.bundle.8ed7a1b0.js",
+    "static/css/main.99375463.css"
+  ]
+}

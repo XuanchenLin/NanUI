@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.js": "/client-ui/static/js/main.bundle.08a7bf86.js",
+    "main.css": "/client-ui/static/css/main.b8355804.css",
+    "static/js/27.chunk.2ff6e140.js": "/client-ui/static/js/27.chunk.2ff6e140.js",
+    "static/media/qrcode.png": "/client-ui/static/media/qrcode.13bf23921bc3a307c453.png",
+    "static/media/paypal.png": "/client-ui/static/media/paypal.9d91d032edff41bc7e9b.png",
+    "static/media/layered-window-style.png": "/client-ui/static/media/layered-window-style.bbf496af3fd5a5a711d3.png",
+    "static/media/nanui.png": "/client-ui/static/media/nanui.810b077d51b5a68af916.png",
+    "static/media/logo.png": "/client-ui/static/media/logo.5dcf1774531c00422c25.png",
+    "static/media/system-borderless-style.png": "/client-ui/static/media/system-borderless-style.7170c5398fb5e976e6ae.png",
+    "static/media/system-style.png": "/client-ui/static/media/system-style.d67010133c108029b109.png",
+    "static/media/borderless-style.png": "/client-ui/static/media/borderless-style.f984d56c9b0ebd0c63a6.png",
+    "static/media/about.svg": "/client-ui/static/media/about.0b39cabce2d0c9d11278bc52f303e1ec.svg",
+    "static/media/license.svg": "/client-ui/static/media/license.9d9ef4e524d95f797f7378dc911cdbb2.svg",
+    "static/media/js.svg": "/client-ui/static/media/js.2385a9ba5e1829a6c52f978bf6e4a5f7.svg",
+    "static/media/iconfont.eot": "/client-ui/static/media/iconfont.06dba4d0032f56b7e384.eot",
+    "static/media/iconfont.ttf": "/client-ui/static/media/iconfont.1aa22223408fdabd3581.ttf",
+    "static/media/iconfont.svg": "/client-ui/static/media/iconfont.19731cc8bad1889002e4.svg",
+    "static/media/main.svg": "/client-ui/static/media/main.d804fd77fa262af1a4f1911fae1c83ab.svg",
+    "static/media/iconfont.woff": "/client-ui/static/media/iconfont.6b4b1cfca7913616cfcb.woff",
+    "static/media/resource.svg": "/client-ui/static/media/resource.3d50dbd0bac24352ac6d7cb3ea0ca9a5.svg",
+    "static/media/iconfont.woff2": "/client-ui/static/media/iconfont.7d4648fcfa3062133c0d.woff2",
+    "static/media/devtools.svg": "/client-ui/static/media/devtools.e0382a9a3ad917bb31022787127d59a7.svg",
+    "index.html": "/client-ui/index.html",
+    "static/media/window.svg": "/client-ui/static/media/window.aa79edc44b24daca20e5caba7bfd27ad.svg"
+  },
+  "entrypoints": [
+    "static/js/main.bundle.08a7bf86.js",
+    "static/css/main.b8355804.css"
+  ]
+}

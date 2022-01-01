@@ -70,13 +70,19 @@ NanUI 基于谷歌可嵌入的浏览器框架 Chromium Embedded Framework (CEF)�
 
 在项目源代码中包括了一个综合性的展示项目 FormiumClient，您可以通过这个项目的源代码快速学习 NanUI 的相关知识并掌握如何使用 HTML/CSS/JavaScript 来创建您的 Windows 应用程序。
 
-- [formium-client-frontend](src/frontends/formium-client/)
+- [FormiumClientFrontends](src/Demo/FormiumClientFrontends/)
 
   示例项目的前端代码，使用了 ReactJS 编写。
+  
+  - [formium-client-ui](src/Demo/FormiumClientFrontends/formium-client-ui) - 示例程序的界面UI
+  - [startup-ui](src/Demo/FormiumClientFrontends/startup-ui) - 启动窗口的界面UI
+  - [window-styles-ui](src/Demo/FormiumClientFrontends/window-styles-ui) - 窗体样式示例中的各类型窗体的界面UI
 
-- [FormiumClient](src/Demos/FormiumClient/)
+  如果希望深入了解该前端项目您需要具备基础的 React 和 Webpack 技能；如果您只关心 JavaScript 与 NanUI 之间通信的实现方式，您只需查看[formium-client-ui\src\FormiumBridge.js](formium-client-ui\src\FormiumBridge.js)文件即可。
 
-  示例项目为您展示了 NanUI 的窗体类型、使用资源控制器加载资源以及使用 NanUI 与 JavaScript 进行通信的方式。
+- [FormiumClient](src/Demo/FormiumClient/)
+
+  示例项目的 .NET 实现，该项目展示了 NanUI 的窗体类型、使用资源控制器加载资源以及使用 NanUI 与 JavaScript 进行通信的方式。
 
 ### 其他示例
 
