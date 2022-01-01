@@ -14,7 +14,7 @@
 使用 JavaScriptValue 创建对象，可以为 JavaScriptValue 对象添加`属性`，`值`，`同步方法`，`异步方法`这几种数据类型。具体请看以下示例。
 
 ```C#
-var obj = new JavaScriptValueObject();
+var obj = new JavaScriptObject();
 
 //注册只读属性
 obj.DefineProperty("now", () => new JavaScriptValue(DateTime.Now));
