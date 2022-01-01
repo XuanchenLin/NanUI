@@ -20,7 +20,7 @@ And NanUI's JavaScript Bridge can facilitate communication and data exchange bet
 
 Using NanUI will bring unlimited possibilities for your WinForms application development work!
 
-![Formium Client](docs/images/formium-client-preview-enUS.png)
+![Formium Client](docs/images/formium-client-preview-zhCN.png)
 
 
 **If you like NanUI project, please light up a star⭐ for this project!**
@@ -62,9 +62,15 @@ If you want to learn more about NanUI or want to use NanUI for development work 
 
 A comprehensive demonstration project, FormiumClient, is included in the project source code. Through the source code of this project, you can quickly learn the relevant knowledge of NanUI and master how to use HTML/CSS/JavaScript to create your Windows applications.
 
-- [formium-client-frontend](src/frontends/formium-client/)
+- [formium-client-frontend][FormiumClientFrontends](src/Demo/FormiumClientFrontends/)
 
    The front-end code of the sample project is written in ReactJS.
+
+   - [formium-client-ui](src/Demo/FormiumClientFrontends/formium-client-ui) - 示例程序的界面UI
+  - [startup-ui](src/Demo/FormiumClientFrontends/startup-ui) - 启动窗口的界面UI
+  - [window-styles-ui](src/Demo/FormiumClientFrontends/window-styles-ui) - 窗体样式示例中的各类型窗体的界面UI
+
+  If you want to learn more about the front-end project, you need to have basic React and Webpack skills; if you only care about the implementation of the communication between JavaScript and NanUI, you only need to view [formium-client-ui\src\FormiumBridge.js](formium -client-ui\src\FormiumBridge.js) file.
 
 - [FormiumClient](src/Demos/FormiumClient/)
 
