@@ -15,6 +15,9 @@ jobs:
       - name: Setup MSBuild
         id: setup_msbuild
         uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: '[17.0,18.0)'
+          vs-prerelease: true
 
       - name: Checkout repository
         id: checkout_repo
