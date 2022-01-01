@@ -4,16 +4,18 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   ci:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       # Install the .NET Core workload
       - name: Install .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "6.0.x"
-
+          
+      - name: Get .NET information
+        run: dotnet --info
+        
       - name: Setup MSBuild
-        id: setup_msbuild
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[17.0,18.0)'
