@@ -150,6 +150,9 @@
   <data name="JSDialog.YesButton" xml:space="preserve">
     <value>是</value>
   </data>
+  <data name="Runtime.CefNotFound" xml:space="preserve">
+    <value>未找到 CEF 支持文件。</value>
+  </data>
   <data name="SystemMenu.About" xml:space="preserve">
     <value>关于(&amp;A)...</value>
   </data>

@@ -150,6 +150,9 @@
   <data name="JSDialog.YesButton" xml:space="preserve">
     <value>&amp;Yes</value>
   </data>
+  <data name="Runtime.CefNotFound" xml:space="preserve">
+    <value>The CEF binary files are not found.</value>
+  </data>
   <data name="SystemMenu.About" xml:space="preserve">
     <value>&amp;About</value>
   </data>
