@@ -160,6 +160,15 @@ namespace NetDimension.NanUI.Resources {
         }
         
         /// <summary>
+        ///   查找类似 未找到 CEF 支持文件。 的本地化字符串。
+        /// </summary>
+        internal static string Runtime_CefNotFound {
+            get {
+                return ResourceManager.GetString("Runtime.CefNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关于(&amp;A)... 的本地化字符串。
         /// </summary>
         internal static string SystemMenu_About {

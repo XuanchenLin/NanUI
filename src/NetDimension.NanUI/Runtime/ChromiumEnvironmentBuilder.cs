@@ -258,7 +258,7 @@ public sealed class ChromiumEnvironmentBuilder
 
             if (string.IsNullOrEmpty(_libCefDir) || string.IsNullOrEmpty(_resourceDir))
             {
-                throw new DirectoryNotFoundException("The CEF binary files are not found.");
+                throw new DirectoryNotFoundException(Resources.Messages.Runtime_CefNotFound);
             }
         }
 

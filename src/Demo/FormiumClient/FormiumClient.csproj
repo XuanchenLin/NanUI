@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0-windows;net48;</TargetFrameworks>
+        <TargetFrameworks>net472;</TargetFrameworks>
         <LangVersion>10.0</LangVersion>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
@@ -18,15 +18,11 @@
         <ProjectReference Include="..\..\NetDimension.NanUI\NetDimension.NanUI.csproj" />
     </ItemGroup>
 
-
-
     <ItemGroup>
       <None Update="LocalFiles\**\*">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
-
-
 
     <ItemGroup>
       <Compile Update="Properties\Resources.Designer.cs">
@@ -35,8 +31,6 @@
         <DependentUpon>Resources.resx</DependentUpon>
       </Compile>
     </ItemGroup>
-
-
 
     <ItemGroup>
       <EmbeddedResource Update="Properties\Resources.resx">
@@ -55,6 +49,10 @@
 
     <ItemGroup>
       <Content Include="Resources\AppIcon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NetDimension.NanUI.Runtime" Version="90.6.7.1" />
     </ItemGroup>
 
 </Project>
