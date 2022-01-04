@@ -12,7 +12,7 @@
 
 https://github.com/NetDimension/NanUI/
 
-https://gitee.com/linxuanchen/NanUI/
+https://gitee.com/dotNetChina/NanUI/
 
 ---
 
