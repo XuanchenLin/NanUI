@@ -11,7 +11,7 @@
         <PackageId>FormiumClient</PackageId>
         <Product>NanUI FormiumClient</Product>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>x86</PlatformTarget>
         <Nullable>warnings</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <Platforms>AnyCPU;x64;x86</Platforms>
@@ -56,6 +56,10 @@
 
     <ItemGroup>
       <PackageReference Include="NetDimension.NanUI.Runtime" Version="90.6.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\PublishProfiles\" />
     </ItemGroup>
 
 </Project>

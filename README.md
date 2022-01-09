@@ -84,6 +84,11 @@ NanUI 基于谷歌可嵌入的浏览器框架 Chromium Embedded Framework (CEF)�
 
   示例项目的 .NET 实现，该项目展示了 NanUI 的窗体类型、使用资源控制器加载资源以及使用 NanUI 与 JavaScript 进行通信的方式。
 
+此外，您可以通过百度网盘下载编译好的 NanUI 示例项目进行实际体验。网盘地址：
+
+链接: https://pan.baidu.com/s/11S6iXZBtLv1NdtmzMZyTsQ 
+提取码: `v351`
+
 ### 其他示例
 
 您还可以从下述仓库下载 NanUI 的其他示例程序源代码。
@@ -125,3 +130,11 @@ NanUI 是基于 MIT 协议的开源项目，它是完全免费的。尽管如此
 海外用户请通过点击下方图标连接到 PayPal 平台进行捐助
 
 [![DONATE](docs/images/paypal.png)](https://www.paypal.me/mrjson)
+
+### 特别赞助
+
+一次性赞助 NanUI 项目 ￥399.00 元可获取 CEF 商业视频编码（h264/aac）播放定制编译包（含32位/64位）。
+
+赞助地址：
+
+https://x-x.fun/i/GI032e3efbYVK
