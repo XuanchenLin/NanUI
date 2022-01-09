@@ -106,10 +106,10 @@ public sealed class ChromiumEnvironmentBuilder
 
         var searchPaths = new string[]
         {
+                Path.Combine(WinFormium.CommonCefRuntimeDirectory, WinFormium.PlatformArchitecture.ToString()),
                 WinFormium.ApplicationRunningDirectory,
                 Path.Combine(WinFormium.ApplicationRunningDirectory, WinFormium.PlatformArchitecture.ToString()),
                 Path.Combine(WinFormium.ApplicationRunningDirectory, DEFAULT_CEF_DIR, WinFormium.PlatformArchitecture.ToString()),
-                Path.Combine(WinFormium.CommonCefRuntimeDirectory, WinFormium.PlatformArchitecture.ToString()),
         };
 
         foreach (var path in searchPaths)

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net472;</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows;net472;</TargetFrameworks>
         <LangVersion>10.0</LangVersion>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
@@ -9,9 +9,12 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AssemblyName>NanUI Formium Demo Client</AssemblyName>
         <PackageId>FormiumClient</PackageId>
-        <Product>UI FormiumClient</Product>
+        <Product>NanUI FormiumClient</Product>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-        <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>x86</PlatformTarget>
+        <Nullable>warnings</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Platforms>AnyCPU;x64;x86</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
@@ -53,6 +56,10 @@
 
     <ItemGroup>
       <PackageReference Include="NetDimension.NanUI.Runtime" Version="90.6.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\PublishProfiles\" />
     </ItemGroup>
 
 </Project>
