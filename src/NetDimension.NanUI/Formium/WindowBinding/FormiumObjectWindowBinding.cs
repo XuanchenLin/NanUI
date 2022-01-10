@@ -306,7 +306,7 @@ class FormiumObjectWindowBinding : JavaScriptWindowBindingObject
 
             if (scr != null)
             {
-                owner.Location = new Point(scr.WorkingArea.Width / 2 - owner.Width / 2, scr.WorkingArea.Height - owner.Height / 2);
+                owner.Location = new Point(scr.WorkingArea.Left + (scr.WorkingArea.Width - owner.Width) / 2, scr.WorkingArea.Top + (scr.WorkingArea.Height - owner.Height) / 2);
             }
         });
 
