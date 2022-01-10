@@ -25,7 +25,7 @@ internal sealed class JavaScriptPipeServer : IDisposable
     {
         while (!CancellationToken.IsCancellationRequested)
         {
-            var pipe = new NamedPipeServerStream(_pipeName, PipeDirection.InOut, 254, PipeTransmissionMode.Message, PipeOptions.Asynchronous | PipeOptions.WriteThrough, BUFFER_SIZE, BUFFER_SIZE);
+            var pipe = new NamedPipeServerStream(_pipeName, PipeDirection.InOut, NamedPipeServerStream.MaxAllowedServerInstances, PipeTransmissionMode.Message, PipeOptions.WriteThrough, BUFFER_SIZE, BUFFER_SIZE);
 
             await pipe.WaitForConnectionAsync(CancellationToken);
 
@@ -107,6 +107,7 @@ internal sealed class JavaScriptPipeServer : IDisposable
                 finally
                 {
                     pipe.Disconnect();
+                    pipe.Dispose();
                 }
             }
             catch (Exception ex)
