@@ -185,8 +185,40 @@ partial class Formium
                 _windowLastState = FormHostWindow.WindowState;
             }
 
-            sb.AppendLine($"if(typeof {JS_EVENT_RAISER_NAME} !== 'undefined') {JS_EVENT_RAISER_NAME}(`hostsizechanged`, {{ width:{rect.Width}, height:{rect.Height} }});");
+           
 
+            sb.AppendLine("})();");
+
+            if (IsWebViewReady)
+            {
+                ExecuteJavaScript(sb.ToString());
+            }
+            else
+            {
+                DelayedScripts["hostresize"] = sb.ToString();
+            }
+
+        };
+
+        FormHostWindow.SizeChanged += (_, e) => {
+            RECT rect;
+
+
+            var isMaximized = User32.IsZoomed(HostWindowHandle);
+
+            if (isMaximized)
+            {
+                User32.GetClientRect(HostWindowHandle, out rect);
+            }
+            else
+            {
+                User32.GetWindowRect(HostWindowHandle, out rect);
+            }
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("(function(){");
+            sb.AppendLine($"if(typeof {JS_EVENT_RAISER_NAME} !== 'undefined') {JS_EVENT_RAISER_NAME}(`hostsizechanged`, {{ width:{rect.Width}, height:{rect.Height} }});");
             sb.AppendLine("})();");
 
             if (IsWebViewReady)
@@ -197,7 +229,6 @@ partial class Formium
             {
                 DelayedScripts["hostsizechanged"] = sb.ToString();
             }
-
         };
 
         FormHostWindow.Move += (_, e) =>
@@ -206,8 +237,17 @@ partial class Formium
             var sb = new StringBuilder();
 
             sb.AppendLine("(function(){");
-            sb.AppendLine($"if(typeof {JS_EVENT_RAISER_NAME} !== 'undefined') {JS_EVENT_RAISER_NAME}(`hostpositionchanged`, {{ left:{rect.left}, top:{rect.top}, right:{rect.right }, bottom:{rect.bottom}, width:{rect.Width}, height:{rect.Height});");
+            sb.AppendLine($"if(typeof {JS_EVENT_RAISER_NAME} !== 'undefined') {JS_EVENT_RAISER_NAME}(`hostpositionchanged`, {{ left:{rect.left}, top:{rect.top}, right:{rect.right }, bottom:{rect.bottom}, width:{rect.Width}, height:{rect.Height}}});");
             sb.AppendLine("})();");
+
+            if (IsWebViewReady)
+            {
+                ExecuteJavaScript(sb.ToString());
+            }
+            else
+            {
+                DelayedScripts["hostsizechanged"] = sb.ToString();
+            }
 
         };
     }
