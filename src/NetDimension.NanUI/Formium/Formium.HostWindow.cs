@@ -153,11 +153,8 @@ partial class Formium
         get => FormHostWindow?.Location ?? _location ?? Point.Empty;
         set
         {
-            if (value != _location)
-            {
-                _location = value;
-                OnLocationChanged();
-            }
+            _location = value;
+            OnLocationChanged();
         }
     }
 
@@ -777,7 +774,13 @@ partial class Formium
     html && html.classList.remove(`{FORMIUM_DEACTIVATE}`);    
     html && html.classList.add(`{FORMIUM_ACTIVATED}`);
 
+if(typeof {JS_EVENT_RAISER_NAME} === 'undefined') return;
+
+{JS_EVENT_RAISER_NAME} && {JS_EVENT_RAISER_NAME}(""appactivated"", {{}});
+{JS_EVENT_RAISER_NAME} && {JS_EVENT_RAISER_NAME}(""appactivatestatechange"", {{ activated: true }});
+
 }})();");
+
             }
             else
             {
@@ -787,6 +790,11 @@ partial class Formium
 
     html && html.classList.add(`{FORMIUM_DEACTIVATE}`);    
     html && html.classList.remove(`{FORMIUM_ACTIVATED}`);
+
+if(typeof {JS_EVENT_RAISER_NAME} === 'undefined') return;
+
+{JS_EVENT_RAISER_NAME} && {JS_EVENT_RAISER_NAME}(""appdeactivate"", {{}});
+{JS_EVENT_RAISER_NAME} && {JS_EVENT_RAISER_NAME}(""appactivatestatechange"", {{ activated: false }});
 
 }})();");
             }
