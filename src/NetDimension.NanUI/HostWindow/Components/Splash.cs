@@ -140,6 +140,16 @@ public sealed class Splash
         }
     }
 
+    public void Show()
+    {
+        ShowPanel();
+    }
+
+    public void Hide()
+    {
+        HidePanel();
+    }
+
     internal void ShowPanel()
     {
         Panel.BringToFront();
