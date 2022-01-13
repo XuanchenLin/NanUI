@@ -84,6 +84,8 @@ class MainWindow : Formium
 
         SplashScreen.Content.Add(loaderGif);
 
+        
+
         // 特别提示：如果使用SystemBorderless样式，请勿将此属性设置为null。
         // 因为DWM渲染机制，如果图片为空那么整个Panel都将停止渲染，所以这里使用一张透明的png图片来骗过DWM。
 
