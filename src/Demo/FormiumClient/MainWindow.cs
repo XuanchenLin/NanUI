@@ -1,19 +1,8 @@
+using System.Reflection;
+
 using NetDimension.NanUI;
-using NetDimension.NanUI.Browser;
-using NetDimension.NanUI.Browser.ResourceHandler;
 using NetDimension.NanUI.HostWindow;
 using NetDimension.NanUI.JavaScript;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Xilium.CefGlue;
 
 namespace FormiumClient;
 
@@ -134,23 +123,6 @@ class MainWindow : Formium
         ShowDevTools();
 
         
-    }
-
-    protected override void OnGetResourceRequestHandler(GetResourceRequestHandlerEventArgs e)
-    {
-        //var uri = new Uri(e.Request.Url);
-        //if(uri.LocalPath == "/api/test") // <--- 设置拦截器
-        //{
-        //    e.DisableDefaultHandling = true;
-
-        //    e.Handler = new MyRequestHandler(); ;
-
-        //    return;
-        //}
-
-        e.Handler = new MyRequestHandler();
-
-        base.OnGetResourceRequestHandler(e);
     }
 
     #region Events
@@ -532,104 +504,3 @@ return {
     #endregion
 }
 
-class MyCookieFilter : CefCookieAccessFilter
-{
-    protected override bool CanSaveCookie(CefBrowser browser, CefFrame frame, CefRequest request, CefResponse response, CefCookie cookie)
-    {
-        return true;
-    }
-
-    protected override bool CanSendCookie(CefBrowser browser, CefFrame frame, CefRequest request, CefCookie cookie)
-    {
-        return true;
-    }
-
-}
-
-class MyRequestHandler : CefResourceRequestHandler
-{
-    protected override CefCookieAccessFilter GetCookieAccessFilter(CefBrowser browser, CefFrame frame, CefRequest request)
-    {
-        return new MyCookieFilter();
-    }
-        //protected override CefResourceHandler GetResourceHandler(CefBrowser browser, CefFrame frame, CefRequest request)
-    //{
-    //    var handler = new MyResourceHandler(); // <------------ 拦截请求，用自定义的资源控制器替换。
-
-    //    return handler; 
-
-
-    //    //return base.GetResourceHandler(browser, frame, request);
-    //}
-
-    protected override CefResponseFilter GetResourceResponseFilter(CefBrowser browser, CefFrame frame, CefRequest request, CefResponse response)
-    {
-        return new MyFilter();
-    }
-
-}
-class MyFilter : CefResponseFilter
-{
-    MemoryStream memoryStream;
-    protected override CefResponseFilterStatus Filter(UnmanagedMemoryStream dataIn, long dataInSize, out long dataInRead, UnmanagedMemoryStream dataOut, long dataOutSize, out long dataOutWritten)
-    {
-        if (dataIn == null)
-        {
-            dataInRead = 0;
-            dataOutWritten = 0;
-
-            return CefResponseFilterStatus.Done;
-        }
-
-        dataInRead = dataIn.Length;
-        dataOutWritten = Math.Min(dataInRead, dataOutSize);
-
-        dataIn.CopyTo(dataOut);
-
-
-
-        dataIn.Position = 0;
-        dataIn.CopyTo(memoryStream);
-
-        //var buff = memoryStream.ToArray();
-
-        ////var str = Encoding.UTF8.GetString(buff);
-
-        //Debug.WriteLine(BitConverter.ToString(buff));
-
-        return CefResponseFilterStatus.Done;
-    }
-
-    protected override bool InitFilter()
-    {
-        memoryStream = new MemoryStream();
-        return true;
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            memoryStream?.Dispose();
-            memoryStream = null;
-        }
-        base.Dispose(disposing);
-
-
-    }
-}
-
-class MyResourceHandler : ResourceHandlerBase
-{
-    protected override ResourceResponse GetResourceResponse(ResourceRequest request)
-    {
-        var response = new ResourceResponse(request);
-
-        response.Content(JsonConvert.SerializeObject(new {
-            Text = "Hello",
-            Parameters = "World"
-        }, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }), CefRuntime.GetMimeType("json"));
-
-        return response; // <---- 返回自定义资源
-    }
-}

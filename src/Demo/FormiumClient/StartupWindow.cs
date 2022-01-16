@@ -1,12 +1,6 @@
-﻿using NetDimension.NanUI;
+using NetDimension.NanUI;
 using NetDimension.NanUI.HostWindow;
 using NetDimension.NanUI.JavaScript;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FormiumClient;
 
@@ -42,6 +36,6 @@ internal class StartupWindow : Formium
             return null;
         }));
 
-        RegisterJavaScriptObject("launcher",jsObject);
+        RegisterJavaScriptObject("launcher", jsObject);
     }
 }
