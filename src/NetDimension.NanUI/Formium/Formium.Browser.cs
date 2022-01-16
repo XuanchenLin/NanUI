@@ -1,6 +1,9 @@
 using NetDimension.NanUI.Browser;
+
 using Vanara.PInvoke;
+
 using Xilium.CefGlue;
+
 using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI;
@@ -217,7 +220,8 @@ partial class Formium
 
     internal bool BrowserWmLButtonDown(ref Message m)
     {
-        if (FullScreen) return false;
+        if (FullScreen)
+            return false;
 
         var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
 
@@ -360,7 +364,7 @@ partial class Formium
         var args = new DataMessageReceivedArgs(message, json);
         DataMessageReceived?.Invoke(this, args);
     }
-    
+
     /// <summary>
     /// Send empty message to client.
     /// </summary>
@@ -566,33 +570,41 @@ partial class Formium
     /// </summary>
     public void ShowDevTools()
     {
-
-        if (WebView.BrowserHost == null)
+        InvokeIfRequired(() =>
         {
-            return;
-        }
 
-        var windowInfo = CefWindowInfo.Create();
+            if (WebView.BrowserHost == null)
+            {
+                return;
+            }
 
-
-        if(devToolsWindow ==null || devToolsWindow.IsDisposed)
-        {
-            devToolsWindow = new DevToolsHostWindow(this);
-        }
+            var windowInfo = CefWindowInfo.Create();
 
 
+            if (devToolsWindow == null || devToolsWindow.IsDisposed)
+            {
+                devToolsWindow = new DevToolsHostWindow(this);
+            }
 
-        GetClientRect(devToolsWindow.Handle, out var rect);
 
-        windowInfo.SetAsChild(devToolsWindow.Handle, new CefRectangle(0, 0, rect.Width, rect.Height));
 
-        WebView.BrowserHost.ShowDevTools(windowInfo, new DevToolsBrowserClient(devToolsWindow), new CefBrowserSettings(), new CefPoint(0, 0));
+            GetClientRect(devToolsWindow.Handle, out var rect);
 
-        if (!devToolsWindow.Visible)
-        {
-            devToolsWindow.Show();
+            windowInfo.SetAsChild(devToolsWindow.Handle, new CefRectangle(0, 0, rect.Width, rect.Height));
 
-        }
+            WebView.BrowserHost.ShowDevTools(windowInfo, new DevToolsBrowserClient(devToolsWindow), new CefBrowserSettings(), new CefPoint(0, 0));
+
+            if (!devToolsWindow.Visible)
+            {
+                devToolsWindow.Show();
+
+            }
+        });
+    }
+
+    public void CloseDevTools()
+    {
+        WebView.BrowserHost.CloseDevTools();
     }
 
 
