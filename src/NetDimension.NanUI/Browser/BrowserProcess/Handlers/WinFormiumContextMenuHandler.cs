@@ -1,4 +1,4 @@
-﻿using Vanara.PInvoke;
+using Vanara.PInvoke;
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.Browser;
@@ -349,7 +349,7 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
 
         if (commandId == (int)ContextMenuHelper.MenuIdentifier.MENU_ID_HIDE_DEVTOOLS)
         {
-            _owner.WebView.BrowserHost.CloseDevTools();
+            _owner.CloseDevTools();
             return true;
         }
 

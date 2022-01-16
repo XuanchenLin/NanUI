@@ -119,9 +119,6 @@ class MainWindow : Formium
         // Register event handler when keyboard is pressed
         // 注册按键事件
         KeyEvent += MainWindow_KeyEvent;
-
-        ShowDevTools();
-
         
     }
 
