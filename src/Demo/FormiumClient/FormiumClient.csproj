@@ -11,7 +11,7 @@
         <PackageId>FormiumClient</PackageId>
         <Product>NanUI FormiumClient</Product>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-        <PlatformTarget>x86</PlatformTarget>
+        <PlatformTarget>AnyCPU</PlatformTarget>
         <Nullable>warnings</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <Platforms>AnyCPU;x64;x86</Platforms>

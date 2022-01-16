@@ -1,6 +1,4 @@
 using NetDimension.NanUI;
-using System.Windows.Forms;
-using Xilium.CefGlue;
 
 namespace FormiumClient;
 
@@ -14,18 +12,18 @@ public static class Program
 #if NETCOREAPP3_1_OR_GREATER
         Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 #endif
-        
+
         // *************** DO NOT WRITE ANY CODES HERE ***************
 
         // Warning: Do not write business-related code before or after CreateRuntimeBuilder. Writing business logic here due to the multi-process architecture of CEF will cause your business logic to be executed multiple times.
-        // ¾¯¸æ: ÇëÎğÔÚ CreateRuntimeBuilder Ö®Ç°»òÖ®ºó±àĞ´ÒµÎñÏà¹ØµÄ´úÂë£¬ÓÉÓÚ CEF µÄ¶à½ø³Ì¼Ü¹¹ÔÚ´Ë´¦±àĞ´ÒµÎñÂß¼­½«µ¼ÖÂÄúµÄÒµÎñÂß¼­±»¶à´ÎÖ´ĞĞ¡£
+        // è­¦å‘Š: è¯·å‹¿åœ¨ CreateRuntimeBuilder ä¹‹å‰æˆ–ä¹‹åç¼–å†™ä¸šåŠ¡ç›¸å…³çš„ä»£ç ï¼Œç”±äº CEF çš„å¤šè¿›ç¨‹æ¶æ„åœ¨æ­¤å¤„ç¼–å†™ä¸šåŠ¡é€»è¾‘å°†å¯¼è‡´æ‚¨çš„ä¸šåŠ¡é€»è¾‘è¢«å¤šæ¬¡æ‰§è¡Œã€‚
 
         WinFormium.CreateRuntimeBuilder(buildChromiumEnvironment: env =>
         {
             env.CustomCefCommandLineArguments(args =>
             {
                 // Configure CEF command line switches arugments here.
-                // ÔÚ´ËÅäÖÃ CEF µÄÃüÁîĞĞÖ¸ÁîºÍ²ÎÊı
+                // åœ¨æ­¤é…ç½® CEF çš„å‘½ä»¤è¡ŒæŒ‡ä»¤å’Œå‚æ•°
 
                 args.AppendSwitch("ignore-certificate-errors");
                 args.AppendSwitch("disable-web-security");
@@ -38,14 +36,14 @@ public static class Program
             env.CustomCefSettings(settings =>
             {
                 // Configure default Cef settings here.
-                // ÔÚ´ËÅäÖÃ CEF Ä¬ÈÏÉèÖÃ
+                // åœ¨æ­¤é…ç½® CEF é»˜è®¤è®¾ç½®
 
             });
 
             env.CustomDefaultBrowserSettings(cefSettings =>
             {
                 // Configure default browser settings here.
-                // ÔÚ´ËÅäÖÃä¯ÀÀÆ÷Ä¬ÈÏÉèÖÃ
+                // åœ¨æ­¤é…ç½®æµè§ˆå™¨é»˜è®¤è®¾ç½®
             });
 
         }, buildApplicationConfiguration: app =>
@@ -60,16 +58,17 @@ public static class Program
             });
 
             // Register LocalFileResource handler which can handle the file resources in local folder.
-            // Ê¹ÓÃ LocalFileResource ×¢²á±¾µØÎÄ¼ş×ÊÔ´£¬²¢½«±¾µØÎÄ¼ş¼ĞÄÚµÄÎÄ¼ş¼°Ä¿Â¼½á¹¹Ó³Éäµ½ http://static.app.local ÓòÃûÏÂ¡£
+            // ä½¿ç”¨ LocalFileResource æ³¨å†Œæœ¬åœ°æ–‡ä»¶èµ„æºï¼Œå¹¶å°†æœ¬åœ°æ–‡ä»¶å¤¹å†…çš„æ–‡ä»¶åŠç›®å½•ç»“æ„æ˜ å°„åˆ° http://static.app.local åŸŸåä¸‹ã€‚
             app.UseLocalFileResource("http", "static.app.local", System.IO.Path.Combine(Application.StartupPath, "LocalFiles"));
 
             // Register DataServiceResource handler which can process http request and return data to response. It will find all DataServices in current assembly automatically or you can indicate where to find the DataServices by using the third parameter.
-            // ×¢²áÊı¾İ×ÊÔ´¿ØÖÆÆ÷£¬ËüÄÜ´¦ÀíÇ°¶ËµÄhttpÇëÇó²¢·µ»ØÏàÓ¦½á¹û¡£DataServiceResource»á×Ô¶¯É¨Ãè²¢×¢²á³ÌĞò¼¯ÄÚµÄÊı¾İ·şÎñ£¬ÄúÒ²¿ÉÒÔÊÖ¶¯Ö¸¶¨Êı¾İ·şÎñËùÔÚµÄÎ»ÖÃ¡£
-            app.UseDataServiceResource("http", "api.app.local"); ;
+            // æ³¨å†Œæ•°æ®èµ„æºæ§åˆ¶å™¨ï¼Œå®ƒèƒ½å¤„ç†å‰ç«¯çš„httpè¯·æ±‚å¹¶è¿”å›ç›¸åº”ç»“æœã€‚DataServiceResourceä¼šè‡ªåŠ¨æ‰«æå¹¶æ³¨å†Œç¨‹åºé›†å†…çš„æ•°æ®æœåŠ¡ï¼Œæ‚¨ä¹Ÿå¯ä»¥æ‰‹åŠ¨æŒ‡å®šæ•°æ®æœåŠ¡æ‰€åœ¨çš„ä½ç½®ã€‚
+            app.UseDataServiceResource("http", "api.app.local");
+            ;
 
 #if DEBUG
             // Specify whether to enable debugging mode.
-            // Ö¸¶¨ÊÇ·ñ¿ªÆôµ÷ÊÔÄ£Ê½¡£
+            // æŒ‡å®šæ˜¯å¦å¼€å¯è°ƒè¯•æ¨¡å¼ã€‚
             app.UseDebuggingMode();
 #endif
 
@@ -77,7 +76,7 @@ public static class Program
 
 
             // Open the main form and start the message loop.
-            // ´ò¿ªÖ÷´°Ìå²¢¿ªÊ¼ÏûÏ¢Ñ­»·¡£
+            // æ‰“å¼€ä¸»çª—ä½“å¹¶å¼€å§‹æ¶ˆæ¯å¾ªç¯ã€‚
             app.UseMainWindow(context =>
             {
                 var startupWin = new StartupWindow();
@@ -96,7 +95,7 @@ public static class Program
         .Run();
 
         // Warning: Do not write business-related code before or after CreateRuntimeBuilder. Writing business logic here due to the multi-process architecture of CEF will cause your business logic to be executed multiple times.
-        // ¾¯¸æ: ÇëÎğÔÚ CreateRuntimeBuilder Ö®Ç°»òÖ®ºó±àĞ´ÒµÎñÏà¹ØµÄ´úÂë£¬ÓÉÓÚ CEF µÄ¶à½ø³Ì¼Ü¹¹ÔÚ´Ë´¦±àĞ´ÒµÎñÂß¼­½«µ¼ÖÂÄúµÄÒµÎñÂß¼­±»¶à´ÎÖ´ĞĞ¡£
+        // è­¦å‘Š: è¯·å‹¿åœ¨ CreateRuntimeBuilder ä¹‹å‰æˆ–ä¹‹åç¼–å†™ä¸šåŠ¡ç›¸å…³çš„ä»£ç ï¼Œç”±äº CEF çš„å¤šè¿›ç¨‹æ¶æ„åœ¨æ­¤å¤„ç¼–å†™ä¸šåŠ¡é€»è¾‘å°†å¯¼è‡´æ‚¨çš„ä¸šåŠ¡é€»è¾‘è¢«å¤šæ¬¡æ‰§è¡Œã€‚
 
         // *************** DO NOT WRITE ANY CODES HERE ***************
     }

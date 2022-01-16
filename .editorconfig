@@ -9,8 +9,10 @@ csharp_style_var_when_type_is_apparent=true:warning
 csharp_style_var_elsewhere=true:suggestion
 csharp_prefer_braces=true:suggestion
 csharp_using_directive_placement=outside_namespace:silent
+insert_final_newline=true
 
 
 [*.{cs,vb}]
 end_of_line=lf
 dotnet_style_require_accessibility_modifiers=for_non_interface_members:suggestion
+charset = utf-8

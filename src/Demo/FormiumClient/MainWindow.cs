@@ -1,12 +1,8 @@
+using System.Reflection;
+
 using NetDimension.NanUI;
 using NetDimension.NanUI.HostWindow;
 using NetDimension.NanUI.JavaScript;
-using System;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FormiumClient;
 
@@ -123,6 +119,10 @@ class MainWindow : Formium
         // Register event handler when keyboard is pressed
         // 注册按键事件
         KeyEvent += MainWindow_KeyEvent;
+
+        ShowDevTools();
+
+        
     }
 
     #region Events
@@ -503,3 +503,4 @@ return {
 
     #endregion
 }
+
