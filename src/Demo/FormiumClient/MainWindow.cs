@@ -80,7 +80,7 @@ class MainWindow : Formium
 
         SplashScreen.Content.Add(loaderGif);
 
-        
+
 
         // 特别提示：如果使用SystemBorderless样式，请勿将此属性设置为null。
         // 因为DWM渲染机制，如果图片为空那么整个Panel都将停止渲染，所以这里使用一张透明的png图片来骗过DWM。
@@ -94,7 +94,7 @@ class MainWindow : Formium
         // Example of registering JavaScript objects
         // 测试JavaScript对象注册
         TestRegisterJavaScriptObject();
-        
+
         // Register JavaScript object and methods for this window.
         RegisterDemoWindowObject();
 
@@ -119,7 +119,7 @@ class MainWindow : Formium
         // Register event handler when keyboard is pressed
         // 注册按键事件
         KeyEvent += MainWindow_KeyEvent;
-        
+
     }
 
     #region Events
@@ -181,13 +181,22 @@ class MainWindow : Formium
     #region JavaScript Examples
     private async void TestEvaluateJavaScriptAsync()
     {
+        // Create a JavaScript Object
+        // 创建 JS 对象
         var fobj = new JavaScriptObject();
 
-        fobj.DefineProperty("test", () => new JavaScriptValue(Title), (v) =>
-        {
-            InvokeIfRequired(() => MessageBox.Show(WindowHWND, $"JavaScript Result: {v.GetString()}", "JavaScript"));
-        });
+        // Define a property to JavaScript Object
+        // 在 JS 对象上定义一个属性
+        fobj.DefineProperty("test",
+            () => new JavaScriptValue(Title),
+            (v) =>
+            {
+                InvokeIfRequired(() => MessageBox.Show(WindowHWND, $"JavaScript Result: {v.GetString()}", "JavaScript"));
+            }
+        );
 
+        // Execute JavaScript with return code
+        // 执行带有返回结果的 JS 代码
         var retval = await EvaluateJavaScriptAsync(@"
 (function() { 
 return { 
@@ -207,13 +216,16 @@ return {
 }; 
 })()");
 
+        // The return value of JavaScript above
+        // 上面 JS 代码的返回值
         var obj = retval.Value.ToObject();
 
         var valueA = obj["a"].GetInt();
 
         var valueB = obj["b"].GetString();
 
-        InvokeIfRequired(() => {
+        InvokeIfRequired(() =>
+        {
             MessageBox.Show(WindowHWND, $"a={valueA} b={valueB}", "Value from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information);
         });
 
@@ -221,6 +233,7 @@ return {
 
         await obj["c"].ExecuteAsync(new JavaScriptValue("Goodbye World!"));
 
+        // Execute async function in the returned JavaScript object.
         // 执行异步方法
         var d1 = await obj["d"].ExecuteAsync(new JavaScriptAsyncFunction(async (args, promise) =>
         {
@@ -240,8 +253,11 @@ return {
         var f = await obj["f"].ExecuteAsync(fobj);
     }
 
+
     private void TestRegisterJavaScriptObject()
     {
+        // Create a JavaScript Object
+        // 创建 JS 对象
         var pObj = new JavaScriptObject();
 
         pObj.DefineProperty("title", () => new JavaScriptValue(Title), (v) =>
@@ -304,6 +320,9 @@ return {
             }
         });
 
+
+        // Register object in to JavaScript
+        // 把对象注册到 JS 环境
         RegisterJavaScriptObject("tester", pObj);
     }
     #endregion

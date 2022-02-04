@@ -278,7 +278,7 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
     /// <summary>
     /// Register custom ResourceHandler
     /// </summary>
-    /// <param name="config"></param>
+    /// <param name="config">The configuration of resource scheme.</param>
     public void RegisterCustomResourceHandler(ResourceSchemeConfiguration config)
     {
         if (config == null)

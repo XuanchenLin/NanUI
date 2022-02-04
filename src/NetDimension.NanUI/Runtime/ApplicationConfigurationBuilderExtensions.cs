@@ -7,6 +7,12 @@ namespace NetDimension.NanUI;
 
 public static class ApplicationConfigurationBuilderExtensions
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <param name="path"></param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
     public static ApplicationConfigurationBuilder UseApplicationDataDirectory(this ApplicationConfigurationBuilder @this, string path)
     {
 
@@ -39,8 +45,11 @@ public static class ApplicationConfigurationBuilderExtensions
     }
 
     /// <summary>
-    /// Allows application just run one instance.
+    /// Sets the application runs only one instance.
     /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <param name="onProcessAlreadyExists">A delegate that handles when instance has been running.</param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
     public static ApplicationConfigurationBuilder UseSingleInstance(this ApplicationConfigurationBuilder @this, Action onProcessAlreadyExists = null)
     {
         @this.Use(builder =>
@@ -69,7 +78,11 @@ public static class ApplicationConfigurationBuilderExtensions
         return @this;
     }
 
-
+    /// <summary>
+    /// Clear the CEF cache file before the applicaiton started.
+    /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
     public static ApplicationConfigurationBuilder ClearCacheFile(this ApplicationConfigurationBuilder @this)
     {
         //const string CACHE_DIR = "Cache";
@@ -113,6 +126,12 @@ public static class ApplicationConfigurationBuilderExtensions
         return @this;
     }
 
+    /// <summary>
+    /// Use a custom resource handlder to handle the web resources.
+    /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <param name="getConfig">A delegate that configs the resource schemes.</param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
     public static ApplicationConfigurationBuilder UseCustomResourceHandler(this ApplicationConfigurationBuilder @this, Func<ResourceSchemeConfiguration> getConfig)
     {
         @this.Use(builder =>
@@ -129,6 +148,12 @@ public static class ApplicationConfigurationBuilderExtensions
         return @this;
     }
 
+    /// <summary>
+    /// Custom the options of resource handler.
+    /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <param name="setOptionAction">A delegate that configs the resource scheme options.</param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
     public static ApplicationConfigurationBuilder UseCustomResourceHandlerOptions(this ApplicationConfigurationBuilder @this, Action<ResourceSchemeOption> setOptionAction)
     {
         var options = @this.Container.GetInstance<ResourceSchemeOption>();
@@ -145,6 +170,13 @@ public static class ApplicationConfigurationBuilderExtensions
         return @this;
     }
 
+    /// <summary>
+    /// Register a JavaScript Window Binding Object.
+    /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <param name="registerJavaScriptWindowBinding">A delegate that configs the JavaScript Window Binding Object.</param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
+    /// <exception cref="ArgumentException">ArgumentException</exception>
     public static ApplicationConfigurationBuilder RegisterJavaScriptWindowBinding(this ApplicationConfigurationBuilder @this, Func<JavaScriptWindowBindingObject> registerJavaScriptWindowBinding)
     {
         @this.Use(builder =>

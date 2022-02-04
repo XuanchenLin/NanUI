@@ -49,6 +49,10 @@ public sealed class RuntimeBuilder
         _context.Properties[typeof(ApplicationConfiguration)] =  _appConfigBuilder.Build();
     }
 
+    /// <summary>
+    /// Build the WinFormium runtime.
+    /// </summary>
+    /// <returns>The WinFormium instance.</returns>
     public WinFormium Build()
     {
         ILogger logger;
