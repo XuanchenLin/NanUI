@@ -135,6 +135,18 @@ NanUI 是基于 MIT 协议的开源项目，它是完全免费的。尽管如此
 
 一次性赞助 NanUI 项目 ￥399.00 元可获取 CEF 商业视频编码（h264/aac）播放定制编译包（含32位/64位）。
 
-赞助地址：
+下载地址：
 
-https://x-x.fun/i/GI032e3efbYVK
+链接：https://pan.baidu.com/s/1e09wTZg2iSIKbrResVAlzg 
+
+提取码：`0990`
+
+解压密码：`******`
+
+---
+
+## 鸣谢
+
+特别感谢 [JetBrains](https://www.jetbrains.com/community/opensource/) 为本项目提供免费的全家桶!
+
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="128">
