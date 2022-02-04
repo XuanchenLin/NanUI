@@ -146,6 +146,11 @@ public sealed class ChromiumEnvironmentBuilder
         }
     }
 
+    /// <summary>
+    /// Handle the process if files of libcef are not found automatically.
+    /// </summary>
+    /// <param name="libCefNotFoundHanlder">A delegate that handles the process.</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder IfLibCefNotFound(Func<PlatformArchitecture, string> libCefNotFoundHanlder)
     {
         _ifLibCefNotFound.Add(libCefNotFoundHanlder);
@@ -153,12 +158,21 @@ public sealed class ChromiumEnvironmentBuilder
         return this;
     }
 
+    /// <summary>
+    /// Force the HighDpi support in CEF disabled.
+    /// </summary>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder ForceHighDpiSupportDisabled()
     {
         _forceHighDpiSupportDisabled = true;
         return this;
     }
 
+    /// <summary>
+    /// Use a custom location of CEF binary files.
+    /// </summary>
+    /// <param name="useCustomCefBinaryPaths">A delegate that handles the process.</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder UseCustomCefBinaryPath(Action<CefBinaryFilePathConfiguration> useCustomCefBinaryPaths)
     {
         if (_cefBinaryFilePaths == null)
@@ -174,6 +188,11 @@ public sealed class ChromiumEnvironmentBuilder
         return this;
     }
 
+    /// <summary>
+    /// Use a subprocess to run CEF processes.
+    /// </summary>
+    /// <param name="useExternalSubprocessConfiguration">A delegate that handles the process.</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder UseExternalSubprocess(Action<ExternalSubprocessConfiguration> useExternalSubprocessConfiguration)
     {
         if (_externalSubprocessConfiguration == null)
@@ -184,6 +203,11 @@ public sealed class ChromiumEnvironmentBuilder
         return this;
     }
 
+    /// <summary>
+    /// Custom the CommandLine arguments of CEF.
+    /// </summary>
+    /// <param name="configureCefCommandLineArguments">A delegate that handles the process.</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder CustomCefCommandLineArguments(Action<CefCommandLine> configureCefCommandLineArguments)
     {
         if (configureCefCommandLineArguments != null)
@@ -194,6 +218,11 @@ public sealed class ChromiumEnvironmentBuilder
         return this;
     }
 
+    /// <summary>
+    /// Custom the default settings of CEF.
+    /// </summary>
+    /// <param name="configureCefSettings">A delegate that handles the process.</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder CustomCefSettings(Action<CefSettings> configureCefSettings)
     {
         if (configureCefSettings != null)
@@ -203,6 +232,12 @@ public sealed class ChromiumEnvironmentBuilder
         return this;
     }
 
+
+    /// <summary>
+    /// Custom the default settings of CefBrowser.
+    /// </summary>
+    /// <param name="configureDefaultBrowserSettings">A delegate that handles the process.</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder CustomDefaultBrowserSettings(Action<CefBrowserSettings> configureDefaultBrowserSettings)
     {
         if (configureDefaultBrowserSettings != null)
@@ -212,6 +247,12 @@ public sealed class ChromiumEnvironmentBuilder
         return this;
     }
 
+    /// <summary>
+    /// Use a logger.
+    /// </summary>
+    /// <typeparam name="T">ILogger</typeparam>
+    /// <param name="logger">The instance that inherits ILogger</param>
+    /// <returns>The ChromiumEnvironmentBuilder instance.</returns>
     public ChromiumEnvironmentBuilder UseLogger<T>(ILogger logger = null) where T : ILogger
     {
 
@@ -294,6 +335,7 @@ public sealed class ChromiumEnvironmentBuilder
 
 public sealed class CefBinaryFilePathConfiguration
 {
+
     public PlatformArchitecture PlatformArchitecture => PlatformArchitecture;
     public string CurrentApplicationRunningDirectory => WinFormium.ApplicationRunningDirectory;
     public string CefBinaryFileDirectory { internal get; set; }

@@ -161,7 +161,7 @@ public sealed class WinFormium
     }
 
     /// <summary>
-    /// Run the NanUI subprocess.
+    /// Run the NanUI application as a subprocess.
     /// </summary>
     public void RunAsSubprocess()
     {
