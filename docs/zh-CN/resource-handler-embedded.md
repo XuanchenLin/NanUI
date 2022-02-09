@@ -23,7 +23,7 @@
 
 对于 .NET Core 3.1 及以上版本的项目文件，您可以在 Visual Studio 中直接双击打开项目文件修改配置的方法来设置嵌入资源，而且您还可以使用通配符来简化操作。
 
-例如，如果需要把`build`文件家中的所有文件设置为嵌入资源，那么直接添加以下配置：
+例如，如果需要把`build`文件夹中的所有文件设置为嵌入资源，那么直接添加以下配置：
 
 ```xml
 <ItemGroup>
@@ -77,4 +77,4 @@ WinFormium.CreateRuntimeBuilder(buildApplicationConfiguration: app => {
 
 创建一个测试用的 Formium 窗体，在 Web 环境中使用任何方式（Url 跳转、AJAX 异步访问等），通过指定的协议和域名就能访问到程序集里的各项资源文件。
 
-如上述示例中指定的地址，把`http://assembly.app.local/index.html`作为 Formium 窗体的启示 Url，项目启动后将自动加载程序集中的文件。
+如上述示例中指定的地址，把`http://assembly.app.local/index.html`作为 Formium 窗体的起始 Url，项目启动后将自动加载程序集中的文件。
