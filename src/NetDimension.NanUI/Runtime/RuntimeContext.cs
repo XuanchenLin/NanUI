@@ -112,6 +112,8 @@ public sealed class RuntimeContext
         return exitCode;
     }
 
+    internal bool IsProcessShouldContinueRun = true;
+
     internal int Initialize()
     {
         var args = Environment.GetCommandLineArgs();
@@ -122,9 +124,12 @@ public sealed class RuntimeContext
 
             var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
 
-
-
             ApplicationConfiguration.UseExtensions[(int)ExtensionExecutePosition.MainProcessInitilized]?.Invoke(this, ApplicationProperties);
+        }
+
+        if (!IsProcessShouldContinueRun)
+        {
+            return 0;
         }
 
         CefRuntime.Load(ChromiumEnvironment.LibCefDir);
