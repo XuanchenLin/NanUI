@@ -8,6 +8,9 @@ What's new in version 0.8.90
 
 Changelog
 =========
+[2022/02/25]
+在 ApplicationConfiguration 中加入了扩展方法 BeforeProcessRun。这个方法传入代理 Func<bool>，用于在 CEF 初始化前执行特定的代码，返回 true 时 NanUI 继续初始化 Chromium；返回 false 将中止当前初始化进程并关闭应用程序。
+
 [2021/12/01]
 更新版本至 0.9.90
 

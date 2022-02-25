@@ -342,7 +342,8 @@ partial class Formium
         }
         else
         {
-            if (FormHostWindow.Visible)
+            
+            if (IsWindowVisible(HostWindowHandle))
             {
                 SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_NOACTIVATE);
 

@@ -399,6 +399,7 @@ return {
     BorderlessWindowDemo borderlessStyleWindow;
     SystemBorderlessDemo systemBorderlessStyleWindow;
     LayeredWindowDemo layeredStyleWindow;
+    KioskWindowDemo kioskStyleWindow;
 
     // Add methods for windowExamples object in Formium.external object in JavaScript context.
     private void RegisterWindowStyleExampleObject()
@@ -502,9 +503,21 @@ return {
         {
             InvokeIfRequired(() =>
             {
-                var kioskStyleWindow = new KioskWindowDemo();
 
-                kioskStyleWindow.Show();
+                if (kioskStyleWindow == null || kioskStyleWindow.IsDisposed)
+                {
+                    kioskStyleWindow = new KioskWindowDemo();
+                    kioskStyleWindow.Show(this);
+
+                }
+                else
+                {
+                    if (!kioskStyleWindow.Visible)
+                    {
+                        kioskStyleWindow.Show();
+                    }
+                    kioskStyleWindow.Active();
+                }
             });
             return null;
         }));

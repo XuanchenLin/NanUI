@@ -127,6 +127,27 @@ public static class ApplicationConfigurationBuilderExtensions
     }
 
     /// <summary>
+    /// Before Chromium initialization process run.
+    /// </summary>
+    /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
+    /// <param name="func">A delegate that determain if the process should continue to run.</param>
+    /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
+    public static ApplicationConfigurationBuilder BeforeProcessRun(this ApplicationConfigurationBuilder @this, Func<bool> func)
+    {
+        @this.Use(builder =>
+        {
+            return (runtime, props) =>
+            {
+                var retval = func.Invoke();
+
+                runtime.IsProcessShouldContinueRun = retval;
+            };
+        }, ExtensionExecutePosition.MainProcessInitilized);
+
+        return @this;
+    }
+
+    /// <summary>
     /// Use a custom resource handlder to handle the web resources.
     /// </summary>
     /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
