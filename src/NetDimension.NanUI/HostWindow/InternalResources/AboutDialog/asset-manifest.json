@@ -2,7 +2,7 @@
   "files": {
     "main.css": "/AboutDialog/static/css/main.ae980ebc.chunk.css",
     "main.js": "/AboutDialog/static/js/main.chunk.861f61e0.js",
-    "runtime-main.js": "/AboutDialog/static/js/runtime-main.bundle.fb9dd5be.js",
+    "runtime-main.js": "/AboutDialog/static/js/runtime-main.bundle.afcbbe63.js",
     "static/js/2.chunk.8e99278e.js": "/AboutDialog/static/js/2.chunk.8e99278e.js",
     "static/js/3.chunk.6b506548.js": "/AboutDialog/static/js/3.chunk.6b506548.js",
     "index.html": "/AboutDialog/index.html",
@@ -10,7 +10,7 @@
     "static/media/close.fa9b2abd.svg": "/AboutDialog/static/media/close.fa9b2abd.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.bundle.fb9dd5be.js",
+    "static/js/runtime-main.bundle.afcbbe63.js",
     "static/js/2.chunk.8e99278e.js",
     "static/css/main.ae980ebc.chunk.css",
     "static/js/main.chunk.861f61e0.js"

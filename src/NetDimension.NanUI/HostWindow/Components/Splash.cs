@@ -1,4 +1,4 @@
-﻿using static Vanara.PInvoke.User32;
+using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.HostWindow;
 
@@ -52,7 +52,9 @@ public sealed class Splash
                 Dock = DockStyle.Fill,
             };
 
-            DragHandlerPanel.MouseDown += DragPanelMouseDown;
+            if(owner.WindowType != HostWindowType.Kiosk) {
+                DragHandlerPanel.MouseDown += DragPanelMouseDown;
+            }
             Owner = owner;
         }
 
