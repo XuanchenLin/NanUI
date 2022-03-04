@@ -220,12 +220,12 @@ partial class Formium
 
     internal bool BrowserWmLButtonDown(ref Message m)
     {
-        if (FullScreen)
+        if (FullScreen || WindowType == HostWindow.HostWindowType.Kiosk)
             return false;
 
         var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
 
-        var isInDraggableArea = WebView?.DraggableRegion?.IsVisible(point) ?? false;
+        var isInDraggableArea = (WebView?.DraggableRegion?.IsVisible(point) ?? false);
 
         var mode = IFormHostWindow.HitTest(point);
 

@@ -60,10 +60,10 @@ $primary-color: #334455;
           }
 
           &:hover {
-            background-color: $primary-color * 0.95;
+            background-color: darken($primary-color, 0.95);
             color: #fff;
             &:active {
-              background-color: $primary-color * 0.8;
+              background-color: darken($primary-color, 0.8);
             }
           }
 
