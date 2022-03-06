@@ -44,6 +44,11 @@ public abstract partial class Formium
     /// </summary>
     public bool AllowSystemMenu { get; set; } = true;
 
+    /// <summary>
+    /// Gets the alias of the service container.
+    /// </summary>
+    protected ServiceContainer IoC => WinFormium.Runtime?.Container;
+
 
     public Formium()
     {
