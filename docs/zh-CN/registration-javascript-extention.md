@@ -12,11 +12,11 @@
 
 与注册对象相比扩展的注册过程比较复杂，需要编写对应的 JavaScript 代码，在代码中指定`native`方法，调用该方法后会通知`CefV8Handler`的处理程序对操作进行处理和反馈。
 
-NanUI 封装和简化了这个过程，您无需处理繁琐的`CefV8Handler`处理程序以及头疼的数据转换，只需编写好 JavaScript 代码并继承抽象类`JavaScriptExtensionBase`，在抽象属性`Name`和`JavaScriptCode`分别指定扩展的唯一名称和上面说的 JavaScript 逻辑代码，剩下的就是编写 JavaScript 对应的`native`方法即可。
+NanUI 封装和简化了这个过程，您无需处理繁琐的`CefV8Handler`处理程序以及头疼的数据转换，只需编写好 JavaScript 代码并继承抽象类`JavaScriptWindowBindingObject`，在抽象属性`Name`和`JavaScriptCode`分别指定扩展的唯一名称和上面说的 JavaScript 逻辑代码，剩下的就是编写 JavaScript 对应的`native`方法即可。
 
 ## JavaScript 代码部分
 
-下面示例展示了如何编写 JavaScript 扩展的结构代码部分。可以看到示例代码中有定义方法和属性，与传统 JavaScript 代码不同的是，每个方法、属性里都添加了`native`关键字，该关键字指示此方法为`本地方法`，执行和调用时会通知`CefV8Handler`进行处理。而 NanUI 使用`JavaScriptExtensionBase`封装并接收了`CefV8Handler`的处理结果提供给 .NET 环境使用。
+下面示例展示了如何编写 JavaScript 扩展的结构代码部分。可以看到示例代码中有定义方法和属性，与传统 JavaScript 代码不同的是，每个方法、属性里都添加了`native`关键字，该关键字指示此方法为`本地方法`，执行和调用时会通知`CefV8Handler`进行处理。而 NanUI 使用`JavaScriptWindowBindingObject`封装并接收了`CefV8Handler`的处理结果提供给 .NET 环境使用。
 
 ```JS
 var DemoWindow = DemoWindow || {};
@@ -76,7 +76,7 @@ var DemoWindow = DemoWindow || {};
 关于`浏览器进程`和`渲染进程`先关的内容，请您自行搜索查阅 Chromium 架构的相关文章，本文不展开阐述。
 
 ```C#
-public class HostWindowExtension : JavaScriptExtensionBase
+public class HostWindowExtension : JavaScriptWindowBindingObject
 {
     public override string Name => "Demo/Window";
 

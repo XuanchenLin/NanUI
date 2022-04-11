@@ -2,6 +2,8 @@ using Vanara.PInvoke;
 using Vortice;
 using Vortice.DCommon;
 using Vortice.Direct2D1;
+using Vortice.Mathematics;
+
 using Xilium.CefGlue;
 using static Vanara.PInvoke.Gdi32;
 using static Vanara.PInvoke.User32;
@@ -49,7 +51,7 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
 
             _cacheBmp = new Bitmap(_view_width, _view_height);
 
-            _hBitmap = _cacheBmp.GetHbitmap(Color.FromArgb(0, 255, 255, 255));
+            _hBitmap = _cacheBmp.GetHbitmap(System.Drawing.Color.FromArgb(0, 255, 255, 255));
 
             _hOldBitmap = SelectObject(_memDC, _hBitmap);
 
@@ -185,7 +187,7 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
         var scaleFactor = DpiHelper.GetScaleFactorForWindow(_owner.HostWindowHandle);
 
 
-        var pt = new Point((int)(viewX * scaleFactor), (int)(viewY * scaleFactor));
+        var pt = new POINT((int)(viewX * scaleFactor), (int)(viewY * scaleFactor));
 
         ClientToScreen(_owner.HostWindowHandle, ref pt);
 
@@ -196,10 +198,7 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
     }
 
 
-    protected override void OnAcceleratedPaint(CefBrowser browser, CefPaintElementType type, CefRectangle[] dirtyRects, IntPtr sharedHandle)
-    {
 
-    }
 
     protected override void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectedRange, CefRectangle[] characterBounds)
     {
@@ -236,6 +235,11 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
         _popupRect = rect;
     }
 
+    protected override void OnAcceleratedPaint(CefBrowser browser, CefPaintElementType type, CefRectangle[] dirtyRects, IntPtr sharedHandle)
+    {
+
+    }
+
 
     protected override void OnPaint(CefBrowser browser, CefPaintElementType type, CefRectangle[] dirtyRects, IntPtr buffer, int width, int height)
     {
@@ -255,11 +259,11 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
         if (type == CefPaintElementType.View)
         {
 
-            var bmp = _renderTarget.CreateBitmap(new Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
+            var bmp = _renderTarget.CreateBitmap(new SizeI(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
 
             if (!_isPopupShown)
             {
-                _renderTarget.Clear(Color.Transparent);
+                _renderTarget.Clear(new ColorBgra(0));
             }
 
             _renderTarget.DrawBitmap(bmp);
@@ -268,7 +272,7 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
         }
         else if (type == CefPaintElementType.Popup)
         {
-            var bmp = _renderTarget.CreateBitmap(new Size(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
+            var bmp = _renderTarget.CreateBitmap(new SizeI(width, height), buffer, width * 4, new BitmapProperties(new PixelFormat(Vortice.DXGI.Format.B8G8R8A8_UNorm, AlphaMode.Premultiplied)));
 
             if (_cachedPopupImage != null)
             {

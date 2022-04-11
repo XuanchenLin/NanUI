@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>10.0</LangVersion>
+        <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net6.0-windows;net5.0-windows;netcoreapp3.1;net48;net472;net471;net47;net462;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
@@ -15,8 +15,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Version>0.9.90.$([System.DateTime]::Now.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-12-20",2021))))).TotalDays)</Version>
         <Platforms>AnyCPU</Platforms>
-
     </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
@@ -98,11 +98,14 @@
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="SkiaSharp" Version="2.80.3" />
-        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.3.15" />
-        <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.3.15" />
-        <PackageReference Include="Vanara.PInvoke.User32" Version="3.3.15" />
-        <PackageReference Include="Vanara.PInvoke.UxTheme" Version="3.3.15" />
-        <PackageReference Include="Vortice.Direct2D1" Version="2.1.0" />
+        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.0" />
+        <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.4.0" />
+        <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.0" />
+        <PackageReference Include="Vanara.PInvoke.UxTheme" Version="3.4.0" />
+        <PackageReference Include="Vortice.Direct2D1" Version="2.1.2" />
+        <PackageReference Include="Vortice.Direct3D11" Version="2.1.2" />
+        <PackageReference Include="Vortice.DXGI" Version="2.1.2" />
+        <PackageReference Include="Vortice.Mathematics" Version="1.4.10" />
     </ItemGroup>
 
     <ItemGroup>

@@ -49,13 +49,13 @@ partial class Formium
 
         if (WindowType == HostWindow.HostWindowType.Layered)
         {
-            WindowInfo.SetAsWindowless(IntPtr.Zero, true);
+            WindowInfo.WindowlessRenderingEnabled = true;
+
+            WindowInfo.SetAsWindowless(IntPtr.Zero,true);
         }
         else
         {
             WindowInfo.SetAsChild(HostWindowHandle, new CefRectangle(0, 0, rect.Width, rect.Height));
-            //WindowInfo.SetAsPopup(IntPtr.Zero,"");
-
         }
 
 
@@ -200,7 +200,7 @@ partial class Formium
             return false;
 
         var pos = GetMessagePos();
-        var point = new Point(Macros.LOWORD(pos), Macros.HIWORD(pos));
+        var point = new POINT(Macros.LOWORD(pos), Macros.HIWORD(pos));
         ScreenToClient(HostWindowHandle, ref point);
 
         var mode = IFormHostWindow.HitTest(point);
@@ -223,7 +223,7 @@ partial class Formium
         if (FullScreen || WindowType == HostWindow.HostWindowType.Kiosk)
             return false;
 
-        var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
+        var point = new POINT(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
 
         var isInDraggableArea = (WebView?.DraggableRegion?.IsVisible(point) ?? false);
 
@@ -264,7 +264,7 @@ partial class Formium
             return false;
         }
 
-        var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
+        var point = new POINT(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
 
         var isInDraggableArea = (WebView?.DraggableRegion != null && WebView.DraggableRegion.IsVisible(point));
 
@@ -287,7 +287,7 @@ partial class Formium
             return false;
         }
 
-        var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
+        var point = new POINT(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
 
         var isInDraggableArea = (WebView?.DraggableRegion != null && WebView.DraggableRegion.IsVisible(point));
 

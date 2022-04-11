@@ -29,6 +29,9 @@ public static class Program
                 args.AppendSwitch("disable-web-security");
                 args.AppendSwitch("enable-media-stream");
                 args.AppendSwitch("enable-print-preview");
+                args.AppendSwitch("enable-gpu");
+
+
                 args.AppendSwitch("autoplay-policy", "no-user-gesture-required");
 
             });

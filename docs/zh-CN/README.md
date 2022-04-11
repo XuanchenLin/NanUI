@@ -14,7 +14,6 @@
 - [使用无边框样式窗体](using-borderless-style-window.md)
 - [使用 Kiosk 样式窗体](using-kiosk-style-window.md)
 - [使用异形样式窗体](using-layered-style-window.md)
-- [使用 Win10 亚克力特效样式窗体](using-acrylic-style-window.md)
 
 [资源控制器](resource-handler-intro.md)
 

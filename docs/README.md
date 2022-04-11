@@ -32,13 +32,10 @@
 
 您还可以从下述仓库下载 NanUI 的其他示例程序源代码。
 
-- [NanUI 示例仓库@GitHub](https://github.com/XuanchenLin/NanUI-0.9-Examples) 
-- [NanUI 示例仓库@Gitee](https://gitee.com/linxuanchen/NanUI-0.9-Examples) 
-
-
+- [NanUI 示例仓库@GitHub](https://github.com/XuanchenLin/NanUI-0.9-Examples)
+- [NanUI 示例仓库@Gitee](https://gitee.com/linxuanchen/NanUI-0.9-Examples)
 
 ---
-
 
 ## 快速开始使用 NanUI
 
@@ -135,9 +132,3 @@ class MainWindow : Formium
 ```
 
 没有复杂的步骤！只需简单操作 NanUI 项目就可以顺利运行。
-
-如果需要了解更多内容，请参考《[示例和文档](#示例和文档)》章节中的内容。
-
-
-
-
