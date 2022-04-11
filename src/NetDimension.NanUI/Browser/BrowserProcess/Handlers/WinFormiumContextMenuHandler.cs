@@ -158,7 +158,7 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
 
         var scaleFactor = DpiHelper.GetScaleFactorForWindow(_owner.HostWindowHandle);
 
-        var point = new Point((int)(parameters.X * scaleFactor), (int)(parameters.Y * scaleFactor));
+        var point = new POINT((int)(parameters.X * scaleFactor), (int)(parameters.Y * scaleFactor));
 
         User32.ClientToScreen(_owner.HostWindowHandle, ref point);
 

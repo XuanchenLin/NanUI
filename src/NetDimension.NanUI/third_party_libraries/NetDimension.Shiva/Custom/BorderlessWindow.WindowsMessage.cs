@@ -100,7 +100,7 @@ internal partial class BorderlessWindow
 
                     var y = Macros.GET_Y_LPARAM(m.LParam);
 
-                    var pt = new Point(x, y);
+                    var pt = new POINT(x, y);
 
                     ScreenToClient(hWnd, ref pt);
 

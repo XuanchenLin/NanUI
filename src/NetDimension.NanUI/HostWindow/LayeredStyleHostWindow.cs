@@ -1,4 +1,4 @@
-﻿using Xilium.CefGlue;
+using Xilium.CefGlue;
 using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.HostWindow;
@@ -104,13 +104,13 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
 
 
 
+
+
         if (!handled)
         {
             base.WndProc(ref m);
         }
     }
-
-
 
 
     protected override void DefWndProc(ref Message m)
@@ -122,8 +122,6 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
             base.DefWndProc(ref m);
         }
     }
-
-
 
     #region OSR Event handlers
     private void GetPointInCurrentView(ref Point point)

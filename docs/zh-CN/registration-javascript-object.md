@@ -50,7 +50,7 @@ obj.Add("messagebox", (args =>
 }));
 
 //注册异步方法
-obj.SetValue("asyncmethod", async (args, promise) =>
+obj.Add("asyncmethod", async (args, promise) =>
 {
     var delayedExpire = new Random().Next(3000);
 
