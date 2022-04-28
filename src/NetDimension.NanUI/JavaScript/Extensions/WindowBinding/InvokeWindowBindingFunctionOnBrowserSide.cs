@@ -88,18 +88,19 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
             var args = JavaScriptValue.FromJson(data).ToArray();
 
 
+
             var windowBindingObject = WinFormium.Runtime.Container.GetInstance<JavaScriptWindowBindingObject>(objectName);
 
             if (windowBindingObject == null)
             {
-                return new MessageResponse(false, $"[NanUI]: The `{objectName}` window binding object is not exists.");
+                return new MessageResponse(false, $"The `{objectName}` window binding object is not exists.");
             }
 
-            var function = windowBindingObject.WindowBindingFunctions.SingleOrDefault(x => x.Uuid == funcId);
+            var function = windowBindingObject.WindowBindingFunctions.SingleOrDefault(x => x.FunctionName == funcName);
 
             if (function == null)
             {
-                return new MessageResponse(false, $"[NanUI]: The `{funcName}` function is not exists.");
+                return new MessageResponse(false, $"The `{funcName}` function is not exists.");
             }
 
             if (function.FunctionType == JavaScriptWindowBindingFunctionType.AsyncFucntionOnBrowserSide)
@@ -107,6 +108,9 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
                 try
                 {
+                    args.BindToFrame(frame);
+
+
                     function.BrowserSideAsyncFunction.Invoke(Owner, args, new JavaScriptFunctionPromise(frame, funcId));
 
                     return new MessageResponse();
@@ -116,7 +120,7 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
                     return new MessageResponse(false, ex.Message);
                 }
             }
-            return new MessageResponse(false, $"[NanUI]: The handler of `{funcName}` function is not defined.");
+            return new MessageResponse(false, $"The handler of `{funcName}` function is not defined.");
         }
 
         return null;

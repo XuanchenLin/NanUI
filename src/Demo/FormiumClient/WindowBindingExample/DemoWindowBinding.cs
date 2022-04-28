@@ -1,4 +1,4 @@
-﻿using NetDimension.NanUI;
+using NetDimension.NanUI;
 using NetDimension.NanUI.JavaScript;
 using NetDimension.NanUI.JavaScript.WindowBinding;
 using System;
@@ -46,7 +46,13 @@ internal class DemoWindowBinding : JavaScriptWindowBindingObject
         var time = arguments.FirstOrDefault(x => x.IsNumber)?.GetInt() ?? 1000;
         var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
 
+        var function = arguments.FirstOrDefault(x => x.IsFunction);
 
+        // 添加 Issues #251 的测试
+        if (function!= null)
+        {
+            ((JavaScriptFunction)function).ExecuteAsync();
+        }
 
 
         Task.Run(async () =>
@@ -65,7 +71,7 @@ internal class DemoWindowBinding : JavaScriptWindowBindingObject
     {
         var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
 
-        MessageBox.Show(owner.WindowHWND, msg, "Hello from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        owner.InvokeIfRequired(()=> MessageBox.Show(owner.WindowHWND, msg, "Hello from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information));
 
         return null;
     }
