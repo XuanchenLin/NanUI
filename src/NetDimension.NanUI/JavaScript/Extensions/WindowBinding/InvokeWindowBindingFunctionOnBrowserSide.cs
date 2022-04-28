@@ -95,7 +95,7 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
                 return new MessageResponse(false, $"[NanUI]: The `{objectName}` window binding object is not exists.");
             }
 
-            var function = windowBindingObject.WindowBindingFunctions.SingleOrDefault(x => x.Uuid == funcId);
+            var function = windowBindingObject.WindowBindingFunctions.SingleOrDefault(x => x.FunctionName == funcName);
 
             if (function == null)
             {
