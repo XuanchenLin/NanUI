@@ -46,7 +46,13 @@ internal class DemoWindowBinding : JavaScriptWindowBindingObject
         var time = arguments.FirstOrDefault(x => x.IsNumber)?.GetInt() ?? 1000;
         var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
 
+        var function = arguments.FirstOrDefault(x => x.IsFunction);
 
+        // 添加 Issues #251 的测试
+        if (function!= null)
+        {
+            ((JavaScriptFunction)function).ExecuteAsync();
+        }
 
 
         Task.Run(async () =>
