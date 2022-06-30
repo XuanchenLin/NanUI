@@ -8,6 +8,28 @@ What's new in version 0.8.90
 
 Changelog
 =========
+[2022/07/01]
+修改了 Formium 的 WindowHWND 和 OwnerHWND名称：WindowHWND -> WindowHandle，OwnerHWND -> OwnerHandle。都是 IWin32Window 接口成员，方便传统 WinForm 窗体调用。
+修改了 JavaScript 绑定中的异步函数逻辑，这个版本在 C# 创建的异步函数可以直接转换成 JavaScript 的 Promise 对象了，无需再在前端手动创建 Promise 对象。结合 JavaScript 新的 async/await 关键字调用异步方法更方便了。
+```JavaScript
+// 现在 DemoWindow.asyncfunc() 直接返回一个 promise，无需手动创建
+DemoWindow.asyncfunc()
+    .then(r=>console.log(r))
+    .catch(err=>console.log(err));
+
+//或者 
+(async ()=> {
+    try{
+        const result = await DemoWindow.asyncfunc();
+        console.log(result);
+    }
+    catch(e){
+        console.log(e);
+    }
+})();
+
+```
+
 [2022/03/06]
 在 Formium 类中加入了 WinFormium.Runtime.Container 的别名 IoC 属性，方便使用依赖注入的朋友快速获取到注入的各种对象或服务。
 

@@ -453,7 +453,7 @@ internal class WindowDropShadow : IDisposable
                     };
 
 
-                    d2dRenderTarget.PushLayer(ref lparam, layer);
+                    d2dRenderTarget.PushLayer(lparam, layer);
 
 
                     d2dRenderTarget.DrawBitmap(tplBmp, dTopLeft, 1.0f, BitmapInterpolationMode.Linear, sTopLeft);

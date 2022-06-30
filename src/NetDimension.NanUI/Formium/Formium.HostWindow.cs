@@ -362,7 +362,7 @@ partial class Formium
     /// <summary>
     /// Gets the Win32 HWND handle of the host window.
     /// </summary>
-    public IWin32Window WindowHWND => FormHostWindow;
+    public IWin32Window WindowHandle => FormHostWindow;
 
     public bool IsDisposed => FormHostWindow?.IsDisposed ?? false;
 
@@ -375,7 +375,7 @@ partial class Formium
     /// </summary>
     protected virtual bool DisableAboutMenu => false;
 
-    public IWin32Window OwnerHWND => FormHostWindow.Owner;
+    public IWin32Window OwnerHandle => FormHostWindow.Owner;
 
     public Form Owner => FormHostWindow.Owner;
 
@@ -406,7 +406,7 @@ partial class Formium
         InvokeIfRequired(() =>
         {
             var aboutDlg = new AboutDialog();
-            aboutDlg.ShowDialog(WindowHWND);
+            aboutDlg.ShowDialog(WindowHandle);
         });
 
     }
@@ -829,7 +829,7 @@ if(typeof {JS_EVENT_RAISER_NAME} === 'undefined') return;
             {
                 var aboutDlg = new AboutDialog();
 
-                aboutDlg.ShowDialog(WindowHWND);
+                aboutDlg.ShowDialog(WindowHandle);
             }
 
             if (cmd == (int)SysCommand.SC_RESTORE)

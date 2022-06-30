@@ -154,7 +154,7 @@ class MainWindow : Formium
 
     private void MainWindow_BeforeClose(object sender, NetDimension.NanUI.Browser.FormiumCloseEventArgs e)
     {
-        if (MessageBox.Show(WindowHWND, "确定关闭？", "关闭", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+        if (MessageBox.Show(WindowHandle, "确定关闭？", "关闭", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
         {
             e.Canceled = true;
         }
@@ -191,7 +191,7 @@ class MainWindow : Formium
             () => new JavaScriptValue(Title),
             (v) =>
             {
-                InvokeIfRequired(() => MessageBox.Show(WindowHWND, $"JavaScript Result: {v.GetString()}", "JavaScript"));
+                InvokeIfRequired(() => MessageBox.Show(WindowHandle, $"JavaScript Result: {v.GetString()}", "JavaScript"));
             }
         );
 
@@ -204,14 +204,14 @@ return {
     b:'Hello NanUI',
     c:(text)=>console.log(text||'hello with empty text'),
     d:(callback)=> {
-        new Promise(callback(111))
+        callback(111)
             .then(x=>console.log(`success:${x}`))
             .catch(m=>console.log(`error:${m}`));
     },
     e:(s)=> s? `hello ${s}` : `hello from javascript`,
     f:(o)=>{
         console.log(o.test);
-        setTimeout(()=>o.test=new Date(),3000);
+        setTimeout(()=>o.test=new Date(),2000);
     }
 }; 
 })()");
@@ -226,7 +226,7 @@ return {
 
         InvokeIfRequired(() =>
         {
-            MessageBox.Show(WindowHWND, $"a={valueA} b={valueB}", "Value from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(WindowHandle, $"a={valueA} b={valueB}", "Value from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information);
         });
 
         await obj["c"].ExecuteAsync(new JavaScriptValue("Hello World!"));
@@ -237,8 +237,8 @@ return {
         // 执行异步方法
         var d1 = await obj["d"].ExecuteAsync(new JavaScriptAsyncFunction(async (args, promise) =>
         {
-            await Task.Delay(1000);
-            promise.Resovle(new JavaScriptValue("hello"));
+            await Task.Delay(5000);
+            promise.Resovle(new JavaScriptValue("delayed message: hello!"));
         }));
 
 
@@ -272,7 +272,7 @@ return {
             InvokeIfRequired(() =>
             {
                 var x = args.Count > 0 ? args[0] : "no content";
-                MessageBox.Show(WindowHWND, $"JavaScript Result: {x}", "Test");
+                MessageBox.Show(WindowHandle, $"JavaScript Result: {x}", "Test");
             });
 
             return null;
@@ -289,7 +289,7 @@ return {
 
             InvokeIfRequired(() =>
             {
-                MessageBox.Show(WindowHWND, $"JavaScript said: {msg}", "Message from JavaScript");
+                MessageBox.Show(WindowHandle, $"JavaScript said: {msg}", "Message from JavaScript");
             });
 
             return null;

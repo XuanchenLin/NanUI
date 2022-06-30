@@ -31,15 +31,18 @@ internal class InvokeJavaScriptPromiseFunctionOnRenderSideTask : CefTask
 
                 if (Success)
                 {
-                    storedObject.Resovle.ExecuteFunctionWithContext(context, null, Arguments.ToCefV8Arguments());
+                    storedObject.Resolve.ExecuteFunctionWithContext(context, null, Arguments.ToCefV8Arguments());
                 }
                 else
                 {
                     storedObject.Reject.ExecuteFunctionWithContext(context, null, new CefV8Value[] { CefV8Value.CreateString(Message) });
                 }
 
-                storedObject.Resovle.Dispose();
-                storedObject.Reject.Dispose();
+                //storedObject.Resolve.Dispose();
+                //storedObject.Reject.Dispose();
+
+                storedObject.PromiseData.Dispose();
+
             }
             finally
             {

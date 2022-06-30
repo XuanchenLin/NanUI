@@ -25,8 +25,9 @@ internal static class JavaScriptObjectRepositoryOnRenderSide
         for (var i = 0; i < storedPromises.Length; i++)
         {
             var func = storedPromises[i];
-            func?.Resovle?.Dispose();
-            func?.Reject?.Dispose();
+            //func?.Resolve?.Dispose();
+            //func?.Reject?.Dispose();
+            func?.PromiseData?.Dispose();
             StoredPromises.Remove(func);
         }
     }

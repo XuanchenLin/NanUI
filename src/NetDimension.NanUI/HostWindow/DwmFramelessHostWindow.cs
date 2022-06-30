@@ -5,6 +5,8 @@ using Vanara.PInvoke;
 
 using static Vanara.PInvoke.DwmApi;
 using static Vanara.PInvoke.User32;
+using static Vanara.PInvoke.Gdi32;
+
 
 namespace NetDimension.NanUI.HostWindow;
 internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
@@ -25,11 +27,11 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
     {
         base.OnHandleCreated(e);
 
-        DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
+        //DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
         //DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0, this.Width, 0, this.Height));
 
-        DwmExtendFrameIntoClientArea(hWnd, new MARGINS(1));
+        //DwmExtendFrameIntoClientArea(hWnd, new MARGINS(1));
 
         SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_FRAMECHANGED);
 
@@ -104,6 +106,24 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
             {
                 _shouldPerformMaximiazedState = true;
             }
+        }
+
+        if(m.Msg == (int)WindowMessage.WM_PAINT)
+        {
+
+            var hdc = BeginPaint(hWnd, out var ps);
+
+            var brush = CreateSolidBrush(new COLORREF(Color.White));
+
+            FillRect(hdc, ps.rcPaint, brush);
+
+            DeleteObject(brush);
+
+            EndPaint(hWnd, ps);
+
+            m.Result = IntPtr.Zero;
+
+            return;
         }
 
 
