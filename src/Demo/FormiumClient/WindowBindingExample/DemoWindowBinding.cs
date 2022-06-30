@@ -1,12 +1,6 @@
 using NetDimension.NanUI;
 using NetDimension.NanUI.JavaScript;
 using NetDimension.NanUI.JavaScript.WindowBinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FormiumClient;
 
@@ -71,7 +65,7 @@ internal class DemoWindowBinding : JavaScriptWindowBindingObject
     {
         var msg = arguments.FirstOrDefault(x => x.IsString)?.GetString() ?? "hello world";
 
-        owner.InvokeIfRequired(()=> MessageBox.Show(owner.WindowHWND, msg, "Hello from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information));
+        owner.InvokeIfRequired(()=> MessageBox.Show(owner.WindowHandle, msg, "Hello from JavaScript", MessageBoxButtons.OK, MessageBoxIcon.Information));
 
         return null;
     }

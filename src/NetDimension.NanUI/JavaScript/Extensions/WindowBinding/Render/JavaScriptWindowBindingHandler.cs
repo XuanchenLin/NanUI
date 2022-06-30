@@ -1,5 +1,6 @@
 using NetDimension.NanUI.Browser.MessagePipe;
 using NetDimension.NanUI.JavaScript.Renderer;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript.WindowBinding;
@@ -94,9 +95,32 @@ class JavaScriptWindowBindingHandler : CefV8Handler
 
                     if (response.IsSuccess)
                     {
-                        var callback = CefV8Value.CreateFunction("promise", new JavaScriptPromiseThenableCallbackFunction(func.Uuid, context));
+                        //var callback = CefV8Value.CreateFunction("promise", new JavaScriptPromiseThenableCallbackFunction(func.Uuid, context));
 
-                        returnValue = callback;
+                        //returnValue = callback;
+
+                        //var global = context.GetGlobal();
+
+                        //var formiumInstance = global.GetValue("Formium");
+
+                        //var promiseCreateFunc = formiumInstance.GetValue("createPromise");
+
+                        //var promiseData = promiseCreateFunc.ExecuteFunctionWithContext(context, null, new CefV8Value[] { });
+
+                        //returnValue = promiseData?.GetValue("promise");
+
+                        //if (returnValue != null)
+                        //{
+                        //    var promiseFunction = new JavaScriptRenderSidePromiseContext(func.Uuid, context, promiseData);
+
+                        //    JavaScriptObjectRepositoryOnRenderSide.StoredPromises.Add(promiseFunction);
+
+                        //}
+
+                        returnValue = context.CreateJavaScriptPromiseContext(func.Uuid);
+
+
+
                     }
                     else
                     {
@@ -120,10 +144,36 @@ class JavaScriptWindowBindingHandler : CefV8Handler
 
                     func.RenderSideAsyncFunction.Invoke(args, new JavaScriptFunctionPromise(frame, func.Uuid, CefProcessId.Renderer));
 
-                    var callback = CefV8Value.CreateFunction("promise", new JavaScriptPromiseThenableCallbackFunction(func.Uuid, context));
+                    //var global = context.GetGlobal();
+
+                    //var formiumInstance = global.GetValue("Formium");
 
 
-                    returnValue = callback;
+                    //var promiseCreateFunc = formiumInstance.GetValue("createPromise");
+
+                    ////var callback = CefV8Value.CreateFunction("promise", new JavaScriptPromiseThenableCallbackFunction(func.Uuid, context));
+
+                    //var promiseData = promiseCreateFunc.ExecuteFunctionWithContext(context, null, new CefV8Value[] { });
+
+                    //returnValue = promiseData?.GetValue("promise");
+
+                    //if (returnValue != null)
+                    //{
+                    //    var promiseFunction = new JavaScriptRenderSidePromiseContext(func.Uuid, context, promiseData);
+
+                    //    JavaScriptObjectRepositoryOnRenderSide.StoredPromises.Add(promiseFunction);
+
+                    //}
+
+
+
+                    //returnValue = callback;
+
+                    //returnValue = callback.ExecuteFunctionWithContext(context, null, new CefV8Value[] { callback });
+
+
+                    returnValue = context.CreateJavaScriptPromiseContext(func.Uuid);
+
                 }
                 break;
             default:

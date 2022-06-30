@@ -1,4 +1,6 @@
+
 using NetDimension.NanUI.Browser.MessagePipe;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript.Renderer;
@@ -70,19 +72,41 @@ internal class BrowserSideFunctionHandler : CefV8Handler
                 //var thenable = CefV8Value.CreateObject();
 
 
-                var callback = CefV8Value.CreateFunction("promise", new JavaScriptPromiseThenableCallbackFunction(JsValue.Uuid, Context));
+                //var callback = CefV8Value.CreateFunction("promise", new JavaScriptPromiseThenableCallbackFunction(JsValue.Uuid, Context));
 
                 //thenable.SetValue("then", callback);
 
                 //var retval = resolve.ExecuteFunctionWithContext(Context, Context.GetGlobal(), new CefV8Value[] { thenable });
 
+                //returnValue = callback.ExecuteFunctionWithContext(Context, null, new CefV8Value[] { callback });
 
-                returnValue = callback;
+                //returnValue = callback;
+
+                //var context = Context;
+
+
+                //var global = context.GetGlobal();
+
+                //var formiumInstance = global.GetValue("Formium");
+
+
+                //var promiseCreateFunc = formiumInstance.GetValue("createPromise");
+
+                //var promiseData = promiseCreateFunc.ExecuteFunctionWithContext(context, null, new CefV8Value[] { });
+
+                //returnValue = promiseData?.GetValue("promise");
+                //if (returnValue != null)
+                //{
+                //    var promiseFunction = new JavaScriptRenderSidePromiseContext(JsValue.Uuid, context, promiseData);
+
+                //    JavaScriptObjectRepositoryOnRenderSide.StoredPromises.Add(promiseFunction);
+                //}
+
+                returnValue = Context.CreateJavaScriptPromiseContext(JsValue.Uuid);
             }
             else
             {
                 var retval = JavaScriptValue.FromJson(response.Data).ToCefV8Value();
-
                 if (retval != null)
                 {
                     returnValue = retval;

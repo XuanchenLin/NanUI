@@ -17,6 +17,8 @@ var Formium;
 
         class WinFormium {
 
+
+
             __setContextReady__() {
 
                 while (contextReadyCallbacks.length > 0) {
@@ -157,9 +159,26 @@ var Formium;
                 return GetCurrentCulture();
             }
 
+
+
         }
 
         const $this = new WinFormium();
+
+        $this["__createFormiumPromiseFunction__"] = function () {
+
+            const result = {};
+
+            const promise = new Promise(function (resolve, reject) {
+                result.resolve = resolve;
+
+                result.reject = reject;
+            });
+
+            result.promise = promise;
+
+            return result;
+        }
 
         return $this;
     }
@@ -333,7 +352,12 @@ var Formium;
         return new Version();
     }
 
+
+
+
     $.Formium = new WinFormium();
+
+
 
 })(this);
 

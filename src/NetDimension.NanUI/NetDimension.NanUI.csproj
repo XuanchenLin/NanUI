@@ -82,7 +82,7 @@
         <Compile Remove="HostWindow\AcrylicStyleHostWindow.cs" />
         <Compile Remove="HostWindow\ExtendedStyles\AcrylicWindowStyle.cs" />
         <Compile Remove="HostWindow\WindowUtils.cs" />
-        <Compile Remove="JavaScript\JSValueExtensions.cs" />
+
     </ItemGroup>
 
     <ItemGroup>
@@ -97,15 +97,15 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="SkiaSharp" Version="2.80.3" />
-        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.0" />
-        <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.4.0" />
-        <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.0" />
-        <PackageReference Include="Vanara.PInvoke.UxTheme" Version="3.4.0" />
-        <PackageReference Include="Vortice.Direct2D1" Version="2.1.2" />
-        <PackageReference Include="Vortice.Direct3D11" Version="2.1.2" />
-        <PackageReference Include="Vortice.DXGI" Version="2.1.2" />
-        <PackageReference Include="Vortice.Mathematics" Version="1.4.10" />
+        <PackageReference Include="SkiaSharp" Version="2.88.0" />
+        <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.3" />
+        <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.4.3" />
+        <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.3" />
+        <PackageReference Include="Vanara.PInvoke.UxTheme" Version="3.4.3" />
+        <PackageReference Include="Vortice.Direct2D1" Version="2.1.19" />
+        <PackageReference Include="Vortice.Direct3D11" Version="2.1.19" />
+        <PackageReference Include="Vortice.DXGI" Version="2.1.19" />
+        <PackageReference Include="Vortice.Mathematics" Version="1.4.16" />
     </ItemGroup>
 
     <ItemGroup>
@@ -120,6 +120,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Update="JavaScript\Renderer\JavaScriptRenderSideFunction.cs">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Compile>
         <Compile Update="Properties\Resources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
