@@ -262,10 +262,13 @@ internal partial class BorderlessWindow
         return false;
     }
 
-    private bool WmCreate(ref Message _)
+    private bool WmCreate(ref Message m)
     {
-        GetWindowRect(hWnd, out var rcClient);
-        SetWindowPos(hWnd, HWND.NULL, rcClient.left, rcClient.top, rcClient.Width, rcClient.Height, SetWindowPosFlags.SWP_FRAMECHANGED);
+        GetWindowRect(m.HWnd, out var rcClient);
+
+        //SetWindowPos(m.HWnd, HWND.NULL, rcClient.left, rcClient.top, rcClient.Width, rcClient.Height, SetWindowPosFlags.SWP_FRAMECHANGED);
+
+        SetWindowPos(m.HWnd, HWND.NULL, Location.X, Location.Y, rcClient.Width, rcClient.Height, SetWindowPosFlags.SWP_FRAMECHANGED);
 
         return false;
     }
