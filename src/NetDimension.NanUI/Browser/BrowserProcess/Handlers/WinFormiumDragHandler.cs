@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.Browser;
@@ -30,6 +32,8 @@ internal sealed class WinFormiumDragHandler : CefDragHandler
             _owner.WebView.DraggableRegion = null;
         }
 
+        _owner.WebView.DraggableRegion = new Region(new Rectangle(0, 0, 0, 0));
+
         if (regions.Length > 0)
         {
 
@@ -41,22 +45,21 @@ internal sealed class WinFormiumDragHandler : CefDragHandler
             foreach (var region in regions)
             {
                 var rect = new Rectangle((int)(region.Bounds.X * scaleFactor), (int)(region.Bounds.Y * scaleFactor), (int)(region.Bounds.Width * scaleFactor), (int)(region.Bounds.Height * scaleFactor));
+                
 
-                if (_owner.WebView.DraggableRegion == null)
+                
+
+                if (region.Draggable)
                 {
-                    _owner.WebView.DraggableRegion = new Region(rect);
+                    _owner.WebView.DraggableRegion.Union(rect);
+
+                    Debug.WriteLine($"UNION {rect}");
                 }
                 else
                 {
+                    _owner.WebView.DraggableRegion.Exclude(rect);
 
-                    if (region.Draggable)
-                    {
-                        _owner.WebView.DraggableRegion.Union(rect);
-                    }
-                    else
-                    {
-                        _owner.WebView.DraggableRegion.Exclude(rect);
-                    }
+                    Debug.WriteLine($"EXCLUDE {rect}");
                 }
 
             }
