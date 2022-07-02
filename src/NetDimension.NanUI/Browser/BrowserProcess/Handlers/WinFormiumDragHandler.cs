@@ -46,20 +46,13 @@ internal sealed class WinFormiumDragHandler : CefDragHandler
             {
                 var rect = new Rectangle((int)(region.Bounds.X * scaleFactor), (int)(region.Bounds.Y * scaleFactor), (int)(region.Bounds.Width * scaleFactor), (int)(region.Bounds.Height * scaleFactor));
                 
-
-                
-
                 if (region.Draggable)
                 {
                     _owner.WebView.DraggableRegion.Union(rect);
-
-                    Debug.WriteLine($"UNION {rect}");
                 }
                 else
                 {
                     _owner.WebView.DraggableRegion.Exclude(rect);
-
-                    Debug.WriteLine($"EXCLUDE {rect}");
                 }
 
             }

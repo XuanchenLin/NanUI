@@ -1,4 +1,4 @@
-﻿using NetDimension.NanUI;
+using NetDimension.NanUI;
 using NetDimension.NanUI.HostWindow;
 using System;
 using System.Collections.Generic;
@@ -24,9 +24,11 @@ internal class BorderlessWindowDemo : Formium
 
         var extendedStyle = UseExtendedStyles<BorderlessWindowStyle>();
         extendedStyle.ShadowEffect = ShadowEffect.Normal;
-        extendedStyle.CornerStyle = CornerStyle.Normal;
+        extendedStyle.CornerStyle = CornerStyle.None;
 
         StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+
+        EnableSplashScreen = false;
     }
 
     protected override void OnReady()
