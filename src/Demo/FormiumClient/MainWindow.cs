@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 
 using NetDimension.NanUI;
@@ -122,6 +123,8 @@ class MainWindow : Formium
 
     }
 
+
+
     #region Events
     private void MainWindow_BeforePopup(object sender, NetDimension.NanUI.Browser.BeforePopupEventArgs e)
     {
@@ -162,16 +165,16 @@ class MainWindow : Formium
 
     private void MainWindow_KeyEvent(object sender, NetDimension.NanUI.Browser.KeyEventArgs e)
     {
-        // Force reload the page when F5 is pressed 
-        // 注册F5键按下时强制刷新页面
-        if (e.KeyEvent.WindowsKeyCode == (int)Keys.F5)
+        //Force reload the page when F5 is pressed
+        //注册F5键按下时强制刷新页面
+        if (e.KeyEvent.EventType == Xilium.CefGlue.CefKeyEventType.KeyUp && e.KeyEvent.WindowsKeyCode == (int)Keys.F5)
         {
             Reload(true);
         }
 
         // Show DevTools when F12 is pressed
         // 注册F12键按下时打开开发者工具
-        if (e.KeyEvent.WindowsKeyCode == (int)Keys.F12)
+        if (e.KeyEvent.EventType == Xilium.CefGlue.CefKeyEventType.KeyUp && e.KeyEvent.WindowsKeyCode == (int)Keys.F12)
         {
             ShowDevTools();
         }
