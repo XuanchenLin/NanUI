@@ -28,7 +28,7 @@ internal sealed class WinFormiumLifeSpanHandler : CefLifeSpanHandler
 
     protected override void OnBeforeClose(CefBrowser browser)
     {
-        _owner.WebView.MessageBridge.OnBeforeClose(browser);
+        _owner?.WebView?.MessageBridge?.OnBeforeClose(browser);
     }
 
     protected override bool OnBeforePopup(CefBrowser browser, CefFrame frame, string targetUrl, string targetFrameName, CefWindowOpenDisposition targetDisposition, bool userGesture, CefPopupFeatures popupFeatures, CefWindowInfo windowInfo, ref CefClient client, CefBrowserSettings settings, ref CefDictionaryValue extraInfo, ref bool noJavascriptAccess)
