@@ -1,5 +1,7 @@
 namespace NetDimension.NanUI;
 
+using System;
+
 using NetDimension.NanUI.HostWindow;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.User32;
@@ -370,7 +372,7 @@ partial class Formium
 
 
     /// <summary>
-    /// You can disalbe About Menu in System Command Menu here, but you 
+    /// You can disalbe About Menu in System Command Menu here, but you
     /// must follow the LICENCE of NanUI Project at https://github.com/NetDimension/NanUI/blob/master/LICENCE
     /// </summary>
     protected virtual bool DisableAboutMenu => false;
@@ -638,7 +640,7 @@ partial class Formium
         FormHostWindow.Shown += FormHostWindowShown;
         FormHostWindow.VisibleChanged += FormHostWindowVisibleChanged;
         FormHostWindow.FormClosing += FormHostWindowFormClosing;
-        
+
 
         IFormHostWindow = (IFormiumHostWindow)FormHostWindow;
 
@@ -652,10 +654,12 @@ partial class Formium
     #region HostWindowEvents
     private void FormHostWindowMove(object sender, EventArgs e)
     {
+        OnMove();
     }
 
     private void FormHostWindowVisibleChanged(object sender, EventArgs e)
     {
+        OnVisibleChanged();
     }
 
     private void FormHostWindowShown(object sender, EventArgs e)
@@ -663,20 +667,31 @@ partial class Formium
     }
 
     bool _isResizing = false;
+
+    //Size? _sizeBeforeResizing =null;
+    //Size? _sizeAfterResizing =null;
+
     private void FormHostWindowResizeBegin(object sender, EventArgs e)
     {
         _isResizing = true;
+
+        //_sizeBeforeResizing =  new Size(Width, Height);
+
         WebView?.BrowserHost?.NotifyMoveOrResizeStarted();
     }
 
     private void FormHostWindowResizeEnd(object sender, EventArgs e)
     {
+        //_sizeAfterResizing = new Size(Width, Height);
+
         WebView?.BrowserHost?.WasResized();
+
         _isResizing = false;
     }
 
     private void FormHostWindowResize(object sender, EventArgs e)
     {
+        OnSizeChanged();
     }
 
     private void FormHostWindowHandleCreated(object sender, EventArgs e)
@@ -1011,6 +1026,35 @@ if(typeof {JS_EVENT_RAISER_NAME} === 'undefined') return;
     #endregion
 
 
+    #region HostWindow public events
+    /// <summary>
+    /// Occurs when size of window has changed.
+    /// </summary>
+    public event EventHandler<EventArgs> Resize;
 
+    internal protected void OnResize()
+    {
+        Resize?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Occurs when location of window has changed.
+    /// </summary>
+    public event EventHandler<EventArgs> Move;
+    internal protected void OnMove()
+    {
+        Move?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Occurs when visible state of window has changed.
+    /// </summary>
+    public event EventHandler<EventArgs> VisibleChanged;
+
+    internal protected void OnVisibleChanged()
+    {
+        VisibleChanged?.Invoke(this, EventArgs.Empty);
+    }
+    #endregion
 
 }

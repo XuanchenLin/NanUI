@@ -34,6 +34,9 @@ public static class Program
 
                 args.AppendSwitch("autoplay-policy", "no-user-gesture-required");
 
+                //args.AppendSwitch("unsafely-treat-insecure-origin-as-secure", "http://resources.app.local");
+
+
             });
 
             env.CustomCefSettings(settings =>
