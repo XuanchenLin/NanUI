@@ -55,10 +55,10 @@ public static class Program
 
             // Enable NanUI Subprocess Demo
             // 启用 NanUI 的子进程示例，使用子进程模式将 CEF 的进程独立到另外的 EXE 文件中，避免在主进程中的各种逻辑意外的多次执行。
-            env.UseExternalSubprocess(sb => {
+            env.UseExternalSubprocess(sb =>
+            {
                 sb.UseCustomSubprocessPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormiumClientSubprocess.exe"));
             });
-
 
 
         }, buildApplicationConfiguration: app =>
