@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>net6.0-windows;net472;</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>10.0</LangVersion>
+        <BaseOutputPath>$(BinDir)\FormiumClient</BaseOutputPath>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+        <StartupObject>FormiumClientSubprocess.Program</StartupObject>
+        <UseWindowsForms>True</UseWindowsForms>
+
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="app.manifest" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="app.manifest" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="AppIcon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\NetDimension.NanUI\NetDimension.NanUI.csproj" />
+    </ItemGroup>
+
+</Project>

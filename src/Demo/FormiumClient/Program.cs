@@ -52,6 +52,15 @@ public static class Program
                 // 在此配置浏览器默认设置
             });
 
+
+            // Enable NanUI Subprocess Demo
+            // 启用 NanUI 的子进程示例，使用子进程模式将 CEF 的进程独立到另外的 EXE 文件中，避免在主进程中的各种逻辑意外的多次执行。
+            env.UseExternalSubprocess(sb => {
+                sb.UseCustomSubprocessPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormiumClientSubprocess.exe"));
+            });
+
+
+
         }, buildApplicationConfiguration: app =>
         {
             app.UseEmbeddedFileResource("http", "resources.app.local", "EmbeddedFiles", url =>
@@ -70,7 +79,8 @@ public static class Program
             // Register DataServiceResource handler which can process http request and return data to response. It will find all DataServices in current assembly automatically or you can indicate where to find the DataServices by using the third parameter.
             // 注册数据资源控制器，它能处理前端的http请求并返回相应结果。DataServiceResource会自动扫描并注册程序集内的数据服务，您也可以手动指定数据服务所在的位置。
             app.UseDataServiceResource("http", "api.app.local");
-            ;
+
+
 
 #if DEBUG
             // Specify whether to enable debugging mode.
