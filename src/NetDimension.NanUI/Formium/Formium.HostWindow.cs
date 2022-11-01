@@ -419,6 +419,8 @@ partial class Formium
     public void Show()
     {
         FormHostWindow.Show();
+
+        FormHostWindow.Activate();
     }
 
     /// <summary>
@@ -427,6 +429,9 @@ partial class Formium
     public void Show(IWin32Window owner)
     {
         FormHostWindow.Show(owner);
+
+        FormHostWindow.Activate();
+
     }
 
     /// <summary>
@@ -435,6 +440,9 @@ partial class Formium
     public void Show(Formium owner)
     {
         FormHostWindow.Show(owner.FormHostWindow);
+
+        FormHostWindow.Activate();
+
     }
 
     /// <summary>
@@ -691,7 +699,7 @@ partial class Formium
 
     private void FormHostWindowResize(object sender, EventArgs e)
     {
-        OnSizeChanged();
+        OnResize();
     }
 
     private void FormHostWindowHandleCreated(object sender, EventArgs e)
