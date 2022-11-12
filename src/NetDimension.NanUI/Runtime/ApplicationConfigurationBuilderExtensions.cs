@@ -8,7 +8,7 @@ namespace NetDimension.NanUI;
 public static class ApplicationConfigurationBuilderExtensions
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
     /// <param name="path"></param>
@@ -50,7 +50,7 @@ public static class ApplicationConfigurationBuilderExtensions
     /// <param name="this">The ApplicationConfigurationBuilder instance.</param>
     /// <param name="onProcessAlreadyExists">A delegate that handles when instance has been running.</param>
     /// <returns>Current ApplicationConfigurationBuilder instance.</returns>
-    public static ApplicationConfigurationBuilder UseSingleInstance(this ApplicationConfigurationBuilder @this, Action onProcessAlreadyExists = null)
+    public static ApplicationConfigurationBuilder UseSingleInstance(this ApplicationConfigurationBuilder @this, Action<int> onProcessAlreadyExists = null)
     {
         @this.Use(builder =>
         {
@@ -64,7 +64,7 @@ public static class ApplicationConfigurationBuilderExtensions
                 {
                     if (process.Id != thisProcess.Id)
                     {
-                        onProcessAlreadyExists?.Invoke();
+                        onProcessAlreadyExists?.Invoke(process.Id);
 
                         Environment.Exit(0);
                         return;

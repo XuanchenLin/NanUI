@@ -80,7 +80,12 @@ public static class Program
             // 注册数据资源控制器，它能处理前端的http请求并返回相应结果。DataServiceResource会自动扫描并注册程序集内的数据服务，您也可以手动指定数据服务所在的位置。
             app.UseDataServiceResource("http", "api.app.local");
 
-
+            // Enable single instance mode
+            // 启用单例
+            app.UseSingleInstance((processId) => { 
+                // processId - 为已在运行中的进程实例ID
+                // processId - The Id of the running instance
+            });
 
 #if DEBUG
             // Specify whether to enable debugging mode.
