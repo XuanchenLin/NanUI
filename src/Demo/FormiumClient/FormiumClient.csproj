@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0-windows;net472;</TargetFrameworks>
+        <TargetFrameworks>net7.0-windows;net6.0-windows;net472;</TargetFrameworks>
         <LangVersion>10.0</LangVersion>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
