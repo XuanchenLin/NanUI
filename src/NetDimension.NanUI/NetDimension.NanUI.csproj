@@ -3,7 +3,7 @@
     <PropertyGroup>
         <LangVersion>latest</LangVersion>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net6.0-windows;net5.0-windows;netcoreapp3.1;net48;net472;net471;net47;net462;</TargetFrameworks>
+        <TargetFrameworks>net7.0-windows;net6.0-windows;net5.0-windows;netcoreapp3.1;net48;net481;net472;net471;net47;net462;</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <Description>NanUI is an open source .NET component for Windows Form Applications. It's base on Chromium Embedded Framework. All .NET developers who wants to use front-end technologies such as HTML5/CSS3/JavaScript to design the user interface of Windows Form Applications.</Description>
         <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
