@@ -96,7 +96,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
         <PackageReference Include="SkiaSharp" Version="2.88.0" />
         <PackageReference Include="Vanara.PInvoke.DwmApi" Version="3.4.3" />
         <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.4.3" />
