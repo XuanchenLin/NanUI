@@ -25,9 +25,16 @@ internal sealed class WinFormiumLoadHandler : CefLoadHandler
 
         if (frame.IsMain)
         {
-            if (httpStatusCode >= 400 || httpStatusCode ==0)
+            if (e.SkipErrorHandler == false && ((httpStatusCode >= 400 && httpStatusCode < 500) || httpStatusCode ==0))
             {
-                frame.LoadUrl("res://formium/InternalError/index.html");
+                if(string.IsNullOrEmpty(e.ErrorPageUrl))
+                {
+                    frame.LoadUrl("res://formium/InternalError/index.html");
+                }
+                else
+                {
+                    frame.LoadUrl(e.ErrorPageUrl);
+                }
             }
             else
             {
@@ -39,8 +46,6 @@ internal sealed class WinFormiumLoadHandler : CefLoadHandler
 
     protected override void OnLoadError(CefBrowser browser, CefFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
     {
-
-
         var e = new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl);
         _owner.InvokeIfRequired(() => _owner.OnLoadError(e));
     }
@@ -74,7 +79,8 @@ public sealed class LoadEndEventArgs : EventArgs
         Frame = frame;
         HttpStatusCode = httpStatusCode;
     }
-
+    public string? ErrorPageUrl { get; set; }
+    public bool SkipErrorHandler { get; set; } = false;
     public CefFrame Frame { get; }
     public int HttpStatusCode { get; }
 }
