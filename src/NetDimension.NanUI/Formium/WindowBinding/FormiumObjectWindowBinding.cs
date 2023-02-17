@@ -1,7 +1,12 @@
 using NetDimension.NanUI.JavaScript;
 using NetDimension.NanUI.JavaScript.WindowBinding;
 using System.Net.NetworkInformation;
+
+using Vanara.PInvoke;
+
 using Xilium.CefGlue;
+
+using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.Browser.WindowBinding;
 
@@ -107,7 +112,12 @@ class FormiumObjectWindowBinding : JavaScriptWindowBindingObject
         if (owner.WindowType == HostWindow.HostWindowType.Kiosk || !owner.Minimizable)
             return null;
 
-        owner.InvokeIfRequired(() => owner.WindowState = FormWindowState.Minimized);
+        owner.InvokeIfRequired(() => {
+            owner.WindowState = FormWindowState.Minimized;
+            //var pt = new POINT(Cursor.Position.X, Cursor.Position.Y);
+            //ScreenToClient(owner.BrowserWindowHandle, ref pt);
+            //SendMessage(owner.BrowserWindowHandle, WindowMessage.WM_LBUTTONUP, 0x0, Macros.MAKELPARAM((ushort)pt.X, (ushort)pt.Y));
+        });
 
         return null;
     }

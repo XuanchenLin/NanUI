@@ -33,6 +33,8 @@ class MainWindow : Formium
         style.ShadowEffect = ShadowEffect.Big;
         style.CornerStyle = CornerStyle.Tiny;
 
+        Title = "NanUI 示例程序";
+
         // Set up Splash styles
         // 设置启动画面的各种参数
         SplashScreen.AutoHide = false;
