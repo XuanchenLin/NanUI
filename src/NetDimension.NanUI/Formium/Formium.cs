@@ -49,15 +49,27 @@ public abstract partial class Formium
     /// </summary>
     protected ServiceContainer IoC => WinFormium.Runtime?.Container;
 
+    private CefBrowserSettings _browserSettings;
 
     public Formium()
     {
+        _browserSettings = OnCreateBrowserSettings();
+
+
+        if (_browserSettings == null)
+        {
+            _browserSettings = WinFormium.DefaultBrowserSettings;
+        }
+
         InitializeFormium();
     }
 
 
+
     private void InitializeFormium()
     {
+
+
         CreateHostWindow();
     }
 

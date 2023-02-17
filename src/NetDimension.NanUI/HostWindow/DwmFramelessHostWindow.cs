@@ -17,6 +17,12 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
 
         InitializeReflectedFields();
 
+
+        SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+        SetStyle(ControlStyles.ResizeRedraw, false);
+
+
+
     }
     public WindowMessageDelegate OnWindowsMessage { get; set; }
     public WindowMessageDelegate OnDefWindowsMessage { get; set; }
@@ -27,7 +33,8 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
     {
         base.OnHandleCreated(e);
 
-        //DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
+
+        DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
         //DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0, this.Width, 0, this.Height));
 
@@ -47,6 +54,9 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
             AdjustWindowRectEx(ref rect, style, false, exStyle);
         }
     }
+
+
+
     internal Padding GetNonClientAeraBorders()
     {
         var rect = RECT.Empty;
@@ -75,21 +85,35 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
     {
         if (m.Msg == (int)WindowMessage.WM_NCCALCSIZE && m.WParam != IntPtr.Zero)
         {
+            var nccsp = Marshal.PtrToStructure<BorderlessWindow.NCCALCSIZE_PARAMS>(m.LParam);
+
             if (IsZoomed(hWnd))
             {
-                var nccsp = Marshal.PtrToStructure<BorderlessWindow.NCCALCSIZE_PARAMS>(m.LParam);
                 var ncBorders = GetNonClientAeraBorders();
+
                 nccsp.rgrc1 = nccsp.rgrc0;
                 nccsp.rgrc0.top -= ncBorders.Top;
                 nccsp.rgrc0.top += ncBorders.Bottom;
-                Marshal.StructureToPtr(nccsp, m.LParam, false);
+
                 m.Result = (IntPtr)0x0400;
+
+                Marshal.StructureToPtr(nccsp, m.LParam, true);
+
                 base.WndProc(ref m);
             }
             else
             {
+                nccsp.rgrc0.top -= 1;
+                nccsp.rgrc0.bottom += 1;
+                nccsp.rgrc0.left -= 1;
+                nccsp.rgrc0.right += 1;
+
                 m.Result = IntPtr.Zero;
+
+                Marshal.StructureToPtr(nccsp, m.LParam, true);
             }
+
+
 
             return;
         }
@@ -108,7 +132,7 @@ internal class DwmFramelessHostWindow : SystemWindow, IFormiumHostWindow
             }
         }
 
-        if(m.Msg == (int)WindowMessage.WM_PAINT)
+        if (m.Msg == (int)WindowMessage.WM_PAINT)
         {
 
             var hdc = BeginPaint(hWnd, out var ps);

@@ -1,6 +1,7 @@
 namespace NetDimension.NanUI;
 
 using System;
+using System.Runtime.InteropServices;
 
 using NetDimension.NanUI.HostWindow;
 using Vanara.PInvoke;
@@ -555,21 +556,28 @@ partial class Formium
     {
 
         Form innerWindow = null;
+        var defaultColor = _browserSettings.BackgroundColor;
 
         switch (WindowType)
         {
             case HostWindowType.System:
                 innerWindow = new StandardHostWindow(this);
+                innerWindow.BackColor = Color.FromArgb(0xff, defaultColor.R, defaultColor.G, defaultColor.B);
+
                 _currentHostWindowStyle = new SystemWindowStyle(innerWindow);
 
                 break;
             case HostWindowType.SystemBorderless:
                 innerWindow = new DwmFramelessHostWindow(this);
+                innerWindow.BackColor = Color.FromArgb(0xff, defaultColor.R, defaultColor.G, defaultColor.B);
+
                 _currentHostWindowStyle = new SystemBorderlessWindowStyle(innerWindow);
 
                 break;
             case HostWindowType.Borderless:
                 innerWindow = new FramelessHostWindow(this);
+                innerWindow.BackColor = Color.FromArgb(0xff, defaultColor.R, defaultColor.G, defaultColor.B);
+
                 _currentHostWindowStyle = new BorderlessWindowStyle(innerWindow);
 
                 break;
@@ -577,6 +585,8 @@ partial class Formium
                 Sizable = false;
                 AllowFullScreen = false;
                 innerWindow = new StandardHostWindow(this);
+                innerWindow.BackColor = Color.FromArgb(0xff, defaultColor.R, defaultColor.G, defaultColor.B);
+
                 _currentHostWindowStyle = new KioskWindowStyle(innerWindow);
                 innerWindow.FormBorderStyle = FormBorderStyle.None;
                 innerWindow.WindowState = FormWindowState.Maximized;
@@ -595,6 +605,9 @@ partial class Formium
                     FormBorderStyle = FormBorderStyle.FixedSingle
                 };
 
+                innerWindow.BackColor = Color.FromArgb(defaultColor.A, defaultColor.R, defaultColor.G, defaultColor.B);
+
+
 
                 WinFormium.DefaultBrowserSettings.WindowlessFrameRate = 60;
                 _currentHostWindowStyle = new LayeredWindowStyle(innerWindow);
@@ -607,6 +620,11 @@ partial class Formium
             case HostWindowType.Custom:
                 break;
         }
+
+
+
+
+
 
 
 
@@ -771,12 +789,26 @@ partial class Formium
         const string FORMIUM_ACTIVATED = "formium-app-activated";
         const string FORMIUM_DEACTIVATE = "formium-app-deactivate";
 
-        if (m.Msg == (int)WindowMessage.WM_SIZE)
+        if (m.Msg == (int)WindowMessage.WM_SIZE || m.Msg == (int)WindowMessage.WM_WINDOWPOSCHANGED)
         {
             ResizeWebView();
         }
 
-        if(m.Msg == (int)WindowMessage.WM_ACTIVATEAPP)
+        //if(m.Msg == (int)WindowMessage.WM_WINDOWPOSCHANGED)
+        //{
+        //    var windowpos = Marshal.PtrToStructure<WINDOWPOS>(m.LParam);
+
+        //    if((windowpos.flags & SetWindowPosFlags.SWP_NOSIZE)!= SetWindowPosFlags.SWP_NOSIZE)
+        //    {
+        //        ResizeWebView();
+
+        //    }
+
+
+
+        //}
+
+        if (m.Msg == (int)WindowMessage.WM_ACTIVATEAPP)
         {
             var isAppActivate = false;
 

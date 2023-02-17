@@ -30,15 +30,9 @@ partial class Formium
 
     internal void CreateBrowser()
     {
-        var browserSettings = OnCreateBrowserSettings();
 
 
-        if (browserSettings == null)
-        {
-            browserSettings = WinFormium.DefaultBrowserSettings;
-        }
-
-        WebView = new FormiumWebView(this, browserSettings, StartUrl);
+        WebView = new FormiumWebView(this, _browserSettings, StartUrl);
 
         WindowInfo = CefWindowInfo.Create();
 
@@ -342,7 +336,7 @@ partial class Formium
         }
         else
         {
-            
+
             if (IsWindowVisible(HostWindowHandle))
             {
                 SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_NOACTIVATE);
@@ -523,7 +517,7 @@ partial class Formium
     }
 
     /// <summary>
-    /// Load page from the 
+    /// Load page from the
     /// </summary>
     /// <param name="url"></param>
     public void LoadUrl(string url)

@@ -237,6 +237,8 @@ internal partial class BorderlessWindow : Form
         Region = new Region(pathRegion);
 
         oldRegion?.Dispose();
+
+
     }
 
     internal void SetWindowRegion(Rectangle rectangleRegion)

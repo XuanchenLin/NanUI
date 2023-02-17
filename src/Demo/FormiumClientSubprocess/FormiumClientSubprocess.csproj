@@ -6,12 +6,14 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>10.0</LangVersion>
-        <BaseOutputPath>$(BinDir)\FormiumClient</BaseOutputPath>
+        <AssemblyName>$(AssemblyName)</AssemblyName>
+        <Product>NanUI Formium Demo Subprocess</Product>
+        <AssemblyTitle>NanUI 示例程序子进程</AssemblyTitle>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>AppIcon.ico</ApplicationIcon>
         <StartupObject>FormiumClientSubprocess.Program</StartupObject>
         <UseWindowsForms>True</UseWindowsForms>
-
+        <BaseOutputPath>$(BinDir)\FormiumClient</BaseOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,6 +30,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\NetDimension.NanUI\NetDimension.NanUI.csproj" />
+        <ProjectReference Include="..\FormiumClient\FormiumClient.csproj" />
     </ItemGroup>
 
 </Project>

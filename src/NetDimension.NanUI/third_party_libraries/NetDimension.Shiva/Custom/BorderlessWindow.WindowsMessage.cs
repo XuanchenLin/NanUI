@@ -1,6 +1,7 @@
 using Vanara.Extensions;
 using Vanara.PInvoke;
 
+using static Vanara.PInvoke.DwmApi;
 using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.HostWindow;
@@ -43,7 +44,21 @@ internal partial class BorderlessWindow
                     }
                 }
                 break;
+            case (int)WindowMessage.WM_ACTIVATE:
+                {
+                    base.WndProc(ref m);
+                    DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0));
 
+                }
+                break;
+            case (int)WindowMessage.WM_PAINT:
+                {
+                    if(!WmPaint(ref m))
+                    {
+                        base.WndProc(ref m);
+                    }
+                }
+                break;
             case (int)WindowMessage.WM_NCPAINT:
                 {
                     if (!WmNCPaint(ref m))
@@ -74,18 +89,31 @@ internal partial class BorderlessWindow
                 break;
             case (int)WindowMessage.WM_ACTIVATEAPP:
                 {
-                    InvalidateNonClientArea();
-                    SendFrameChangedMessage();
-
                     if (!WmActiveApp(ref m))
                     {
-
-
                         base.WndProc(ref m);
                     }
+
+                    InvalidateNonClientArea();
+                    SendFrameChangedMessage();
                 }
                 break;
+            case (int)WindowMessage.WM_SHOWWINDOW:
+                {
+                    base.WndProc(ref m);
 
+
+                    if (WindowState == FormWindowState.Normal)
+                    {
+
+                        System.Diagnostics.Debug.WriteLine("111");
+                        using var roundedRect = GetWindowBorderPath();
+                        SetWindowRegion(roundedRect);
+                    }
+
+
+                }
+                break;
             case (int)WindowMessage.WM_NCACTIVATE:
                 {
                     if (!WmNCActive(ref m))
@@ -153,7 +181,6 @@ internal partial class BorderlessWindow
 
 
 
-
     private bool WmActiveApp(ref Message m)
     {
 
@@ -166,12 +193,6 @@ internal partial class BorderlessWindow
         {
             IsApplicationForeground = true;
             SetApplicationFocus();
-
-            if (WindowState == FormWindowState.Normal)
-            {
-                using var roundedRect = GetWindowBorderPath();
-                SetWindowRegion(roundedRect);
-            }
         }
 
         return false;
@@ -200,6 +221,8 @@ internal partial class BorderlessWindow
             if (isActive)
             {
                 SetWindowFocus();
+
+
             }
             else
             {
@@ -226,13 +249,8 @@ internal partial class BorderlessWindow
         return false;
     }
 
-
-
-    private bool WmSize(ref Message m)
+    private bool WmPaint(ref Message m)
     {
-        if (!_isLoaded)
-            return false;
-
         if (WindowState == FormWindowState.Maximized)
         {
             _shouldPerformMaximiazedState = true;
@@ -254,6 +272,16 @@ internal partial class BorderlessWindow
         {
             RemoveWindowRegion();
         }
+
+        return false;
+    }
+
+
+
+    private bool WmSize(ref Message m)
+    {
+        if (!_isLoaded)
+            return false;
 
         SendFrameChangedMessage();
 
@@ -278,17 +306,25 @@ internal partial class BorderlessWindow
         if (m.WParam == TRUE)
         {
             var nccsp = Marshal.PtrToStructure<NCCALCSIZE_PARAMS>(m.LParam);
+            var ncBorders = GetNonClientAeraBorders();
 
             if (WindowState != FormWindowState.Maximized && WindowState != FormWindowState.Minimized)
             {
+                //nccsp.rgrc0.top -= 1;
+                //nccsp.rgrc0.bottom += 1;
+                //nccsp.rgrc0.left -= 1;
+                //nccsp.rgrc0.right += 1;
+
                 m.Result = MESSAGE_PROCESS;
+
+                //Marshal.StructureToPtr(nccsp, m.LParam, true);
+
 
                 return true;
             }
             else if (WindowState == FormWindowState.Maximized)
             {
 
-                var ncBorders = GetNonClientAeraBorders();
 
                 nccsp.rgrc0.top -= ncBorders.Top;
                 nccsp.rgrc0.top += ncBorders.Bottom;

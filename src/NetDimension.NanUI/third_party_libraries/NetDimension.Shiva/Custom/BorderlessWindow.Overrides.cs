@@ -22,17 +22,15 @@ internal partial class BorderlessWindow
         AutoScaleMode = AutoScaleMode.None;
 
 
-        //SetStyle(
-        //     ControlStyles.AllPaintingInWmPaint |
-        //     ControlStyles.UserPaint |
-        //     ControlStyles.OptimizedDoubleBuffer
-        //, true);
+        SetStyle(
+             ControlStyles.AllPaintingInWmPaint |
+             ControlStyles.UserPaint |
+             ControlStyles.OptimizedDoubleBuffer
+        , true);
 
         //DoubleBuffered = true;
 
-        SetStyle(ControlStyles.ResizeRedraw, false);
-
-        BackColor = Color.Black;
+        SetStyle(ControlStyles.ResizeRedraw, true);
 
         Padding = Padding.Empty;
 
@@ -50,11 +48,13 @@ internal partial class BorderlessWindow
     {
         base.OnHandleCreated(e);
 
-        DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
-        DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0, this.Width, 0, this.Height));
 
         hWnd = new HWND(Handle);
+
+        DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
+
+        DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0));
 
         DpiHelper.InitializeDpiHelper();
 

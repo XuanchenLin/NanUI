@@ -10,6 +10,8 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        WinFormium.CreateRuntimeBuilder(app => { }).Build().RunAsSubprocess();
+        WinFormium.CreateRuntimeBuilder(app => {
+            app.RegisterJavaScriptWindowBinding(() => new FormiumClient.DemoWindowBinding());
+        }).Build().RunAsSubprocess();
     }
 }

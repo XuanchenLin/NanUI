@@ -93,7 +93,8 @@ public sealed class WinFormium
             {
                 _defaultBrowserSettings = new CefBrowserSettings()
                 {
-                    WindowlessFrameRate = 30,
+                    WindowlessFrameRate = 60,
+
                 };
             }
             return _defaultBrowserSettings;
