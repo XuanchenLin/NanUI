@@ -309,13 +309,14 @@ public sealed class ChromiumEnvironmentBuilder
 
         if (_externalSubprocessConfiguration != null)
         {
-            if (!File.Exists(_externalSubprocessConfiguration.SubprocessPath))
+            if (File.Exists(_externalSubprocessConfiguration.SubprocessPath))
             {
-                throw new FileNotFoundException($"Can't find the path {_externalSubprocessConfiguration.SubprocessPath}.");
+                env.SubprocessPath = _externalSubprocessConfiguration.SubprocessPath;
+
             }
             else
             {
-                env.SubprocessPath = _externalSubprocessConfiguration.SubprocessPath;
+
             }
         }
 
@@ -355,7 +356,7 @@ public sealed class ExternalSubprocessConfiguration
             return;
         }
 
-        throw new FileNotFoundException($"Can't find the path {subprocessPath}.");
+        //throw new FileNotFoundException($"Can't find the path {subprocessPath}.");
 
     }
 }

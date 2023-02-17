@@ -94,23 +94,19 @@ internal partial class BorderlessWindow
                         base.WndProc(ref m);
                     }
 
-                    InvalidateNonClientArea();
-                    SendFrameChangedMessage();
+
                 }
                 break;
             case (int)WindowMessage.WM_SHOWWINDOW:
                 {
                     base.WndProc(ref m);
 
+                    UpdateBorderPath();
 
-                    if (WindowState == FormWindowState.Normal)
+                    if (m.WParam != IntPtr.Zero)
                     {
-
-                        System.Diagnostics.Debug.WriteLine("111");
-                        using var roundedRect = GetWindowBorderPath();
-                        SetWindowRegion(roundedRect);
+                        SetActiveWindow(m.HWnd);
                     }
-
 
                 }
                 break;
@@ -180,6 +176,36 @@ internal partial class BorderlessWindow
     }
 
 
+    private void UpdateBorderPath()
+    {
+        if (WindowState == FormWindowState.Maximized)
+        {
+            if(Bounds.X == -32000 && Bounds.Y == -32000)
+            {
+                return;
+            }
+
+            _shouldPerformMaximiazedState = true;
+
+            var screen = Screen.FromHandle(Handle);
+
+            var bounds = FormBorderStyle == FormBorderStyle.None ? screen.Bounds : screen.WorkingArea;
+
+            var regionBounds = new Rectangle(bounds.X - Bounds.X, bounds.Y - Bounds.Y, Bounds.Width - (Bounds.Width - bounds.Width), Bounds.Height - (Bounds.Height - bounds.Height));
+
+            SetWindowRegion(regionBounds);
+        }
+        else if (WindowState == FormWindowState.Normal && _windowCornerStyle!= CornerStyle.None)
+        {
+            using var roundedRect = GetWindowBorderPath();
+            SetWindowRegion(roundedRect);
+        }
+        else
+        {
+            RemoveWindowRegion();
+        }
+    }
+
 
     private bool WmActiveApp(ref Message m)
     {
@@ -211,23 +237,17 @@ internal partial class BorderlessWindow
         }
         else
         {
-
-
             m.Result = MESSAGE_HANDLED;
 
-            InvalidateNonClientArea();
-
-            SendFrameChangedMessage();
             if (isActive)
             {
                 SetWindowFocus();
-
-
             }
             else
             {
                 KillWindowFocus();
             }
+
             UpdateShadowZOrder();
         }
 
@@ -251,27 +271,7 @@ internal partial class BorderlessWindow
 
     private bool WmPaint(ref Message m)
     {
-        if (WindowState == FormWindowState.Maximized)
-        {
-            _shouldPerformMaximiazedState = true;
-
-            var screen = Screen.FromHandle(Handle);
-
-            var bounds = FormBorderStyle == FormBorderStyle.None ? screen.Bounds : screen.WorkingArea;
-
-            var regionBounds = new Rectangle(bounds.X - Bounds.X, bounds.Y - Bounds.Y, Bounds.Width - (Bounds.Width - bounds.Width), Bounds.Height - (Bounds.Height - bounds.Height));
-
-            SetWindowRegion(regionBounds);
-        }
-        else if (WindowState == FormWindowState.Normal)
-        {
-            using var roundedRect = GetWindowBorderPath();
-            SetWindowRegion(roundedRect);
-        }
-        else
-        {
-            RemoveWindowRegion();
-        }
+        UpdateBorderPath();
 
         return false;
     }
@@ -294,8 +294,6 @@ internal partial class BorderlessWindow
     {
         GetWindowRect(m.HWnd, out var rcClient);
 
-        //SetWindowPos(m.HWnd, HWND.NULL, rcClient.left, rcClient.top, rcClient.Width, rcClient.Height, SetWindowPosFlags.SWP_FRAMECHANGED);
-
         SetWindowPos(m.HWnd, HWND.NULL, Location.X, Location.Y, rcClient.Width, rcClient.Height, SetWindowPosFlags.SWP_FRAMECHANGED);
 
         return false;
@@ -314,10 +312,10 @@ internal partial class BorderlessWindow
                 //nccsp.rgrc0.bottom += 1;
                 //nccsp.rgrc0.left -= 1;
                 //nccsp.rgrc0.right += 1;
+                //Marshal.StructureToPtr(nccsp, m.LParam, true);
 
                 m.Result = MESSAGE_PROCESS;
 
-                //Marshal.StructureToPtr(nccsp, m.LParam, true);
 
 
                 return true;

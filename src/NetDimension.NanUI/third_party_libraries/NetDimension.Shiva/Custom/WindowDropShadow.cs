@@ -75,13 +75,13 @@ internal class WindowDropShadow : IDisposable
 
         var windowClass = new WindowClass(className, HINSTANCE.NULL, _windowProc);
 
-        var exStyles = WindowStylesEx.WS_EX_LEFT | WindowStylesEx.WS_EX_LTRREADING | WindowStylesEx.WS_EX_TOOLWINDOW | WindowStylesEx.WS_EX_NOPARENTNOTIFY | WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_NOACTIVATE | WindowStylesEx.WS_EX_TRANSPARENT;
+        var exStyles = WindowStylesEx.WS_EX_LEFT | WindowStylesEx.WS_EX_LTRREADING | WindowStylesEx.WS_EX_TOOLWINDOW | /*WindowStylesEx.WS_EX_NOPARENTNOTIFY |*/ WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_NOACTIVATE | WindowStylesEx.WS_EX_TRANSPARENT;
 
         var styles = WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_POPUP;
 
         HWnd = CreateWindowEx(exStyles, className, "NanUI Shadow Window", styles, 0, 0, 0, 0, HWND.NULL, HMENU.NULL, HINSTANCE.NULL, IntPtr.Zero);
 
-        //D2D1.D2D1CreateFactory(FactoryType.SingleThreaded, out _d2dFactory);
+        D2D1.D2D1CreateFactory(FactoryType.SingleThreaded, out _d2dFactory);
     }
 
 
@@ -320,7 +320,7 @@ internal class WindowDropShadow : IDisposable
             DpiY = 96
         };
 
-        var d2d1Bmp = renderTarget.CreateBitmap(new SizeI(destBitmap.Width, destBitmap.Height), IntPtr.Zero, bmpData.Stride, bmpProps);
+        var d2d1Bmp = renderTarget.CreateBitmap(new Size(destBitmap.Width, destBitmap.Height), IntPtr.Zero, bmpData.Stride, bmpProps);
 
         d2d1Bmp.CopyFromMemory(byteData, bmpData.Stride);
 
@@ -427,8 +427,8 @@ internal class WindowDropShadow : IDisposable
 
                 d2dRenderTarget.Clear(new ColorBgra(0));
 
-                using (var rectMask = _d2dFactory.CreateRectangleGeometry(Rect.FromLTRB(0, 0, width, height)))
-                using (var rrectMask = _d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle(Rect.FromLTRB(shadowSize, shadowSize, shadowSize + rectWidth, shadowSize + rectHeight), cornerSize, cornerSize)))
+                using (var rectMask = _d2dFactory.CreateRectangleGeometry(RectangleF.FromLTRB(0, 0, width, height)))
+                using (var rrectMask = _d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle(RectangleF.FromLTRB(shadowSize, shadowSize, shadowSize + rectWidth, shadowSize + rectHeight), cornerSize, cornerSize)))
                 using (var retvalMask = _d2dFactory.CreatePathGeometry())
                 using (var layer = d2dRenderTarget.CreateLayer(new Size(width, height)))
 
@@ -552,13 +552,13 @@ internal class WindowDropShadow : IDisposable
     }
 
 
-    internal SizeI GetShadowSize(int winWidth, int winHeight)
+    internal Size GetShadowSize(int winWidth, int winHeight)
     {
         var config = ParentWindow.ShadowEffects[ParentWindow.ShadowEffect];
 
         var shadowSize = config.Width;
 
-        return new SizeI(winWidth + shadowSize * 2, winHeight + shadowSize * 2);
+        return new Size(winWidth + shadowSize * 2, winHeight + shadowSize * 2);
     }
     internal Point GetShadowLocation(int x, int y, int cx, int cy)
     {

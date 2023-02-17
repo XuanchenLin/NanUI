@@ -605,9 +605,6 @@ partial class Formium
                     FormBorderStyle = FormBorderStyle.FixedSingle
                 };
 
-                innerWindow.BackColor = Color.FromArgb(defaultColor.A, defaultColor.R, defaultColor.G, defaultColor.B);
-
-
 
                 WinFormium.DefaultBrowserSettings.WindowlessFrameRate = 60;
                 _currentHostWindowStyle = new LayeredWindowStyle(innerWindow);
@@ -980,7 +977,10 @@ if(typeof {JS_EVENT_RAISER_NAME} === 'undefined') return;
     {
         if (FormHostWindow != null)
         {
-            InvokeIfRequired(() => FormHostWindow.Text = GetWindowTitle());
+            InvokeIfRequired(() => {
+                var text = GetWindowTitle();
+                FormHostWindow.Text = text;
+            });
         }
     }
 

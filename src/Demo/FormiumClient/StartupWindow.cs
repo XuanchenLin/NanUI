@@ -13,19 +13,16 @@ internal class StartupWindow : Formium
 
     public StartupWindow()
     {
-        Size = new System.Drawing.Size(680, 440);
-        MinimumSize = new System.Drawing.Size(640, 400);
+        Size = new Size(720, 440);
+        MinimumSize = new Size(640, 400);
         StartPosition = FormStartPosition.CenterScreen;
         Sizable = true;
-        Maximizable = false;
+        Maximizable = true;
         AllowFullScreen = false;
         EnableSplashScreen = false;
         AllowSystemMenu = false;
 
-        //var style = UseExtendedStyles<BorderlessWindowStyle>();
-
-        //style.ShadowEffect = ShadowEffect.Glow;
-        //style.CornerStyle = CornerStyle.Tiny;
+        Title = "欢迎使用 NanUI 示例程序";
 
     }
 

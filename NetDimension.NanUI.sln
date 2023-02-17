@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{D53CC7AC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormiumClient", "src\Demo\FormiumClient\FormiumClient.csproj", "{57147B65-E72F-414D-B09F-242E15BDF082}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormiumClientSubprocess", "src\Demo\FormiumClientSubprocess\FormiumClientSubprocess.csproj", "{5A35DD27-8045-49A7-81B2-CD17ADD044FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormiumClientSubprocess", "src\Demo\FormiumClientSubprocess\FormiumClientSubprocess.csproj", "{5A35DD27-8045-49A7-81B2-CD17ADD044FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,16 +65,16 @@ Global
 		{57147B65-E72F-414D-B09F-242E15BDF082}.Release|x86.Build.0 = Release|x86
 		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x64.Build.0 = Debug|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x64.ActiveCfg = Debug|x64
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x64.Build.0 = Debug|x64
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x86.ActiveCfg = Debug|x86
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Debug|x86.Build.0 = Debug|x86
 		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x64.ActiveCfg = Release|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x64.Build.0 = Release|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x86.ActiveCfg = Release|Any CPU
-		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x86.Build.0 = Release|Any CPU
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x64.ActiveCfg = Release|x64
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x64.Build.0 = Release|x64
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x86.ActiveCfg = Release|x86
+		{5A35DD27-8045-49A7-81B2-CD17ADD044FE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

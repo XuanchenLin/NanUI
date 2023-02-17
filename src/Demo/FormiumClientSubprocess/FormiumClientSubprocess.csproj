@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFrameworks>net7.0-windows;net6.0-windows;net472;</TargetFrameworks>
+        <UseWindowsForms>true</UseWindowsForms>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>10.0</LangVersion>
@@ -13,7 +14,9 @@
         <ApplicationIcon>AppIcon.ico</ApplicationIcon>
         <StartupObject>FormiumClientSubprocess.Program</StartupObject>
         <UseWindowsForms>True</UseWindowsForms>
-        <BaseOutputPath>$(BinDir)\FormiumClient</BaseOutputPath>
+        <BaseOutputPath>$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
+        <Platforms>AnyCPU;x86;x64</Platforms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,6 +34,10 @@
     <ItemGroup>
         <ProjectReference Include="..\..\NetDimension.NanUI\NetDimension.NanUI.csproj" />
         <ProjectReference Include="..\FormiumClient\FormiumClient.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
     </ItemGroup>
 
 </Project>

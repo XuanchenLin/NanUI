@@ -47,7 +47,7 @@ var Formium;
                 }
 
                 if (!window.hasOwnProperty(GLOBAL_CLICK_HANDLER_REGISTERED)) {
-                    window.addEventListener("click", e => {
+                    window.addEventListener("mouseup", e => {
                         let srcElement = e.target;
 
                         while (srcElement && !srcElement.hasAttribute(CMD_ATTR_PREFIX)) {
@@ -74,10 +74,13 @@ var Formium;
 
                                 if (command && hostWindow && hostWindow[command]) {
 
+                                    setTimeout(() => {
+                                        hostWindow[command].apply($target);
+                                    }, 100);
+
+
                                     e.stopPropagation();
                                     e.preventDefault();
-
-                                    hostWindow[command].apply($target);
                                 }
                             }
 
