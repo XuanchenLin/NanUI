@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/window-styles/static/js/main.bundle.16b7dae6.js",
+    "main.js": "/window-styles/static/js/main.bundle.71043536.js",
     "main.css": "/window-styles/static/css/main.8bb56116.css",
     "static/js/27.chunk.4991a090.js": "/window-styles/static/js/27.chunk.4991a090.js",
     "static/media/kitty-meow.mp3": "/window-styles/static/media/kitty-meow.6f94f1bfedbd33eb8cb7.mp3",
@@ -14,7 +14,7 @@
     "index.html": "/window-styles/index.html"
   },
   "entrypoints": [
-    "static/js/main.bundle.16b7dae6.js",
+    "static/js/main.bundle.71043536.js",
     "static/css/main.8bb56116.css"
   ]
 }

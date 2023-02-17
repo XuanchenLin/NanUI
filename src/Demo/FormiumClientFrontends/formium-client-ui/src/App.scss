@@ -65,6 +65,8 @@ html {
   }
 }
 
+
+
 .app {
   user-select: none;
   cursor: default;
@@ -73,6 +75,10 @@ html {
   box-sizing: border-box;
   display: flex;
   justify-content: stretch;
+
+  pre {
+    user-select: text;
+  }
 
   .app-side-bar {
     background-image: linear-gradient(to bottom, #fbc2ebca 0%, #f5efefcc 100%);

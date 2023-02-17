@@ -16,9 +16,8 @@ function App() {
   if (Globalization.hasOwnProperty(culture)) {
     messages = Globalization[culture];
   } else {
-    messages = Globalization["zn-US"];
+    messages = Globalization["en-US"];
   }
-
 
   return (
     <div className="dialog-container">
