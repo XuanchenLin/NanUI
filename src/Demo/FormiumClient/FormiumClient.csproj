@@ -7,14 +7,16 @@
         <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
         <OutputType>WinExe</OutputType>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <AssemblyName>NanUI Formium Demo Client</AssemblyName>
-        <PackageId>FormiumClient</PackageId>
-        <Product>NanUI FormiumClient</Product>
+        <Product>NanUI Formium Demo Client</Product>
+        <AssemblyTitle>NanUI 示例程序</AssemblyTitle>
+        <PackageId>$(AssemblyName)</PackageId>
+        <AssemblyName>$(AssemblyName)</AssemblyName>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <Nullable>warnings</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <Platforms>AnyCPU;x64;x86</Platforms>
+        <BaseOutputPath>$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
     </PropertyGroup>
 
     <ItemGroup>

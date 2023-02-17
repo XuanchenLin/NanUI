@@ -21,6 +21,12 @@ internal class StartupWindow : Formium
         AllowFullScreen = false;
         EnableSplashScreen = false;
         AllowSystemMenu = false;
+
+        //var style = UseExtendedStyles<BorderlessWindowStyle>();
+
+        //style.ShadowEffect = ShadowEffect.Glow;
+        //style.CornerStyle = CornerStyle.Tiny;
+
     }
 
     protected override void OnReady()

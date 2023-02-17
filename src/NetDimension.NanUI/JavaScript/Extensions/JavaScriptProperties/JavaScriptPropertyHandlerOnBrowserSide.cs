@@ -55,7 +55,7 @@ class JavaScriptPropertyHandlerOnBrowserSide : MessageHandlerOnBrowserSide
             string name = data.Name;
             Guid propUuid = data.Uuid;
             Guid objUuid = data.ObjectUuid;
-            JavaScriptValue value = JavaScriptValue.FromJson((string)data.Value);
+            var value = JavaScriptValue.FromJson((string)data.Value);
 
             var target = JavaScriptProperty.Bag.SingleOrDefault(x => x.Uuid == propUuid);
 

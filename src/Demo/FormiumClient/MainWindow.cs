@@ -20,7 +20,7 @@ class MainWindow : Formium
         // 在此处设置窗体的各种属性
 
         MinimumSize = new Size(720, 480);
-        Size = new Size(1280, 800);
+        Size = new Size(1280, 720);
 
         StartPosition = FormStartPosition.CenterScreen;
 
@@ -28,10 +28,10 @@ class MainWindow : Formium
         // 设置 Borderless 样式窗体的各项扩展属性，需要注意泛型T需要对应正确的WindowType
         var style = UseExtendedStyles<BorderlessWindowStyle>();
         //style.ShadowColor = ColorTranslator.FromHtml("#8B6A91");
-        //style.InactiveShadowColor = ColorTranslator.FromHtml("#EE3a3a3a");
+        style.InactiveShadowColor = ColorTranslator.FromHtml("#EE3a3a3a");
         style.ShadowColor = ColorTranslator.FromHtml("#EE3a3a3a");
-        style.ShadowEffect = ShadowEffect.Huge;
-        style.CornerStyle = CornerStyle.Small;
+        style.ShadowEffect = ShadowEffect.Big;
+        style.CornerStyle = CornerStyle.Tiny;
 
         // Set up Splash styles
         // 设置启动画面的各种参数
@@ -120,7 +120,6 @@ class MainWindow : Formium
         // Register event handler when keyboard is pressed
         // 注册按键事件
         KeyEvent += MainWindow_KeyEvent;
-
     }
 
 

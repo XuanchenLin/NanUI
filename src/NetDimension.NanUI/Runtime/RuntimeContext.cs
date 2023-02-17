@@ -109,6 +109,8 @@ public sealed class RuntimeContext
 
         var exitCode = CefRuntime.ExecuteProcess(cefMainArgs, app, IntPtr.Zero);
 
+        //ApplicationConfiguration.UseExtensions[(int)ExtensionExecutePosition.BrowserProcessInitialized]?.Invoke(this, ApplicationProperties);
+
         return exitCode;
     }
 
@@ -208,10 +210,11 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
             settings.BrowserSubprocessPath = ChromiumEnvironment.SubprocessPath;
         }
 
-
         CefRuntime.Initialize(new CefMainArgs(args), settings, app, IntPtr.Zero);
 
         ApplicationConfiguration.UseExtensions[(int)ExtensionExecutePosition.BrowserProcessInitialized]?.Invoke(this, ApplicationProperties);
+
+
 
         foreach (var config in CustomResourceHandlerConfigurations)
         {

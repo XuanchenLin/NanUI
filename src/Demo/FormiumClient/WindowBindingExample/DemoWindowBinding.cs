@@ -4,7 +4,7 @@ using NetDimension.NanUI.JavaScript.WindowBinding;
 
 namespace FormiumClient;
 
-internal class DemoWindowBinding : JavaScriptWindowBindingObject
+public class DemoWindowBinding : JavaScriptWindowBindingObject
 {
     public override string Name { get; } = "Example/DemoWindow";
     public override string JavaScriptCode { get; } = Properties.Resources.DemoWindowBinding;

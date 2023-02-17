@@ -82,7 +82,7 @@ public static class Program
 
             // Enable single instance mode
             // 启用单例
-            //app.UseSingleInstance((processId) => { 
+            //app.UseSingleInstance((processId) => {
             //    // processId - 为已在运行中的进程实例ID
             //    // processId - The Id of the running instance
             //});
