@@ -17,11 +17,11 @@ public sealed class MessageRequest
 
     public string ToJson()
     {
-        return JsonConvert.SerializeObject(this);
+        return JsonSerializer.Serialize(this);
     }
 
     public static MessageRequest Deserialize(string json)
     {
-        return JsonConvert.DeserializeObject<MessageRequest>(json);
+        return JsonSerializer.Deserialize<MessageRequest>(json);
     }
 }

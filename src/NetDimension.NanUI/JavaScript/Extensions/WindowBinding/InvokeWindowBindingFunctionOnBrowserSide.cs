@@ -18,12 +18,12 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
     {
         if (request.Name == InvokeWindowBindingFunctionHandler.INVOKE_WINDOW_BINDING_FUNCTION)
         {
-            dynamic requestData = JsonConvert.DeserializeObject<dynamic>(request.Data);
+            var requestData = JsonSerializer.Deserialize<JavaScriptWindowBindingMessageParameter>(request.Data);
 
-            string objectName = requestData.ObjectName;
-            Guid funcId = requestData.Uuid;
-            string funcName = requestData.FunctionName;
-            string data = requestData.Arguments;
+            var objectName = requestData.ObjectName;
+            var funcId = requestData.Uuid;
+            var funcName = requestData.FunctionName;
+            var data = requestData.Arguments;
 
             var args = JavaScriptValue.FromJson(data).ToArray();
 
@@ -75,13 +75,13 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
     {
         if (request.Name == InvokeWindowBindingFunctionHandler.INVOKE_WINDOW_BINDING_ASYNC_FUNCTION)
         {
-            dynamic requestData = JsonConvert.DeserializeObject<dynamic>(request.Data);
+            var requestData = JsonSerializer.Deserialize<JavaScriptWindowBindingMessageParameter>(request.Data);
 
-            string objectName = requestData.ObjectName;
-            Guid funcId = requestData.Uuid;
-            string funcName = requestData.FunctionName;
-            string data = requestData.Arguments;
-            long frameId = requestData.FrameId;
+            var objectName = requestData.ObjectName;
+            var funcId = requestData.Uuid;
+            var funcName = requestData.FunctionName;
+            var data = requestData.Arguments;
+            var frameId = requestData.FrameId;
 
             var frame = Owner.GetFrame(frameId);
 

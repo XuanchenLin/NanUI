@@ -97,7 +97,7 @@ internal static class JavaScriptTypeConverterExtension
     {
         var retval = new List<CefV8Value>();
 
-        for (int i = 0; i < array.Count; i++)
+        for (var i = 0; i < array.Count; i++)
         {
             var source = array[i];
 

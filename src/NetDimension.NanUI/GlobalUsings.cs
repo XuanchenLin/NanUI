@@ -1,4 +1,4 @@
-﻿global using System;
+global using System;
 global using System.Collections.Generic;
 global using System.Drawing;
 global using System.IO;
@@ -10,4 +10,5 @@ global using System.Text.RegularExpressions;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.Windows.Forms;
-global using Newtonsoft.Json;
+//global using Newtonsoft.Json;
+global using System.Text.Json;

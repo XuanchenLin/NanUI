@@ -2,17 +2,17 @@ namespace NetDimension.NanUI.Browser.ResourceHandler;
 
 public static class ResourceResponseExtensions
 {
-    public static void JsonContent(this ResourceResponse response, object data, JsonSerializerSettings jsonSerializerOptions = null)
+    public static void JsonContent(this ResourceResponse response, object data, JsonSerializerOptions jsonSerializerOptions = null)
     {
-        var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data, jsonSerializerOptions));
+        var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data, jsonSerializerOptions));
 
         response.Content(bytes, "application/json");
     }
 
 
-    public static void JsonContent<T>(this ResourceResponse response, T data, JsonSerializerSettings jsonSerializerOptions = null)
+    public static void JsonContent<T>(this ResourceResponse response, T data, JsonSerializerOptions jsonSerializerOptions = null)
     {
-        var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data, jsonSerializerOptions));
+        var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(data, jsonSerializerOptions));
 
 
         response.Content(bytes, "application/json");

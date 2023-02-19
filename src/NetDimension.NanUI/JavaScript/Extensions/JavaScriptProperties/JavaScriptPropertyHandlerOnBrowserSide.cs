@@ -1,4 +1,6 @@
 using NetDimension.NanUI.Browser.MessagePipe;
+using NetDimension.NanUI.JavaScript.Renderer;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript.JavaScriptProperties;
@@ -21,11 +23,11 @@ class JavaScriptPropertyHandlerOnBrowserSide : MessageHandlerOnBrowserSide
     {
         if (request.Name == JavaScriptPropertyHandler.OBJECT_GET_PROPERTY_VALUE)
         {
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(request.Data);
+            var data = JsonSerializer.Deserialize<JavaScriptObjectAccessorMessageParameter>(request.Data);
 
-            string name = data.Name;
-            Guid propUuid = data.Uuid;
-            Guid objUuid = data.ObjectUuid;
+            var name = data.Name;
+            var propUuid = data.Uuid;
+            var objUuid = data.ObjectUuid;
             //JavaScriptValue value = JavaScriptValue.FromJson((string)data.Value);
 
             var target = JavaScriptProperty.Bag.SingleOrDefault(x => x.Uuid == propUuid);
@@ -50,11 +52,11 @@ class JavaScriptPropertyHandlerOnBrowserSide : MessageHandlerOnBrowserSide
     {
         if (request.Name == JavaScriptPropertyHandler.OBJECT_SET_PROPERTY_VALUE)
         {
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(request.Data);
+            var data = JsonSerializer.Deserialize<JavaScriptObjectAccessorMessageParameter>(request.Data);
 
-            string name = data.Name;
-            Guid propUuid = data.Uuid;
-            Guid objUuid = data.ObjectUuid;
+            var name = data.Name;
+            var propUuid = data.Uuid;
+            var objUuid = data.ObjectUuid;
             var value = JavaScriptValue.FromJson((string)data.Value);
 
             var target = JavaScriptProperty.Bag.SingleOrDefault(x => x.Uuid == propUuid);

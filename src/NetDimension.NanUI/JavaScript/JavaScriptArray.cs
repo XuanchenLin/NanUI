@@ -176,7 +176,7 @@ public sealed class JavaScriptArray : JavaScriptValue, IList<JavaScriptValue>
 
     internal static new JavaScriptArray FromJson(string json)
     {
-        return FromDefinition(JsonConvert.DeserializeObject<List<JSValueDefinition>>(json));
+        return FromDefinition(JsonSerializer.Deserialize<List<JSValueDefinition>>(json));
     }
 
     internal static JavaScriptArray FromDefinition(List<JSValueDefinition> definition)

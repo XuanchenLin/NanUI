@@ -288,7 +288,7 @@ public class JavaScriptValue
 
     internal virtual string ToJson()
     {
-        return JsonConvert.SerializeObject(ToDefinition());
+        return JsonSerializer.Serialize(ToDefinition());
     }
 
     //public override string ToString()
@@ -298,31 +298,31 @@ public class JavaScriptValue
 
     internal static JavaScriptValue FromJson(string json)
     {
-        return FromDefinition(JsonConvert.DeserializeObject<JSValueDefinition>(json));
+        return FromDefinition(JsonSerializer.Deserialize<JSValueDefinition>(json));
     }
 
 
     internal static JavaScriptValue FromDefinition(JSValueDefinition definition)
     {
-        if (definition == null)
+        if (definition == null || definition.ValueDefinition == null)
         {
             return CreateUndefined();
         }
 
         var type = definition.ValueType;
-        var def = definition.ValueDefinition;
+        var def = (JsonElement)definition.ValueDefinition;
         var uuid = definition.Uuid;
         JavaScriptValue value = null;
 
 
         if (type == JavaScriptValueType.Property)
         {
-            value = JavaScriptProperty.FromJson(def.ToString());
+            value = JavaScriptProperty.FromJson(def.GetRawText());
         }
 
         if (type == JavaScriptValueType.Function)
         {
-            var funcDef = JSFunctionDefinition.FromJson(def.ToString());
+            var funcDef = JSFunctionDefinition.FromJson(def.GetRawText());
 
             if (funcDef.Side == CefProcessType.Browser)
             {
@@ -356,7 +356,7 @@ public class JavaScriptValue
 
         if (type == JavaScriptValueType.JSON)
         {
-            value = new JavaScriptJsonValue((string)def);
+            value = new JavaScriptJsonValue(def.GetString());
         }
 
         if (type == JavaScriptValueType.Null)
@@ -366,37 +366,37 @@ public class JavaScriptValue
 
         if (type == JavaScriptValueType.Bool)
         {
-            value = new JavaScriptValue((bool)def);
+            value = new JavaScriptValue(def.GetBoolean());
         }
 
         if (type == JavaScriptValueType.Int)
         {
-            value = new JavaScriptValue(Convert.ToInt32(def));
+            value = new JavaScriptValue(def.GetInt32());
         }
 
         if (type == JavaScriptValueType.Double)
         {
-            value = new JavaScriptValue(Convert.ToDouble(def));
+            value = new JavaScriptValue(def.GetDouble());
         }
 
         if (type == JavaScriptValueType.String)
         {
-            value = new JavaScriptValue((string)def);
+            value = new JavaScriptValue(def.GetString());
         }
 
         if (type == JavaScriptValueType.DateTime)
         {
-            value = new JavaScriptValue((DateTime)def);
+            value = new JavaScriptValue(def.GetDateTime());
         }
 
         if (type == JavaScriptValueType.Object)
         {
-            value = JavaScriptObject.FromJson(def.ToString());
+            value = JavaScriptObject.FromJson(def.GetRawText());
         }
 
         if (type == JavaScriptValueType.Array)
         {
-            value = JavaScriptArray.FromJson(def.ToString());
+            value = JavaScriptArray.FromJson(def.GetRawText());
         }
 
 

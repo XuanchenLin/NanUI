@@ -1,6 +1,7 @@
-using Newtonsoft.Json.Linq;
 
 namespace NetDimension.NanUI.JavaScript;
+
+using System.Text.Json;
 
 public static class JavaScriptJsonValueExtension
 {
@@ -17,7 +18,7 @@ public static class JavaScriptJsonValueExtension
             var j = jsValue.GetString();
             try
             {
-                var x = JToken.Parse(j);
+                //var x = JToken.Parse(j);
                 return new JavaScriptJsonValue(j);
             }
             catch
@@ -40,12 +41,12 @@ public sealed class JavaScriptJsonValue : JavaScriptValue
     {
     }
     public JavaScriptJsonValue(object source)
-: base(JsonConvert.SerializeObject(source), JavaScriptValueType.JSON)
+: base(JsonSerializer.Serialize(source), JavaScriptValueType.JSON)
     {
     }
 
     public T ConvertToObject<T>()
     {
-        return JsonConvert.DeserializeObject<T>((string)RawValue);
+        return JsonSerializer.Deserialize<T>((string)RawValue);
     }
 }

@@ -7,6 +7,6 @@ internal class JSFunctionDefinition
 
     public static JSFunctionDefinition FromJson(string json)
     {
-        return JsonConvert.DeserializeObject<JSFunctionDefinition>(json);
+        return JsonSerializer.Deserialize<JSFunctionDefinition>(json);
     }
 }

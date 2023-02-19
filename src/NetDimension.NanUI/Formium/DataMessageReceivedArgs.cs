@@ -1,4 +1,4 @@
-﻿namespace NetDimension.NanUI;
+namespace NetDimension.NanUI;
 
 
 
@@ -8,7 +8,7 @@ public class DataMessageReceivedArgs : EventArgs
 
     private string _json;
 
-    public Newtonsoft.Json.Linq.JToken Json { get; }
+    public string Json { get; }
 
     public bool HasData { get; }
 
@@ -22,7 +22,7 @@ public class DataMessageReceivedArgs : EventArgs
         {
             try
             {
-                Json = Newtonsoft.Json.Linq.JToken.Parse(json);
+                Json = json;
 
                 HasData = true;
             }
@@ -37,7 +37,7 @@ public class DataMessageReceivedArgs : EventArgs
     {
         if (HasData)
         {
-            return JsonConvert.DeserializeObject<T>(_json);
+            return JsonSerializer.Deserialize<T>(_json);
         }
 
         return default(T);

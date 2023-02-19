@@ -1,3 +1,4 @@
+using NetDimension.NanUI.JavaScript.JavaScriptEvaluation;
 using NetDimension.NanUI.JavaScript.Renderer;
 using Xilium.CefGlue;
 
@@ -22,12 +23,12 @@ internal class InvokeJavaScriptPromiseFunctionTask : CefTask
         Handler = invokeJavaScriptFunctionOnRenderSide;
         Frame = frame;
 
-        dynamic args = JsonConvert.DeserializeObject<dynamic>(arguments);
+        var args = JsonSerializer.Deserialize<JavaScriptPromiseFunctionMessageParameter>(arguments);
 
         Uuid = args.FuncId;
         Success = args.Success;
 
-        string data = args.Data;
+        var data = args.Data;
 
         if (!string.IsNullOrEmpty(data))
         {

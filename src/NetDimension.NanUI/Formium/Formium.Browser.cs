@@ -383,7 +383,7 @@ partial class Formium
         }
         else
         {
-            var json = JsonConvert.SerializeObject(data);
+            var json = JsonSerializer.Serialize(data);
             var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
             ExecuteJavaScript($"Formium.__onDataMessageReceived__(`{message}`,`{base64}`)");
