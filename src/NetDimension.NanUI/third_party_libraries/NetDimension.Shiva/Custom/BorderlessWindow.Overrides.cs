@@ -22,13 +22,11 @@ internal partial class BorderlessWindow
         AutoScaleMode = AutoScaleMode.None;
 
 
-        SetStyle(
-             ControlStyles.AllPaintingInWmPaint |
-             ControlStyles.UserPaint |
-             ControlStyles.OptimizedDoubleBuffer
-        , true);
-
-        //DoubleBuffered = true;
+        //SetStyle(
+        //     ControlStyles.AllPaintingInWmPaint |
+        //     ControlStyles.UserPaint |
+        //     ControlStyles.OptimizedDoubleBuffer
+        //, true);
 
         SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -54,7 +52,6 @@ internal partial class BorderlessWindow
 
         DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
-        DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0));
 
         DpiHelper.InitializeDpiHelper();
 
@@ -197,10 +194,6 @@ internal partial class BorderlessWindow
         return rect;
     }
 
-    protected override Size SizeFromClientSize(Size clientSize)
-    {
-        return clientSize;
-    }
 
     protected Size ClientSizeFromSize(Size size)
     {

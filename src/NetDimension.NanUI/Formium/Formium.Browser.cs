@@ -354,6 +354,37 @@ partial class Formium
     }
 
 
+    internal void ResizeWebView(int width,int height)
+    {
+        if (!_isHostWindowCreated || !_isBrowserCreated || BrowserWindowHandle == IntPtr.Zero)
+            return;
+
+        //GetClientRect(HostWindowHandle, out var rect);
+
+        if (IsIconic(this.HostWindowHandle))
+        {
+            SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER);
+        }
+        else
+        {
+
+            if (IsWindowVisible(HostWindowHandle))
+            {
+                SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, width, height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_NOACTIVATE);
+
+                SetWindowLong(BrowserWindowHandle, WindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_VISIBLE));
+            }
+            else
+            {
+                SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_HIDEWINDOW);
+
+                SetWindowLong(BrowserWindowHandle, WindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_DISABLED));
+            }
+        }
+
+    }
+
+
     internal void OnDataMessageReceived(string message, string json)
     {
         var args = new DataMessageReceivedArgs(message, json);

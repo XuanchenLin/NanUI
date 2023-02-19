@@ -17,6 +17,13 @@
         <BaseOutputPath>$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
         <Platforms>AnyCPU;x86;x64</Platforms>
         <PlatformTarget>AnyCPU</PlatformTarget>
+        <!--<PublishTrimmed>true</PublishTrimmed>
+        <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+        <CustomResourceTypesSupport>true</CustomResourceTypesSupport>-->
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ValidateExecutableReferencesMatchSelfContained>false</ValidateExecutableReferencesMatchSelfContained>
     </PropertyGroup>
 
     <ItemGroup>

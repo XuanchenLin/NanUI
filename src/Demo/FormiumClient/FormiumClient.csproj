@@ -17,6 +17,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Platforms>AnyCPU;x64;x86</Platforms>
         <BaseOutputPath>$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
+        <!--<PublishTrimmed>true</PublishTrimmed>
+        <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+        <CustomResourceTypesSupport>true</CustomResourceTypesSupport>-->
     </PropertyGroup>
 
     <ItemGroup>

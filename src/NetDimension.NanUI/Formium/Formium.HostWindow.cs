@@ -4,6 +4,8 @@ using System;
 using System.Runtime.InteropServices;
 
 using NetDimension.NanUI.HostWindow;
+
+using Vanara.Extensions;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.User32;
 
@@ -600,9 +602,6 @@ partial class Formium
                 Sizable = false;
                 innerWindow = new LayeredStyleHostWindow(this)
                 {
-                    ShadowEffect = ShadowEffect.None,
-                    CornerStyle = CornerStyle.None,
-                    FormBorderStyle = FormBorderStyle.FixedSingle
                 };
 
 
@@ -786,24 +785,46 @@ partial class Formium
         const string FORMIUM_ACTIVATED = "formium-app-activated";
         const string FORMIUM_DEACTIVATE = "formium-app-deactivate";
 
-        if (m.Msg == (int)WindowMessage.WM_SIZE || m.Msg == (int)WindowMessage.WM_WINDOWPOSCHANGED)
+        if (m.Msg == (int)WindowMessage.WM_SIZE)
         {
-            ResizeWebView();
+            var width = Macros.GET_X_LPARAM(m.LParam);
+            var height = Macros.GET_Y_LPARAM(m.LParam);
+            ResizeWebView(width,height);
         }
 
-        //if(m.Msg == (int)WindowMessage.WM_WINDOWPOSCHANGED)
+        //if(m.Msg == (int)WindowMessage.WM_NCCALCSIZE)
+        //{
+        //    var rcSize = (BorderlessWindow.NCCALCSIZE_PARAMS)Marshal.PtrToStructure(m.LParam, typeof(BorderlessWindow.NCCALCSIZE_PARAMS));
+
+        //    if((rcSize.lppos.flags & SetWindowPosFlags.SWP_NOSIZE)!= SetWindowPosFlags.SWP_NOSIZE)
+        //    {
+        //        ResizeWebView(rcSize.lppos.cx, rcSize.lppos.cy);
+
+        //    }
+
+        //}
+
+        //if (m.Msg == (int)WindowMessage.WM_WINDOWPOSCHANGED)
         //{
         //    var windowpos = Marshal.PtrToStructure<WINDOWPOS>(m.LParam);
 
-        //    if((windowpos.flags & SetWindowPosFlags.SWP_NOSIZE)!= SetWindowPosFlags.SWP_NOSIZE)
+        //    if ((windowpos.flags & SetWindowPosFlags.SWP_NOSIZE) != SetWindowPosFlags.SWP_NOSIZE)
         //    {
         //        ResizeWebView();
 
         //    }
 
-
-
         //}
+        //if (m.Msg == (int)WindowMessage.WM_SIZING)
+        //{
+        //    var rect = m.LParam.ToStructure<RECT>();
+
+        //    InflateRect(ref rect, 1, 1);
+
+        //    ResizeWebView(rect.Width, rect.Height);
+        //}
+
+
 
         if (m.Msg == (int)WindowMessage.WM_ACTIVATEAPP)
         {

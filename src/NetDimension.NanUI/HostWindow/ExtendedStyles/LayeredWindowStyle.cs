@@ -1,4 +1,4 @@
-﻿namespace NetDimension.NanUI.HostWindow;
+namespace NetDimension.NanUI.HostWindow;
 
 public sealed class LayeredWindowStyle : WindowStyleBase
 {
@@ -10,28 +10,6 @@ public sealed class LayeredWindowStyle : WindowStyleBase
 
     private LayeredStyleHostWindow Host { get; }
 
-    public ShadowEffect ShadowEffect
-    {
-        get => Host.ShadowEffect;
-        set => Host.ShadowEffect = value;
-    }
 
-    public CornerStyle CornerStyle
-    {
-        get => Host.CornerStyle;
-        set => Host.CornerStyle = value;
-    }
-
-    public Color ShadowColor
-    {
-        get => Host.ShadowColor;
-        set => Host.ShadowColor = value;
-    }
-
-    public Color? InactiveShadowColor
-    {
-        set => Host.InactiveShadowColor = value;
-        get => Host?.InactiveShadowColor;
-    }
 
 }

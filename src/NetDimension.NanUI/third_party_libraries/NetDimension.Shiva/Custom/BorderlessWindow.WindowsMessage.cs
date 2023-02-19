@@ -51,6 +51,12 @@ internal partial class BorderlessWindow
 
                 }
                 break;
+            //case (int)WindowMessage.WM_ERASEBKGND:
+            //    {
+            //        //UpdateBorderPath();
+            //        m.Result = (nint)1;
+            //    }
+            //    break;
             case (int)WindowMessage.WM_PAINT:
                 {
                     if(!WmPaint(ref m))
@@ -77,6 +83,14 @@ internal partial class BorderlessWindow
                     }
                 }
                 break;
+            //case (int)WindowMessage.WM_WINDOWPOSCHANGING:
+            //    {
+            //        if (!WmWindowPosChanging(ref m))
+            //        {
+            //            base.WndProc(ref m);
+            //        }
+            //    }
+            //    break;
             case (int)WindowMessage.WM_WINDOWPOSCHANGED:
                 {
 
@@ -87,6 +101,14 @@ internal partial class BorderlessWindow
 
                 }
                 break;
+            //case (int)WindowMessage.WM_SIZING:
+            //    {
+            //        if (!WmSizing(ref m))
+            //        {
+            //            base.WndProc(ref m);
+            //        }
+            //    }
+            //    break;
             case (int)WindowMessage.WM_ACTIVATEAPP:
                 {
                     if (!WmActiveApp(ref m))
@@ -176,6 +198,7 @@ internal partial class BorderlessWindow
     }
 
 
+
     private void UpdateBorderPath()
     {
         if (WindowState == FormWindowState.Maximized)
@@ -255,6 +278,18 @@ internal partial class BorderlessWindow
 
         return true;
     }
+    private bool WmWindowPosChanging(ref Message m)
+    {
+        var windowpos = m.LParam.ToStructure<WINDOWPOS>();
+
+        windowpos.flags |= SetWindowPosFlags.SWP_NOCOPYBITS;
+
+        Marshal.StructureToPtr(windowpos, m.LParam, true);
+
+
+        return false;
+
+    }
 
     private bool WmWindowPosChanged(ref Message m)
     {
@@ -269,12 +304,15 @@ internal partial class BorderlessWindow
         return false;
     }
 
-    private bool WmPaint(ref Message m)
+
+    private bool WmSizing(ref Message m)
     {
-        UpdateBorderPath();
+        //var windowpos = m.LParam.ToStructure<RECT>();
+
 
         return false;
     }
+
 
 
 
@@ -308,17 +346,24 @@ internal partial class BorderlessWindow
 
             if (WindowState != FormWindowState.Maximized && WindowState != FormWindowState.Minimized)
             {
-                //nccsp.rgrc0.top -= 1;
-                //nccsp.rgrc0.bottom += 1;
-                //nccsp.rgrc0.left -= 1;
-                //nccsp.rgrc0.right += 1;
-                //Marshal.StructureToPtr(nccsp, m.LParam, true);
+                nccsp.rgrc0.top -= ncBorders.Top;
+                nccsp.rgrc0.bottom += ncBorders.Bottom;
+                nccsp.rgrc0.left -= ncBorders.Left;
+                nccsp.rgrc0.right += ncBorders.Right;
+
+
+                nccsp.rgrc0.top += WindowNonclientAreaBorders.Top;
+                nccsp.rgrc0.bottom -= WindowNonclientAreaBorders.Bottom;
+                nccsp.rgrc0.left += WindowNonclientAreaBorders.Left;
+                nccsp.rgrc0.right -= WindowNonclientAreaBorders.Right;
+
 
                 m.Result = MESSAGE_PROCESS;
 
+                Marshal.StructureToPtr(nccsp, m.LParam, true);
 
-
-                return true;
+                //m.Result = (nint)0x400;
+                //return true;
             }
             else if (WindowState == FormWindowState.Maximized)
             {
@@ -327,7 +372,7 @@ internal partial class BorderlessWindow
                 nccsp.rgrc0.top -= ncBorders.Top;
                 nccsp.rgrc0.top += ncBorders.Bottom;
 
-                Marshal.StructureToPtr(nccsp, m.LParam, false);
+                Marshal.StructureToPtr(nccsp, m.LParam, true);
                 m.Result = MESSAGE_PROCESS;
             }
         }
@@ -335,18 +380,84 @@ internal partial class BorderlessWindow
         return false;
     }
 
+    private bool WmPaint(ref Message m)
+    {
+        UpdateBorderPath();
+
+        return false;
+    }
 
     private bool WmNCPaint(ref Message m)
     {
-        if (!IsHandleCreated)
+        if (m.HWnd == IntPtr.Zero) return false;
+
+
+        GetWindowRect(m.HWnd, out var bounds);
+
+        if (bounds.Width <= 0 || bounds.Height <= 0)
         {
             return false;
         }
 
-        m.Result = MESSAGE_PROCESS;
+        var dcxFlags = DCX.DCX_WINDOW | DCX.DCX_CACHE | DCX.DCX_CLIPSIBLINGS | DCX.DCX_VALIDATE;
+
+        var hRegion = IntPtr.Zero;
+
+        if (m.WParam != (nint)1)
+        {
+            dcxFlags |= DCX.DCX_INTERSECTRGN;
+            hRegion = m.WParam;
+        }
+
+
+
+
+        var dc = GetDCEx(Handle, hRegion, dcxFlags);
+
+        try
+        {
+            if (dc != IntPtr.Zero)
+            {
+
+                GetClientRect(m.HWnd, out var clientRect);
+
+                OffsetRect(ref clientRect, WindowNonclientAreaBorders.Left, WindowNonclientAreaBorders.Top);
+
+                OffsetRect(ref bounds, -bounds.left, -bounds.top);
+
+
+                using var graphics = Graphics.FromHdc(dc.DangerousGetHandle());
+                using var region = new Region(bounds);
+
+                if (WindowState == FormWindowState.Maximized)
+                {
+                    region.Exclude(bounds);
+                }
+                else
+                {
+                    region.Exclude(clientRect);
+                }
+
+                using var brush = new SolidBrush(Color.FromArgb(0xFF,0xB2,0xB2,0xB2));
+                graphics.FillRegion(brush, region);
+
+
+
+
+
+            }
+        }
+        finally
+        {
+            ReleaseDC(m.HWnd, dc);
+        }
+
+        m.Result = IntPtr.Zero;
 
         return true;
+
     }
+
 
 
 }

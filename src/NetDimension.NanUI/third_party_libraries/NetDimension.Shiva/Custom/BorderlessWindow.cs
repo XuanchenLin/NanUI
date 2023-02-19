@@ -38,6 +38,9 @@ internal partial class BorderlessWindow : Form
 
     private CornerStyle _windowCornerStyle = CornerStyle.Normal;
 
+    private Padding WindowNonclientAreaBorders { get; set; } = new Padding(0);
+
+
     #region Window Sizing
     private bool _shouldPerformMaximiazedState = false;
 
@@ -88,6 +91,15 @@ internal partial class BorderlessWindow : Form
         }
     }
 
+    protected override Size SizeFromClientSize(Size clientSize)
+    {
+
+        clientSize.Width += WindowNonclientAreaBorders.Horizontal;
+        clientSize.Height += WindowNonclientAreaBorders.Vertical;
+
+        return clientSize;
+    }
+
     private Size PatchWindowSizeInRestoreWindowBoundsIfNecessary(int width, int height)
     {
         if (WindowState == FormWindowState.Normal)
@@ -110,8 +122,8 @@ internal partial class BorderlessWindow : Form
                         var vector = (BitVector32)formStateExFieldInfo.GetValue(this);
                         if (vector[section] == 1)
                         {
-                            width = restoredWindowBounds.Width;
-                            height = restoredWindowBounds.Height;
+                            width = restoredWindowBounds.Width + WindowNonclientAreaBorders.Horizontal;
+                            height = restoredWindowBounds.Height + WindowNonclientAreaBorders.Vertical;
                         }
                     }
                 }
