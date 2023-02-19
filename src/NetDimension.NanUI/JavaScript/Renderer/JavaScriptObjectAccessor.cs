@@ -27,7 +27,7 @@ internal class JavaScriptObjectAccessor : CefV8Accessor
         {
             var request = new MessageRequest(JavaScriptProperties.JavaScriptPropertyHandler.OBJECT_GET_PROPERTY_VALUE, Context.GetBrowser().Identifier, Context.GetFrame().Identifier, Context.GetHashCode())
             {
-                Data = JsonConvert.SerializeObject(new
+                Data = JsonSerializer.Serialize(new JavaScriptObjectAccessorMessageParameter
                 {
                     Name = name,
                     Uuid = prop.Uuid,
@@ -77,7 +77,7 @@ internal class JavaScriptObjectAccessor : CefV8Accessor
 
                 var request = new MessageRequest(JavaScriptProperties.JavaScriptPropertyHandler.OBJECT_SET_PROPERTY_VALUE, Context.GetBrowser().Identifier, Context.GetFrame().Identifier, Context.GetHashCode())
                 {
-                    Data = JsonConvert.SerializeObject(new
+                    Data = JsonSerializer.Serialize(new JavaScriptObjectAccessorMessageParameter
                     {
                         Name = name,
                         Uuid = prop.Uuid,
@@ -114,4 +114,12 @@ internal class JavaScriptObjectAccessor : CefV8Accessor
 
 
     }
+}
+
+internal class JavaScriptObjectAccessorMessageParameter
+{
+    public string Name { get; set; }
+    public string Value { get; set; }
+    public Guid Uuid { get; set; }
+    public Guid ObjectUuid { get; set; }
 }

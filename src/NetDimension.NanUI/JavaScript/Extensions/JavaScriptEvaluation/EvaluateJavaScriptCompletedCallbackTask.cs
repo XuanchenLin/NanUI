@@ -8,7 +8,7 @@ sealed class EvaluateJavaScriptCompletedCallbackTask : CefTask
     {
         Handler = handler;
         Frame = frame;
-        Result = JsonConvert.DeserializeObject<JavaScriptEvaluationResultMessage>(data);
+        Result = JsonSerializer.Deserialize<JavaScriptEvaluationResultMessage>(data);
 
     }
 

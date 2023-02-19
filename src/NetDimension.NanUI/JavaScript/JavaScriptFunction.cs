@@ -37,6 +37,8 @@ public static class JavaScriptRenderSideFunctionExtension
 }
 
 
+
+
 public sealed class JavaScriptFunction : JavaScriptValue
 {
     internal static ConcurrentDictionary<Tuple<int, long>, TaskCompletionSource<JavaScriptExecutionResult>> Results { get; } = new ConcurrentDictionary<Tuple<int, long>, TaskCompletionSource<JavaScriptExecutionResult>>();
@@ -100,7 +102,7 @@ public sealed class JavaScriptFunction : JavaScriptValue
 
         if (Results.TryAdd(new Tuple<int, long>(taskId, Frame.Identifier), tsc))
         {
-            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, JsonConvert.SerializeObject(new { TaskId = taskId, FuncId = Uuid, FrameId = Frame.Identifier, Args = arguments.ToJson() }));
+            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, JsonSerializer.Serialize(new JavaScriptFuntionMessageParameter { TaskId = taskId, FuncId = Uuid, FrameId = Frame.Identifier, Args = arguments.ToJson() }));
 
             FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, Frame, message);
 
@@ -147,4 +149,15 @@ public sealed class JavaScriptFunction : JavaScriptValue
 
         GC.Collect();
     }
+}
+
+
+public class JavaScriptFuntionMessageParameter
+{
+    //new { TaskId = taskId, FuncId = Uuid, FrameId = Frame.Identifier, Args = arguments.ToJson() })
+
+    public int TaskId { get; set; }
+    public Guid FuncId { get; set; }
+    public long FrameId { get; set; }
+    public string Args { get; set; }
 }

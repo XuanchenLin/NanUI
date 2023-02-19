@@ -205,7 +205,7 @@ public sealed class JavaScriptObject : JavaScriptValue, IDictionary<string, Java
 
     internal static new JavaScriptObject FromJson(string json)
     {
-        return FromDefinition(JsonConvert.DeserializeObject<Dictionary<string, JSValueDefinition>>(json));
+        return FromDefinition(JsonSerializer.Deserialize<Dictionary<string, JSValueDefinition>>(json));
     }
 
     internal static JavaScriptObject FromDefinition(Dictionary<string, JSValueDefinition> definition)

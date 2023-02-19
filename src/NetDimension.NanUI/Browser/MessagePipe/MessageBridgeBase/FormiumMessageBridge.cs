@@ -52,7 +52,7 @@ public class FormiumMessageBridge
     {
         var msg = CefProcessMessage.Create(PROCESS_MESSAGE_BRIDGE_MESSAGE);
 
-        var json = JsonConvert.SerializeObject(message);
+        var json = JsonSerializer.Serialize(message);
 
         var buff = Encoding.UTF8.GetBytes(json);
 

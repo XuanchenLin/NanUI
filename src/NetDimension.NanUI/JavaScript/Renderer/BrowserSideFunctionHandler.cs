@@ -35,7 +35,7 @@ internal class BrowserSideFunctionHandler : CefV8Handler
         {
             response = FormiumMessageBridge.ExecuteRequest(new MessageRequest(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, browser.Identifier, frame.Identifier, Context.GetHashCode())
             {
-                Data = JsonConvert.SerializeObject(new
+                Data = JsonSerializer.Serialize(new BrowserSideFunctionMessageParameter
                 {
                     Uuid = JsValue.Uuid,
                     Arguments = args.ToJson()
@@ -46,7 +46,7 @@ internal class BrowserSideFunctionHandler : CefV8Handler
         {
             response = FormiumMessageBridge.ExecuteRequest(new MessageRequest(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, browser.Identifier, frame.Identifier, Context.GetHashCode())
             {
-                Data = JsonConvert.SerializeObject(new
+                Data = JsonSerializer.Serialize(new BrowserSideFunctionMessageParameter
                 {
                     Uuid = JsValue.Uuid,
                     Arguments = args.ToJson()
@@ -127,4 +127,10 @@ internal class BrowserSideFunctionHandler : CefV8Handler
 
         return true;
     }
+}
+
+internal class BrowserSideFunctionMessageParameter
+{
+    public Guid Uuid { get; set; }
+    public string Arguments { get; set; }
 }

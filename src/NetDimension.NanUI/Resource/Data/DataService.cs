@@ -1,10 +1,10 @@
-﻿using NetDimension.NanUI.Browser.ResourceHandler;
+using NetDimension.NanUI.Browser.ResourceHandler;
 
 namespace NetDimension.NanUI.Resource.Data;
 
 public abstract class DataService
 {
-    protected static ResourceResponse Json(object data, Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings = null)
+    protected static ResourceResponse Json(object data, JsonSerializerOptions jsonSerializerSettings = null)
     {
         var response = new ResourceResponse();
 

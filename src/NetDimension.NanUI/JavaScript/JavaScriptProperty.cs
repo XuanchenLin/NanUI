@@ -51,7 +51,7 @@ public sealed class JavaScriptProperty : JavaScriptValue
 
     public static new JavaScriptProperty FromJson(string json)
     {
-        return FromDefinition(JsonConvert.DeserializeObject<JSPropertyDefinition>(json));
+        return FromDefinition(JsonSerializer.Deserialize<JSPropertyDefinition>(json));
     }
 
     internal static JavaScriptProperty FromDefinition(JSPropertyDefinition definition)

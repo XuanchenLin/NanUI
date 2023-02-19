@@ -21,7 +21,7 @@ class InvokeJavaScriptFunctionCompletedCallbackTask : CefTask
         Handler = handler;
         Frame = frame;
 
-        dynamic json = JsonConvert.DeserializeObject<dynamic>(data);
+        var json = JsonSerializer.Deserialize<InvokeJavaScriptFunctionTaskMessageParameter>(data);
 
         TaskId = json.TaskId;
         Uuid = json.FuncId;

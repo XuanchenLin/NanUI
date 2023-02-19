@@ -46,7 +46,7 @@ class JavaScriptWindowBindingHandler : CefV8Handler
                 {
                     var response = FormiumMessageBridge.ExecuteRequest(new MessageRequest(InvokeWindowBindingFunctionHandler.INVOKE_WINDOW_BINDING_FUNCTION, frame.Browser.Identifier, frame.Identifier, context.GetHashCode())
                     {
-                        Data = JsonConvert.SerializeObject(new
+                        Data = JsonSerializer.Serialize(new JavaScriptWindowBindingMessageParameter
                         {
                             FrameId = frame.Identifier,
                             ObjectName = TargetObject.Name,
@@ -83,7 +83,7 @@ class JavaScriptWindowBindingHandler : CefV8Handler
                 {
                     var response = FormiumMessageBridge.ExecuteRequest(new MessageRequest(InvokeWindowBindingFunctionHandler.INVOKE_WINDOW_BINDING_ASYNC_FUNCTION, frame.Browser.Identifier, frame.Identifier, context.GetHashCode())
                     {
-                        Data = JsonConvert.SerializeObject(new
+                        Data = JsonSerializer.Serialize(new JavaScriptWindowBindingMessageParameter
                         {
                             FrameId = frame.Identifier,
                             ObjectName = TargetObject.Name,
@@ -188,4 +188,13 @@ class JavaScriptWindowBindingHandler : CefV8Handler
     }
 
 
+}
+
+internal class JavaScriptWindowBindingMessageParameter
+{
+    public long FrameId { get; set; }
+    public string ObjectName { get; set; }
+    public string FunctionName { get; set; }
+    public Guid Uuid { get; set; }
+    public string Arguments { get; set; }
 }

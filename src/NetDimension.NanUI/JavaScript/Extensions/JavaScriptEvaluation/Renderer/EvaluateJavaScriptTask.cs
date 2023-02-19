@@ -16,7 +16,7 @@ sealed class EvaluateJavaScriptTask : CefTask
         Handler = handler;
         Frame = frame;
 
-        dynamic args = JsonConvert.DeserializeObject<dynamic>(data);
+        var args = JsonSerializer.Deserialize<EvaluateJavaScriptMessageParameter>(data);
 
         TaskId = args.TaskId;
         Code = args.Code;
@@ -37,7 +37,7 @@ sealed class EvaluateJavaScriptTask : CefTask
 
             try
             {
-                message.Data = JsonConvert.SerializeObject(new JavaScriptEvaluationResultMessage
+                message.Data = JsonSerializer.Serialize(new JavaScriptEvaluationResultMessage
                 {
                     TaskId = TaskId,
                     Success = true,
@@ -46,7 +46,7 @@ sealed class EvaluateJavaScriptTask : CefTask
             }
             catch (Exception ex)
             {
-                message.Data = JsonConvert.SerializeObject(new JavaScriptEvaluationResultMessage
+                message.Data = JsonSerializer.Serialize(new JavaScriptEvaluationResultMessage
                 {
                     TaskId = TaskId,
                     Success = false,
@@ -60,7 +60,7 @@ sealed class EvaluateJavaScriptTask : CefTask
         }
         else
         {
-            message.Data = JsonConvert.SerializeObject(new JavaScriptEvaluationResultMessage
+            message.Data = JsonSerializer.Serialize(new JavaScriptEvaluationResultMessage
             {
                 TaskId = TaskId,
                 Success = false,

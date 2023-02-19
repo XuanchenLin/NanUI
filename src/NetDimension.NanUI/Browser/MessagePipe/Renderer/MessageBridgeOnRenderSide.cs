@@ -19,7 +19,7 @@ public sealed class MessageBridgeOnRenderSide : FormiumMessageBridge
         {
             var json = Encoding.UTF8.GetString(Convert.FromBase64String(message.Arguments.GetString(0)));
 
-            var msg = JsonConvert.DeserializeObject<BridgeMessage>(json);
+            var msg = JsonSerializer.Deserialize<BridgeMessage>(json);
 
 
             foreach (var handler in MessageHandlers)

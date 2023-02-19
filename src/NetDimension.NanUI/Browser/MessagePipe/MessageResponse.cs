@@ -18,11 +18,11 @@ public class MessageResponse
 
     public string ToJson()
     {
-        return JsonConvert.SerializeObject(this);
+        return JsonSerializer.Serialize(this);
     }
 
     internal static MessageResponse FromJson(string json)
     {
-        return JsonConvert.DeserializeObject<MessageResponse>(json);
+        return JsonSerializer.Deserialize<MessageResponse>(json);
     }
 }
