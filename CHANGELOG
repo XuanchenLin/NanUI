@@ -1,4 +1,4 @@
-What's new in version 0.8.90
+What's new in version 0.9.90
 ============================
 - 重写了 Borderless 样式的窗体底层，使用 SkiaSharp 绘制窗体元素
 - 删除了 Acrylic 样式，这个样式在部分 Win10 版本以及 Windows 11 中表现得非常 Bug
@@ -8,6 +8,11 @@ What's new in version 0.8.90
 
 Changelog
 =========
+[2023/2/19]
+移除了 Vortice.Direct2D 依赖，现在离屏渲染都是由 SkiaSharp 进行
+移除了 Newtonsoft.Json 依赖改用 .NET 默认的 System.Text.Json 进行 JSON 数据的处理。
+修改了一些BUG
+
 [2022/07/01]
 修改了 Formium 的 WindowHWND 和 OwnerHWND名称：WindowHWND -> WindowHandle，OwnerHWND -> OwnerHandle。都是 IWin32Window 接口成员，方便传统 WinForm 窗体调用。
 修改了 JavaScript 绑定中的异步函数逻辑，这个版本在 C# 创建的异步函数可以直接转换成 JavaScript 的 Promise 对象了，无需再在前端手动创建 Promise 对象。结合 JavaScript 新的 async/await 关键字调用异步方法更方便了。
