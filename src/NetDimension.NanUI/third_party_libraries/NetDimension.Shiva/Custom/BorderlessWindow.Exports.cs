@@ -4,11 +4,11 @@ namespace NetDimension.NanUI.HostWindow;
 public enum CornerStyle
 {
     None = 0,
-    Tiny = 5,
-    Small = 10,
-    Normal = 15,
-    Big = 20,
-    Huge = 25
+    Tiny = 4,
+    Small = 7,
+    Normal = 10,
+    Big = 13,
+    Huge = 16
 }
 
 public enum ShadowEffect
@@ -39,6 +39,12 @@ internal partial class BorderlessWindow
             if (value != _windowCornerStyle)
             {
                 _windowCornerStyle = value;
+
+
+                if(_windowCornerStyle == CornerStyle.None)
+                {
+                    WindowNonclientAreaBorders = new Padding(1);
+                }
 
                 InvalidateNonClientArea();
 

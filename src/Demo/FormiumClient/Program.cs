@@ -98,20 +98,20 @@ public static class Program
 
             // Open the main form and start the message loop.
             // 打开主窗体并开始消息循环。
-            app.UseMainWindow(context =>
-            {
-                var startupWin = new StartupWindow();
-                if (startupWin.ShowDialog() == DialogResult.OK)
-                {
-                    return new MainWindow();
-                }
+            //app.UseMainWindow(context =>
+            //{
+            //    var startupWin = new StartupWindow();
+            //    if (startupWin.ShowDialog() == DialogResult.OK)
+            //    {
+            //        return new MainWindow();
+            //    }
 
-                return null;
+            //    return null;
 
 
-            });
+            //});
 
-            //app.UseMainWindow(_ => new MainWindow());
+            app.UseMainWindow(_ => new MainWindow());
 
         })
         .Build()

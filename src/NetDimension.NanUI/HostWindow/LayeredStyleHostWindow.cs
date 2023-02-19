@@ -3,9 +3,8 @@ using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.HostWindow;
 
-internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
+internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 {
-    const int WS_EX_LAYERED = 0x00080000;
 
 
     private ImeHandler imeHandler;
@@ -19,20 +18,14 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
 
     private CefBrowserHost BrowserHost => Formium?.Browser?.GetHost();
 
-    protected override CreateParams CreateParams
-    {
-        get
-        {
-            CreateParams createParams = base.CreateParams;
-            createParams.ExStyle |= WS_EX_LAYERED;
-            return createParams;
-        }
-    }
+
     public LayeredStyleHostWindow(Formium formium)
     {
         Formium = formium;
 
         imeHandler = new ImeHandler(Formium);
+
+
 
     }
 
