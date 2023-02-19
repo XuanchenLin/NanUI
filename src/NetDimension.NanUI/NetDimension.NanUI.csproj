@@ -97,7 +97,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-        <!--<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />-->
         <PackageReference Include="SkiaSharp" Version="2.88.3" />
         <PackageReference Include="System.Net.Http" Version="4.3.4" />
         <PackageReference Include="System.Text.Json" Version="7.0.2" />
@@ -105,10 +104,6 @@
         <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.4.12" />
         <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.12" />
         <PackageReference Include="Vanara.PInvoke.UxTheme" Version="3.4.12" />
-        <!--<PackageReference Include="Vortice.Direct2D1" Version="2.3.0" />
-        <PackageReference Include="Vortice.Direct3D11" Version="2.3.0" />
-        <PackageReference Include="Vortice.DXGI" Version="2.3.0" />
-        <PackageReference Include="Vortice.Mathematics" Version="1.4.25" />-->
     </ItemGroup>
 
     <ItemGroup>
