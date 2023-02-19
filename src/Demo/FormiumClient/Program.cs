@@ -107,6 +107,8 @@ public static class Program
                 }
 
                 return null;
+
+
             });
 
             //app.UseMainWindow(_ => new MainWindow());

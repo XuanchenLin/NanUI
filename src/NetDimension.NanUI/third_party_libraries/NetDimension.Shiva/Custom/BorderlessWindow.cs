@@ -298,6 +298,8 @@ internal partial class BorderlessWindow : Form
         var newDeviceDpi = Macros.SignedHIWORD(m.WParam);
         var suggestedRect = Marshal.PtrToStructure<RECT>(m.LParam);
 
+        if (hWnd.IsNull) return false;
+
         ScaleFactor = DpiHelper.GetScaleFactorForWindow(hWnd);
 
         _deviceDpi = newDeviceDpi;

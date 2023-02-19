@@ -6,7 +6,10 @@ namespace NetDimension.NanUI.HostWindow;
 internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
 {
     const int WS_EX_LAYERED = 0x00080000;
+
+
     private ImeHandler imeHandler;
+
 
     public WindowMessageDelegate OnWindowsMessage { get; set; }
 
@@ -29,7 +32,8 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
     {
         Formium = formium;
 
-        imeHandler = new ImeHandler(formium);
+        imeHandler = new ImeHandler(Formium);
+
     }
 
 
@@ -40,9 +44,10 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
     {
         base.OnHandleCreated(e);
 
-        imeHandler.EnableIME();
-
         SystemDpiChanged += SystemDpiChangedHandler;
+
+
+
     }
 
     private void SystemDpiChangedHandler(object sender, WindowDpiChangedEventArgs e)
@@ -81,22 +86,23 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
                 break;
             case WindowMessage.WM_IME_SETCONTEXT:
                 {
-                    imeHandler.OnIMESetContext(msg, m.WParam, m.LParam);
+                    imeHandler?.OnIMESetContext(ref m);
+
                 }
                 return;
             case WindowMessage.WM_IME_STARTCOMPOSITION:
                 {
-                    imeHandler.OnImeStartComposition();
+                    imeHandler?.OnImeStartComposition();
                 }
                 return;
             case WindowMessage.WM_IME_COMPOSITION:
                 {
-                    imeHandler.OnImeComposition(msg, m.WParam, m.LParam);
+                    imeHandler?.OnImeComposition(msg, m.WParam, m.LParam);
                 }
                 return;
             case WindowMessage.WM_IME_ENDCOMPOSITION:
                 {
-                    imeHandler.OnImeCancelCompositionEvent();
+                    imeHandler?.OnImeCancelComposition();
                 }
                 break;
 
@@ -228,9 +234,7 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
 
     internal void ChangeCompositionRange(CefRange selectedRange, CefRectangle[] characterBounds)
     {
-        if (imeHandler == null) return;
-
-        imeHandler.ChangeCompositionRange(selectedRange, new List<CefRectangle>(characterBounds));
+        imeHandler?.ChangeCompositionRange(selectedRange, new List<CefRectangle>(characterBounds));
     }
 
     protected override void OnMouseLeave(EventArgs e)
@@ -264,8 +268,6 @@ internal class LayeredStyleHostWindow : BorderlessWindow, IFormiumHostWindow
             BrowserHost?.SendMouseClickEvent(new CefMouseEvent(pt.X, pt.Y, GetMouseModifiers(e.Button)), buttonType.Value, false, e.Clicks);
             BrowserHost?.SendFocusEvent(true);
         }
-
-
     }
 
     protected override void OnMouseUp(MouseEventArgs e)

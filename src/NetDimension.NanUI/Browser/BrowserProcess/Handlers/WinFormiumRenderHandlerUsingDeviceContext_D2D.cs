@@ -210,6 +210,12 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
         }
     }
 
+    protected override void OnTextSelectionChanged(CefBrowser browser, string selectedText, CefRange selectedRange)
+    {
+        base.OnTextSelectionChanged(browser, selectedText, selectedRange);
+    }
+
+
 
     protected override void OnPopupShow(CefBrowser browser, bool show)
     {
@@ -345,10 +351,6 @@ internal sealed class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandl
 
     }
 
-    protected override void OnTextSelectionChanged(CefBrowser browser, string selectedText, CefRange selectedRange)
-    {
-        base.OnTextSelectionChanged(browser, selectedText, selectedRange);
-    }
 
 
 }

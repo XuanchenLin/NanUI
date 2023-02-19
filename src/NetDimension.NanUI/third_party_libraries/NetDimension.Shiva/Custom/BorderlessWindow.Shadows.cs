@@ -78,7 +78,7 @@ internal partial class BorderlessWindow
 {
     WindowDropShadow _shadow = null;
 
-    internal bool UseDirect2DAsRenderer => false;
+    //internal bool UseDirect2DAsRenderer => false;
 
 
     internal protected readonly Dictionary<ShadowEffect, ShadowEffectConfiguration> ShadowEffects = new Dictionary<ShadowEffect, ShadowEffectConfiguration>()
@@ -207,14 +207,15 @@ internal partial class BorderlessWindow
         if (_lastShadowState == state)
             return;
 
-        if (UseDirect2DAsRenderer)
-        {
-            UseD2DShadowBitmap();
-        }
-        else
-        {
-            UseSkiaShadowBitmap();
-        }
+        //if (UseDirect2DAsRenderer)
+        //{
+        //    UseD2DShadowBitmap();
+        //}
+        //else
+        //{
+        //    UseSkiaShadowBitmap();
+        //}
+
 
         UseSkiaShadowBitmap();
 
@@ -255,26 +256,26 @@ internal partial class BorderlessWindow
 
 
     #region Direct2d implements
-    private void UseD2DShadowBitmap()
-    {
-        if (IsWindowFocused)
-        {
-            RenderShadowBitmapWithD2D(CachedShadowBitmap);
-        }
-        else
-        {
-            RenderShadowBitmapWithD2D(CachedInactiveShadowBitmap);
-        }
-    }
+    //private void UseD2DShadowBitmap()
+    //{
+    //    if (IsWindowFocused)
+    //    {
+    //        RenderShadowBitmapWithD2D(CachedShadowBitmap);
+    //    }
+    //    else
+    //    {
+    //        RenderShadowBitmapWithD2D(CachedInactiveShadowBitmap);
+    //    }
+    //}
 
-    private void RenderShadowBitmapWithD2D(byte[] buff)
-    {
-        if (!_isShadowInitialized) return;
+    //private void RenderShadowBitmapWithD2D(byte[] buff)
+    //{
+    //    if (!_isShadowInitialized) return;
 
-        UpdateShadowZOrder();
+    //    UpdateShadowZOrder();
 
-        _shadow.RenderWithD2D(buff);
-    }
+    //    _shadow.RenderWithD2D(buff);
+    //}
     #endregion
 
 
