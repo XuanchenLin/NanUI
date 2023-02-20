@@ -1,4 +1,5 @@
 using Vanara.PInvoke;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.HostWindow;
@@ -54,9 +55,10 @@ internal class ImeHandler
         {
             if (!systemCaret)
             {
-                if (CreateCaret(hWnd, HBITMAP.NULL, 1, 1))
+                if (CreateCaret(hWnd, HBITMAP.NULL, 1, 3))
                 {
                     systemCaret = true;
+
                 }
             }
         }
@@ -203,6 +205,7 @@ internal class ImeHandler
             ptCurrentPos = new ImeNative.POINT(x, y),
             rcArea = new ImeNative.RECT(0, 0, 0, 0)
         };
+
         ImeNative.ImmSetCandidateWindow(imc, ref candidatePosition);
 
 
@@ -263,12 +266,7 @@ internal class ImeHandler
 
         ImeNative.ImmSetCandidateWindow(imc, ref excludeRectangle);
 
-
-
-
         ImeNative.ImmReleaseContext(Handle, imc);
-
-
     }
 
     internal void CleanupComposition()
@@ -398,7 +396,6 @@ internal class ImeHandler
 
         var ret = GetString(imc, lparam, ImeNative.GCS_COMPSTR, out compositionText);
 
-
         if (ret)
         {
             underlines = GetCompositionInfo(imc, lparam, compositionText, out compostionStart);
@@ -484,9 +481,12 @@ internal class ImeHandler
 
         var lParam = (IntPtr)retval;
 
-        DefWindowProc(m.HWnd, (uint)m.Msg, m.WParam,lParam);
+        DefWindowProc(m.HWnd, (uint)m.Msg, m.WParam, lParam);
 
         CreateImeWindow();
+
+
+
         MoveImeWindow();
     }
 
@@ -510,6 +510,7 @@ internal class ImeHandler
             browser.ImeFinishComposingText(false);
 
             ResetComposition();
+
         }
         else
         {
@@ -518,28 +519,41 @@ internal class ImeHandler
             if (GetComposition((uint)lParam, out textStr, out var compostionStart, ref underlines))
             {
 
-
                 browser.ImeSetComposition(textStr, underlines.Count, underlines[0], new CefRange(int.MaxValue, int.MaxValue), new CefRange(compostionStart, compostionStart + textStr.Length));
 
                 UpdateCaretPosition(compostionStart - 1);
-
-
             }
             else
             {
+                browser.ImeSetComposition(string.Empty, 1, new CefCompositionUnderline { }, new CefRange(0, 1), new CefRange(0, 1));
+
                 OnImeCancelComposition();
             }
         }
+
+
+
+
+
     }
 
     public void OnImeCancelComposition()
     {
         var browser = Owner.GetHost();
 
+        browser?.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0, 0));
+
+        browser?.ImeCommitText(string.Empty, new CefRange(int.MaxValue, int.MaxValue), 0);
+
+
+
         if (languageCodeId != ImeNative.LANG_KOREAN)
         {
             browser?.ImeFinishComposingText(false);
         }
+
+
+
 
         browser?.ImeCancelComposition();
         ResetComposition();

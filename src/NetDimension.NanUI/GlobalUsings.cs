@@ -12,3 +12,4 @@ global using System.Threading.Tasks;
 global using System.Windows.Forms;
 //global using Newtonsoft.Json;
 global using System.Text.Json;
+global using System.Diagnostics;

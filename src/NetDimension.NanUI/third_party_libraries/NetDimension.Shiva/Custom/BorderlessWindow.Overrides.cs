@@ -50,7 +50,7 @@ internal partial class BorderlessWindow
 
         hWnd = new HWND(Handle);
 
-        DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
+        //DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
 
         DpiHelper.InitializeDpiHelper();
@@ -165,6 +165,7 @@ internal partial class BorderlessWindow
         base.OnSizeChanged(e);
     }
 
+    
 
     protected override void OnFormClosed(FormClosedEventArgs e)
     {

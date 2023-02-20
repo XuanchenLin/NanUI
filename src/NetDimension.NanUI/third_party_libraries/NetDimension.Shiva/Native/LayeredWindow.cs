@@ -63,6 +63,9 @@ internal class LayeredWindow : Form
 
         hWnd = new HWND(Handle);
 
+        UxTheme.SetWindowTheme(hWnd, string.Empty, string.Empty);
+        DisableProcessWindowsGhosting();
+
         SetWindowPos(Handle, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_FRAMECHANGED);
 
         DpiHelper.InitializeDpiHelper();
@@ -162,6 +165,22 @@ internal class LayeredWindow : Form
 
                     break;
                 }
+            case WindowMessage.WM_SHOWWINDOW:
+                {
+
+                    if (m.WParam != IntPtr.Zero)
+                    {
+                        SetForegroundWindow(m.HWnd);
+                        SetFocus(m.HWnd);
+
+
+                    }
+
+                    base.WndProc(ref m);
+
+
+                }
+                break;
             default:
                 {
                     base.WndProc(ref m);

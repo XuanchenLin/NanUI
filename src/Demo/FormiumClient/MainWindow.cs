@@ -28,8 +28,7 @@ class MainWindow : Formium
         // 设置 Borderless 样式窗体的各项扩展属性，需要注意泛型T需要对应正确的WindowType
         var style = UseExtendedStyles<BorderlessWindowStyle>();
         style.ShadowColor = ColorTranslator.FromHtml("#614964");
-        //style.InactiveShadowColor = ColorTranslator.FromHtml("#EE3a3a3a");
-        //style.ShadowColor = ColorTranslator.FromHtml("#EE3a3a3a");
+
         style.ShadowEffect = ShadowEffect.Big;
         style.CornerStyle = CornerStyle.Small;
 

@@ -1,3 +1,4 @@
+
 using Vanara.Extensions;
 using Vanara.PInvoke;
 
@@ -83,14 +84,14 @@ internal partial class BorderlessWindow
                     }
                 }
                 break;
-            //case (int)WindowMessage.WM_WINDOWPOSCHANGING:
-            //    {
-            //        if (!WmWindowPosChanging(ref m))
-            //        {
-            //            base.WndProc(ref m);
-            //        }
-            //    }
-            //    break;
+            case (int)WindowMessage.WM_WINDOWPOSCHANGING:
+                {
+                    if (!WmWindowPosChanging(ref m))
+                    {
+                        base.WndProc(ref m);
+                    }
+                }
+                break;
             case (int)WindowMessage.WM_WINDOWPOSCHANGED:
                 {
 
@@ -101,14 +102,14 @@ internal partial class BorderlessWindow
 
                 }
                 break;
-            //case (int)WindowMessage.WM_SIZING:
-            //    {
-            //        if (!WmSizing(ref m))
-            //        {
-            //            base.WndProc(ref m);
-            //        }
-            //    }
-            //    break;
+            case (int)WindowMessage.WM_SIZING:
+                {
+                    if (!WmSizing(ref m))
+                    {
+                        base.WndProc(ref m);
+                    }
+                }
+                break;
             case (int)WindowMessage.WM_ACTIVATEAPP:
                 {
                     if (!WmActiveApp(ref m))
@@ -121,14 +122,18 @@ internal partial class BorderlessWindow
                 break;
             case (int)WindowMessage.WM_SHOWWINDOW:
                 {
-                    base.WndProc(ref m);
-
-                    UpdateBorderPath();
 
                     if (m.WParam != IntPtr.Zero)
                     {
-                        SetActiveWindow(m.HWnd);
+                        SetForegroundWindow(m.HWnd);
+                        SetFocus(m.HWnd);
+
+
                     }
+
+                    base.WndProc(ref m);
+
+                    UpdateBorderPath();
 
                 }
                 break;
@@ -287,6 +292,7 @@ internal partial class BorderlessWindow
         Marshal.StructureToPtr(windowpos, m.LParam, true);
 
 
+
         return false;
 
     }
@@ -295,11 +301,11 @@ internal partial class BorderlessWindow
     {
         var windowpos = m.LParam.ToStructure<WINDOWPOS>();
 
+
         if (!IsIconic(hWnd))
         {
             UpdateShadowPos(windowpos);
         }
-
 
         return false;
     }
@@ -307,8 +313,9 @@ internal partial class BorderlessWindow
 
     private bool WmSizing(ref Message m)
     {
-        //var windowpos = m.LParam.ToStructure<RECT>();
+        var windowpos = m.LParam.ToStructure<RECT>();
 
+        Debug.WriteLine($"{windowpos.Width} {windowpos.Height}");
 
         return false;
     }
@@ -320,8 +327,6 @@ internal partial class BorderlessWindow
     {
         if (!_isLoaded)
             return false;
-
-        SendFrameChangedMessage();
 
         ResizeShadow(ref m);
 

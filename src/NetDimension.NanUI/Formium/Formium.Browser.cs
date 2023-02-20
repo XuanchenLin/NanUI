@@ -1,4 +1,7 @@
+using System;
+
 using NetDimension.NanUI.Browser;
+using NetDimension.NanUI.HostWindow;
 
 using Vanara.PInvoke;
 
@@ -86,6 +89,10 @@ partial class Formium
         ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
 
         InvokeIfRequired(() => ResizeWebView());
+
+
+
+
     }
 
     private void AfterSetBrowserTasks(object state)
@@ -180,6 +187,23 @@ partial class Formium
         {
             AttachToChromeWidgetMessageHandler();
         }
+
+
+        ContextCreated?.Invoke(this, new ContextCreatedEventArgs(browser, frame));
+
+
+        if (WindowType == HostWindowType.Layered)
+        {
+            //var host = browser.GetHost();
+
+            //host.ImeCommitText(string.Empty, new CefRange(int.MaxValue, int.MaxValue), 0);
+            //host.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0, 0));
+            //host.ImeFinishComposingText(false);
+            //SendMessage(HostWindowHandle, WindowMessage.WM_IME_KEYDOWN, 0);
+        }
+
+
+
     }
 
     internal bool BrowserWmSetCursor(ref Message m)
@@ -642,6 +666,8 @@ partial class Formium
     /// Occurs when Formium is ready to use.
     /// </summary>
     //public event EventHandler Ready;
+
+    internal protected event EventHandler<ContextCreatedEventArgs> ContextCreated;
 
     /// <summary>
     /// Occurs when DataMessage from Browser has arrived.
@@ -1156,4 +1182,15 @@ partial class Formium
     #endregion
 
     #endregion
+}
+
+public class ContextCreatedEventArgs : EventArgs
+{
+    internal ContextCreatedEventArgs(CefBrowser browser, CefFrame frame)
+    {
+        this.Browser = browser;
+        this.Frame = frame;
+    }
+    public CefBrowser Browser { get; }
+    public CefFrame Frame { get; }
 }
