@@ -129,6 +129,11 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         {
             var win = (HostWindow.LayeredStyleHostWindow)_owner.FormHostWindow;
 
+
+
+
+
+
             win.InvokeIfRequired(() => {
                 if (inputMode == CefTextInputMode.None)
                 {

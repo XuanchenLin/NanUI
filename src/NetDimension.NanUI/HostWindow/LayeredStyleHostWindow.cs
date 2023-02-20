@@ -28,9 +28,44 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
         imeHandler = new ImeHandler(Formium);
 
 
+        //Formium.ContextCreated += ContextCreated;
+
+        formium.LoadStart += Formium_LoadStart;
+    }
+
+    private void Formium_LoadStart(object sender, Browser.LoadStartEventArgs e)
+    {
+        imeHandler.OnImeCancelComposition();
+
+        var host = e.Frame.Browser.GetHost();
+
+
+        host.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0, 0));
+
+        host.ImeCommitText(string.Empty, new CefRange(int.MaxValue, int.MaxValue), 0);
+
+        host.ImeFinishComposingText(false);
+
+        SendMessage(Formium.HostWindowHandle, WindowMessage.WM_IME_KEYDOWN, 0);
+    }
+
+    private void Formium_BeforeBrowse(object sender, Browser.BeforeBrowseEventArgs e)
+    {
 
     }
 
+    private void ContextCreated(object sender, ContextCreatedEventArgs e)
+    {
+
+        imeHandler.OnImeCancelComposition();
+
+        var host = e.Frame.Browser.GetHost();
+
+        host.ImeCommitText(string.Empty, new CefRange(int.MaxValue, int.MaxValue), 0);
+        host.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0, 0));
+        host.ImeFinishComposingText(false);
+        SendMessage(Formium.HostWindowHandle, WindowMessage.WM_IME_KEYDOWN, 0);
+    }
 
     protected override bool CanEnableIme => true;
 
@@ -186,12 +221,6 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 
     protected override void OnKeyDown(KeyEventArgs e)
     {
-
-        e.Handled = true;
-
-        base.OnKeyDown(e);
-
-
         BrowserHost?.SendKeyEvent(new CefKeyEvent
         {
             EventType = CefKeyEventType.RawKeyDown,
@@ -200,19 +229,12 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
             Modifiers = GetKeyboardModifiers(e.Modifiers),
             FocusOnEditableField = _isOnEditableField,
         });
-
-
-
+        base.OnKeyDown(e);
 
     }
 
     protected override void OnKeyUp(KeyEventArgs e)
     {
-        e.Handled = true;
-
-        base.OnKeyUp(e);
-
-
         BrowserHost?.SendKeyEvent(new CefKeyEvent
         {
             EventType = CefKeyEventType.KeyUp,
@@ -222,7 +244,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
             FocusOnEditableField = !_isOnEditableField,
         });
 
-
+        base.OnKeyUp(e);
     }
 
 
@@ -230,9 +252,6 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
     protected override void OnKeyPress(KeyPressEventArgs e)
     {
         e.Handled = true;
-
-        base.OnKeyPress(e);
-
 
         BrowserHost?.SendKeyEvent(new CefKeyEvent
         {
@@ -242,6 +261,9 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
             UnmodifiedCharacter = e.KeyChar,
             FocusOnEditableField = _isOnEditableField,
         });
+
+        base.OnKeyPress(e);
+
 
     }
 

@@ -205,6 +205,7 @@ internal class ImeHandler
             ptCurrentPos = new ImeNative.POINT(x, y),
             rcArea = new ImeNative.RECT(0, 0, 0, 0)
         };
+
         ImeNative.ImmSetCandidateWindow(imc, ref candidatePosition);
 
 
@@ -265,13 +266,7 @@ internal class ImeHandler
 
         ImeNative.ImmSetCandidateWindow(imc, ref excludeRectangle);
 
-
-
-
         ImeNative.ImmReleaseContext(Handle, imc);
-
-
-
     }
 
     internal void CleanupComposition()
@@ -401,17 +396,6 @@ internal class ImeHandler
 
         var ret = GetString(imc, lparam, ImeNative.GCS_COMPSTR, out compositionText);
 
-
-        //System.Diagnostics.Debug.WriteLine(ret);
-        ////System.Diagnostics.Debug.WriteLine(underlines.Count);
-        ////System.Diagnostics.Debug.WriteLine($"{underlines[0].Range.From} {underlines[0].Range.To}");
-
-
-        //underlines = GetCompositionInfo(imc, lparam, compositionText, out compostionStart);
-
-        //System.Diagnostics.Debug.WriteLine(underlines.Count);
-        //System.Diagnostics.Debug.WriteLine($"{underlines[0].Range.From} {underlines[0].Range.To}");
-
         if (ret)
         {
             underlines = GetCompositionInfo(imc, lparam, compositionText, out compostionStart);
@@ -527,7 +511,6 @@ internal class ImeHandler
 
             ResetComposition();
 
-            OnImeCancelComposition();
         }
         else
         {
@@ -550,19 +533,26 @@ internal class ImeHandler
 
 
 
+
+
     }
 
     public void OnImeCancelComposition()
     {
         var browser = Owner.GetHost();
 
+        browser?.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0, 0));
+
+        browser?.ImeCommitText(string.Empty, new CefRange(int.MaxValue, int.MaxValue), 0);
+
+
+
         if (languageCodeId != ImeNative.LANG_KOREAN)
         {
             browser?.ImeFinishComposingText(false);
         }
 
-        //browser.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0,0));
-        //browser.ImeCommitText(string.Empty, new CefRange(0, 0), 0);
+
 
 
         browser?.ImeCancelComposition();
