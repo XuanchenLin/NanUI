@@ -16,7 +16,7 @@ internal class LayeredTestWindow : Formium
     public LayeredTestWindow()
     {
         StartPosition= FormStartPosition.CenterScreen;
-        Size = new Size(1920, 1080);
+        Size = new Size(1600, 800);
 
     }
 

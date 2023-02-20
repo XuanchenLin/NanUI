@@ -101,8 +101,10 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
             case WindowMessage.WM_IME_ENDCOMPOSITION:
                 {
                     imeHandler?.OnImeCancelComposition();
+                    base.WndProc(ref m);
+
                 }
-                break;
+                return;
 
         }
 
@@ -166,19 +168,37 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
         return result;
     }
 
+    bool _isOnEditableField = false;
+    internal void OnEditableField(bool v)
+    {
+        _isOnEditableField = v;
+
+        if (v == true)
+        {
+            ImeMode = ImeMode.OnHalf;
+        }
+        else
+        {
+            ImeMode = ImeMode.Disable;
+        }
+    }
+
+
     protected override void OnKeyDown(KeyEventArgs e)
     {
 
         e.Handled = true;
 
-        //base.OnKeyDown(e);
+        base.OnKeyDown(e);
 
 
         BrowserHost?.SendKeyEvent(new CefKeyEvent
         {
-            EventType = CefKeyEventType.KeyDown,
+            EventType = CefKeyEventType.RawKeyDown,
             WindowsKeyCode = (int)e.KeyCode,
+            NativeKeyCode = (int)e.KeyValue,
             Modifiers = GetKeyboardModifiers(e.Modifiers),
+            FocusOnEditableField = _isOnEditableField,
         });
 
 
@@ -190,15 +210,16 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
     {
         e.Handled = true;
 
-
-        //base.OnKeyUp(e);
+        base.OnKeyUp(e);
 
 
         BrowserHost?.SendKeyEvent(new CefKeyEvent
         {
             EventType = CefKeyEventType.KeyUp,
             WindowsKeyCode = (int)e.KeyCode,
-            Modifiers = GetKeyboardModifiers(e.Modifiers)
+            NativeKeyCode = (int)e.KeyValue,
+            Modifiers = GetKeyboardModifiers(e.Modifiers),
+            FocusOnEditableField = !_isOnEditableField,
         });
 
 
@@ -208,7 +229,9 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 
     protected override void OnKeyPress(KeyPressEventArgs e)
     {
-        //base.OnKeyPress(e);
+        e.Handled = true;
+
+        base.OnKeyPress(e);
 
 
         BrowserHost?.SendKeyEvent(new CefKeyEvent
@@ -217,6 +240,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
             WindowsKeyCode = e.KeyChar,
             Character = e.KeyChar,
             UnmodifiedCharacter = e.KeyChar,
+            FocusOnEditableField = _isOnEditableField,
         });
 
     }
@@ -323,6 +347,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
     {
         BrowserHost?.SendFocusEvent(true);
     }
+
 
 
     #endregion

@@ -132,11 +132,11 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             win.InvokeIfRequired(() => {
                 if (inputMode == CefTextInputMode.None)
                 {
-                    win.ImeMode = ImeMode.Disable;
+                    win.OnEditableField(false);
                 }
                 else
                 {
-                    win.ImeMode = ImeMode.On;
+                    win.OnEditableField(true);
                 }
             });
 
@@ -155,7 +155,6 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             win.InvokeIfRequired(() =>
             {
                 win.ChangeCompositionRange(selectedRange, characterBounds);
-
             });
 
         }
@@ -167,20 +166,19 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         base.OnTextSelectionChanged(browser, selectedText, selectedRange);
     }
 
-
+    #region Render Part
     protected override void OnPopupSize(CefBrowser browser, CefRectangle rect)
     {
         var scaleFactor = DpiHelper.GetScaleFactorForWindow(_owner.HostWindowHandle);
 
-        _popupRect = new CefRectangle {
-            X = (int)(Math.Ceiling( rect.X * scaleFactor)),
+        _popupRect = new CefRectangle
+        {
+            X = (int)(Math.Ceiling(rect.X * scaleFactor)),
             Y = (int)(Math.Ceiling(rect.Y * scaleFactor)),
             Width = (int)(Math.Ceiling(rect.Width * scaleFactor)),
             Height = (int)(Math.Ceiling(rect.Height * scaleFactor))
         };
 
-        System.Diagnostics.Debug.WriteLine($"PopupRect:{rect.Width}x{rect.Height}");
-        System.Diagnostics.Debug.WriteLine($"ScaledPopupRect:{_popupRect.Value.Width}x{_popupRect.Value.Height}");
     }
 
     protected override void OnPopupShow(CefBrowser browser, bool show)
@@ -197,13 +195,12 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             }
         }
 
-        System.Diagnostics.Debug.WriteLine($"PopupShow");
 
 
         base.OnPopupShow(browser, show);
     }
 
-    byte[] _popupBitmapData= null;
+    byte[] _popupBitmapData = null;
     byte[] _viewBitmapData = null;
 
     Size _viewSize = Size.Empty;
@@ -251,7 +248,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
                     _viewBitmapData = null;
                 }
 
-                _viewSize= new Size(width,height);
+                _viewSize = new Size(width, height);
 
                 var stride = width * height * 4;
                 using var ms = new UnmanagedMemoryStream((byte*)buffer.ToPointer(), stride);
@@ -266,7 +263,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             }
         }
 
-        if (_viewSize == Size.Empty || _viewBitmapData == null || _view_width ==0 || _view_height==0) return;
+        if (_viewSize == Size.Empty || _viewBitmapData == null || _view_width == 0 || _view_height == 0) return;
 
 
 
@@ -393,6 +390,8 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
     }
 
 
+
+    #endregion
 
 
     protected override void OnScrollOffsetChanged(CefBrowser browser, double x, double y)

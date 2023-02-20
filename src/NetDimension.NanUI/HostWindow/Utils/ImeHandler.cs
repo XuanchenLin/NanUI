@@ -1,4 +1,5 @@
 using Vanara.PInvoke;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.HostWindow;
@@ -401,6 +402,16 @@ internal class ImeHandler
         var ret = GetString(imc, lparam, ImeNative.GCS_COMPSTR, out compositionText);
 
 
+        //System.Diagnostics.Debug.WriteLine(ret);
+        ////System.Diagnostics.Debug.WriteLine(underlines.Count);
+        ////System.Diagnostics.Debug.WriteLine($"{underlines[0].Range.From} {underlines[0].Range.To}");
+
+
+        //underlines = GetCompositionInfo(imc, lparam, compositionText, out compostionStart);
+
+        //System.Diagnostics.Debug.WriteLine(underlines.Count);
+        //System.Diagnostics.Debug.WriteLine($"{underlines[0].Range.From} {underlines[0].Range.To}");
+
         if (ret)
         {
             underlines = GetCompositionInfo(imc, lparam, compositionText, out compostionStart);
@@ -486,7 +497,7 @@ internal class ImeHandler
 
         var lParam = (IntPtr)retval;
 
-        DefWindowProc(m.HWnd, (uint)m.Msg, m.WParam,lParam);
+        DefWindowProc(m.HWnd, (uint)m.Msg, m.WParam, lParam);
 
         CreateImeWindow();
 
@@ -515,6 +526,8 @@ internal class ImeHandler
             browser.ImeFinishComposingText(false);
 
             ResetComposition();
+
+            OnImeCancelComposition();
         }
         else
         {
@@ -523,18 +536,20 @@ internal class ImeHandler
             if (GetComposition((uint)lParam, out textStr, out var compostionStart, ref underlines))
             {
 
-
                 browser.ImeSetComposition(textStr, underlines.Count, underlines[0], new CefRange(int.MaxValue, int.MaxValue), new CefRange(compostionStart, compostionStart + textStr.Length));
 
                 UpdateCaretPosition(compostionStart - 1);
-
-
             }
             else
             {
+                browser.ImeSetComposition(string.Empty, 1, new CefCompositionUnderline { }, new CefRange(0, 1), new CefRange(0, 1));
+
                 OnImeCancelComposition();
             }
         }
+
+
+
     }
 
     public void OnImeCancelComposition()
@@ -545,6 +560,10 @@ internal class ImeHandler
         {
             browser?.ImeFinishComposingText(false);
         }
+
+        //browser.ImeSetComposition(string.Empty, 0, new CefCompositionUnderline(), new CefRange(int.MaxValue, int.MaxValue), new CefRange(0,0));
+        //browser.ImeCommitText(string.Empty, new CefRange(0, 0), 0);
+
 
         browser?.ImeCancelComposition();
         ResetComposition();
