@@ -27,9 +27,9 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
     public WinFormiumRenderHandlerUsingDeviceContext(Formium owner)
     {
         _owner = owner;
-
-
     }
+
+
     protected override CefAccessibilityHandler GetAccessibilityHandler()
     {
         return null;
@@ -122,6 +122,29 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
     {
         throw new NotImplementedException();
     }
+
+    protected override void OnVirtualKeyboardRequested(CefBrowser browser, CefTextInputMode inputMode)
+    {
+        if (_owner.FormHostWindow is HostWindow.LayeredStyleHostWindow)
+        {
+            var win = (HostWindow.LayeredStyleHostWindow)_owner.FormHostWindow;
+
+            win.InvokeIfRequired(() => {
+                if (inputMode == CefTextInputMode.None)
+                {
+                    win.ImeMode = ImeMode.Disable;
+                }
+                else
+                {
+                    win.ImeMode = ImeMode.On;
+                }
+            });
+
+
+
+        }
+    }
+
 
     protected override void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectedRange, CefRectangle[] characterBounds)
     {
@@ -368,6 +391,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
 
     }
+
 
 
 

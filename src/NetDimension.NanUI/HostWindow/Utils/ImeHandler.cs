@@ -54,9 +54,10 @@ internal class ImeHandler
         {
             if (!systemCaret)
             {
-                if (CreateCaret(hWnd, HBITMAP.NULL, 1, 1))
+                if (CreateCaret(hWnd, HBITMAP.NULL, 1, 3))
                 {
                     systemCaret = true;
+
                 }
             }
         }
@@ -267,6 +268,7 @@ internal class ImeHandler
 
 
         ImeNative.ImmReleaseContext(Handle, imc);
+
 
 
     }
@@ -487,6 +489,9 @@ internal class ImeHandler
         DefWindowProc(m.HWnd, (uint)m.Msg, m.WParam,lParam);
 
         CreateImeWindow();
+
+
+
         MoveImeWindow();
     }
 

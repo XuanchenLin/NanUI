@@ -125,7 +125,7 @@ internal partial class BorderlessWindow
                     if (m.WParam != IntPtr.Zero)
                     {
                         SetForegroundWindow(m.HWnd);
-                        SetActiveWindow(m.HWnd);
+                        SetFocus(m.HWnd);
 
 
                     }

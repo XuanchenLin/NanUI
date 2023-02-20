@@ -86,6 +86,13 @@ partial class Formium
         ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
 
         InvokeIfRequired(() => ResizeWebView());
+
+        SendMessage(HostWindowHandle, WindowMessage.WM_IME_KEYDOWN, 0);
+
+        var host = GetHost();
+
+        host.ImeCommitText(string.Empty, new CefRange(int.MaxValue, int.MaxValue), 0);
+        host.ImeFinishComposingText(false);
     }
 
     private void AfterSetBrowserTasks(object state)

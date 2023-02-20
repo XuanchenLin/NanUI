@@ -1,4 +1,6 @@
- using Xilium.CefGlue;
+using System.Diagnostics;
+
+using Xilium.CefGlue;
 using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.HostWindow;
@@ -39,6 +41,9 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 
         SystemDpiChanged += SystemDpiChangedHandler;
 
+        ImeMode = ImeMode.Disable;
+
+        //
 
 
     }
@@ -223,6 +228,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
         GetPointInCurrentView(ref pt);
 
         BrowserHost?.SendMouseMoveEvent(new CefMouseEvent(pt.X, pt.Y, GetMouseModifiers(e.Button)), false);
+
     }
 
     internal void ChangeCompositionRange(CefRange selectedRange, CefRectangle[] characterBounds)
@@ -238,6 +244,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
     protected override void OnMouseDown(MouseEventArgs e)
     {
         var pt = e.Location;
+
 
         GetPointInCurrentView(ref pt);
 
@@ -266,6 +273,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
     protected override void OnMouseUp(MouseEventArgs e)
     {
         var pt = e.Location;
+
 
         GetPointInCurrentView(ref pt);
 
@@ -299,7 +307,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 
     protected override void OnMouseWheel(MouseEventArgs e)
     {
-        var pt = PointToClient(e.Location);
+        var pt = e.Location;
 
         GetPointInCurrentView(ref pt);
 
