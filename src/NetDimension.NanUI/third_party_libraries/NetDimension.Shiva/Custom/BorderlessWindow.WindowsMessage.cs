@@ -83,14 +83,14 @@ internal partial class BorderlessWindow
                     }
                 }
                 break;
-            //case (int)WindowMessage.WM_WINDOWPOSCHANGING:
-            //    {
-            //        if (!WmWindowPosChanging(ref m))
-            //        {
-            //            base.WndProc(ref m);
-            //        }
-            //    }
-            //    break;
+            case (int)WindowMessage.WM_WINDOWPOSCHANGING:
+                {
+                    if (!WmWindowPosChanging(ref m))
+                    {
+                        base.WndProc(ref m);
+                    }
+                }
+                break;
             case (int)WindowMessage.WM_WINDOWPOSCHANGED:
                 {
 
@@ -121,14 +121,18 @@ internal partial class BorderlessWindow
                 break;
             case (int)WindowMessage.WM_SHOWWINDOW:
                 {
-                    base.WndProc(ref m);
-
-                    UpdateBorderPath();
 
                     if (m.WParam != IntPtr.Zero)
                     {
+                        SetForegroundWindow(m.HWnd);
                         SetActiveWindow(m.HWnd);
+
+
                     }
+
+                    base.WndProc(ref m);
+
+                    UpdateBorderPath();
 
                 }
                 break;
@@ -287,6 +291,7 @@ internal partial class BorderlessWindow
         Marshal.StructureToPtr(windowpos, m.LParam, true);
 
 
+
         return false;
 
     }
@@ -295,11 +300,11 @@ internal partial class BorderlessWindow
     {
         var windowpos = m.LParam.ToStructure<WINDOWPOS>();
 
+
         if (!IsIconic(hWnd))
         {
             UpdateShadowPos(windowpos);
         }
-
 
         return false;
     }
