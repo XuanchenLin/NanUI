@@ -23,13 +23,14 @@ public static class Program
         //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
 
 
-
-        // *************** DO NOT WRITE ANY CODES HERE ***************
+        // *************** 不要在上面写任何初始化代码 ***************
+        // *************** DO NOT WRITE ANY CODES ABOVE HERE ***************
 
         // Warning: Do not write business-related code before or after CreateRuntimeBuilder. Writing business logic here due to the multi-process architecture of CEF will cause your business logic to be executed multiple times.
         // 警告: 请勿在 CreateRuntimeBuilder 之前或之后编写业务相关的代码，由于 CEF 的多进程架构在此处编写业务逻辑将导致您的业务逻辑被多次执行。
 
-        WinFormium.CreateRuntimeBuilder(buildChromiumEnvironment: env =>
+        WinFormium.CreateRuntimeBuilder(
+            buildChromiumEnvironment: env =>
         {
             env.CustomCefCommandLineArguments(args =>
             {
@@ -79,7 +80,8 @@ public static class Program
             });
 
 
-        }, buildApplicationConfiguration: app =>
+        },
+            buildApplicationConfiguration: app =>
         {
             app.UseEmbeddedFileResource("http", "resources.app.local", "EmbeddedFiles", url =>
             {
@@ -118,6 +120,28 @@ public static class Program
             // 打开主窗体并开始消息循环。
             app.UseMainWindow(context =>
             {
+
+                // !!! Write the business logic initialization code here, which is equivalent to the Main function of a normal WinForm program. Do not write the initialization code outside the CreateRuntimeBuilder function body, otherwise it may cause the business initialization code to be executed multiple times in the child process. !!!
+                // !!! 在此处编写业务逻辑初始化代码，这里相当于普通 WinForm 程序的 Main 函数。请勿将初始化代码写到 CreateRuntimeBuilder 函数体以外，否则将可能导致业务初始化代码在子进程中被执行多次。 !!!
+
+                /* Inialization Code Example / 初始化代码示例
+                // =================================================================
+
+                // 你的 DI 代码 ... / Your DI code ...
+
+                // 你的数据库初始化代码 ... / Your database initialization code ...
+
+                // 你的各种初始话代码 ... / Your various initialization code ...
+
+                // blah blah blah ....
+
+                // =================================================================
+                */
+
+                // The initialization code ends here, start the main form, and start the message loop.
+                // 初始化代码在此结束，启动主窗体，开启消息循环
+
+
                 var startupWin = new StartupWindow();
                 if (startupWin.ShowDialog() == DialogResult.OK)
                 {
@@ -141,6 +165,8 @@ public static class Program
         // Warning: Do not write business-related code before or after CreateRuntimeBuilder. Writing business logic here due to the multi-process architecture of CEF will cause your business logic to be executed multiple times.
         // 警告: 请勿在 CreateRuntimeBuilder 之前或之后编写业务相关的代码，由于 CEF 的多进程架构在此处编写业务逻辑将导致您的业务逻辑被多次执行。
 
-        // *************** DO NOT WRITE ANY CODES HERE ***************
+        // *************** DO NOT WRITE ANY CODES BEHIND HERE ***************
+        // *************** 不要在下面写任何初始化代码 ***************
+
     }
 }
