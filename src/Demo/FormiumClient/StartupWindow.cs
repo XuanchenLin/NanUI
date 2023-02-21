@@ -1,3 +1,5 @@
+using FormiumClient.Resources;
+
 using NetDimension.NanUI;
 using NetDimension.NanUI.HostWindow;
 using NetDimension.NanUI.JavaScript;
@@ -22,7 +24,7 @@ internal class StartupWindow : Formium
         EnableSplashScreen = false;
         AllowSystemMenu = false;
 
-        Title = "欢迎使用 NanUI 示例程序";
+        Title = Messages.StartupWindowTitle;
 
     }
 

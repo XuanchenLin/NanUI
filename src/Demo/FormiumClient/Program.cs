@@ -1,3 +1,7 @@
+using System.Globalization;
+
+using FormiumClient.Resources;
+
 using NetDimension.NanUI;
 
 namespace FormiumClient;
@@ -12,6 +16,13 @@ public static class Program
 #if NETCOREAPP3_1_OR_GREATER
         Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 #endif
+
+        // Config culture info of the app.
+        // 设置程序的区域性属性，测试英文界面
+        //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+        //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+
+
 
         // *************** DO NOT WRITE ANY CODES HERE ***************
 
@@ -57,7 +68,14 @@ public static class Program
             // 启用 NanUI 的子进程示例，使用子进程模式将 CEF 的进程独立到另外的 EXE 文件中，避免在主进程中的各种逻辑意外的多次执行。
             env.UseExternalSubprocess(sb =>
             {
-                sb.UseCustomSubprocessPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormiumClientSubprocess.exe"));
+                sb.UseCustomSubprocessPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FormiumClientSubprocess.exe"), path => {
+                    var message = Messages.CannotFoundSubprocessMessage;
+                    var caption = Messages.CannotFoundSubprocessCaption;
+
+                    return MessageBox.Show(string.Format(message, path), caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+                });
+
+
             });
 
 

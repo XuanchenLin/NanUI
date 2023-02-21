@@ -31,6 +31,30 @@ public class PassportService : DataService
 
         return Json(new { success = true, timestamp = GetTimeStamp(), result });
     }
+
+
+    //POST /account/user/avatar
+    [RoutePost("user/update/avatar")]
+    public ResourceResponse UpdateAvatar(ResourceRequest request)
+    {
+        if(request.UploadFiles!=null && request.UploadFiles.Length>0)
+        {
+
+            // 这就是你从前端上传文件的物理路径
+            // This is the physical file path of your file that is uploaded from the web side.
+
+            var physicalFilePath = request.UploadFiles[0];
+
+
+
+            return Json(new { success = true, text = "Avatar uploaded!" });
+        }
+
+
+        return Json(new { success = false, text = "No avatar uploaded!" });
+
+
+    }
 }
 
 

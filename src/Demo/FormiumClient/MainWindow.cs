@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using System.Reflection;
 
+using FormiumClient.Resources;
+
 using NetDimension.NanUI;
 using NetDimension.NanUI.HostWindow;
 using NetDimension.NanUI.JavaScript;
@@ -32,7 +34,7 @@ class MainWindow : Formium
         style.ShadowEffect = ShadowEffect.Big;
         style.CornerStyle = CornerStyle.Small;
 
-        Title = "NanUI 示例程序";
+        Title = Messages.MainWindowTitle;
 
         // Set up Splash styles
         // 设置启动画面的各种参数
@@ -157,7 +159,7 @@ class MainWindow : Formium
 
     private void MainWindow_BeforeClose(object sender, NetDimension.NanUI.Browser.FormiumCloseEventArgs e)
     {
-        if (MessageBox.Show(WindowHandle, "确定关闭？", "关闭", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+        if (MessageBox.Show(WindowHandle, Messages.CloseConfirmDialogMessage, Messages.CloseConfirmDialogTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
         {
             e.Canceled = true;
         }
