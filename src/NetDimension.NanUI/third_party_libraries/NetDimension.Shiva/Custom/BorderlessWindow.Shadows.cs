@@ -345,9 +345,13 @@ internal partial class BorderlessWindow
     {
         if (!_isShadowInitialized) return;
 
-        var pt = _shadow.GetShadowLocation(windowpos.x, windowpos.y, windowpos.cx, windowpos.cy);
+        GetWindowRect(hWnd, out var rect);
 
-        var size = _shadow.GetShadowSize(windowpos.cx, windowpos.cy);
+        InflateRect(ref rect, -WindowNonclientAreaBorders.Left * 2, -WindowNonclientAreaBorders.Top * 2);
+
+        var pt = _shadow.GetShadowLocation(rect.X, rect.Y);
+
+        var size = _shadow.GetShadowSize(rect.Width, rect.Height,out var shadowSize);
 
         var flags = SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOZORDER;
 

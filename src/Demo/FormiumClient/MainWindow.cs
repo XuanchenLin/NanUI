@@ -32,7 +32,7 @@ class MainWindow : Formium
         style.ShadowColor = ColorTranslator.FromHtml("#614964");
 
         style.ShadowEffect = ShadowEffect.Big;
-        style.CornerStyle = CornerStyle.Small;
+        style.CornerStyle = CornerStyle.Huge;
 
         Title = Messages.MainWindowTitle;
 

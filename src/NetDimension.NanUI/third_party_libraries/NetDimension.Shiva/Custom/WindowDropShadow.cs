@@ -75,7 +75,7 @@ internal class WindowDropShadow : IDisposable
 
         var windowClass = new WindowClass(className, HINSTANCE.NULL, _windowProc);
 
-        var exStyles = WindowStylesEx.WS_EX_LEFT | WindowStylesEx.WS_EX_LTRREADING | WindowStylesEx.WS_EX_TOOLWINDOW | /*WindowStylesEx.WS_EX_NOPARENTNOTIFY |*/ WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_NOACTIVATE | WindowStylesEx.WS_EX_TRANSPARENT;
+        var exStyles = WindowStylesEx.WS_EX_LEFT | WindowStylesEx.WS_EX_LTRREADING | WindowStylesEx.WS_EX_NOPARENTNOTIFY | WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_NOACTIVATE | WindowStylesEx.WS_EX_TRANSPARENT;
 
         var styles = WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_POPUP;
 
@@ -96,6 +96,7 @@ internal class WindowDropShadow : IDisposable
 
 
         if (width <= 0 || height <= 0) return;
+
 
 
         using (var bmp = new Bitmap(width, height))
@@ -130,10 +131,23 @@ internal class WindowDropShadow : IDisposable
     private void DrawShadowWithSKia(SKCanvas canvas, SKBitmap sourceBitmap, Bitmap destBitmap)
     {
 
-        //GetWindowRect(HWnd, out var rect);
+        GetWindowRect(ParentHWnd, out var parentRect);
 
-        //var width = rect.Width;
-        //var height = rect.Height;
+        InflateRect(ref parentRect, -ParentWindow.WindowNonclientAreaBorders.Left*2, -ParentWindow.WindowNonclientAreaBorders.Top*2);
+
+
+        var rectWidth = parentRect.Width;
+        var rectHeight = parentRect.Height;
+
+
+        var shadow= GetShadowSize(rectWidth, rectHeight,out var _);
+
+
+
+        var shadowWidth = shadow.Width;
+        var shadowHeight = shadow.Height;
+
+
 
 
         var config = ParentWindow.ShadowEffects[ParentWindow.ShadowEffect];
@@ -168,20 +182,20 @@ internal class WindowDropShadow : IDisposable
 
 
         var dTopLeft = new SKRect(0, 0, partSize, shadowSize);
-        var dTopRight = new SKRect(destBitmap.Width - partSize, 0, destBitmap.Width, shadowSize);
-        var dTop = new SKRect(partSize, 0, destBitmap.Width - partSize, shadowSize);
+        var dTopRight = new SKRect(shadowWidth - partSize, 0, shadowWidth, shadowSize);
+        var dTop = new SKRect(partSize, 0, shadowWidth - partSize, shadowSize);
 
-        var dBottomLeft = new SKRect(0, destBitmap.Height - shadowSize, partSize, destBitmap.Height);
-        var dBottomRight = new SKRect(destBitmap.Width - partSize, destBitmap.Height - shadowSize, destBitmap.Width, destBitmap.Height);
-        var dBottom = new SKRect(partSize, destBitmap.Height - shadowSize, destBitmap.Width - partSize, destBitmap.Height);
+        var dBottomLeft = new SKRect(0, shadowHeight - shadowSize, partSize, shadowHeight);
+        var dBottomRight = new SKRect(shadowWidth - partSize, shadowHeight - shadowSize, shadowWidth, shadowHeight);
+        var dBottom = new SKRect(partSize, shadowHeight - shadowSize, shadowWidth - partSize, shadowHeight);
 
         var dLeftTop = new SKRect(0, shadowSize, partSize, shadowSize + partSize);
-        var dLeftBottom = new SKRect(0, destBitmap.Height - shadowSize - partSize, partSize, destBitmap.Height - shadowSize);
-        var dLeft = new SKRect(0, shadowSize + partSize, partSize, destBitmap.Height - shadowSize - partSize);
+        var dLeftBottom = new SKRect(0, shadowHeight - shadowSize - partSize, partSize, shadowHeight - shadowSize);
+        var dLeft = new SKRect(0, shadowSize + partSize, partSize, shadowHeight - shadowSize - partSize);
 
-        var dRightTop = new SKRect(destBitmap.Width - partSize, shadowSize, destBitmap.Width, shadowSize + partSize);
-        var dRightBottom = new SKRect(destBitmap.Width - partSize, destBitmap.Height - shadowSize - partSize, destBitmap.Width, destBitmap.Height - shadowSize);
-        var dRight = new SKRect(destBitmap.Width - partSize, shadowSize + partSize, destBitmap.Width, destBitmap.Height - shadowSize - partSize);
+        var dRightTop = new SKRect(shadowWidth - partSize, shadowSize, shadowWidth, shadowSize + partSize);
+        var dRightBottom = new SKRect(shadowWidth - partSize, shadowHeight - shadowSize - partSize, shadowWidth, shadowHeight - shadowSize);
+        var dRight = new SKRect(shadowWidth - partSize, shadowSize + partSize, shadowWidth, shadowHeight - shadowSize - partSize);
 
         using (var paint = new SKPaint
         {
@@ -208,10 +222,7 @@ internal class WindowDropShadow : IDisposable
 
 
 
-        GetWindowRect(ParentHWnd, out var parentRect);
 
-        var rectWidth = parentRect.Width;
-        var rectHeight = parentRect.Height;
 
 
         using (var paint = new SKPaint
@@ -220,7 +231,11 @@ internal class WindowDropShadow : IDisposable
             Color = SKColors.Transparent
         })
         {
-            canvas.DrawRoundRect(new SKRoundRect(new SKRect(shadowSize + 1, shadowSize + 1, shadowSize + rectWidth - 1, shadowSize + rectHeight - 1), cornerSize), paint);
+            canvas.DrawRoundRect(new SKRoundRect(new SKRect(
+                shadowSize + ParentWindow.WindowNonclientAreaBorders.Left,
+                shadowSize + ParentWindow.WindowNonclientAreaBorders.Top,
+                shadowSize + rectWidth - ParentWindow.WindowNonclientAreaBorders.Right,
+                shadowSize + rectHeight - ParentWindow.WindowNonclientAreaBorders.Bottom), cornerSize), paint);
         }
     }
 
@@ -552,15 +567,15 @@ internal class WindowDropShadow : IDisposable
     }
 
 
-    internal Size GetShadowSize(int winWidth, int winHeight)
+    internal Size GetShadowSize(int winWidth, int winHeight, out int shadowSize)
     {
         var config = ParentWindow.ShadowEffects[ParentWindow.ShadowEffect];
 
-        var shadowSize = config.Width;
+        shadowSize = config.Width;
 
-        return new Size(winWidth + shadowSize * 2, winHeight + shadowSize * 2);
+        return new Size(winWidth + shadowSize * 2, winHeight + shadowSize*2);
     }
-    internal Point GetShadowLocation(int x, int y, int cx, int cy)
+    internal Point GetShadowLocation(int x, int y)
     {
         var config = ParentWindow.ShadowEffects[ParentWindow.ShadowEffect];
 

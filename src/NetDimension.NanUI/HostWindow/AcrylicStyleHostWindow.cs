@@ -1,4 +1,4 @@
-﻿using NetDimension.Shiva;
+using NetDimension.Shiva;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -116,7 +116,7 @@ namespace NetDimension.NanUI.HostWindow
 
             try
             {
-                DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
+                //DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
                 DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0, 2, 0, 2));
 

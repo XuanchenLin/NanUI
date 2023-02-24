@@ -367,7 +367,7 @@ internal partial class BorderlessWindow
 
                 Marshal.StructureToPtr(nccsp, m.LParam, true);
 
-                //m.Result = (nint)0x400;
+                m.Result = (nint)0x400;
                 //return true;
             }
             else if (WindowState == FormWindowState.Maximized)
@@ -443,7 +443,7 @@ internal partial class BorderlessWindow
                     region.Exclude(clientRect);
                 }
 
-                using var brush = new SolidBrush(Color.FromArgb(0xFF,0xB2,0xB2,0xB2));
+                using var brush = new SolidBrush(TransparentKeyColor);
                 graphics.FillRegion(brush, region);
 
 

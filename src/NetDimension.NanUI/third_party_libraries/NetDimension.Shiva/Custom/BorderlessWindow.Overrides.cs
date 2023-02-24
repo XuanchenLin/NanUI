@@ -17,6 +17,8 @@ internal partial class BorderlessWindow
 
     protected HWND hWnd { get; private set; }
 
+    private readonly Color TransparentKeyColor = Color.FromArgb(0x00,0x00,0x01);
+
     public BorderlessWindow()
     {
         AutoScaleMode = AutoScaleMode.None;
@@ -36,7 +38,7 @@ internal partial class BorderlessWindow
 
         InitializeReflectedFields();
 
-
+        TransparencyKey = TransparentKeyColor;
 
     }
 
@@ -52,12 +54,14 @@ internal partial class BorderlessWindow
 
         //DwmSetWindowAttribute(hWnd, DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY, DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED);
 
+        SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_FRAMECHANGED);
+
 
         DpiHelper.InitializeDpiHelper();
 
         _deviceDpi = DpiHelper.DeviceDpi;
 
-        UxTheme.SetWindowTheme(hWnd, string.Empty, string.Empty);
+        UxTheme.SetWindowTheme(Handle, string.Empty, string.Empty);
         DisableProcessWindowsGhosting();
 
         ScaleFactor = DpiHelper.GetScaleFactorForWindow(Handle);
@@ -68,7 +72,6 @@ internal partial class BorderlessWindow
         }
 
 
-        SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_FRAMECHANGED);
 
         var currentScreenScaleFactor = DpiHelper.GetDpiForWindow(Handle);
 
@@ -165,7 +168,7 @@ internal partial class BorderlessWindow
         base.OnSizeChanged(e);
     }
 
-    
+
 
     protected override void OnFormClosed(FormClosedEventArgs e)
     {

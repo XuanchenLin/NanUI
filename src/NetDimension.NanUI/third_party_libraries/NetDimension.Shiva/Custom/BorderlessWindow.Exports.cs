@@ -43,7 +43,7 @@ internal partial class BorderlessWindow
 
                 if(_windowCornerStyle == CornerStyle.None)
                 {
-                    WindowNonclientAreaBorders = new Padding(1);
+                    //WindowNonclientAreaBorders = new Padding(1);
                 }
 
                 InvalidateNonClientArea();

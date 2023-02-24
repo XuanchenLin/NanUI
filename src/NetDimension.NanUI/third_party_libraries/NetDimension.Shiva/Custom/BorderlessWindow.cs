@@ -38,7 +38,7 @@ internal partial class BorderlessWindow : Form
 
     private CornerStyle _windowCornerStyle = CornerStyle.Normal;
 
-    private Padding WindowNonclientAreaBorders { get; set; } = new Padding(0);
+    internal Padding WindowNonclientAreaBorders { get; } = new Padding(1);
 
 
     #region Window Sizing
@@ -147,7 +147,7 @@ internal partial class BorderlessWindow : Form
 
     internal void SendFrameChangedMessage()
     {
-        SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOCOPYBITS | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
+        SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE |/* SetWindowPosFlags.SWP_NOCOPYBITS | */SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
     }
 
 
