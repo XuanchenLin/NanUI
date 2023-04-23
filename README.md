@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/NetDimension/NanUI)
 ![Nuget](https://img.shields.io/nuget/dt/NetDimension.NanUI?label=NuGet)
 ![Nuget](https://img.shields.io/nuget/v/NetDimension.NanUI)
-![CI](https://github.com/netdimension/nanui/actions/workflows/main.yml/badge.svg)
+![CI](![CI](https://github.com/xuanchenlin/nanui/actions/workflows/main.yml/badge.svg))
 
 中文 | [English](README.en.md)
 
