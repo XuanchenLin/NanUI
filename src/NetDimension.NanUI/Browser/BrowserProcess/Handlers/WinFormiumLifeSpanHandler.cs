@@ -31,12 +31,16 @@ internal sealed class WinFormiumLifeSpanHandler : CefLifeSpanHandler
         _owner?.WebView?.MessageBridge?.OnBeforeClose(browser);
     }
 
+
+
     protected override bool OnBeforePopup(CefBrowser browser, CefFrame frame, string targetUrl, string targetFrameName, CefWindowOpenDisposition targetDisposition, bool userGesture, CefPopupFeatures popupFeatures, CefWindowInfo windowInfo, ref CefClient client, CefBrowserSettings settings, ref CefDictionaryValue extraInfo, ref bool noJavascriptAccess)
     {
 
         var e = new BeforePopupEventArgs(frame, targetUrl, targetFrameName, userGesture, popupFeatures, windowInfo, client, settings, noJavascriptAccess);
 
         _owner.InvokeIfRequired(() => _owner.OnBeforePopup(e));
+
+
 
 
         if (e.Handled == false)
@@ -72,7 +76,7 @@ internal sealed class WinFormiumLifeSpanHandler : CefLifeSpanHandler
 
 
 
-            windowInfo.SetAsPopup(IntPtr.Zero, $"{Messages.Browser_Loading} - {_owner.Title}");
+            windowInfo.SetAsPopup(_owner.HostWindowHandle, $"{Messages.Browser_Loading} - {_owner.Title}");
 
             client = new PopupBrowserClient(_owner);
         }

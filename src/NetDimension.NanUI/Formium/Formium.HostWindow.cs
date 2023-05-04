@@ -1095,6 +1095,10 @@ if(typeof {JS_EVENT_RAISER_NAME} === 'undefined') return;
 
     internal protected void OnResize()
     {
+        GetClientRect(HostWindowHandle, out var rect);
+        ResizeWebView(rect.Width, rect.Height);
+
+
         Resize?.Invoke(this, EventArgs.Empty);
     }
 

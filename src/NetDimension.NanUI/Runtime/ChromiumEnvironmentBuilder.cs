@@ -349,14 +349,14 @@ public sealed class ChromiumEnvironmentBuilder
 public sealed class CefBinaryFilePathConfiguration
 {
 
-    public PlatformArchitecture PlatformArchitecture => PlatformArchitecture;
+    public PlatformArchitecture PlatformArchitecture => WinFormium.PlatformArchitecture;
     public string CurrentApplicationRunningDirectory => WinFormium.ApplicationRunningDirectory;
     public string CefBinaryFileDirectory { internal get; set; }
 }
 
 public sealed class ExternalSubprocessConfiguration
 {
-    public PlatformArchitecture PlatformArchitecture => PlatformArchitecture;
+    public PlatformArchitecture PlatformArchitecture => WinFormium.PlatformArchitecture;
 
     internal string SubprocessPath { get; private set; }
 

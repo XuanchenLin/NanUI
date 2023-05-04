@@ -1,3 +1,5 @@
+using System.Linq;
+
 using NetDimension.NanUI.Browser;
 using NetDimension.NanUI.Browser.ResourceHandler;
 using NetDimension.NanUI.Logging;
@@ -176,6 +178,9 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
         {
             return exitCode;
         }
+
+        Logger.Info(string.Format("CefRuntime.ExecuteProcess() arguments:\r\n{0}", string.Join("\r\n",args)));
+
 
         foreach (var arg in args)
         {

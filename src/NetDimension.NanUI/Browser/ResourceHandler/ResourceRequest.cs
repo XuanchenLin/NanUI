@@ -1,4 +1,7 @@
 using System.Collections.Specialized;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.Browser.ResourceHandler;
@@ -140,7 +143,10 @@ public sealed class ResourceRequest
     {
         PropertyNameCaseInsensitive = true,
         DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        ReferenceHandler = ReferenceHandler.IgnoreCycles,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+
     };
 
 

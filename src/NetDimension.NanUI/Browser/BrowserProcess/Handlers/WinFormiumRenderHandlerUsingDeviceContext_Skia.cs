@@ -238,7 +238,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
                 ms.Close();
 
-                System.Diagnostics.Debug.WriteLine($"RequestPopupSize:{width}x{height}");
+                //System.Diagnostics.Debug.WriteLine($"RequestPopupSize:{width}x{height}");
             }
 
 

@@ -5,7 +5,7 @@
         <LangVersion>10.0</LangVersion>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Product>NanUI Formium Demo Client</Product>
         <AssemblyTitle>NanUI 示例程序</AssemblyTitle>
@@ -20,6 +20,78 @@
         <!--<PublishTrimmed>true</PublishTrimmed>
         <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
         <CustomResourceTypesSupport>true</CustomResourceTypesSupport>-->
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|AnyCPU'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|AnyCPU'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|x64'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|x64'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|x86'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|x86'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x64'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x64'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x86'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x86'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x64'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x64'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x86'">
+      <Prefer32Bit>True</Prefer32Bit>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x86'">
+      <Prefer32Bit>True</Prefer32Bit>
     </PropertyGroup>
 
     <ItemGroup>

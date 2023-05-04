@@ -23,9 +23,11 @@ internal sealed class WinFormiumLoadHandler : CefLoadHandler
         var e = new LoadEndEventArgs(frame, httpStatusCode);
         _owner.InvokeIfRequired(() => _owner.OnLoadEnd(e));
 
+
+
         if (frame.IsMain)
         {
-            if (e.SkipErrorHandler == false && ((httpStatusCode >= 400 && httpStatusCode < 500) || httpStatusCode ==0))
+            if (e.SkipErrorHandler == false && ((httpStatusCode >= 400 && httpStatusCode < 500) /*|| httpStatusCode ==0*/))
             {
                 if(string.IsNullOrEmpty(e.ErrorPageUrl))
                 {
@@ -55,6 +57,7 @@ internal sealed class WinFormiumLoadHandler : CefLoadHandler
         var e = new LoadingStateChangeEventArgs(isLoading, canGoBack, canGoForward);
         _owner.InvokeIfRequired(() => _owner.OnLoadingStateChanged(e));
     }
+
 
 }
 
