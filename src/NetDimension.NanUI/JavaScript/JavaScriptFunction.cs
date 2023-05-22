@@ -97,6 +97,7 @@ public sealed class JavaScriptFunction : JavaScriptValue
             arguments = new JavaScriptArray();
         }
 
+        arguments.BindToFrame(Frame);
 
         if (Results.TryAdd(new Tuple<int, long>(taskId, Frame.Identifier), tsc))
         {
