@@ -32,6 +32,13 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
             var func = JavaScriptSyncFunction.Bag.FirstOrDefault(x => x.Uuid == funcId);
 
+            if(args.Frame == null)
+            {
+
+                var frame = Owner.GetFrame(request.FrameId);
+                args.BindToFrame(frame, false);
+            }
+
 
             MessageResponse response;
 
@@ -78,6 +85,13 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
             var data = requestData.Arguments;
 
             var args = JavaScriptValue.FromJson(data).ToArray();
+
+            if (args.Frame == null)
+            {
+
+                var frame = Owner.GetFrame(request.FrameId);
+                args.BindToFrame(frame, false);
+            }
 
 
             MessageResponse response;
