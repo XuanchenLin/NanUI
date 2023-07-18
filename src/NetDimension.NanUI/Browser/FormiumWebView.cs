@@ -92,7 +92,8 @@ internal sealed class FormiumWebView : IDisposable
 
         Browser.GetHost()?.WasResized();
 
-        Browser.GetHost()?.SendFocusEvent(true);
+        Browser.GetHost()?.SetFocus(true);
+
 
         IsReady = true;
     }

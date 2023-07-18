@@ -65,15 +65,17 @@ internal sealed class WinFormiumRequestHandler : CefRequestHandler
         return !e.CancelRequestImmediately;
     }
 
-    protected override bool OnCertificateError(CefBrowser browser, CefErrorCode certError, string requestUrl, CefSslInfo sslInfo, CefRequestCallback callback)
+    protected override bool OnCertificateError(CefBrowser browser, CefErrorCode certError, string requestUrl, CefSslInfo sslInfo, CefCallback callback)
     {
-
         var e = new CertificateErrorEventArgs(certError, requestUrl, sslInfo, callback);
 
         _owner.InvokeIfRequired(() => _owner.OnCertificateError(e));
 
         return !e.CancelRequestImmediately;
+
     }
+
+
 
     protected override void OnRenderProcessTerminated(CefBrowser browser, CefTerminationStatus status)
     {
@@ -165,9 +167,9 @@ public sealed class RenderProcessTerminatedEventArgs : EventArgs
 
 public sealed class CertificateErrorEventArgs : EventArgs
 {
-    private readonly CefRequestCallback _callback;
+    private readonly CefCallback _callback;
 
-    internal CertificateErrorEventArgs(CefErrorCode certError, string requestUrl, CefSslInfo sslInfo, CefRequestCallback callback)
+    internal CertificateErrorEventArgs(CefErrorCode certError, string requestUrl, CefSslInfo sslInfo, CefCallback callback)
     {
         CertError = certError;
         RequestUrl = requestUrl;
@@ -178,7 +180,7 @@ public sealed class CertificateErrorEventArgs : EventArgs
     public CefErrorCode CertError { get; }
     public string RequestUrl { get; }
     public CefSslInfo SslInfo { get; }
-    public void Continue(bool requestAllowed) => _callback?.Continue(requestAllowed);
+    public void Continue() => _callback?.Continue();
 
     public void Cancel() => _callback?.Cancel();
 

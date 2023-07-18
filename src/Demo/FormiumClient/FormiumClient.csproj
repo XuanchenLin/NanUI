@@ -10,7 +10,7 @@
         <Product>NanUI Formium Demo Client</Product>
         <AssemblyTitle>NanUI 示例程序</AssemblyTitle>
         <PackageId>$(AssemblyName)</PackageId>
-        <AssemblyName>$(AssemblyName)</AssemblyName>
+        <AssemblyName>$(AssemblyName)_Demo</AssemblyName>
         <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <Nullable>warnings</Nullable>
@@ -23,75 +23,75 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|AnyCPU'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|AnyCPU'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|x64'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|x64'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|x86'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|x86'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x64'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x64'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x86'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x86'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|AnyCPU'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x64'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x64'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x86'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net472|x86'">
-      <Prefer32Bit>True</Prefer32Bit>
+      <Prefer32Bit>False</Prefer32Bit>
     </PropertyGroup>
 
     <ItemGroup>
@@ -141,11 +141,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="NetDimension.NanUI.Runtime" Version="90.6.7.1" />
+      <Folder Include="Properties\PublishProfiles\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Properties\PublishProfiles\" />
+      <PackageReference Include="NetDimension.NanUI.Runtime" Version="100.0.24.1" />
     </ItemGroup>
 
 </Project>

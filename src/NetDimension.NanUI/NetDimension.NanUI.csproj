@@ -13,7 +13,7 @@
         <Nullable>disable</Nullable>
         <SignAssembly>False</SignAssembly>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Version>0.9.90.$([System.DateTime]::Now.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-12-20",2021))))).TotalDays)</Version>
+        <Version>0.9.100.$([System.DateTime]::Now.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-7-18",2023))))).TotalDays)</Version>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 

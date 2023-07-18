@@ -143,8 +143,8 @@ public sealed class RuntimeContext
         if (ProcessType == CefProcessType.Browser)
         {
             var info = $@"
-Welcome to NanUI/0.8 Dev ({WinFormium.PlatformArchitecture}); Chromium/{CefRuntime.ChromeVersion}; WinFormium/{Assembly.GetExecutingAssembly().GetName().Version};
-Copyrights (C) 2015-{DateTime.Now.Year} NetDimension Studio all rights reserved. Powered by Xuanchen Lin. 
+Welcome to NanUI/0.9 Dev ({WinFormium.PlatformArchitecture}); Chromium/{CefRuntime.ChromeVersion}; WinFormium/{Assembly.GetExecutingAssembly().GetName().Version};
+Copyrights (C) 2015-{DateTime.Now.Year} Xuanchen Lin all rights reserved. 
 {NanUI.Properties.Resources.ASCII_NanUI_Logo}
 This project is under MIT License.
 https://github.com/NetDimension/NanUI/blob/master/LICENCE

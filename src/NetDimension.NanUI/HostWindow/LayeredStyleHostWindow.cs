@@ -312,7 +312,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
         if (buttonType.HasValue)
         {
             BrowserHost?.SendMouseClickEvent(new CefMouseEvent(pt.X, pt.Y, GetMouseModifiers(e.Button)), buttonType.Value, false, e.Clicks);
-            BrowserHost?.SendFocusEvent(true);
+            BrowserHost?.SetFocus(true);
         }
     }
 
@@ -341,7 +341,7 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
         if (buttonType.HasValue)
         {
             BrowserHost?.SendMouseClickEvent(new CefMouseEvent(pt.X, pt.Y, GetMouseModifiers(e.Button)), buttonType.Value, true, e.Clicks);
-            BrowserHost?.SendFocusEvent(true);
+            BrowserHost?.SetFocus(true);
         }
     }
 
@@ -362,12 +362,12 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 
     protected override void OnLostFocus(EventArgs e)
     {
-        BrowserHost?.SendFocusEvent(false);
+        BrowserHost?.SetFocus(false);
     }
 
     protected override void OnGotFocus(EventArgs e)
     {
-        BrowserHost?.SendFocusEvent(true);
+        BrowserHost?.SetFocus(true);
     }
 
 

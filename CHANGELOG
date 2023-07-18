@@ -1,4 +1,4 @@
-What's new in version 0.9.90
+What's new in version 0.9.100
 ============================
 - 重写了 Borderless 样式的窗体底层，使用 SkiaSharp 绘制窗体元素
 - 删除了 Acrylic 样式，这个样式在部分 Win10 版本以及 Windows 11 中表现得非常 Bug
@@ -8,6 +8,11 @@ What's new in version 0.9.90
 
 Changelog
 =========
+[2023/7/18]
+因为 32 位的 90.0.4430 版本的 libcef.dll 被证实有内存溢出导致崩溃的问题，所以将 NanUI 的 CEF 内核版本升级到了 100.0.24 版本。
+
+[2023/7/17]
+
 [2023/2/19]
 移除了 Vortice.Direct2D 依赖，现在离屏渲染都是由 SkiaSharp 进行
 移除了 Newtonsoft.Json 依赖改用 .NET 默认的 System.Text.Json 进行 JSON 数据的处理。
@@ -22,7 +27,7 @@ DemoWindow.asyncfunc()
     .then(r=>console.log(r))
     .catch(err=>console.log(err));
 
-//或者 
+//或者
 (async ()=> {
     try{
         const result = await DemoWindow.asyncfunc();
@@ -48,4 +53,4 @@ DemoWindow.asyncfunc()
 重要声明
 =======
 台湾是中国领土不可分割的一部分。
-Taiwan is an inalienable part of Chinese territory. 
+Taiwan is an inalienable part of Chinese territory.

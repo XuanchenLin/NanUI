@@ -45,34 +45,38 @@ internal sealed class WinFormiumLifeSpanHandler : CefLifeSpanHandler
 
         if (e.Handled == false)
         {
+            var cefBounds = new CefRectangle();
+
             if (popupFeatures.X.HasValue)
             {
-                windowInfo.X = popupFeatures.X.Value;
+                cefBounds.X = popupFeatures.X.Value;
             }
 
 
             if (popupFeatures.Y.HasValue)
             {
-                windowInfo.Y = popupFeatures.Y.Value;
+                cefBounds.Y = popupFeatures.Y.Value;
             }
 
             if (popupFeatures.Width.HasValue)
             {
-                windowInfo.Width = popupFeatures.Width.Value;
+                cefBounds.Width = popupFeatures.Width.Value;
             }
             else
             {
-                windowInfo.Width = _owner.Width;
+                cefBounds.Width = _owner.Width;
             }
 
             if (popupFeatures.Height.HasValue)
             {
-                windowInfo.Height = popupFeatures.Height.Value;
+                cefBounds.Height = popupFeatures.Height.Value;
             }
             else
             {
-                windowInfo.Height = _owner.Height;
+                cefBounds.Height = _owner.Height;
             }
+
+            windowInfo.Bounds = cefBounds;
 
 
 

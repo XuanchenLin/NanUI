@@ -21,7 +21,7 @@ public enum PlatformArchitecture
 
 public sealed class WinFormium
 {
-    private const string CEF_VERSION = "90.6.7";
+    private const string CEF_VERSION = "100.0.24";
 
     private static CefBrowserSettings _defaultBrowserSettings;
 
