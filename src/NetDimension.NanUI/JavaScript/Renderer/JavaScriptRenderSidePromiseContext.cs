@@ -2,7 +2,7 @@ using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript.Renderer;
 
-internal class JavaScriptRenderSidePromiseContext
+internal class JavaScriptRenderSidePromiseContext : IDisposable
 {
     public JavaScriptRenderSidePromiseContext(Guid uuid, CefV8Context context, CefV8Value promiseData  /*CefV8Value resovle, CefV8Value reject*/)
     {
@@ -18,4 +18,9 @@ internal class JavaScriptRenderSidePromiseContext
     public CefV8Value PromiseData { get; }
     public CefV8Value Resolve => PromiseData?.GetValue("resolve");
     public CefV8Value Reject => PromiseData?.GetValue("reject");
+
+    public void Dispose()
+    {
+        PromiseData.Dispose();
+    }
 }

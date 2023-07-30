@@ -123,7 +123,7 @@ public abstract class ResourceHandlerBase
 
                 response.Status = 206;
 
-                ResourceHandlerBase.Logger.Verbose($"[Content-Range]: {startPos}-{endPos}/{_resourceResponse.Length}");
+                Logger.Verbose($"[Content-Range]: {startPos}-{endPos}/{_resourceResponse.Length}");
             }
 
 
@@ -255,7 +255,7 @@ public abstract class ResourceHandlerBase
             }
             catch (Exception ex)
             {
-                ResourceHandlerBase.Logger.Error(ex, "ResourceHandler");
+                Logger.Error(ex, "ResourceHandler");
                 callback.Cancel();
             }
 

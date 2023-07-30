@@ -49,6 +49,10 @@ public static class Program
 
                 args.AppendSwitch("autoplay-policy", "no-user-gesture-required");
 
+                //args.AppendSwitch("disable-usb-keyboard-detect","1");
+                //args.AppendSwitch("touch-events","1");
+
+
                 //args.AppendSwitch("unsafely-treat-insecure-origin-as-secure", "http://resources.app.local");
 
 

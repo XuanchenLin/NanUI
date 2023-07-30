@@ -10,12 +10,18 @@ internal static class JavaScriptObjectRepositoryOnRenderSide
 
     public static void ReleaseStoreByContext(CefV8Context context)
     {
+        var logger = WinFormium.GetLogger();
+
+        logger.Debug($"[StoredFunctions] {StoredFunctions.Count} items in store.");
+        logger.Debug($"[StoredPromises] {StoredPromises.Count} items in store.");
+
         var storedFunctions = StoredFunctions.Where(x => x.V8Context.IsSame(context)).ToArray();
 
         for (var i = 0; i < storedFunctions.Length; i++)
         {
             var func = storedFunctions[i];
-            func?.FunctionDelegate?.Dispose();
+
+            func?.Dispose();
             StoredFunctions.Remove(func);
         }
 
@@ -27,8 +33,13 @@ internal static class JavaScriptObjectRepositoryOnRenderSide
             var func = storedPromises[i];
             //func?.Resolve?.Dispose();
             //func?.Reject?.Dispose();
-            func?.PromiseData?.Dispose();
+            func?.Dispose();
             StoredPromises.Remove(func);
         }
+
+
+
+
+        GC.Collect();
     }
 }

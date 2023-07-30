@@ -2,7 +2,7 @@ using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript.Renderer;
 
-internal class JavaScriptRenderSideFunction : JavaScriptValue
+internal class JavaScriptRenderSideFunction : JavaScriptValue, IDisposable
 {
 
     public static JavaScriptRenderSideFunction Create(CefV8Context v8Context, CefV8Value func)
@@ -37,5 +37,10 @@ internal class JavaScriptRenderSideFunction : JavaScriptValue
         };
 
         return def;
+    }
+
+    public void Dispose()
+    {
+        FunctionDelegate?.Dispose();
     }
 }

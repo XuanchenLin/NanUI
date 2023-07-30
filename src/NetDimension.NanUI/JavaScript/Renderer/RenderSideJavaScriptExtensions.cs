@@ -20,7 +20,7 @@ internal static class RenderSideJavaScriptExtensions
 
         var promiseCreateFunc = formium.GetValue(CREATE_PROMISE_FUNCTION_NAME);
 
-        
+
 
         var promiseData = promiseCreateFunc.ExecuteFunctionWithContext(context, null, new CefV8Value[] { });
 
@@ -31,6 +31,9 @@ internal static class RenderSideJavaScriptExtensions
             var promiseFunction = new JavaScriptRenderSidePromiseContext(uuid, context, promiseData);
 
             JavaScriptObjectRepositoryOnRenderSide.StoredPromises.Add(promiseFunction);
+
+            System.Diagnostics.Debug.WriteLine($"[StoredPromises] Count {JavaScriptObjectRepositoryOnRenderSide.StoredPromises.Count} stored.");
+
 
         }
 

@@ -520,7 +520,7 @@ public class JavaScriptValue
         {
             var target = this.ToArray();
 
-            for (int i = 0; i < target.Count; i++)
+            for (var i = 0; i < target.Count; i++)
             {
                 var item = target[i];
                 item.BindToFrame(frame, isFreeze);

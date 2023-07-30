@@ -25,12 +25,13 @@ internal static class JavaScriptTypeConverterExtension
 
             JavaScriptObjectRepositoryOnRenderSide.StoredFunctions.Add((JavaScriptRenderSideFunction)jsValue);
 
+
         }
         else if (v8Value.IsArray)
         {
             var array = new JavaScriptArray();
 
-            for (int i = 0; i < v8Value.GetArrayLength(); i++)
+            for (var i = 0; i < v8Value.GetArrayLength(); i++)
             {
                 array.Add(v8Value.GetValue(i).ToJavaScriptValue());
             }
@@ -190,7 +191,7 @@ internal static class JavaScriptTypeConverterExtension
                     var result = new List<CefV8Value>();
                     var target = source.ToArray();
 
-                    for (int i = 0; i < target.Count; i++)
+                    for (var i = 0; i < target.Count; i++)
                     {
                         var retval = target[i]?.ToCefV8Value();
 
@@ -202,7 +203,7 @@ internal static class JavaScriptTypeConverterExtension
 
                     var array = CefV8Value.CreateArray(result.Count);
 
-                    for (int i = 0; i < result.Count; i++)
+                    for (var i = 0; i < result.Count; i++)
                     {
                         array.SetValue(i, result[i]);
                     }

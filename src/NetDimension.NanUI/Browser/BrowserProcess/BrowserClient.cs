@@ -64,6 +64,7 @@ public class BrowserClient : CefClient
     protected override CefLifeSpanHandler GetLifeSpanHandler() => _lifeSpanHandler;
     protected override CefFocusHandler GetFocusHandler()
     {
+
         //if (_owner.WindowType == HostWindow.HostWindowType.Layered)
         if (_renderHandler != null)
         {

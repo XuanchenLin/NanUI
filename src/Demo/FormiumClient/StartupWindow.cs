@@ -42,5 +42,8 @@ internal class StartupWindow : Formium
         }));
 
         RegisterJavaScriptObject("launcher", jsObject);
+
     }
+
+
 }
