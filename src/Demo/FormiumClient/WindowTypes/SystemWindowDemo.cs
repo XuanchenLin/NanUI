@@ -1,4 +1,4 @@
-﻿using NetDimension.NanUI;
+using NetDimension.NanUI;
 using NetDimension.NanUI.HostWindow;
 using System;
 using System.Collections.Generic;

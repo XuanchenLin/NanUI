@@ -11,7 +11,7 @@ internal class StartupWindow : Formium
 
 
     public override HostWindowType WindowType { get; } = HostWindowType.SystemBorderless;
-    public override string StartUrl { get; } = "http://resources.app.local/startup-ui/";
+    public override string StartUrl { get; } = "http://resources.app.local/startup-ui/";//"https://cn.bing.com";//
 
     public StartupWindow()
     {

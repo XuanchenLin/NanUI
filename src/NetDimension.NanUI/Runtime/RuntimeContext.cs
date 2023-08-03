@@ -200,6 +200,8 @@ https://github.com/NetDimension/NanUI/blob/master/LICENCE
             AcceptLanguageList = Thread.CurrentThread.CurrentCulture.ToString(),
             JavaScriptFlags = "--expose-gc",
             CachePath = WinFormium.DefaultAppDataDirectory,
+            PersistUserPreferences = true,
+            UserAgentProduct = $"WinFormium/{Assembly.GetExecutingAssembly().GetName().Version}",
         };
 
         settings.LogFile = Path.Combine(settings.CachePath, "debug.log");

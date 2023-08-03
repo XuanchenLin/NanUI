@@ -24,7 +24,7 @@ internal class WinFormiumFocusHandler : CefFocusHandler
         _owner.OnSetFocus(e);
 
 
-        return !e.Cancel;
+        return e.Cancel;
     }
 
     protected override void OnTakeFocus(CefBrowser browser, bool next)
@@ -33,7 +33,6 @@ internal class WinFormiumFocusHandler : CefFocusHandler
 
         _owner.OnTakeFocus(e);
     }
-
 }
 
 public sealed class SetFocusEventArgs : EventArgs

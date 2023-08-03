@@ -156,30 +156,7 @@ partial class Formium
         return false;
     }
 
-    internal bool BrowserWmMouseMove(ref Message m)
-    {
-        if (FullScreen)
-            return false;
 
-        if (WindowState != FormWindowState.Normal)
-            return false;
-
-        var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
-
-        var retval = IFormHostWindow.HitTest(point);
-
-        if (retval != HitTestValues.HTNOWHERE)
-        {
-            var mode = retval;
-
-            if (mode != HitTestValues.HTCLIENT && WindowState == FormWindowState.Normal)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     internal void OnContextCreated(CefBrowser browser, CefFrame frame)
     {
@@ -204,6 +181,31 @@ partial class Formium
 
 
 
+    }
+
+    internal bool BrowserWmMouseMove(ref Message m)
+    {
+        if (FullScreen)
+            return false;
+
+        if (WindowState != FormWindowState.Normal)
+            return false;
+
+        var point = new Point(Macros.GET_X_LPARAM(m.LParam), Macros.GET_Y_LPARAM(m.LParam));
+
+        var retval = IFormHostWindow.HitTest(point);
+
+        if (retval != HitTestValues.HTNOWHERE)
+        {
+            var mode = retval;
+
+            if (mode != HitTestValues.HTCLIENT && WindowState == FormWindowState.Normal)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     internal bool BrowserWmSetCursor(ref Message m)
@@ -363,7 +365,7 @@ partial class Formium
 
             if (IsWindowVisible(HostWindowHandle))
             {
-                SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW | SetWindowPosFlags.SWP_NOACTIVATE);
+                SetWindowPos(BrowserWindowHandle, HWND.NULL, 0, 0, rect.Width, rect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW/* | SetWindowPosFlags.SWP_NOACTIVATE*/);
 
                 SetWindowLong(BrowserWindowHandle, WindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_VISIBLE));
             }
