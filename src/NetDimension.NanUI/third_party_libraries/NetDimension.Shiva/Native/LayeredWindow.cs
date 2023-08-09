@@ -150,8 +150,11 @@ internal class LayeredWindow : Form
             case WindowMessage.WM_ACTIVATE:
                 {
                     base.WndProc(ref m);
-                    DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0));
-
+                    //DwmExtendFrameIntoClientArea(hWnd, new MARGINS(0));
+                }
+                break;
+            case WindowMessage.WM_NCPAINT:
+                {
                 }
                 break;
             case WindowMessage.WM_DPICHANGED:
@@ -196,12 +199,7 @@ internal class LayeredWindow : Form
             var nccsp = Marshal.PtrToStructure<NCCALCSIZE_PARAMS>(m.LParam);
             var ncBorders = GetNonClientAeraBorders();
 
-            if (WindowState != FormWindowState.Maximized && WindowState != FormWindowState.Minimized)
-            {
-
-                return true;
-            }
-            else if (WindowState == FormWindowState.Maximized)
+            if (WindowState == FormWindowState.Maximized)
             {
 
 
@@ -210,6 +208,17 @@ internal class LayeredWindow : Form
 
                 Marshal.StructureToPtr(nccsp, m.LParam, true);
                 m.Result = MESSAGE_PROCESS;
+            }
+            else
+            {
+                nccsp.rgrc0.top -= ncBorders.Top;
+                nccsp.rgrc0.bottom += ncBorders.Bottom;
+                nccsp.rgrc0.left -= ncBorders.Left;
+                nccsp.rgrc0.right += ncBorders.Right;
+
+                Marshal.StructureToPtr(nccsp, m.LParam, true);
+
+                m.Result = new IntPtr(0x0400);
             }
         }
 

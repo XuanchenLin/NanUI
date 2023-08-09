@@ -347,8 +347,11 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
 
     protected override void OnSizeChanged(EventArgs e)
     {
+        BrowserHost?.NotifyMoveOrResizeStarted();
+
         base.OnSizeChanged(e);
         BrowserHost?.WasResized();
+
     }
 
     protected override void OnMouseWheel(MouseEventArgs e)

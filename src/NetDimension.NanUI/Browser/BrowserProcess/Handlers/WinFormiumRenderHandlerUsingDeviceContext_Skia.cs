@@ -88,11 +88,14 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
         if (clientRect.Width != _view_width || clientRect.Height != _view_height)
         {
-            _view_width = clientRect.Width;
-            _view_height = clientRect.Height;
+            _view_width = rect.Width;
+            _view_height = rect.Height;
 
             //DiscardDeviceResources();
         }
+
+        System.Diagnostics.Debug.WriteLine($"GetViewRect: {rect.Width}x{rect.Height}");
+
     }
 
     protected override bool GetRootScreenRect(CefBrowser browser, ref CefRectangle rect)
@@ -220,6 +223,10 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             return;
         }
 
+        if (_owner.WindowState == FormWindowState.Minimized) return;
+
+
+
         var handle = _owner.HostWindowHandle;
 
 
@@ -284,11 +291,14 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             Width = _view_width,
             Height = _view_height,
             ColorType = SKColorType.Bgra8888,
+
         }, bitmapData.Scan0, bitmapData.Stride);
 
         using var canvas = surface.Canvas;
 
-        canvas.Clear(SKColors.Transparent);
+        canvas.Clear(SKColors.Red);
+
+        //canvas.DrawRect(new SKRect(0, 0, _view_width, _view_height), new SKPaint { Color = SKColors.Blue });
 
         //draw view
 
@@ -303,13 +313,12 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             ColorType = SKColorType.Bgra8888
         }, viewBmpData.Data);
 
-        canvas.DrawBitmap(viewBitmap, 0, 0);
+        canvas.DrawBitmap(viewBitmap, 0, 0, new SKPaint { BlendMode = SKBlendMode.Src });
 
 
         // draw popup
         if (_popupBitmapData != null && _isPopupShown && _popupRect.HasValue)
         {
-            System.Diagnostics.Debug.WriteLine($"SHOWN:{_isPopupShown} POPUP:{_popupRect.Value.Width}x{_popupRect.Value.Height} DATA:{_popupBitmapData != null}");
 
             using var popupBitmap = new SKBitmap();
             using var popupBmpdata = SKData.CreateCopy(_popupBitmapData);
@@ -330,6 +339,8 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         sharedBmp.UnlockBits(bitmapData);
 
 
+
+
         var screenDC = GetDC(HWND.NULL);
         var memDC = CreateCompatibleDC(screenDC);
 
@@ -341,6 +352,9 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
             var size = rect.Size;
             var location = rect.Location;
+
+            System.Diagnostics.Debug.WriteLine($"vwidth:{_view_width} vheight:{_view_height}");
+            System.Diagnostics.Debug.WriteLine($"width:{width} height:{height}");
 
 
             if (rect.Width == 0 || rect.Height == 0)
@@ -386,7 +400,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
         }
 
-        viewBitmap?.Dispose();
+        //viewBitmap?.Dispose();
 
 
 

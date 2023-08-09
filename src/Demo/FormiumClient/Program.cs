@@ -126,44 +126,44 @@ public static class Program
 
             // Open the main form and start the message loop.
             // 打开主窗体并开始消息循环。
-            app.UseMainWindow(context =>
-            {
+            //app.UseMainWindow(context =>
+            //{
 
-                // !!! Write the business logic initialization code here, which is equivalent to the Main function of a normal WinForm program. Do not write the initialization code outside the CreateRuntimeBuilder function body, otherwise it may cause the business initialization code to be executed multiple times in the child process. !!!
-                // !!! 在此处编写业务逻辑初始化代码，这里相当于普通 WinForm 程序的 Main 函数。请勿将初始化代码写到 CreateRuntimeBuilder 函数体以外，否则将可能导致业务初始化代码在子进程中被执行多次。 !!!
+            //    // !!! Write the business logic initialization code here, which is equivalent to the Main function of a normal WinForm program. Do not write the initialization code outside the CreateRuntimeBuilder function body, otherwise it may cause the business initialization code to be executed multiple times in the child process. !!!
+            //    // !!! 在此处编写业务逻辑初始化代码，这里相当于普通 WinForm 程序的 Main 函数。请勿将初始化代码写到 CreateRuntimeBuilder 函数体以外，否则将可能导致业务初始化代码在子进程中被执行多次。 !!!
 
-                /* Inialization Code Example / 初始化代码示例
-                // =================================================================
+            //    /* Inialization Code Example / 初始化代码示例
+            //    // =================================================================
 
-                // 你的 DI 代码 ... / Your DI code ...
+            //    // 你的 DI 代码 ... / Your DI code ...
 
-                // 你的数据库初始化代码 ... / Your database initialization code ...
+            //    // 你的数据库初始化代码 ... / Your database initialization code ...
 
-                // 你的各种初始话代码 ... / Your various initialization code ...
+            //    // 你的各种初始话代码 ... / Your various initialization code ...
 
-                // blah blah blah ....
+            //    // blah blah blah ....
 
-                // =================================================================
-                */
+            //    // =================================================================
+            //    */
 
-                // The initialization code ends here, start the main form, and start the message loop.
-                // 初始化代码在此结束，启动主窗体，开启消息循环
-
-
-                var startupWin = new StartupWindow();
-                if (startupWin.ShowDialog() == DialogResult.OK)
-                {
-                    return new MainWindow();
-                }
-
-                return null;
+            //    // The initialization code ends here, start the main form, and start the message loop.
+            //    // 初始化代码在此结束，启动主窗体，开启消息循环
 
 
-            });
+            //    var startupWin = new StartupWindow();
+            //    if (startupWin.ShowDialog() == DialogResult.OK)
+            //    {
+            //        return new MainWindow();
+            //    }
+
+            //    return null;
+
+
+            //});
 
             //app.UseMainWindow(_ => new MainWindow());
 
-            //app.UseMainWindow(_ => new LayeredTestWindow());
+            app.UseMainWindow(_ => new LayeredTestWindow());
 
 
         })
