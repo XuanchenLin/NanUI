@@ -1,4 +1,4 @@
-﻿using Xilium.CefGlue;
+using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.Browser;
 
@@ -41,8 +41,8 @@ public sealed class DownloadUpdatedEventArgs : EventArgs
 
         DownloadFileId = (int)_downloadItem.Id;
         CurrentSpeed = _downloadItem.CurrentSpeed;
-        StartTime = _downloadItem.StartTime;
-        EndTime = _downloadItem.EndTime;
+        StartTime = _downloadItem.StartTime.ToDateTime();
+        EndTime = _downloadItem.EndTime.ToDateTime();
         FullPath = _downloadItem.FullPath;
         IsCanceled = _downloadItem.IsCanceled;
         IsComplete = _downloadItem.IsComplete;

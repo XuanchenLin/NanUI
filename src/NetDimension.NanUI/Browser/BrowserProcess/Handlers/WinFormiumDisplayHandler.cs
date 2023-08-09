@@ -56,12 +56,18 @@ internal sealed class WinFormiumDisplayHandler : CefDisplayHandler
 
     }
 
+    string _lastTitle = string.Empty;
+
     protected override void OnTitleChange(CefBrowser browser, string title)
     {
+
+        if (title == _lastTitle) return;
+
         var e = new DocumentTitleChangedEventArgs(title);
 
         _owner.InvokeIfRequired(() => _owner.OnDocumentTitleChanged(e));
 
+        _lastTitle = title;
     }
 
 

@@ -11,10 +11,8 @@ internal sealed class WinFormiumDialogHandler : CefDialogHandler
         _owner = owner;
     }
 
-    protected override bool OnFileDialog(CefBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, string[] acceptFilters, int selectedAcceptFilter, CefFileDialogCallback callback)
+    protected override bool OnFileDialog(CefBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, string[] acceptFilters, CefFileDialogCallback callback)
     {
-
-
-        return base.OnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
+        return base.OnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, callback);
     }
 }

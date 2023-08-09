@@ -1,4 +1,5 @@
 using NetDimension.NanUI.JavaScript.Renderer;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript;
@@ -62,7 +63,7 @@ internal static class JavaScriptTypeConverterExtension
         }
         else if (v8Value.IsDate)
         {
-            jsValue = new JavaScriptValue(v8Value.GetDateValue());
+            jsValue = new JavaScriptValue(v8Value.GetDateValue().ToDateTime());
         }
         else if (v8Value.IsDouble)
         {
@@ -142,7 +143,7 @@ internal static class JavaScriptTypeConverterExtension
                     return retval;
                 }
             case JavaScriptValueType.DateTime:
-                return CefV8Value.CreateDate(source.GetDateTime());
+                return CefV8Value.CreateDate(new CefBaseTime(source.GetDateTime().Ticks));
             case JavaScriptValueType.Object:
                 {
 

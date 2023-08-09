@@ -1,3 +1,5 @@
+using System;
+
 using Vanara.PInvoke;
 using Xilium.CefGlue;
 
@@ -78,17 +80,23 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
 
     protected override void OnBeforeContextMenu(CefBrowser browser, CefFrame frame, CefContextMenuParams state, CefMenuModel model)
     {
+        List<int> removeCmds = new();
 
-
-        for (var index = model.Count - 1; index >= 0; index--)
+        for (var i = 0; i < (int)model.Count; i++)
         {
-            var nCmd = model.GetCommandIdAt(index);
+            var nCmd = model.GetCommandIdAt((UIntPtr)i);
 
             if (!ContextMenuHelper.IsEdition(nCmd) && !ContextMenuHelper.IsUserDefined(nCmd))
             {
-                model.Remove(nCmd);
+                removeCmds.Add(nCmd);
             }
         }
+
+        foreach (var cmdId in removeCmds)
+        {
+            model.Remove(cmdId);
+        }
+
 
         if (WinFormium.Runtime.IsDebuggingMode && (state.ContextMenuType & CefContextMenuTypeFlags.Editable) != CefContextMenuTypeFlags.Editable)
         {
@@ -185,7 +193,8 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
     {
         var contextMenu = new ContextMenuStrip
         {
-            Renderer = new NanUIMenuStripRenderer()
+            Renderer = new NanUIMenuStripRenderer(),
+            RenderMode = ToolStripRenderMode.System
         };
 
         ToolStripDropDownClosedEventHandler closeHandler = null;
@@ -275,7 +284,6 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
         }
     }
 
-
     class MenuItemConfigurattion
     {
         public string Text { get; set; }
@@ -292,25 +300,27 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
         var retval = new List<MenuItemConfigurattion>();
 
 
-        for (var i = 0; i < model.Count; i++)
+
+
+        for (var i = 0; i < (int)model.Count; i++)
         {
-            var type = model.GetItemTypeAt(i);
+            var type = model.GetItemTypeAt((UIntPtr)i);
             bool? isChecked = null;
 
             if (type == CefMenuItemType.Check)
             {
-                isChecked = model.IsCheckedAt(i);
+                isChecked = model.IsCheckedAt((UIntPtr)i);
             }
 
-            var subItems = model.GetSubMenuAt(i);
+            var subItems = model.GetSubMenuAt((UIntPtr)i);
 
             List<MenuItemConfigurattion> subMenus = subItems == null ? null : GenerateMenuItem(subItems);
 
             retval.Add(new MenuItemConfigurattion
             {
-                Text = model.GetLabelAt(i),
-                CommandId = model.GetCommandIdAt(i),
-                IsEnabled = model.IsEnabledAt(i),
+                Text = model.GetLabelAt((UIntPtr)i),
+                CommandId = model.GetCommandIdAt((UIntPtr)i),
+                IsEnabled = model.IsEnabledAt((UIntPtr)i),
                 IsChecked = isChecked,
                 MenuItemType = type,
                 SubMenus = subMenus,
