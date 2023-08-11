@@ -677,6 +677,7 @@ partial class Formium
     private void FormHostWindowMove(object sender, EventArgs e)
     {
         OnMove();
+        WebView?.BrowserHost?.NotifyMoveOrResizeStarted();
     }
 
     private void FormHostWindowVisibleChanged(object sender, EventArgs e)
@@ -790,6 +791,11 @@ partial class Formium
             var width = Macros.GET_X_LPARAM(m.LParam);
             var height = Macros.GET_Y_LPARAM(m.LParam);
             ResizeWebView(width,height);
+        }
+
+        if(m.Msg == (int)WindowMessage.WM_MOVING)
+        {
+            Browser?.GetHost()?.NotifyMoveOrResizeStarted();
         }
 
         //if(m.Msg == (int)WindowMessage.WM_NCCALCSIZE)

@@ -5,7 +5,7 @@
         <LangVersion>10.0</LangVersion>
         <UseWindowsForms>true</UseWindowsForms>
         <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
-        <OutputType>Exe</OutputType>
+        <OutputType>WinExe</OutputType>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Product>NanUI Formium Demo Client</Product>
         <AssemblyTitle>NanUI 示例程序</AssemblyTitle>
