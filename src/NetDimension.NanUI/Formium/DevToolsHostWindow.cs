@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,9 +28,14 @@ internal class DevToolsHostWindow : Form
         this.owner = owner;
 
         SizeChanged += ResizeDevTools;
+
+
+        Move += (_,_)=> Browser?.GetHost()?.NotifyMoveOrResizeStarted();
     }
 
+
     public IntPtr? BrowserWindowHandle { get; internal set; }
+    public CefBrowser Browser { get; internal set; }
 
     private void ResizeDevTools(object sender, EventArgs e)
     {
@@ -38,6 +43,9 @@ internal class DevToolsHostWindow : Form
         {
             User32.SetWindowPos(BrowserWindowHandle.Value, HWND.NULL, 0, 0, this.ClientSize.Width, ClientSize.Height, User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOZORDER | User32.SetWindowPosFlags.SWP_NOACTIVATE);
         }
+
+        Browser?.GetHost()?.NotifyMoveOrResizeStarted();
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using Xilium.CefGlue;
+using Xilium.CefGlue;
 using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI;
@@ -23,6 +23,8 @@ internal sealed class DevToolsBrowserClient : CefClient
             base.OnAfterCreated(browser);
 
             hostWindow.BrowserWindowHandle = browser.GetHost().GetWindowHandle();
+
+            hostWindow.Browser = browser;
 
             //var hostHandle = browser.GetHost().GetWindowHandle();
 

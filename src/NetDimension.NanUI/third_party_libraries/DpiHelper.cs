@@ -205,7 +205,7 @@ static class DpiHelper
     }
 
 
-    static class DpiMethods
+    public static class DpiMethods
     {
         public static bool GetThreadDpiAwarenessContextIsAvailable()
         {
@@ -228,7 +228,7 @@ static class DpiHelper
         }
 
         /// <summary>
-        /// Tries to compare two DPIawareness context values. Return true if they were equal. 
+        /// Tries to compare two DPIawareness context values. Return true if they were equal.
         /// Return false when they are not equal or underlying OS does not support this API.
         /// </summary>
         /// <returns>true/false</returns>
