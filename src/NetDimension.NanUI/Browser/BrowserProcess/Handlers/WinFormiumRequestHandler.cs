@@ -103,6 +103,11 @@ internal sealed class WinFormiumRequestHandler : CefRequestHandler
     {
         return base.OnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture);
     }
+
+    protected override void OnRenderViewReady(CefBrowser browser)
+    {
+        _owner.InvokeIfRequired(() => _owner.OnWindowAndBrowserReady());
+    }
 }
 
 
@@ -160,7 +165,7 @@ public sealed class RenderProcessTerminatedEventArgs : EventArgs
         Status = status;
     }
 
-    public bool ShouldTryResetProcess { get; set; }
+    public bool ShouldTryResetProcess { get; set; } = true;
 
     public CefTerminationStatus Status { get; }
 }

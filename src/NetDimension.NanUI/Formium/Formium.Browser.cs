@@ -81,7 +81,7 @@ partial class Formium
 
         InvokeIfRequired(() => BrowserCreated?.Invoke(this, EventArgs.Empty));
 
-        InvokeIfRequired(() => OnWindowAndBrowserReady());
+        //InvokeIfRequired(() => OnWindowAndBrowserReady());
 
         _isBrowserCreated = true;
 

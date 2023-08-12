@@ -40,7 +40,7 @@ class MapJavaScriptObjectOnBrowserSide : MessageHandlerOnBrowserSide
 
     public override void OnRenderProcessTerminated(CefBrowser browser)
     {
-
+        CachedObjects.Clear();
     }
 
     public void RegisterJavaScriptObject(CefFrame frame, string name, JavaScriptObject obj)
