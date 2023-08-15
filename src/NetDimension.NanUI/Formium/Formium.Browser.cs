@@ -162,7 +162,12 @@ partial class Formium
     {
         if (frame.IsMain)
         {
+            InvokeIfRequired(OnWindowAndBrowserReady);
+
+
             AttachToChromeWidgetMessageHandler();
+
+
         }
 
 

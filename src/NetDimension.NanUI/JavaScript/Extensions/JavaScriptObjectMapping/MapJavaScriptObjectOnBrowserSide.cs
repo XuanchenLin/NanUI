@@ -20,6 +20,7 @@ class MapJavaScriptObjectOnBrowserSide : MessageHandlerOnBrowserSide
 
     public override void OnBeforeBrowse(CefBrowser browser, CefFrame frame)
     {
+
     }
 
     public override void OnBeforeClose(CefBrowser browser)
@@ -47,7 +48,9 @@ class MapJavaScriptObjectOnBrowserSide : MessageHandlerOnBrowserSide
     {
         if (CachedObjects.Count(x => x.Name.Equals(name)) > 0)
         {
-            throw new InvalidOperationException($"The key {name} has already exists.");
+            //throw new InvalidOperationException($"The key {name} has already exists.");
+
+            return;
         }
 
         obj.BindToFrame(frame, true);

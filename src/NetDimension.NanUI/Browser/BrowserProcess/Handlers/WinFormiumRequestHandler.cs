@@ -106,7 +106,6 @@ internal sealed class WinFormiumRequestHandler : CefRequestHandler
 
     protected override void OnRenderViewReady(CefBrowser browser)
     {
-        _owner.InvokeIfRequired(() => _owner.OnWindowAndBrowserReady());
     }
 }
 

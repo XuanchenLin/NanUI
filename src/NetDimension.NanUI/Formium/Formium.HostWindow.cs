@@ -662,6 +662,7 @@ partial class Formium
         FormHostWindow.Shown += FormHostWindowShown;
         FormHostWindow.VisibleChanged += FormHostWindowVisibleChanged;
         FormHostWindow.FormClosing += FormHostWindowFormClosing;
+        FormHostWindow.Activated += FormHostWindowActivated;
 
 
         IFormHostWindow = (IFormiumHostWindow)FormHostWindow;
@@ -671,6 +672,11 @@ partial class Formium
 
 
 
+    }
+
+    private void FormHostWindowActivated(object sender, EventArgs e)
+    {
+        GetHost()?.SetFocus(true);
     }
 
     #region HostWindowEvents
