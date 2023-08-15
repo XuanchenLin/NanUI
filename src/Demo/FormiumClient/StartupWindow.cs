@@ -43,6 +43,10 @@ internal class StartupWindow : Formium
 
         RegisterJavaScriptObject("launcher", jsObject);
 
+        LoadEnd+=(_,_)=>
+        {
+            ExecuteJavaScript("console.log(Formium.external)");
+        };
     }
 
 

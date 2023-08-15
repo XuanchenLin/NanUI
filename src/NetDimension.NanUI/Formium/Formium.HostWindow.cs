@@ -663,6 +663,7 @@ partial class Formium
         FormHostWindow.VisibleChanged += FormHostWindowVisibleChanged;
         FormHostWindow.FormClosing += FormHostWindowFormClosing;
         FormHostWindow.Activated += FormHostWindowActivated;
+        FormHostWindow.Deactivate += FormHostWindowDeactivate;
 
 
         IFormHostWindow = (IFormiumHostWindow)FormHostWindow;
@@ -674,12 +675,19 @@ partial class Formium
 
     }
 
+
+
+    #region HostWindowEvents
+    private void FormHostWindowDeactivate(object sender, EventArgs e)
+    {
+        GetHost()?.SetFocus(false);
+    }
+
     private void FormHostWindowActivated(object sender, EventArgs e)
     {
         GetHost()?.SetFocus(true);
     }
 
-    #region HostWindowEvents
     private void FormHostWindowMove(object sender, EventArgs e)
     {
         OnMove();
@@ -799,10 +807,6 @@ partial class Formium
             ResizeWebView(width,height);
         }
 
-        if(m.Msg == (int)WindowMessage.WM_MOVING)
-        {
-            Browser?.GetHost()?.NotifyMoveOrResizeStarted();
-        }
 
         //if(m.Msg == (int)WindowMessage.WM_NCCALCSIZE)
         //{

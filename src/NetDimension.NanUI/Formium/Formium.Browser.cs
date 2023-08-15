@@ -75,6 +75,8 @@ partial class Formium
         }
     }
 
+    internal bool IsBrowserReadyCalled { get; set; } = false;
+
     internal void OnBrowserCreated()
     {
         BrowserWindowHandle = WebView.BrowserWindowHandle;
@@ -83,13 +85,15 @@ partial class Formium
 
         //InvokeIfRequired(() => OnWindowAndBrowserReady());
 
+        InvokeIfRequired(OnWindowAndBrowserReady);
+
+
         _isBrowserCreated = true;
 
 
         ThreadPool.QueueUserWorkItem(AfterSetBrowserTasks);
 
         InvokeIfRequired(() => ResizeWebView());
-
 
 
 
@@ -162,7 +166,7 @@ partial class Formium
     {
         if (frame.IsMain)
         {
-            InvokeIfRequired(OnWindowAndBrowserReady);
+            //InvokeIfRequired(OnWindowAndBrowserReady);
 
 
             AttachToChromeWidgetMessageHandler();
