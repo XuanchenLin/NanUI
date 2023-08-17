@@ -19,8 +19,8 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
     CefRectangle? _popupRect = null;
 
 
-    private int _view_width;
-    private int _view_height;
+    //private int _view_width;
+    //private int _view_height;
 
 
 
@@ -73,9 +73,10 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
             clientRect = placement.rcNormalPosition;
 
-            rect.Width = (int)(Math.Ceiling( clientRect.Width / scaleFactor));
-
+            rect.Width = (int)(Math.Ceiling(clientRect.Width / scaleFactor));
             rect.Height = (int)(Math.Ceiling(clientRect.Height / scaleFactor));
+
+
 
         }
         else
@@ -86,13 +87,13 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
 
 
-        if (clientRect.Width != _view_width || clientRect.Height != _view_height)
-        {
-            _view_width = rect.Width;
-            _view_height = rect.Height;
+        //if (clientRect.Width != _view_width || clientRect.Height != _view_height)
+        //{
+        //    _view_width = rect.Width;
+        //    _view_height = rect.Height;
 
-            //DiscardDeviceResources();
-        }
+        //    //DiscardDeviceResources();
+        //}
 
         System.Diagnostics.Debug.WriteLine($"GetViewRect: {rect.Width}x{rect.Height}");
 
@@ -275,28 +276,30 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             }
         }
 
-        if (_viewSize == Size.Empty || _viewBitmapData == null || _view_width == 0 || _view_height == 0) return;
+        if (_viewSize == Size.Empty || _viewBitmapData == null/* || _view_width == 0 || _view_height == 0*/) return;
 
 
 
+        var view_width = _viewSize.Width;
+        var view_height = _viewSize.Height;
 
 
-        using var sharedBmp = new Bitmap(_view_width, _view_height);
+        using var sharedBmp = new Bitmap(view_width, view_height);
 
-        var bitmapData = sharedBmp.LockBits(new Rectangle(0, 0, _view_width, _view_height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+        var bitmapData = sharedBmp.LockBits(new Rectangle(0, 0, view_width, view_height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
 
         using var surface = SKSurface.Create(new SKImageInfo
         {
             AlphaType = SKAlphaType.Premul,
-            Width = _view_width,
-            Height = _view_height,
+            Width = view_width,
+            Height = view_height,
             ColorType = SKColorType.Bgra8888,
 
         }, bitmapData.Scan0, bitmapData.Stride);
 
         using var canvas = surface.Canvas;
 
-        canvas.Clear(SKColors.Red);
+        canvas.Clear(SKColors.Transparent);
 
         //canvas.DrawRect(new SKRect(0, 0, _view_width, _view_height), new SKPaint { Color = SKColors.Blue });
 
@@ -313,7 +316,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
             ColorType = SKColorType.Bgra8888
         }, viewBmpData.Data);
 
-        canvas.DrawBitmap(viewBitmap, 0, 0, new SKPaint { BlendMode = SKBlendMode.Src });
+        canvas.DrawBitmap(viewBitmap, 0, 0, new SKPaint { BlendMode = SKBlendMode.SrcOver });
 
 
         // draw popup
@@ -350,12 +353,14 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         {
             GetWindowRect(handle, out var rect);
 
+            //rect.X = (int)Math.Ceiling( rect.X * scaleFactor);
+            //rect.Y = (int)Math.Ceiling(rect.Y * scaleFactor);
+            //rect.Width = view_width;
+            //rect.Height = view_height;
+
+
             var size = rect.Size;
             var location = rect.Location;
-
-            System.Diagnostics.Debug.WriteLine($"vwidth:{_view_width} vheight:{_view_height}");
-            System.Diagnostics.Debug.WriteLine($"width:{width} height:{height}");
-
 
             if (rect.Width == 0 || rect.Height == 0)
                 return;
@@ -370,9 +375,6 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
                 SourceConstantAlpha = 255,
                 AlphaFormat = AcSrcAlpha
             };
-
-
-
 
             UpdateLayeredWindow(_owner.HostWindowHandle, screenDC, location, size, memDC, Point.Empty, COLORREF.None, blend, UpdateLayeredWindowFlags.ULW_ALPHA);
 

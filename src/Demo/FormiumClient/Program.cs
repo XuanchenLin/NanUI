@@ -162,9 +162,8 @@ public static class Program
             });
 
             //app.UseMainWindow(_ => new MainWindow());
-
+            //app.UseMainWindow(_ => new LayeredWindowDemo());
             //app.UseMainWindow(_ => new LayeredTestWindow());
-
 
         })
         .Build()
