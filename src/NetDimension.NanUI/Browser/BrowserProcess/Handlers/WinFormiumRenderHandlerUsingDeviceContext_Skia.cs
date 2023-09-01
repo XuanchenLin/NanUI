@@ -37,15 +37,17 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
     protected override bool GetScreenInfo(CefBrowser browser, CefScreenInfo screenInfo)
     {
+
+
         var handle = _owner.HostWindowHandle;
 
         screenInfo.DeviceScaleFactor = DpiHelper.GetScaleFactorForWindow(handle);
 
-        GetViewRect(browser, out var rectView);
+        //GetViewRect(browser, out var rectView);
 
-        screenInfo.Rectangle = rectView;
+        //screenInfo.Rectangle = rectView;
 
-        screenInfo.AvailableRectangle = rectView;//new CefRectangle(screen.WorkingArea.X, screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
+        //screenInfo.AvailableRectangle = rectView;//new CefRectangle(screen.WorkingArea.X, screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
 
         return true;
 
@@ -63,6 +65,8 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         GetClientRect(handle, out var clientRect);
 
         rect.X = rect.Y = 0;
+
+        System.Diagnostics.Debug.WriteLine($"GetClientRect: {clientRect.Width}x{clientRect.Height}");
 
 
         if (IsIconic(handle) || clientRect.Width == 0 || clientRect.Height == 0)
@@ -246,8 +250,10 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
                 ms.Close();
 
-                //System.Diagnostics.Debug.WriteLine($"RequestPopupSize:{width}x{height}");
+
             }
+
+            System.Diagnostics.Debug.WriteLine($"Popup:{buffer:X8}");
 
 
         }
@@ -274,6 +280,8 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
 
             }
+
+            System.Diagnostics.Debug.WriteLine($"View:{buffer:X8}");
         }
 
         if (_viewSize == Size.Empty || _viewBitmapData == null/* || _view_width == 0 || _view_height == 0*/) return;

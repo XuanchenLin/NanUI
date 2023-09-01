@@ -263,8 +263,6 @@ internal class LayeredStyleHostWindow : LayeredWindow, IFormiumHostWindow
         });
 
         base.OnKeyPress(e);
-
-
     }
 
     protected override void OnMouseMove(MouseEventArgs e)

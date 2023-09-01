@@ -145,7 +145,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="NetDimension.NanUI.Runtime" Version="100.0.24.1" />
+      <PackageReference Include="NetDimension.NanUI.Runtime" Version="109.0.5414.1" />
     </ItemGroup>
 
 </Project>
