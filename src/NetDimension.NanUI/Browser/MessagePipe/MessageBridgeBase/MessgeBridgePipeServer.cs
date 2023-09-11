@@ -2,7 +2,7 @@ using System.IO.Pipes;
 
 namespace NetDimension.NanUI.Browser.MessagePipe;
 
-internal sealed class JavaScriptPipeServer : IDisposable
+internal sealed class MessgeBridgePipeServer : IDisposable
 {
     private readonly string _pipeName;
     private readonly CancellationToken CancellationToken;
@@ -12,7 +12,7 @@ internal sealed class JavaScriptPipeServer : IDisposable
 
     public MessageBridgeOnBrowserSide JavaScriptBridge { get; }
 
-    public JavaScriptPipeServer(MessageBridgeOnBrowserSide bridge, string pipeName, CancellationToken token)
+    public MessgeBridgePipeServer(MessageBridgeOnBrowserSide bridge, string pipeName, CancellationToken token)
     {
         JavaScriptBridge = bridge;
         _pipeName = pipeName;
@@ -56,17 +56,17 @@ internal sealed class JavaScriptPipeServer : IDisposable
                 buff = null;
 
 
-                var request = MessageRequest.Deserialize(json);
+                var request = BridgeMessageRequest.Deserialize(json);
 
                 var handlers = JavaScriptBridge.MessageHandlers.SelectMany(x => x.Handlers);
 
-                MessageResponse response = null;
+                BridgeMessageResponse response = null;
 
                 foreach (var handler in handlers)
                 {
                     try
                     {
-                        MessageResponse retval = null;
+                        BridgeMessageResponse retval = null;
 
                         retval = handler?.Invoke(request);
 
@@ -81,7 +81,7 @@ internal sealed class JavaScriptPipeServer : IDisposable
                     {
 
 
-                        response = new MessageResponse(false, ex.Message);
+                        response = new BridgeMessageResponse(false, ex.Message);
 
                         WinFormium.GetLogger().Error(ex);
                     }
@@ -89,7 +89,7 @@ internal sealed class JavaScriptPipeServer : IDisposable
 
                 if (response == null)
                 {
-                    response = new MessageResponse(false, "Can't found handler for this request.");
+                    response = new BridgeMessageResponse(false, "Can't found handler for this request.");
                 }
 
                 buff = Encoding.UTF8.GetBytes(response.ToJson());

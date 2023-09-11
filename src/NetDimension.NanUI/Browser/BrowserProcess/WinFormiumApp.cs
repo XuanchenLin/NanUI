@@ -45,6 +45,12 @@ public sealed class WinFormiumApp : CefApp
 
     protected override void OnBeforeCommandLineProcessing(string processType, CefCommandLine commandLine)
     {
+        commandLine.AppendSwitch("default-encoding", "utf-8");
+        commandLine.AppendSwitch("enable-media-stream");
+        commandLine.AppendSwitch("autoplay-policy", "no-user-gesture-required");
+        commandLine.AppendSwitch("renderer-process-limit", "1");
+
+
         WinFormium.Runtime.ChromiumEnvironment.CommandLineConfigurations?.Invoke(commandLine);
     }
 }

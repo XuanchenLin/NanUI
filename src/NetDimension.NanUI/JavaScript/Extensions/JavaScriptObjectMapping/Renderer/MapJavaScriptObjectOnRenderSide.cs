@@ -14,6 +14,7 @@ class MapJavaScriptObjectOnRenderSide : MessageHandlerOnRenderSide
 
     public override void OnContextCreated(CefBrowser browser, CefFrame frame, CefV8Context context)
     {
+
         var msg = new BridgeMessage(MapJavaScriptObjectHandler.PREMAP_OBJECTS);
         FormiumMessageBridge.SendBridgeMessage(CefProcessId.Browser, frame, msg);
     }

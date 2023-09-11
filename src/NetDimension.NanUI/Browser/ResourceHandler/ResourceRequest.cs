@@ -191,7 +191,7 @@ public sealed class ResourceRequest
         RawData = postData;
         UploadFiles = uploadFiles;
         RawRequest = cefRequest;
-        QueryString = ResourceRequest.ProcessQueryString(uri.Query);
+        QueryString = ProcessQueryString(uri.Query);
 
         if (ContentType != null && ContentType.Contains(CONTENT_TYPE_FORM_URL_ENCODED) && RawData != null)
         {

@@ -5,7 +5,7 @@ namespace NetDimension.NanUI.Browser.MessagePipe;
 public abstract class MessageHandlerOnBrowserSide
 {
     internal protected MessageBridgeOnBrowserSide Bridge { get; internal set; }
-    internal List<Func<MessageRequest, MessageResponse>> Handlers { get; } = new List<Func<MessageRequest, MessageResponse>>();
+    internal List<Func<BridgeMessageRequest, BridgeMessageResponse>> Handlers { get; } = new List<Func<BridgeMessageRequest, BridgeMessageResponse>>();
 
 
     protected MessageHandlerWrapperBase MessageHandlerWrapper { get; }
@@ -26,7 +26,7 @@ public abstract class MessageHandlerOnBrowserSide
         FormiumMessageBridge.SendBridgeMessage(side, frame, message);
     }
 
-    protected void RegisterMessageHandler(Func<MessageRequest, MessageResponse> handler)
+    protected void RegisterMessageHandler(Func<BridgeMessageRequest, BridgeMessageResponse> handler)
     {
         Handlers.Add(handler);
     }

@@ -5,7 +5,7 @@ namespace NetDimension.NanUI.Browser.MessagePipe;
 public sealed class MessageBridgeOnBrowserSide : FormiumMessageBridge
 {
     public Formium Host { get; }
-    internal JavaScriptPipeServer MessagePipe { get; }
+    internal MessgeBridgePipeServer MessagePipe { get; }
 
     internal List<MessageHandlerOnBrowserSide> MessageHandlers { get; } = new List<MessageHandlerOnBrowserSide>();
 
@@ -14,7 +14,7 @@ public sealed class MessageBridgeOnBrowserSide : FormiumMessageBridge
     {
         Host = host;
 
-        MessagePipe = new JavaScriptPipeServer(this, GetServiceName(Host.Browser.Identifier), CancellationToken);
+        MessagePipe = new MessgeBridgePipeServer(this, GetServiceName(Host.Browser.Identifier), CancellationToken);
     }
 
     internal object GetInstance(Type handler)

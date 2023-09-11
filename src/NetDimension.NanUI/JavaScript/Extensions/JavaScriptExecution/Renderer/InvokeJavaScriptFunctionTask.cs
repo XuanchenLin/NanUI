@@ -21,10 +21,10 @@ internal class InvokeJavaScriptFunctionTask : CefTask
         Handler = handler;
         Frame = frame;
 
-        var args = JsonSerializer.Deserialize<InvokeJavaScriptFunctionTaskMessageParameter>(arguments);
+        var args = JsonSerializer.Deserialize<JavaScriptBridgeMessageObject>(arguments);
         TaskId = args.TaskId;
         Uuid = args.FuncId;
-        var json = args.Args;
+        var json = args.Data;
 
 
 
@@ -63,7 +63,7 @@ internal class InvokeJavaScriptFunctionTask : CefTask
                 {
                     var jsvalue = retval.ToJavaScriptValue();
 
-                    var message = new BridgeMessage(InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, JsonSerializer.Serialize(new InvokeJavaScriptFunctionTaskMessageParameter { TaskId = TaskId, FuncId = Uuid, Success = true, FrameId = Frame.Identifier, Args = jsvalue.ToJson() }));
+                    var message = new BridgeMessage(InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { TaskId = TaskId, FuncId = Uuid, Success = true, FrameId = Frame.Identifier, Data = jsvalue.ToJson() }));
 
                     Handler.SendBridgeMessage(Frame, message);
                 }
@@ -71,7 +71,7 @@ internal class InvokeJavaScriptFunctionTask : CefTask
                 {
 
 
-                    var message = new BridgeMessage(InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, JsonSerializer.Serialize(new InvokeJavaScriptFunctionTaskMessageParameter { TaskId = TaskId, FuncId = Uuid, Success = false, FrameId = Frame.Identifier }));
+                    var message = new BridgeMessage(InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { TaskId = TaskId, FuncId = Uuid, Success = false, FrameId = Frame.Identifier }));
 
                     Handler.SendBridgeMessage(Frame, message);
                 }
@@ -88,11 +88,3 @@ internal class InvokeJavaScriptFunctionTask : CefTask
     }
 }
 
-internal class InvokeJavaScriptFunctionTaskMessageParameter
-{
-    public int TaskId { get; set; }
-    public Guid FuncId { get; set; }
-    public bool Success { get; set; }
-    public long FrameId { get; set; }
-    public string Args { get; set; }
-}

@@ -1,4 +1,4 @@
-﻿using NetDimension.NanUI.Browser.ResourceHandler;
+using NetDimension.NanUI.Browser.ResourceHandler;
 using System.Linq.Expressions;
 
 namespace NetDimension.NanUI.Resource.Data;
@@ -236,7 +236,7 @@ public sealed class DataServiceProvider
                         foreach (var basePath in basePaths)
                         {
 
-                            CreateRouteConfiguration(path, basePath, method, actionDelegate);
+                            CreateRouteConfiguration(path, basePath, method, actionDelegate, actionInfo);
 
 
                         }
@@ -248,7 +248,7 @@ public sealed class DataServiceProvider
 
                     foreach (var basePath in basePaths)
                     {
-                        CreateRouteConfiguration(path, basePath, Method.None, actionDelegate);
+                        CreateRouteConfiguration(path, basePath, Method.None, actionDelegate,actionInfo);
                     }
                 }
 
@@ -258,7 +258,7 @@ public sealed class DataServiceProvider
         }
     }
 
-    private void CreateRouteConfiguration(string path, string basePath, Method method, Func<ResourceRequest, ResourceResponse> actionDelegate)
+    private void CreateRouteConfiguration(string path, string basePath, Method method, Func<ResourceRequest, ResourceResponse> actionDelegate, MethodInfo actionInfo)
     {
         var routePath = $"{basePath}/{path}".Trim('/').ToLower();
 
@@ -267,7 +267,7 @@ public sealed class DataServiceProvider
             return;
         }
 
-        _routes.Add(new RouteConfiguration(method, routePath, actionDelegate));
+        _routes.Add(new RouteConfiguration(method, routePath, actionDelegate, actionInfo));
     }
 
 

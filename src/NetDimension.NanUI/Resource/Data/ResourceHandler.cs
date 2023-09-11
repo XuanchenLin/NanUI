@@ -1,4 +1,4 @@
-﻿using NetDimension.NanUI.Browser.ResourceHandler;
+using NetDimension.NanUI.Browser.ResourceHandler;
 
 namespace NetDimension.NanUI.Resource.Data;
 

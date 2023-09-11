@@ -29,18 +29,18 @@ public class FormiumMessageBridge
         return string.Join("/", NAMED_PIPE_BASE_ADDRESS, processId, browserId);
     }
 
-    public static MessageResponse ExecuteRequest(MessageRequest request)
+    public static BridgeMessageResponse ExecuteRequest(BridgeMessageRequest request)
     {
         return ExecuteRequestAsync(request).GetAwaiter().GetResult();
     }
 
-    public static Task<MessageResponse> ExecuteRequestAsync(MessageRequest request)
+    public static Task<BridgeMessageResponse> ExecuteRequestAsync(BridgeMessageRequest request)
     {
         return Task.Run(() =>
         {
             var serviceName = GetServiceName(request.BrowserId);
 
-            var client = new JavaScriptPipeClient(serviceName, CancellationToken);
+            var client = new MessageBridgePipeClient(serviceName, CancellationToken);
 
             return client.RequestAsync(request);
 

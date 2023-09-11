@@ -2,19 +2,19 @@ using System.IO.Pipes;
 
 namespace NetDimension.NanUI.Browser.MessagePipe;
 
-class JavaScriptPipeClient
+class MessageBridgePipeClient
 {
     private string _pipeName;
     private CancellationToken _cancellationToken;
     const int BUFFER_SIZE = 4096;
 
-    public JavaScriptPipeClient(string pipeName, CancellationToken tokenSource)
+    public MessageBridgePipeClient(string pipeName, CancellationToken tokenSource)
     {
         _pipeName = pipeName;
         _cancellationToken = tokenSource;
     }
 
-    public Task<MessageResponse> RequestAsync(MessageRequest request)
+    public Task<BridgeMessageResponse> RequestAsync(BridgeMessageRequest request)
     {
         return Task.Run(() =>
         {
@@ -48,18 +48,18 @@ class JavaScriptPipeClient
 
                 if (string.IsNullOrEmpty(json))
                 {
-                    return new MessageResponse(false, "No content.");
+                    return new BridgeMessageResponse(false, "No content.");
                 }
 
                 pipe.Close();
                 pipe.Dispose();
 
-                return MessageResponse.FromJson(json);
+                return BridgeMessageResponse.FromJson(json);
 
             }
             catch (Exception ex)
             {
-                return new MessageResponse(false, ex.Message);
+                return new BridgeMessageResponse(false, ex.Message);
             }
         });
     }

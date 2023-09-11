@@ -23,7 +23,7 @@ internal class InvokeJavaScriptPromiseFunctionTask : CefTask
         Handler = invokeJavaScriptFunctionOnRenderSide;
         Frame = frame;
 
-        var args = JsonSerializer.Deserialize<JavaScriptPromiseFunctionMessageParameter>(arguments);
+        var args = JsonSerializer.Deserialize<JavaScriptBridgeMessageObject>(arguments);
 
         Uuid = args.FuncId;
         Success = args.Success;
@@ -44,7 +44,7 @@ internal class InvokeJavaScriptPromiseFunctionTask : CefTask
         }
         else
         {
-            ExceptionMessage = args.Message;
+            ExceptionMessage = args.ExceptionText;
         }
     }
 

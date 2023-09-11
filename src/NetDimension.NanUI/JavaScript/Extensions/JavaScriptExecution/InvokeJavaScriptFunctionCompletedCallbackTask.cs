@@ -21,7 +21,7 @@ class InvokeJavaScriptFunctionCompletedCallbackTask : CefTask
         Handler = handler;
         Frame = frame;
 
-        var json = JsonSerializer.Deserialize<InvokeJavaScriptFunctionTaskMessageParameter>(data);
+        var json = JsonSerializer.Deserialize<JavaScriptBridgeMessageObject>(data);
 
         TaskId = json.TaskId;
         Uuid = json.FuncId;
@@ -29,7 +29,7 @@ class InvokeJavaScriptFunctionCompletedCallbackTask : CefTask
 
         if (Success)
         {
-            ResultData = json.Args;
+            ResultData = json.Data;
         }
 
     }

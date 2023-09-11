@@ -29,11 +29,11 @@ internal class BrowserSideFunctionHandler : CefV8Handler
         }
 
 
-        MessageResponse response;
+        BridgeMessageResponse response;
 
         if (JsValue.IsAsyncFunction)
         {
-            response = FormiumMessageBridge.ExecuteRequest(new MessageRequest(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, browser.Identifier, frame.Identifier, Context.GetHashCode())
+            response = FormiumMessageBridge.ExecuteRequest(new BridgeMessageRequest(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, browser.Identifier, frame.Identifier, Context.GetHashCode())
             {
                 Data = JsonSerializer.Serialize(new BrowserSideFunctionMessageParameter
                 {
@@ -44,7 +44,7 @@ internal class BrowserSideFunctionHandler : CefV8Handler
         }
         else
         {
-            response = FormiumMessageBridge.ExecuteRequest(new MessageRequest(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, browser.Identifier, frame.Identifier, Context.GetHashCode())
+            response = FormiumMessageBridge.ExecuteRequest(new BridgeMessageRequest(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION, browser.Identifier, frame.Identifier, Context.GetHashCode())
             {
                 Data = JsonSerializer.Serialize(new BrowserSideFunctionMessageParameter
                 {

@@ -19,7 +19,7 @@ sealed class EvaluateJavaScriptTask : CefTask
         var args = JsonSerializer.Deserialize<EvaluateJavaScriptMessageParameter>(data);
 
         TaskId = args.TaskId;
-        Code = args.Code;
+        Code = args.Data;
     }
 
 

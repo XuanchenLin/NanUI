@@ -1,5 +1,6 @@
 using NetDimension.NanUI.Browser.MessagePipe;
 using NetDimension.NanUI.JavaScript.Renderer;
+
 using Xilium.CefGlue;
 
 namespace NetDimension.NanUI.JavaScript;
@@ -40,7 +41,7 @@ public sealed class JavaScriptFunctionPromise
 
         if (Side == CefProcessId.Browser)
         {
-            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptPromiseFunctionMessageParameter { FuncId = uuid, Success = true, FrameId = frame.Identifier, Data = arguments.ToJson() }));
+            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = true, FrameId = frame.Identifier, Data = arguments.ToJson() }));
 
             FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
         }
@@ -69,7 +70,7 @@ public sealed class JavaScriptFunctionPromise
 
         if (Side == CefProcessId.Browser)
         {
-            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptPromiseFunctionMessageParameter { FuncId = uuid, Success = false, FrameId = frame.Identifier, Message = reason }));
+            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = false, FrameId = frame.Identifier, ExceptionText = reason }));
 
             FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
         }
@@ -93,12 +94,4 @@ public sealed class JavaScriptFunctionPromise
     {
         //JavaScriptAsyncFunction.Bag.RemoveWhere(x => x.Uuid == uuid);
     }
-}
-internal class JavaScriptPromiseFunctionMessageParameter
-{
-    public Guid FuncId { get; set; }
-    public bool Success { get; set; }
-    public long FrameId { get; set; }
-    public string Data { get; set; }
-    public string Message { get; set; }
 }

@@ -1,13 +1,13 @@
 namespace NetDimension.NanUI.Browser.MessagePipe;
 
-public sealed class MessageRequest
+public sealed class BridgeMessageRequest
 {
     public string Name { get; set; }
     public int BrowserId { get; set; }
     public long FrameId { get; set; }
     public int ContextId { get; set; }
     public string Data { get; set; }
-    public MessageRequest(string name, int browserId, long frameId, int contextId)
+    public BridgeMessageRequest(string name, int browserId, long frameId, int contextId)
     {
         Name = name;
         BrowserId = browserId;
@@ -20,8 +20,8 @@ public sealed class MessageRequest
         return JsonSerializer.Serialize(this);
     }
 
-    public static MessageRequest Deserialize(string json)
+    public static BridgeMessageRequest Deserialize(string json)
     {
-        return JsonSerializer.Deserialize<MessageRequest>(json);
+        return JsonSerializer.Deserialize<BridgeMessageRequest>(json);
     }
 }

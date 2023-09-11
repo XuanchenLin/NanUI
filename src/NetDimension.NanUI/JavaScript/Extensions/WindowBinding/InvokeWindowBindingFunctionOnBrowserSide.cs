@@ -14,7 +14,7 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
         RegisterMessageHandler(WindowBindingAsyncFunction);
     }
 
-    MessageResponse WindowBindingFunction(MessageRequest request)
+    BridgeMessageResponse WindowBindingFunction(BridgeMessageRequest request)
     {
         if (request.Name == InvokeWindowBindingFunctionHandler.INVOKE_WINDOW_BINDING_FUNCTION)
         {
@@ -32,14 +32,14 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
             if (windowBindingObject == null)
             {
-                return new MessageResponse(false, $"[NanUI]: The `{objectName}` window binding object is not exists.");
+                return new BridgeMessageResponse(false, $"[NanUI]: The `{objectName}` window binding object is not exists.");
             }
 
             var function = windowBindingObject.WindowBindingFunctions.SingleOrDefault(x => x.FunctionName == funcName);
 
             if (function == null)
             {
-                return new MessageResponse(false, $"[NanUI]: The `{funcName}` function is not exists.");
+                return new BridgeMessageResponse(false, $"[NanUI]: The `{funcName}` function is not exists.");
             }
 
             if (function.FunctionType == JavaScriptWindowBindingFunctionType.SyncFunctionOnBrowserSide)
@@ -49,14 +49,14 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
                 {
                     var retval = function.BrowserSideSyncFuncion.Invoke(Owner, args) ?? JavaScriptValue.CreateUndefined();
 
-                    return new MessageResponse()
+                    return new BridgeMessageResponse()
                     {
                         Data = retval.ToJson()
                     };
                 }
                 catch (Exception ex)
                 {
-                    return new MessageResponse(false, ex.Message);
+                    return new BridgeMessageResponse(false, ex.Message);
                 }
 
 
@@ -64,14 +64,14 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
 
 
-            return new MessageResponse(false, $"[NanUI]: The handler of `{funcName}` function is not defined.");
+            return new BridgeMessageResponse(false, $"[NanUI]: The handler of `{funcName}` function is not defined.");
         }
 
         return null;
     }
 
 
-    MessageResponse WindowBindingAsyncFunction(MessageRequest request)
+    BridgeMessageResponse WindowBindingAsyncFunction(BridgeMessageRequest request)
     {
         if (request.Name == InvokeWindowBindingFunctionHandler.INVOKE_WINDOW_BINDING_ASYNC_FUNCTION)
         {
@@ -93,14 +93,14 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
             if (windowBindingObject == null)
             {
-                return new MessageResponse(false, $"The `{objectName}` window binding object is not exists.");
+                return new BridgeMessageResponse(false, $"The `{objectName}` window binding object is not exists.");
             }
 
             var function = windowBindingObject.WindowBindingFunctions.SingleOrDefault(x => x.FunctionName == funcName);
 
             if (function == null)
             {
-                return new MessageResponse(false, $"The `{funcName}` function is not exists.");
+                return new BridgeMessageResponse(false, $"The `{funcName}` function is not exists.");
             }
 
             if (function.FunctionType == JavaScriptWindowBindingFunctionType.AsyncFucntionOnBrowserSide)
@@ -113,14 +113,14 @@ class InvokeWindowBindingFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
                     function.BrowserSideAsyncFunction.Invoke(Owner, args, new JavaScriptFunctionPromise(frame, funcId));
 
-                    return new MessageResponse();
+                    return new BridgeMessageResponse();
                 }
                 catch (Exception ex)
                 {
-                    return new MessageResponse(false, ex.Message);
+                    return new BridgeMessageResponse(false, ex.Message);
                 }
             }
-            return new MessageResponse(false, $"The handler of `{funcName}` function is not defined.");
+            return new BridgeMessageResponse(false, $"The handler of `{funcName}` function is not defined.");
         }
 
         return null;

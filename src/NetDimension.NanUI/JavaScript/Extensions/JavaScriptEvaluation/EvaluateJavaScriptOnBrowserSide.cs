@@ -7,7 +7,7 @@ namespace NetDimension.NanUI.JavaScript.JavaScriptEvaluation;
 class EvaluateJavaScriptMessageParameter
 {
     public int TaskId { get; set; }
-    public string Code { get; set; }
+    public string Data { get; set; }
 }
 
 class EvaluateJavaScriptOnBrowserSide : MessageHandlerOnBrowserSide
@@ -32,7 +32,7 @@ class EvaluateJavaScriptOnBrowserSide : MessageHandlerOnBrowserSide
 
         if (Results.TryAdd(new Tuple<int, long>(taskId, frame.Identifier), tsc))
         {
-            var message = new BridgeMessage(MessageHandler.EVALUATE_JS_MESSAGE, JsonSerializer.Serialize(new EvaluateJavaScriptMessageParameter { TaskId = taskId, Code = code }));
+            var message = new BridgeMessage(MessageHandler.EVALUATE_JS_MESSAGE, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { TaskId = taskId, Data = code }));
 
             SendBridgeMessage(frame, message);
 

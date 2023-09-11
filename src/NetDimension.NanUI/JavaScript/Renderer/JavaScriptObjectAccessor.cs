@@ -25,7 +25,7 @@ internal class JavaScriptObjectAccessor : CefV8Accessor
         var prop = (JavaScriptProperty)Properties.SingleOrDefault(x => x.Name == name);
         if (prop != null)
         {
-            var request = new MessageRequest(JavaScriptProperties.JavaScriptPropertyHandler.OBJECT_GET_PROPERTY_VALUE, Context.GetBrowser().Identifier, Context.GetFrame().Identifier, Context.GetHashCode())
+            var request = new BridgeMessageRequest(JavaScriptProperties.JavaScriptPropertyHandler.OBJECT_GET_PROPERTY_VALUE, Context.GetBrowser().Identifier, Context.GetFrame().Identifier, Context.GetHashCode())
             {
                 Data = JsonSerializer.Serialize(new JavaScriptObjectAccessorMessageParameter
                 {
@@ -75,7 +75,7 @@ internal class JavaScriptObjectAccessor : CefV8Accessor
             if (prop.Writable)
             {
 
-                var request = new MessageRequest(JavaScriptProperties.JavaScriptPropertyHandler.OBJECT_SET_PROPERTY_VALUE, Context.GetBrowser().Identifier, Context.GetFrame().Identifier, Context.GetHashCode())
+                var request = new BridgeMessageRequest(JavaScriptProperties.JavaScriptPropertyHandler.OBJECT_SET_PROPERTY_VALUE, Context.GetBrowser().Identifier, Context.GetFrame().Identifier, Context.GetHashCode())
                 {
                     Data = JsonSerializer.Serialize(new JavaScriptObjectAccessorMessageParameter
                     {

@@ -19,7 +19,7 @@ class JavaScriptPropertyHandlerOnBrowserSide : MessageHandlerOnBrowserSide
         RegisterMessageHandler(OnObjectSetProperty);
     }
 
-    private MessageResponse OnObjectGetProperty(MessageRequest request)
+    private BridgeMessageResponse OnObjectGetProperty(BridgeMessageRequest request)
     {
         if (request.Name == JavaScriptPropertyHandler.OBJECT_GET_PROPERTY_VALUE)
         {
@@ -35,20 +35,20 @@ class JavaScriptPropertyHandlerOnBrowserSide : MessageHandlerOnBrowserSide
             if (target != null)
             {
                 var result = target.Getter.Invoke();
-                return new MessageResponse()
+                return new BridgeMessageResponse()
                 {
                     Data = result.ToJson()
                 };
             }
             else
             {
-                return new MessageResponse(false, $"[NanUI]: Property {name} is not defined.");
+                return new BridgeMessageResponse(false, $"[NanUI]: Property {name} is not defined.");
             }
         }
 
         return null;//new MessageResponse(false, $"[NanUI]: Property is not defined.");
     }
-    private MessageResponse OnObjectSetProperty(MessageRequest request)
+    private BridgeMessageResponse OnObjectSetProperty(BridgeMessageRequest request)
     {
         if (request.Name == JavaScriptPropertyHandler.OBJECT_SET_PROPERTY_VALUE)
         {
@@ -65,19 +65,19 @@ class JavaScriptPropertyHandlerOnBrowserSide : MessageHandlerOnBrowserSide
             {
                 if (target.Setter == null)
                 {
-                    return new MessageResponse(false, $"[NanUI]: Property {name} is not writable.");
+                    return new BridgeMessageResponse(false, $"[NanUI]: Property {name} is not writable.");
                 }
 
                 target.Setter.Invoke(value);
 
-                return new MessageResponse()
+                return new BridgeMessageResponse()
                 {
                     Data = JavaScriptValue.CreateUndefined().ToJson()
                 };
             }
             else
             {
-                return new MessageResponse(false, $"[NanUI]: Property {name} is not defined.");
+                return new BridgeMessageResponse(false, $"[NanUI]: Property {name} is not defined.");
             }
         }
 

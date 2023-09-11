@@ -6,7 +6,7 @@ public abstract class MessageHandlerOnRenderSide
 {
     internal protected MessageBridgeOnRenderSide Bridge { get; set; }
 
-    List<Func<MessageRequest, MessageResponse>> Handlers { get; } = new List<Func<MessageRequest, MessageResponse>>();
+    List<Func<BridgeMessageRequest, BridgeMessageResponse>> Handlers { get; } = new List<Func<BridgeMessageRequest, BridgeMessageResponse>>();
 
     protected MessageHandlerWrapperBase MessageHandlerWrapper { get; }
 
@@ -16,11 +16,11 @@ public abstract class MessageHandlerOnRenderSide
         MessageHandlerWrapper = messageHandlerWrapper;
     }
 
-    public MessageResponse ExecuteRequest(MessageRequest request)
+    public BridgeMessageResponse ExecuteRequest(BridgeMessageRequest request)
     {
         return FormiumMessageBridge.ExecuteRequest(request);
     }
-    public Task<MessageResponse> ExecuteRequestAsync(MessageRequest request)
+    public Task<BridgeMessageResponse> ExecuteRequestAsync(BridgeMessageRequest request)
     {
         return FormiumMessageBridge.ExecuteRequestAsync(request);
     }
@@ -36,7 +36,7 @@ public abstract class MessageHandlerOnRenderSide
     }
 
 
-    protected void RegisterMessageHandler(Func<MessageRequest, MessageResponse> handler)
+    protected void RegisterMessageHandler(Func<BridgeMessageRequest, BridgeMessageResponse> handler)
     {
         Handlers.Add(handler);
     }

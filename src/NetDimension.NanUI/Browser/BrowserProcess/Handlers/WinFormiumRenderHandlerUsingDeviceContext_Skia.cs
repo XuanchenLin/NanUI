@@ -137,12 +137,8 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         {
             var win = (HostWindow.LayeredStyleHostWindow)_owner.FormHostWindow;
 
-
-
-
-
-
-            win.InvokeIfRequired(() => {
+            win.InvokeIfRequired(() =>
+            {
                 if (inputMode == CefTextInputMode.None)
                 {
                     win.OnEditableField(false);
@@ -292,6 +288,7 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
         var view_height = _viewSize.Height;
 
 
+
         using var sharedBmp = new Bitmap(view_width, view_height);
 
         var bitmapData = sharedBmp.LockBits(new Rectangle(0, 0, view_width, view_height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
@@ -315,6 +312,17 @@ internal class WinFormiumRenderHandlerUsingDeviceContext : CefRenderHandler
 
         using var viewBitmap = new SKBitmap();
         using var viewBmpData = SKData.CreateCopy(_viewBitmapData);
+
+        using var testMemoryBitmap = new SKBitmap();
+
+        testMemoryBitmap.InstallPixels(new SKImageInfo
+        {
+            AlphaType = SKAlphaType.Premul,
+            Width = width,
+            Height = height,
+            ColorType = SKColorType.Bgra8888
+        }, buffer);
+
 
         viewBitmap.InstallPixels(new SKImageInfo
         {

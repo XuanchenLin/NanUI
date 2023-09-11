@@ -19,7 +19,7 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
         RegisterMessageHandler(ResponseForRenderPromiseInvoke);
     }
 
-    MessageResponse ResponseForRenderFunctionInvoke(MessageRequest request)
+    BridgeMessageResponse ResponseForRenderFunctionInvoke(BridgeMessageRequest request)
     {
         if (request.Name == InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_FUNCTION)
         {
@@ -40,11 +40,11 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
             }
 
 
-            MessageResponse response;
+            BridgeMessageResponse response;
 
             if (func == null)
             {
-                response = new MessageResponse(false, "Promise is not exits.");
+                response = new BridgeMessageResponse(false, "Promise is not exits.");
             }
             else
             {
@@ -57,14 +57,14 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
                         retval = JavaScriptValue.CreateUndefined();
                     }
 
-                    response = new MessageResponse()
+                    response = new BridgeMessageResponse()
                     {
                         Data = retval.ToJson()
                     };
                 }
                 catch (Exception ex)
                 {
-                    response = new MessageResponse(false, ex.Message);
+                    response = new BridgeMessageResponse(false, ex.Message);
 
                 }
             }
@@ -75,7 +75,7 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
         return null;
     }
 
-    MessageResponse ResponseForRenderPromiseInvoke(MessageRequest request)
+    BridgeMessageResponse ResponseForRenderPromiseInvoke(BridgeMessageRequest request)
     {
         if (request.Name == InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION)
         {
@@ -94,13 +94,13 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
             }
 
 
-            MessageResponse response;
+            BridgeMessageResponse response;
 
             var func = JavaScriptAsyncFunction.Bag.FirstOrDefault(x => x.Uuid == funcId);
 
             if (func == null)
             {
-                response = new MessageResponse(false, "Promise is not exits.");
+                response = new BridgeMessageResponse(false, "Promise is not exits.");
             }
             else
             {
@@ -113,11 +113,11 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
                     // });
                     func.FunctionDelegate.Invoke(args, new JavaScriptFunctionPromise(func.Frame, funcId));
 
-                    response = new MessageResponse();
+                    response = new BridgeMessageResponse();
                 }
                 catch (Exception ex)
                 {
-                    response = new MessageResponse(false, ex.Message);
+                    response = new BridgeMessageResponse(false, ex.Message);
                 }
 
 
