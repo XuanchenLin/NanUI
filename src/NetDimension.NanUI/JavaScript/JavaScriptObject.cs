@@ -102,26 +102,10 @@ public sealed class JavaScriptObject : JavaScriptValue, IDictionary<string, Java
         return Add(key, new JavaScriptAsyncFunction(action));
     }
 
-    //public JavaScriptObject Add(string key, CefFrame frame, Action<JavaScriptArray, JavaScriptFunctionPromise> action)
-    //{
-    //    return Add(key, (JavaScriptValue)new JavaScriptAsyncFunction(frame,action));
-    //}
-
-    //public JavaScriptObject Add(string key, CefFrame frame, Func<JavaScriptArray, JavaScriptValue> func)
-    //{
-    //    return Add(key, (JavaScriptValue)new JavaScriptSyncFunction(frame, func));
-    //}
-
     public JavaScriptObject Add(string key, Func<JavaScriptArray, JavaScriptValue> func)
     {
         return Add(key, new JavaScriptSyncFunction(func));
     }
-
-
-    //public JavaScriptObject Add(string key, JavaScriptProperty property)
-    //{
-    //    return Add(key, (JavaScriptValue)property);
-    //}
 
     public bool ContainsKey(string key)
     {

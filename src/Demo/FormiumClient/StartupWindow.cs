@@ -11,7 +11,7 @@ internal class StartupWindow : Formium
 
 
     public override HostWindowType WindowType { get; } = HostWindowType.SystemBorderless;
-    public override string StartUrl { get; } = "http://resources.app.local/startup-ui/";//"https://cn.bing.com";//
+    public override string StartUrl { get; } = "http://resources.app.local/startup-ui/";
 
     public StartupWindow()
     {
@@ -28,7 +28,7 @@ internal class StartupWindow : Formium
 
     }
 
-    protected override void OnReady()
+    protected override  void OnReady()
     {
         var jsObject = new JavaScriptObject();
         jsObject.Add("launchDemo", (args =>
@@ -41,12 +41,9 @@ internal class StartupWindow : Formium
             return null;
         }));
 
-        RegisterJavaScriptObject("launcher", jsObject);
 
-        LoadEnd+=(_,_)=>
-        {
-            ExecuteJavaScript("console.log(Formium.external)");
-        };
+
+        RegisterJavaScriptObject("launcher", jsObject);
     }
 
 

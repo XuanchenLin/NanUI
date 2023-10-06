@@ -44,7 +44,7 @@ class InvokeJavaScriptFunctionOnBrowserSide : MessageHandlerOnBrowserSide
 
             if (func == null)
             {
-                response = new BridgeMessageResponse(false, "Promise is not exits.");
+                response = new BridgeMessageResponse(false, "Fuction is not exits.");
             }
             else
             {

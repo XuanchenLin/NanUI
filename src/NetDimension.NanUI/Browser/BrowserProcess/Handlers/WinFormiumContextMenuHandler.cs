@@ -202,7 +202,7 @@ internal sealed class WinFormiumContextMenuHandler : CefContextMenuHandler
 
         clickHandler = (sender, e) =>
         {
-            clickHandler -= clickHandler;
+            contextMenu.ItemClicked -= clickHandler;
             var targetItem = e.ClickedItem;
             var config = (MenuItemConfigurattion)targetItem.Tag;
             if (config != null)

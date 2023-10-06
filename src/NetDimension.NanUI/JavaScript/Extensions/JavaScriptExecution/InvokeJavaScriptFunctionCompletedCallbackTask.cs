@@ -6,6 +6,7 @@ class InvokeJavaScriptFunctionCompletedCallbackTask : CefTask
 {
 
     public InvokeJavaScriptFunctionOnBrowserSide Handler { get; }
+
     public CefFrame Frame { get; }
 
     private int TaskId { get; }

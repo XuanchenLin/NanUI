@@ -98,9 +98,6 @@ public class BrowserClient : CefClient
             return true;
         }
 
-
         return false;
     }
-
-
 }

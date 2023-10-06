@@ -39,23 +39,25 @@ public sealed class JavaScriptFunctionPromise
             arguments.Add(retval);
         }
 
-        if (Side == CefProcessId.Browser)
-        {
-            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = true, FrameId = frame.Identifier, Data = arguments.ToJson() }));
+        //if (Side == CefProcessId.Browser)
+        //{
+        //    var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = true, FrameId = frame.Identifier, Data = arguments.ToJson() }));
 
-            FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
-        }
-        else
-        {
-            CefRuntime.PostTask(CefThreadId.Renderer, new InvokeJavaScriptPromiseFunctionOnRenderSideTask(frame, uuid)
-            {
+        //    FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
+        //}
+        //else
+        //{
+        //    CefRuntime.PostTask(CefThreadId.Renderer, new InvokeJavaScriptPromiseFunctionOnRenderSideTask(frame, uuid)
+        //    {
 
-                Success = true,
-                Arguments = arguments,
-            });
-        }
+        //        Success = true,
+        //        Arguments = arguments,
+        //    });
+        //}
 
+        var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = true, FrameId = frame.Identifier, Data = arguments.ToJson() }));
 
+        FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
 
         CleanPromise();
     }
@@ -68,23 +70,25 @@ public sealed class JavaScriptFunctionPromise
 
 
 
-        if (Side == CefProcessId.Browser)
-        {
-            var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = false, FrameId = frame.Identifier, ExceptionText = reason }));
+        //if (Side == CefProcessId.Browser)
+        //{
+        //    var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = false, FrameId = frame.Identifier, ExceptionText = reason }));
 
-            FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
-        }
-        else
-        {
-            CefRuntime.PostTask(CefThreadId.Renderer, new InvokeJavaScriptPromiseFunctionOnRenderSideTask(frame, uuid)
-            {
+        //    FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
+        //}
+        //else
+        //{
+        //    CefRuntime.PostTask(CefThreadId.Renderer, new InvokeJavaScriptPromiseFunctionOnRenderSideTask(frame, uuid)
+        //    {
 
-                Success = false,
-                Message = reason
-            });
-        }
+        //        Success = false,
+        //        Message = reason
+        //    });
+        //}
 
+        var message = new BridgeMessage(JavaScriptExecution.InvokeJavaScriptFunctionHandler.INVOKE_RENDER_SIDE_PROMISE_FUNCTION, JsonSerializer.Serialize(new JavaScriptBridgeMessageObject { FuncId = uuid, Success = false, FrameId = frame.Identifier, ExceptionText = reason }));
 
+        FormiumMessageBridge.SendBridgeMessage(CefProcessId.Renderer, frame, message);
 
         CleanPromise();
 

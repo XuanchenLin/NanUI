@@ -1,5 +1,4 @@
 using System.IO.Pipes;
-
 namespace NetDimension.NanUI.Browser.MessagePipe;
 
 internal sealed class MessgeBridgePipeServer : IDisposable
@@ -75,12 +74,9 @@ internal sealed class MessgeBridgePipeServer : IDisposable
                             response = retval;
                             break;
                         }
-
                     }
                     catch (Exception ex)
                     {
-
-
                         response = new BridgeMessageResponse(false, ex.Message);
 
                         WinFormium.GetLogger().Error(ex);
