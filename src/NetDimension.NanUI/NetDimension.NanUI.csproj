@@ -15,6 +15,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Version>0.9.109.$([System.DateTime]::Now.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-8-8",2023))))).TotalDays)</Version>
         <Platforms>AnyCPU</Platforms>
+        <RepositoryUrl>https://github.com/XuanchenLin/NanUI.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/XuanchenLin/NanUI</PackageProjectUrl>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

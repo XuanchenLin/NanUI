@@ -4,14 +4,12 @@
         <RepositoryRootDirectory>$(MSBuildThisFileDirectory)</RepositoryRootDirectory>
         <BinDir>$(RepositoryRootDirectory)bin</BinDir>
         <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
-        <LangVersion>9.0</LangVersion>
+        <LangVersion>latest</LangVersion>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <NoWarn>CS1591;CS1701</NoWarn>
         <Company>Net Dimension Studio</Company>
         <Authors>Xuanchen Lin</Authors>
-        <Copyright>Copyright © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin all rights reserved.</Copyright>
-        <RepositoryUrl>https://github.com/NetDimension/NanUI</RepositoryUrl>
-        <PackageProjectUrl>https://www.formium.net</PackageProjectUrl>
+        <Copyright>Copyrights © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin. All Rights Reserved.</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>

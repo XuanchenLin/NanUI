@@ -1,6 +1,10 @@
 name: NanUI CI/CD Pipeline
 
-on: [push, pull_request, workflow_dispatch]
+on: 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   ci:
@@ -44,6 +48,19 @@ jobs:
         id: build_solution
         shell: pwsh
         run: |
-          msbuild .\NetDimension.NanUI.sln
+          msbuild .\NetDimension.NanUI.sln -property:Configuration=Release
+
+      - name: Install Nuget
+        run: |
+          $sourceNugetExe = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+          $targetNugetExe = "nuget.exe"
+          Invoke-WebRequest $sourceNugetExe -OutFile $targetNugetExe
+      
+      - name: Push Nuget package
+        run: |
+          .\nuget.exe push .\bin\NetDimension.NanUI\Release\NetDimension.NanUI.*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_KEY }} -NoSymbols -SkipDuplicate
+          .\nuget.exe push .\bin\NetDimension.NanUI\Release\NetDimension.NanUI.*.snupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_KEY }} -SkipDuplicate
+
+
 
 # Built with ❤ by [Pipeline Foundation](https://pipeline.foundation)
