@@ -55,13 +55,13 @@ The minimum supported Windows is Windows 7 Service Pack 1, and some features (su
 Open the NuGet Package Manager to install or use NuGet Package Manager Console, and run the following command to install WinFormium nuget package:
 
 ```powershell
-PM> Install-Package WinFormium
+PM> Install-Package NetDimension.NanUI
 ```
 
 Install the dependencies of Chromium Embedded Framework that WinFormium depends on:
 
 ```powershell
-PM> Install-Package WinFormium.Runtime
+PM> Install-Package NetDimension.NanUI.Runtime
 ```
 
 **3. A basic WinFormium application requires the following code:**
