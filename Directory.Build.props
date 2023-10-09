@@ -9,8 +9,9 @@
         <NoWarn>CS1591;CS1701</NoWarn>
         <Company>Net Dimension Studio</Company>
         <Authors>Xuanchen Lin</Authors>
-        <Copyright>Copyrights © 2016-$([System.DateTime]::Now.Year) Xuanchen Lin. All Rights Reserved.</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Copyright>Copyrights © 2012-$([System.DateTime]::Now.Year) Xuanchen Lin. All rights reserved.</Copyright>
+        <RepositoryUrl>https://github.com/XuanchenLin/WinFormium</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/XuanchenLin/WinFormium</PackageProjectUrl>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
