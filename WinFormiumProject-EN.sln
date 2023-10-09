@@ -5,7 +5,14 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormium", "src\WinFormium\WinFormium.csproj", "{39675313-A12E-4F6A-923A-4C28308DF9C3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D661C15E-B241-437A-96BC-79EB89B2B45E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{D661C15E-B241-437A-96BC-79EB89B2B45E}"
+	ProjectSection(SolutionItems) = preProject
+		CHANELOG = CHANELOG
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		NuGet.config = NuGet.config
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
