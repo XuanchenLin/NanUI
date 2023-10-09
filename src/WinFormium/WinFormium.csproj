@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <ChromiumVersion>109</ChromiumVersion>
+        <ProjectCodeName>NetDimension.NanUI</ProjectCodeName>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -31,6 +32,7 @@
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <SignAssembly>False</SignAssembly>
         <DebugType>portable</DebugType>
+        <AssemblyName>$(ProjectCodeName)</AssemblyName>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
