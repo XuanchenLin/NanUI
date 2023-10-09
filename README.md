@@ -146,7 +146,7 @@ class MyWindow : Formium
 }
 ```
 
-**4. Build and run**
+**4. Build and run your WinFormium application**
 
 ## 📖 Documentation
 
