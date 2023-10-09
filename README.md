@@ -46,7 +46,7 @@ The minimum supported Windows is Windows 7 Service Pack 1, and some features (su
 
 ## 🧰 Getting Started
 
-### Create a simple Application
+Create a simple WinFormium Application by following the steps below:
 
 **1. Create a WinForm Application by default template.**
 
