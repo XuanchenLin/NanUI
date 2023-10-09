@@ -1,0 +1,68 @@
+// THIS FILE IS PART OF WinFormium PROJECT
+// THE WinFormium PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.
+// COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
+//
+// GITHUB: https://github.com/XuanchenLin/WinFormium
+// EMail: xuanchenlin(at)msn.com QQ:19843266 WECHAT:linxuanchen1985
+
+namespace WinFormium.JavaScript;
+
+internal class JavaScriptObjectMapCreationTaskOnRemote : CefTask
+{
+    public JavaScriptObjectMappingBridge Bridge { get; }
+
+    public JavaScriptObject Objects { get; }
+    public required CefFrame Frame { get; init; }
+
+    public JavaScriptObjectMapCreationTaskOnRemote(JavaScriptObjectMappingBridge bridge, string data)
+    {
+        Bridge = bridge;
+
+        try
+        {
+            Objects = JavaScriptValue.FromJson(data)!.ToObject();
+        }
+        catch
+        {
+            Objects = new JavaScriptObject();
+        }
+    }
+
+    protected override void Execute()
+    {
+        if (Frame == null) return;
+
+        var context = Frame.V8Context;
+        context.Enter();
+        try
+        {
+            using var global = context.GetGlobal();
+
+            if (global.HasValue("external"))
+            {
+                global.DeleteValue("external");
+            }
+
+            var externalObject = CefV8Value.CreateObject();
+
+            global.SetValue("external", externalObject, CefV8PropertyAttribute.DontDelete | CefV8PropertyAttribute.DontEnum);
+
+
+            foreach (var key in Objects.PropertyNames)
+            {
+                var source = Objects.GetValue(key);
+
+                externalObject.SetValue(key, source.ToCefV8Value(), CefV8PropertyAttribute.DontDelete | CefV8PropertyAttribute.DontEnum);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Logger.Instance.Log.LogError(ex);
+        }
+        finally
+        {
+            context.Exit();
+        }
+    }
+}
