@@ -6,13 +6,13 @@
 
 # WinFormium
 
-NanUI has always been in the testing stage. After 9 years, it is time to release the official v1.0 version of NanUI! When version 1.0 is released, the new name of the project will be officially launched - **WinFormium**
+点击[[此处]](https://gitee.com/dotNetChina/NanUI/)切换到**简体中文**仓库首页。
 
 ![GitHub](https://img.shields.io/github/license/XuanchenLin/WinFormium)
 ![Nuget](https://img.shields.io/nuget/v/NetDimension.NanUI)
 ![Nuget](https://img.shields.io/nuget/dt/NetDimension.NanUI)
 
-点击[[此处]](https://gitee.com/dotNetChina/NanUI/)切换到**简体中文**仓库首页。
+NanUI has always been in the testing stage. After 9 years, it is time to release the official v1.0 version of NanUI! When version 1.0 is released, the new name of the project will be officially launched - **WinFormium**
 
 ## ⭐ About
 
