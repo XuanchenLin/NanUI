@@ -8,11 +8,6 @@ using WinFormium.JavaScript;
 namespace MinimalWinFormiumApp;
 internal class MyApp : WinFormiumStartup
 {
-    public MyApp(ChromiumEnvironment env)
-    {
-
-    }
-
     protected override MainWindowCreationAction? UseMainWindow(MainWindowOptions opts)
     {
 
@@ -65,12 +60,12 @@ internal class MyApp : WinFormiumStartup
 
         // 启用子进程的示例。
         // Example of enabling sub-process.
-        //cef.ConfigureSubprocess(sub =>
-        //{
-        //    sub.SubprocessFilePath = "WinFormiumSubProcess.exe";
+        cef.ConfigureSubprocess(sub =>
+        {
+            sub.SubprocessFilePath = "WinFormiumSubProcess.exe";
 
 
-        //});
+        });
 
     }
 
