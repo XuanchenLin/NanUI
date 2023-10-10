@@ -126,15 +126,6 @@ public sealed class AppBuilder
 
         var chromiumConfig = ChromiumEnvironmentBuiler.Create(this);
 
-        if (_configureChromium != null)
-        {
-            _configureChromium.Invoke(chromiumConfig);
-        }
-
-        var env = chromiumConfig.Build();
-
-        Services.AddSingleton(env);
-
         if (ProcessType == ProcessType.Main)
         {
             var tempServiceProvider = Services.BuildServiceProvider();
@@ -154,6 +145,15 @@ public sealed class AppBuilder
 
             Services.AddSingleton(createAction);
         }
+
+        if (_configureChromium != null)
+        {
+            _configureChromium.Invoke(chromiumConfig);
+        }
+
+        var env = chromiumConfig.Build();
+
+        Services.AddSingleton(env);
 
         Services.AddSingleton(services =>
         {
