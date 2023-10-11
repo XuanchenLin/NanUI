@@ -2,7 +2,7 @@
     <img src="./artworks/WinFormiumLogo.png" width="144" />
 </p>
 <h1 align="center">The WinFormium Project<br />(A.K.A. NanUI)</h1>
-<p align="center"><strong>Easily buid powerful WinForm applications with HTML, CSS and JavaScript.</strong></p>
+<p align="center"><strong>Easily build powerful WinForm applications with HTML, CSS and JavaScript.</strong></p>
 
 # WinFormium
 
