@@ -14,6 +14,12 @@
 
 NanUI has always been in the testing stage. After 9 years, it is time to release the official v1.0 version of NanUI! When version 1.0 is released, the new name of the project will be officially launched - **WinFormium**
 
+## 📢 致谢
+
+感谢各位朋友近期对 NanUI 项目的关注，能引起共鸣和关注我感到非常荣幸。但是恳请大家别再打钱，这样我压力好大，各位的好意林某已心领了。
+
+在此也祝福那些和我一样人到中年还对编程依然饱有热情的朋友们，生活纵然不易，希望任怀初心！
+
 ## ⭐ About
 
 WinFormium is a open source framework on .NET platform for creating user interface of WinForm Applicaitons using HTML5, CSS3, and JavaScript. It is based on the [Xilium.CefGlue](https://bitbucket.org/xilium/xilium.cefglue/wiki/Home) project, which is a .NET wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef).
