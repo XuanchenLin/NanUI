@@ -52,4 +52,4 @@ For other languages, please see:
 
 - [Overview](./JavaScript/Overview.md)
 - [Register the .NET mapping objects in JavaScript](./JavaScript/Register-Mapping-Objects.md)
-- # [Register JavaScript Window Binding Object](./JavaScript/Register-Window-Binding-Objects.md)
+- [Register JavaScript Window Binding Object](./JavaScript/Register-Window-Binding-Objects.md)
