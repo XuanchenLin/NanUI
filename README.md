@@ -150,7 +150,7 @@ class MyWindow : Formium
 
 ## 📖 Documentation
 
-For more info please see - [Documentation](docs/README.md) or [Wiki](https://github.com/XuanchenLin/WinFormium/wiki)
+For more info please see - [Documentation](docs/README.md)
 
 ## 🤖 Demos
 
