@@ -26,7 +26,40 @@ public abstract class FramelessWindowBase : StandardWindowBase
 
     bool _showBorder = false;
 
+    Color ChangeColor(Color color, float correctionFactor)
+    {
+        float red = (float)color.R;
+        float green = (float)color.G;
+        float blue = (float)color.B;
 
+        if (correctionFactor < 0)
+        {
+            correctionFactor = 1 + correctionFactor;
+            red *= correctionFactor;
+            green *= correctionFactor;
+            blue *= correctionFactor;
+        }
+        else
+        {
+            red = (255 - red) * correctionFactor + red;
+            green = (255 - green) * correctionFactor + green;
+            blue = (255 - blue) * correctionFactor + blue;
+        }
+
+        if (red < 0) red = 0;
+
+        if (red > 255) red = 255;
+
+        if (green < 0) green = 0;
+
+        if (green > 255) green = 255;
+
+        if (blue < 0) blue = 0;
+
+        if (blue > 255) blue = 255;
+
+        return Color.FromArgb(color.A, (int)red, (int)green, (int)blue);
+    }
 
     internal protected Color BorderColor { get; set; } = Color.FromArgb(0xB2, 0xB2, blue: 0xB2);
 
@@ -34,10 +67,10 @@ public abstract class FramelessWindowBase : StandardWindowBase
 
     internal protected Color InactiveBorderColor
     {
-        get => _inactiveBorderColor ?? Color.FromArgb(Convert.ToByte(BorderColor.A * 0.6f), BorderColor);
+        get => _inactiveBorderColor ?? ChangeColor(BorderColor,-0.1f);
         set
         {
-            if (value != _inactiveBorderColor)
+            if (value != _inactiveBorderColor && value.A > 0)
             {
                 _inactiveBorderColor = value;
 
@@ -134,6 +167,11 @@ public abstract class FramelessWindowBase : StandardWindowBase
                     }
                 }
                 break;
+            case WindowMessage.WM_ACTIVATE when RenderType != FramelessWindowType.DWM:
+                {
+                    InvalidateNonclient();
+                }
+                break;
             case WindowMessage.WM_ACTIVATE when RenderType == FramelessWindowType.DWM:
                 {
                     DwmExtendFrameIntoClientArea(WND, new MARGINS(0, 0, 1, 0));
@@ -154,7 +192,6 @@ public abstract class FramelessWindowBase : StandardWindowBase
                     if (WmNCPaint(ref m)) return;
                 }
                 break;
-
             case WindowMessage.WM_NCPAINT when RenderType == FramelessWindowType.DWM:
                 {
                     if (WmNCPaintDWM(ref m)) return;
@@ -180,11 +217,11 @@ public abstract class FramelessWindowBase : StandardWindowBase
                     if (WmSetCursorWithHitTestEnabled(ref m)) return;
                 }
                 break;
-            //case WindowMessage.WM_LBUTTONDOWN when EnableHitTest == true:
-            //    {
-            //        if (WmLButtonDownWithHitTestEnabled(ref m)) return;
-            //    }
-            //    break;
+                //case WindowMessage.WM_LBUTTONDOWN when EnableHitTest == true:
+                //    {
+                //        if (WmLButtonDownWithHitTestEnabled(ref m)) return;
+                //    }
+                //    break;
         }
 
         if (WmGhostingHandler(ref m)) return;
@@ -432,6 +469,9 @@ public abstract class FramelessWindowBase : StandardWindowBase
             return false;
         };
 
+        if (IsWindowTransparent) return true;
+
+        //return false;
         GetWindowRect(m.HWnd, out var bounds);
 
         if (bounds.Width <= 0 || bounds.Height <= 0)
@@ -472,13 +512,19 @@ public abstract class FramelessWindowBase : StandardWindowBase
                     ExcludeClipRect(dc, clientRect.left, clientRect.top, clientRect.right, clientRect.bottom);
                 }
 
-                using var brush = ShowBorder ? CreateSolidBrush(new COLORREF(IsWindowActivated ? BorderColor : InactiveBorderColor)) : CreateSolidBrush(new COLORREF(NO_BORDER_COLOR));
+                var borderColor = IsWindowActivated ?
+                    BorderColor :
+                    InactiveBorderColor;
+
+                using var brush = ShowBorder ? CreateSolidBrush(new COLORREF(borderColor)) : CreateSolidBrush(new COLORREF(NO_BORDER_COLOR));
 
                 FillRect(dc, bounds, brush);
                 DeleteObject(brush);
                 brush.Close();
 
                 SelectClipRgn(dc, HRGN.NULL);
+
+                //System.Diagnostics.Debug.WriteLine("Draw Nonclient");
             }
         }
         finally
@@ -542,7 +588,6 @@ public abstract class FramelessWindowBase : StandardWindowBase
         {
             m.Result = FALSE;
             InvalidateNonclient();
-            return true;
         }
 
         if (NC_MESSAGES.Contains((WindowMessage)m.Msg))

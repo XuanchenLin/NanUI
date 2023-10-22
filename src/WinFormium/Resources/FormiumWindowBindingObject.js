@@ -177,7 +177,7 @@ var formium;
             htmlEl?.classList.remove("formium--activated");
             htmlEl?.classList.add("formium--deactivate");
 
-            raiseHostWindowEvent("hostDeactivate", {});
+            raiseHostWindowEvent("hostdeactivate", {});
             raiseHostWindowEvent("hostactivatedstatechanged", { activated: false });
         };
 

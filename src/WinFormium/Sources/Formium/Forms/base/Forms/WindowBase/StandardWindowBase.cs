@@ -23,6 +23,8 @@ public abstract class StandardWindowBase : Form
 
     protected readonly Color TRANSPARENT_COLOR = Color.Empty;// Color.FromArgb(0x00, 0x00, 0x00, 0x01);
 
+    protected virtual bool IsWindowTransparent => false;
+
     internal protected Rectangle WindowRectangle
     {
         get
@@ -82,6 +84,8 @@ public abstract class StandardWindowBase : Form
     protected void InvalidateNonclient()
     {
         if (Handle == IntPtr.Zero) return;
+
+        if (IsWindowTransparent) return;
 
         InvalidateNonclient(WND);
     }
@@ -297,11 +301,11 @@ public abstract class StandardWindowBase : Form
         if (!IsHandleCreated || IsDisposed)
             return;
 
-        RedrawWindow(hWnd, null, HRGN.NULL, /*RedrawWindowFlags.RDW_FRAME |*/ RedrawWindowFlags.RDW_UPDATENOW | RedrawWindowFlags.RDW_VALIDATE);
+        RedrawWindow(hWnd, null, HRGN.NULL, RedrawWindowFlags.RDW_FRAME | RedrawWindowFlags.RDW_UPDATENOW | RedrawWindowFlags.RDW_VALIDATE);
 
         UpdateWindow(hWnd);
 
-        SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE /*| SetWindowPosFlags.SWP_NOCOPYBITS*/ | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
+        SetWindowPos(hWnd, HWND.NULL, 0, 0, 0, 0, SetWindowPosFlags.SWP_FRAMECHANGED | SetWindowPosFlags.SWP_NOACTIVATE | SetWindowPosFlags.SWP_NOCOPYBITS | SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOOWNERZORDER | SetWindowPosFlags.SWP_NOREPOSITION | SetWindowPosFlags.SWP_NOSIZE | SetWindowPosFlags.SWP_NOZORDER);
     }
     #endregion
 

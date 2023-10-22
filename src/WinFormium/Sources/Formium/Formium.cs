@@ -12,7 +12,7 @@ public abstract partial class Formium
     /// <summary>
     /// Gets the <see cref="ChromiumEnvironment"/> instance.
     /// </summary>
-    public ChromiumEnvironment CefEnviroment { get; }
+    public ChromiumEnvironment ChromiumEnviroment { get; }
 
     /// <summary>
     /// Gets the <see cref="WinFormiumApp"/> instance.

@@ -44,7 +44,7 @@ public partial class Formium : IDisposable, IWin32Window
     {
         ApplicationContext = WinFormiumApp.Current!;
 
-        CefEnviroment = Services.GetService<ChromiumEnvironment>()!;
+        ChromiumEnviroment = Services.GetRequiredService<ChromiumEnvironment>()!;
 
         WebViewHost = new FormiumWebViewHost(this);
 
@@ -264,14 +264,14 @@ public partial class Formium : IDisposable, IWin32Window
     internal void ConfigureBrowserSettingsCore(CefBrowserSettings settings)
     {
 
-        CefEnviroment.ConfigureBrowserSettings?.Invoke(settings);
+        ChromiumEnviroment.ConfigureBrowserSettings?.Invoke(settings);
 
         CreateBrowser(settings);
     }
 
     internal void CreateBrowserCore()
     {
-        var settings = CefEnviroment.GetDefaultBrowserSettings();
+        var settings = ChromiumEnviroment.GetDefaultBrowserSettings();
 
         if (CurrentFormStyle.OffScreenRenderEnabled)
         {
@@ -310,8 +310,6 @@ public partial class Formium : IDisposable, IWin32Window
         target.Resize += (_, _) =>
         {
             ResizeWebView();
-
-
         };
 
         target.VisibleChanged += (_, _) =>

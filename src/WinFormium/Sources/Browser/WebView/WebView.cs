@@ -100,6 +100,8 @@ internal partial class WebView
         if (Browser != null && BrowserHandle == IntPtr.Zero)
         {
             WasResized();
+
+            return;
         }
 
         if (Browser == null || BrowserHandle == IntPtr.Zero || !IsBrowserInitialized) return;

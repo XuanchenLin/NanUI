@@ -275,6 +275,16 @@ public partial class Formium
         JavaScriptBrowserMessageHandlers[message] = dispatcher;
     }
 
+    /// <summary>
+    /// Remove all message handlers for the specified message.
+    /// </summary>
+    /// <param name="message">
+    /// The message name.
+    /// </param>
+    protected void RegisterJavaScriptMessagDispatcher(string message)
+    {
+        JavaScriptBrowserMessageHandlers.Remove(message);
+    }
 
 
 }

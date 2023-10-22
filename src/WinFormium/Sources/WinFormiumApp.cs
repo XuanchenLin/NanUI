@@ -140,7 +140,7 @@ public sealed class WinFormiumApp
 
                 foreach (var process in Process.GetProcessesByName(thisProcess.ProcessName))
                 {
-                    if (process.Id != thisProcess.Id)
+                    if (process.Id != thisProcess.Id && process.HandleCount > 0)
                     {
                         useSingleton?.Invoke(new OnApplicationInstanceRunningHandler(process.Id));
 
