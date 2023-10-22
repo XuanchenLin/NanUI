@@ -2,7 +2,7 @@
     <img src="./artworks/WinFormiumLogo.png" width="144" />
 </p>
 <h1 align="center">The WinFormium Project<br />(A.K.A. NanUI)</h1>
-<p align="center"><strong>Easily buid powerful WinForm applications with HTML, CSS and JavaScript.</strong></p>
+<p align="center"><strong>Easily build powerful WinForm applications with HTML, CSS and JavaScript.</strong></p>
 
 # WinFormium
 
@@ -16,7 +16,7 @@ NanUI has always been in the testing stage. After 9 years, it is time to release
 
 ## ⭐ About
 
-WinFormium is a open source framework on .NET platform for creating user interface of WinForm Applicaitons using HTML5, CSS3, and JavaScript. It is based on the [Xilium.CefGlue](https://bitbucket.org/xilium/xilium.cefglue/wiki/Home) project, which is a .NET wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef).
+WinFormium is an open source framework on .NET platform for creating user interface for WinForm Applications using HTML5, CSS3, and JavaScript. It is based on the [Xilium.CefGlue](https://bitbucket.org/xilium/xilium.cefglue/wiki/Home) project, which is a .NET wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef).
 
 If you are looking for a framework for creating a WinForm application with a modern user interface, WinFormium is a good choice. you can use HTML, CSS, and JavaScript to create a user interface, and use C# to write the business logic of the application.
 
