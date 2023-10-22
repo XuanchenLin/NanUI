@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <p align="center">
     <img src="./assets/WinFormiumLogo.png" width="144" />
 </p>
@@ -53,7 +52,4 @@ For other languages, please see:
 
 - [Overview](./JavaScript/Overview.md)
 - [Register the .NET mapping objects in JavaScript](./JavaScript/Register-Mapping-Objects.md)
-- [Register JavaScript Window Binding Object](./JavaScript/Register-Window-Binding-Objects.md)
-=======
-Wiki is coming soon...
->>>>>>> bb0f53b585fba8752e2e8a0cb83eeacc41e75fe7
+- # [Register JavaScript Window Binding Object](./JavaScript/Register-Window-Binding-Objects.md)
