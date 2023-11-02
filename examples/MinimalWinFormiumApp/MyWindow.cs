@@ -1,5 +1,4 @@
 using WinFormium;
-using WinFormium.Browser;
 using WinFormium.CefGlue;
 using WinFormium.Forms;
 using WinFormium.JavaScript;
