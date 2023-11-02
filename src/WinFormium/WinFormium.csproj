@@ -12,16 +12,16 @@
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-        <Version>1.0.$(ChromiumVersion).$([System.DateTime]::Now.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-9-27",2023))))).TotalDays)</Version>
+        <Version>1.0.$(ChromiumVersion).$([System.DateTime]::Now.Date.Subtract($([System.DateTime]::Parse($([System.String]::Format("{0}-11-2",2023))))).TotalDays)</Version>
         <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
         <PackageTags>CEF WinForm WinForms NanUI WinFormium Formium CefGlue Chrome Chromium</PackageTags>
         <PackageIcon>WinFormiumLogo.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/XuanchenLin/WinFormium</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/XuanchenLin/WinFormium.git</RepositoryUrl>
-        <Title>WinFormium for Windows Form Applications</Title>
+        <PackageProjectUrl>https://github.com/XuanchenLin/NanUI</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/XuanchenLin/NanUI.git</RepositoryUrl>
+        <Title>WinFormium for WinForms</Title>
         <Description>Easily buid powerful WinForm applications with HTML, CSS and JavaScript.</Description>
         <RepositoryType>git</RepositoryType>
         <PackageOutputPath>$(BinDir)</PackageOutputPath>
