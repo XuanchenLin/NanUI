@@ -3,16 +3,17 @@
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
+using System.Windows.Forms;
+
 namespace WinFormium;
 
 public sealed class MainWindowOptions
 {
-    internal ApplicationContext Context { get; }
+    internal ApplicationContext Context { get; set; } = new ApplicationContext();
     private IServiceCollection Services { get; }
 
-    internal MainWindowOptions(ApplicationContext context, IServiceCollection services)
+    internal MainWindowOptions(IServiceCollection services)
     {
-        Context = context;
         Services = services;
     }
 
@@ -63,11 +64,28 @@ public sealed class MainWindowOptions
         });
     }
 
-    public MainWindowCreationAction UseWithoutMainForm()
+    public MainWindowCreationAction UseWithoutMainForm(ApplicationContext? applicationContext = null)
     {
         return new MainWindowCreationAction(services =>
         {
-            Context.MainForm = null;
+            if (applicationContext != null)
+            {
+                Context = applicationContext;
+            }
+
+            //Context.MainForm = null;
+        });
+    }
+
+    public MainWindowCreationAction UseWithoutMainForm(Func<ApplicationContext?> creationAction)
+    {
+        return new MainWindowCreationAction(services =>
+        {
+            var applicationContext = creationAction.Invoke();
+            if (applicationContext != null)
+            {
+                Context = applicationContext;
+            }
         });
     }
 }

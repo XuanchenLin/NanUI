@@ -9,7 +9,7 @@ public interface IWinFormiumStartup
 {
     void WinFormiumMain(string[] args);
 
-    MainWindowCreationAction UseMainWindow(MainWindowOptions opts);
+    MainWindowCreationAction? UseMainWindow(MainWindowOptions opts);
 
     void ConfigureChromiumEmbeddedFramework(ChromiumEnvironmentBuiler builder);
 

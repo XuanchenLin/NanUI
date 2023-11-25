@@ -17,7 +17,7 @@ public sealed class ChromiumEnvironmentBuiler
 
 
 
-    internal static ChromiumEnvironmentBuiler Create(AppBuilder builder) => new ChromiumEnvironmentBuiler(builder);
+    internal static ChromiumEnvironmentBuiler Create(AppBuilder builder) => new (builder);
 
 
     const string RESOURCE_DIR = "Resources";
@@ -63,9 +63,7 @@ public sealed class ChromiumEnvironmentBuiler
 
     public ChromiumEnvironmentBuiler ConfigureSubprocess(Action<SubprocessOptions> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _configureSubprocess = configureDelegate;
+        _configureSubprocess = configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
 
@@ -73,18 +71,14 @@ public sealed class ChromiumEnvironmentBuiler
 
     public ChromiumEnvironmentBuiler UseCustomDistributionDirectory(Action<CustomCefDistributionPathOption> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _useCustomCefDistributionPath = configureDelegate;
+        _useCustomCefDistributionPath = configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
     }
 
     public ChromiumEnvironmentBuiler ConfigureCustomSchemes(Action<CefSchemeRegistrar> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _configureCustomSchemes += configureDelegate;
+        _configureCustomSchemes += configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
     }
@@ -103,36 +97,28 @@ public sealed class ChromiumEnvironmentBuiler
 
     public ChromiumEnvironmentBuiler ConfigureCommandLineArguments(Action<CefCommandLine> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _configureCommandLine += configureDelegate;
+        _configureCommandLine += configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
     }
 
     public ChromiumEnvironmentBuiler ConfigureDefaultSettings(Action<CefSettings> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _configureSettings += configureDelegate;
+        _configureSettings += configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
     }
 
     public ChromiumEnvironmentBuiler ConfigureDefaultBrowserSettings(Action<CefBrowserSettings> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _configureBrowserSettings += configureDelegate;
+        _configureBrowserSettings += configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
     }
 
     public ChromiumEnvironmentBuiler UseDistributionNotFoundHandler(Action<CustomCefDistributionPathOption> configureDelegate)
     {
-        if (configureDelegate == null) throw new ArgumentNullException(nameof(configureDelegate));
-
-        _useDistributionNotFoundHandler = configureDelegate;
+        _useDistributionNotFoundHandler = configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate));
 
         return this;
 
@@ -192,8 +178,8 @@ public sealed class ChromiumEnvironmentBuiler
     }
 
     #region Search libcef.dll
-    private bool EnsureLibCefExists(string? path) => path!=null && File.Exists(Path.Combine(path, "libcef.dll"));
-    private bool EnsureLibCefResourceDirExists(string? path) => path != null && Directory.Exists(path) && Directory.GetFiles(path, "*.pak", SearchOption.TopDirectoryOnly).Length > 0 && Directory.Exists(Path.Combine(path, "locales")) && Directory.GetFiles(Path.Combine(path, "locales"), "*.pak", SearchOption.TopDirectoryOnly).Length > 0;
+    private static bool EnsureLibCefExists(string? path) => path!=null && File.Exists(Path.Combine(path, "libcef.dll"));
+    private static bool EnsureLibCefResourceDirExists(string? path) => path != null && Directory.Exists(path) && Directory.GetFiles(path, "*.pak", SearchOption.TopDirectoryOnly).Length > 0 && Directory.Exists(Path.Combine(path, "locales")) && Directory.GetFiles(Path.Combine(path, "locales"), "*.pak", SearchOption.TopDirectoryOnly).Length > 0;
 
 
     private void AutoDetectLibCefDirectoryStructure()
@@ -242,7 +228,7 @@ public sealed class ChromiumEnvironmentBuiler
 
         var searchPaths = new string[]
         {
-                _libCefDir??string.Empty,
+                _libCefDir,
                 Path.GetFullPath(Path.Combine(_libCefDir, UP_LEVEL_DIR)),
                 Path.GetFullPath(Path.Combine(_libCefDir, UP_LEVEL_DIR, RESOURCE_DIR)),
                 Path.Combine(_libCefDir, RESOURCE_DIR)

@@ -25,7 +25,7 @@ internal class JavaScriptPostBrowserMessageTaskOnRemote : CefTask
 
         try
         {
-            var retval = JavaScriptValue.FromJson(TaskData.Data!);
+            var retval = TaskData.Data ==null ? new JavaScriptValue() :  JavaScriptValue.FromJson(TaskData.Data);
 
             using var global = context.GetGlobal();
 

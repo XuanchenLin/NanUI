@@ -465,6 +465,8 @@ public abstract partial class Formium
         InvokeOnUIThread(() => { Location = new Point(screen.WorkingArea.Left + (screen.WorkingArea.Width - Width) / 2, screen.WorkingArea.Top + (screen.WorkingArea.Height - Height) / 2); });
     }
 
+
+
     /// <summary>
     /// Shows the form.
     /// </summary>
@@ -505,6 +507,30 @@ public abstract partial class Formium
             HostWindow?.Activate();
         });
     }
+
+    public void ShowInvisible()
+    {
+        InvokeOnUIThread(() =>
+        {
+            HostWindow?.ShowInvisible();
+        });
+    }
+
+    //public void ShowInvisible(IWin32Window owner)
+    //{
+    //    InvokeOnUIThread(() =>
+    //    {
+    //        HostWindow?.ShowInvisible();
+    //    });
+    //}
+
+    //public void ShowInvisible(Formium owner)
+    //{
+    //    InvokeOnUIThread(() =>
+    //    {
+    //        HostWindow?.ShowInvisible();
+    //    });
+    //}
 
     /// <summary>
     /// Shows the form as a modal dialog box.
@@ -890,4 +916,8 @@ public abstract partial class Formium
         WebView.ShowAboutDialog();
     }
 
+    public Form GetHostWindow()
+    {
+        return HostWindow!;
+    }
 }

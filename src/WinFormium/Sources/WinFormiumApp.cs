@@ -99,12 +99,8 @@ public sealed class WinFormiumApp
 
 
         Services = services.BuildServiceProvider();
-
-
-
-
-
     }
+
     private CefSettings GetDefaultCefSettings()
     {
         return new CefSettings
@@ -318,7 +314,7 @@ https://github.com/XuanchenLin/WinFormium/blob/master/LICENCE
 
             CefRuntime.Initialize(args, settings, app, IntPtr.Zero);
 
-            _startup.WinFormiumMain(Environment.GetCommandLineArgs());
+            //_startup.WinFormiumMain(Environment.GetCommandLineArgs());
 
 
 
@@ -364,13 +360,13 @@ https://github.com/XuanchenLin/WinFormium/blob/master/LICENCE
             try
             {
                 var createMainWindowAction = Services.GetRequiredService<MainWindowCreationAction>();
-                var appContext = Services.GetRequiredService<ApplicationContext>();
+                var mainWindowOptions = Services.GetRequiredService<MainWindowOptions>();
 
                 createMainWindowAction.Invoke(Services);
 
                 createMainWindowAction.Dispose();
 
-                Application.Run(appContext);
+                Application.Run(mainWindowOptions.Context);
 
 
             }

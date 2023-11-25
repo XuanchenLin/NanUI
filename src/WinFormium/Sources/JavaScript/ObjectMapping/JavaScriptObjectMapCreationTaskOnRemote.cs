@@ -30,7 +30,22 @@ internal class JavaScriptObjectMapCreationTaskOnRemote : CefTask
     {
         if (Frame == null) return;
 
-        var context = Frame.V8Context;
+        CefV8Context context;
+
+        try
+        {
+
+            context = Frame.V8Context;
+            if (context == null) return;
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+            return;
+        }
+        
+
+
         context.Enter();
         try
         {
@@ -41,7 +56,7 @@ internal class JavaScriptObjectMapCreationTaskOnRemote : CefTask
                 global.DeleteValue("external");
             }
 
-            var externalObject = CefV8Value.CreateObject();
+            CefV8Value externalObject = CefV8Value.CreateObject();
 
             global.SetValue("external", externalObject, CefV8PropertyAttribute.DontDelete | CefV8PropertyAttribute.DontEnum);
 

@@ -355,10 +355,10 @@ public partial class Formium
     }
 
     /// <summary>
-    /// Raises the <see cref="FrameLoadStart"/> event.
+    /// Raises the <see cref="FramePageAddressChange"/> event.
     /// </summary>
     /// <param name="args">
-    /// The <see cref="FrameLoadStartEventArgs"/> that contains the event data.
+    /// The <see cref="FramePageAddressChangeEventArgs"/> that contains the event data.
     /// </param>
     protected virtual void OnFramePageAddressChange(FramePageAddressChangeEventArgs args)
     {
@@ -469,7 +469,7 @@ public partial class Formium
     }
 
     /// <summary>
-    /// Raises the <see cref="PreKeyEvent"/> event.
+    /// Raises the <see cref="BeforeKeyEvent"/> event.
     /// </summary>
     /// <param name="args">
     /// The <see cref="BeforeKeyEventEventArgs"/> that contains the event data.

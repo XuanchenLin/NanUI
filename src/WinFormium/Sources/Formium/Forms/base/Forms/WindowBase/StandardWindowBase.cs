@@ -59,6 +59,25 @@ public abstract class StandardWindowBase : Form
 
     }
 
+    public void ShowInvisible()
+    {
+        if (!IsHandleCreated)
+        {
+            CreateHandle();
+        }
+    }
+
+    //protected override void SetVisibleCore(bool value)
+    //{
+    //    if (!IsHandleCreated)
+    //    {
+    //        value = false;
+    //        CreateHandle();
+    //    }
+
+
+    //    base.SetVisibleCore(value);
+    //}
 
 
     protected override void OnHandleCreated(EventArgs e)

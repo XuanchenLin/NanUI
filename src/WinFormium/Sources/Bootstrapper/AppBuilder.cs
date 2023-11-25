@@ -126,6 +126,10 @@ public sealed class AppBuilder
 
         var chromiumConfig = ChromiumEnvironmentBuiler.Create(this);
 
+
+
+
+
         if (ProcessType == ProcessType.Main)
         {
             var tempServiceProvider = Services.BuildServiceProvider();
@@ -134,16 +138,23 @@ public sealed class AppBuilder
 
             _configureChromium += startup.ConfigureChromiumEmbeddedFramework;
 
+            startup.WinFormiumMain(Environment.GetCommandLineArgs());
+
             startup.ConfigureServices(Services);
 
-            var context = new ApplicationContext();
-            var mainWindowOpts = new MainWindowOptions(context, Services);
+            var mainWindowOpts = new MainWindowOptions(Services)!;
 
-            Services.AddSingleton(context);
+            Services.AddSingleton(mainWindowOpts);
+
 
             var createAction = startup.UseMainWindow(mainWindowOpts);
 
-            Services.AddSingleton(createAction);
+            if (createAction != null)
+            {
+                Services.AddSingleton(mainWindowOpts);
+
+                Services.AddSingleton(createAction);
+            }
         }
 
         if (_configureChromium != null)

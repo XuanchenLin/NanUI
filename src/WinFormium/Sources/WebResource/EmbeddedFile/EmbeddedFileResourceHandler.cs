@@ -32,6 +32,8 @@ internal class EmbeddedFileResourceHandler : ResourceHandler
             filePath = $"{rootPath?.Trim('/', '\\')}/{filePath.Trim('/', '\\')}";
         }
 
+        filePath = filePath.Replace('\\', '/');
+
         var endTrimIndex = filePath.LastIndexOf('/');
 
 

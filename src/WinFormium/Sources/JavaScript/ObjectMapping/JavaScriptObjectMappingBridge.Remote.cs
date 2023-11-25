@@ -19,10 +19,17 @@ internal partial class JavaScriptObjectMappingBridge
     {
         var data = message.DeserializeData<string>()!;
 
+        //if(id == CefProcessId.Renderer)
+        //{
+
+
+        //}
+
         CefRuntime.PostTask(CefThreadId.Renderer, new JavaScriptObjectMapCreationTaskOnRemote(this, data)
         {
             Frame = frame,
         });
+
     }
 
 }

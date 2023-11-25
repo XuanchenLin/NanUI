@@ -99,10 +99,15 @@ public partial class Formium : IDisposable, IWin32Window
 
         var target = HostWindow = CurrentFormStyle.CreateHostWindow()?.Invoke()!;
 
+
+
         if (target == null)
         {
             throw new ArgumentNullException(nameof(HostWindow));
         }
+
+        target.ShowInTaskbar = CurrentFormStyle.ShowInTaskbar;
+
 
         target.Icon = CurrentFormStyle.Icon;
 
@@ -114,7 +119,6 @@ public partial class Formium : IDisposable, IWin32Window
 
         target.Text = BuildTitleString();
 
-        target.ShowInTaskbar = CurrentFormStyle.ShowInTaskbar;
 
         target.MinimumSize = CurrentFormStyle.MinimumSize;
 
@@ -517,7 +521,7 @@ public partial class Formium : IDisposable, IWin32Window
 
     private void SetFullscreenState(bool fullscreen, FormWindowState? state = null)
     {
-        if (HostWindow == null || !AllowFullScreen) return;
+        if (HostWindow == null || (!AllowFullScreen && fullscreen)) return;
 
         if (fullscreen)
         {
