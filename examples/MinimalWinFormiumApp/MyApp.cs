@@ -60,12 +60,10 @@ internal class MyApp : WinFormiumStartup
 
         // 启用子进程的示例。
         // Example of enabling sub-process.
-        cef.ConfigureSubprocess(sub =>
-        {
-            sub.SubprocessFilePath = "WinFormiumSubProcess.exe";
-
-
-        });
+        //cef.ConfigureSubprocess(sub =>
+        //{
+        //    sub.SubprocessFilePath = "WinFormiumSubProcess.exe";
+        //});
 
     }
 
@@ -88,6 +86,10 @@ internal class MyApp : WinFormiumStartup
             Scheme = "http",
             DomainName = "files.app.local",
             PhysicalFilePath = Path.Combine(AppContext.BaseDirectory, "wwwroot"),
+        });
+
+        services.AddDataResource("http", "data.app.local", provider => {
+            provider.ImportFromCurrentAssembly();
         });
 
 

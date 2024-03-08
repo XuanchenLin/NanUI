@@ -77,7 +77,9 @@ public sealed class DataResourceProvider
 
     public void ImportFromCurrentAssembly()
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.GetEntryAssembly();
+
+        if(assembly == null) throw new InvalidOperationException("Entry assembly is null.");
 
         ImportFromAssembly(assembly);
     }
