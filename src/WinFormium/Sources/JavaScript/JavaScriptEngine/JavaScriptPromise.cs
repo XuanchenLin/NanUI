@@ -13,13 +13,20 @@ public class JavaScriptPromise
     internal CefFrame Frame { get; }
     internal Guid Uuid { get; }
 
-    public JavaScriptPromise(CefFrame frame, Guid uuid, ProcessType side = ProcessType.Main)
+    internal JavaScriptPromise(CefFrame frame, Guid uuid, ProcessType side = ProcessType.Main)
     {
         Frame = frame;
         Uuid = uuid;
         Side = side;
     }
 
+    /// <summary>
+    /// Resolve the promise with the given value.
+    /// </summary>
+    /// <param name="retvals">
+    /// The value to resolve the promise with. This can be any JavaScript value, including undefined.
+    /// </param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Resolve(params JavaScriptValue[] retvals)
     {
         if (_isHandled) throw new InvalidOperationException("This method can be only called once.");
@@ -41,6 +48,13 @@ public class JavaScriptPromise
 
     }
 
+    /// <summary>
+    /// Reject the promise with the given reason.
+    /// </summary>
+    /// <param name="reason">
+    /// An optional value that can give more information about the failure.
+    /// </param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Reject(string? reason = null)
     {
         if (_isHandled) throw new InvalidOperationException("This method can be only called once.");

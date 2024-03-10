@@ -53,7 +53,7 @@ internal class MyWindow : Formium
 
         // 注册前端消息处理器，比如这里注册bbb，那么在前端调用 formium.postMessage("bbb", "[任意数据类型/字符/数字/数组/对象]")来向这个处理器发送消息。
         // Register front-end message handler. For example, by registering “bbb” here, you can send messages to this handler from the front-end using the formium.postMessage("bbb", "[any data type/string/number/array/object]") method.
-        RegisterJavaScriptMessagDispatcher("bbb", args =>
+        RegisterJavaScriptMessagHandler("bbb", args =>
         {
 
         });
@@ -66,14 +66,14 @@ internal class MyWindow : Formium
 
         // 这是同步接口，前端使用 formium.sendHostWindowRequest("rrr", "[任意数据类型/字符/数字/数组/对象]") 来向这个处理器发送请求，这个请求会阻塞前端线程，直到这个处理器返回结果。
         // This is the synchronous interface. The front-end can send a request to this handler using formium.sendHostWindowRequest("rrr", "[any data type/string/number/array/object]"), and this request will block the front-end thread until the handler returns a result.
-        RegisterJavaScriptSynchronousRequestDispatcher("rrr", args => "OK sync");
+        RegisterJavaScriptRequestHandler("rrr", args => "OK sync");
 
         // 这是异步接口，前端使用 formium.sendHostWindowRequestAsync("aaa", "[任意数据类型/字符/数字/数组/对象]") 来向这个处理器发送请求，这个请求不会阻塞前端线程，前端线程会继续执行，使用promise参数的resolve([data: any])或者reject([reason: string])方法来指定这个异步是否成功执行。
         // This is the asynchronous interface. The front-end can send a request to this handler using formium.sendHostWindowRequestAsync("aaa", "[any data type/string/number/array/object]"), and this request will not block the front-end thread. The front-end thread will continue executing, and you can use the resolve([data: any]) or reject([reason: string]) methods of the promise parameter to specify whether this asynchronous operation is successfully executed.
 
         // 前端的formium.sendHostWindowRequestAsync()方法将返回一个可等待的promise对象，可以使用await关键字来等待这个promise对象的执行结果。当然，使用传统的then/catch方法也可以。
         // The front-end's formium.sendHostWindowRequestAsync() method will return a awaitable promise object. You can use the await keyword to wait for the execution result of this promise object. Alternatively, you can also use the traditional then/catch methods.
-        RegisterJavaScriptAsynchronousRequestDispatcher("aaa", async (args, promise) => {
+        RegisterJavaScriptRequestHandler("aaa", async (args, promise) => {
 
             await Task.Delay(3000);
 
@@ -98,7 +98,7 @@ internal class MyWindow : Formium
             {
                 await Task.Delay(5000);
 
-                PostBrowserJavaScriptMessage("test", DateTime.Now);
+                PostJavaScriptMessage("test", DateTime.Now);
             }
 
         });

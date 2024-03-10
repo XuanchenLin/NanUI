@@ -18,7 +18,6 @@ public sealed class WinFormiumApp
     {
         if (Current != null)
         {
-            // WinFormiumApp 已经初始化，只允许运行一个实例。
             throw new ApplicationException(Messages.Exception_WinFormiumInitializationFailed);
         };
 

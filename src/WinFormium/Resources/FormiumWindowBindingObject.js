@@ -10,7 +10,7 @@ var formium;
     const readyCallbacks = [];
     const contextReadyCallbacks = [];
 
-    const messageDispatchers = {};
+    const messageHandlers = {};
 
 
     let lastWindowState = null;
@@ -41,8 +41,8 @@ var formium;
         dispatchMessage(message, args) {
             const messageName = message.toLowerCase();
 
-            if (messageDispatchers.hasOwnProperty(messageName)) {
-                messageDispatchers[messageName].apply(this.hostWindow, [args]);
+            if (messageHandlers.hasOwnProperty(messageName)) {
+                messageHandlers[messageName].apply(this.hostWindow, [args]);
             };
         };
 
@@ -351,31 +351,39 @@ var formium;
             return PostHostWindowMessage(message, args);
         };
 
-        addMessageDispatcher(message, dispatcherCallback) {
+        onMessage(message, callback) {
+            if (message === null || message === "" || typeof (message) !== 'string') throw "message is null or empty";
+
+            const messageName = message.toLowerCase();
+
+            messageHandlers[messageName] = callback;
+        }
+
+        addMessageHandler(message, callback) {
 
             if (message === null || message === "" || typeof (message) !== 'string') throw "message is null or empty";
 
             const messageName = message.toLowerCase();
 
-            messageDispatchers[messageName] = dispatcherCallback;
+            messageHandlers[messageName] = callback;
         };
 
-        removeMessageDispatcher(message) {
+        removeMessageHandler(message) {
             if (message === null || message === "" || typeof (message) !== 'string') throw "message is null or empty";
 
             const messageName = message.toLowerCase();
 
-            if (messageDispatchers.hasOwnProperty(messageName)) {
-                delete messageDispatchers[messageName];
+            if (messageHandlers.hasOwnProperty(messageName)) {
+                delete messageHandlers[messageName];
             };
         };
 
-        sendHostWindowRequest(message, args) {
+        sendRequest(message, args) {
             native function SendHostWindowMessageRequest();
             return SendHostWindowMessageRequest(message, args);
         };
 
-        sendHostWindowRequestAsync(message, args) {
+        sendRequestAsync(message, args) {
             native function SendHostWindowMessageRequestAsync();
             return SendHostWindowMessageRequestAsync(message, args);
         }

@@ -239,12 +239,12 @@ public partial class Formium
     /// <param name="message">
     /// The message name.
     /// </param>
-    /// <param name="dispatcher">
+    /// <param name="handler">
     /// The request handler. You should return a value immediately from <seealso cref="JavaScriptValue"/>.
     /// </param>
-    protected void RegisterJavaScriptSynchronousRequestDispatcher(string message, Func<JavaScriptValue, JavaScriptValue> dispatcher)
+    protected void RegisterJavaScriptRequestHandler(string message, Func<JavaScriptValue, JavaScriptValue> handler)
     {
-        JavaScriptBrowserRequestHandlers[message] = dispatcher;
+        JavaScriptBrowserRequestHandlers[message] = handler;
     }
 
     /// <summary>
@@ -253,12 +253,12 @@ public partial class Formium
     /// <param name="message">
     /// The message name.
     /// </param>
-    /// <param name="dispatcher">
+    /// <param name="handler">
     /// The request handler. You can use <seealso cref="JavaScriptPromise"/> to resolve or reject the request later.
     /// </param>
-    protected void RegisterJavaScriptAsynchronousRequestDispatcher(string message, Action<JavaScriptValue, JavaScriptPromise> dispatcher)
+    protected void RegisterJavaScriptRequestHandler(string message, Action<JavaScriptValue, JavaScriptPromise> handler)
     {
-        JavaScriptBrowserRequestAsyncHandlers[message] = dispatcher;
+        JavaScriptBrowserRequestAsyncHandlers[message] = handler;
     }
 
     /// <summary>
@@ -267,12 +267,12 @@ public partial class Formium
     /// <param name="message">
     /// The message name.
     /// </param>
-    /// <param name="dispatcher">
+    /// <param name="handler">
     /// The message handler. The <seealso cref="JavaScriptValue"/> is the data passed from the front end environment.
     /// </param>
-    protected void RegisterJavaScriptMessagDispatcher(string message, Action<JavaScriptValue> dispatcher)
+    protected void RegisterJavaScriptMessagHandler(string message, Action<JavaScriptValue> handler)
     {
-        JavaScriptBrowserMessageHandlers[message] = dispatcher;
+        JavaScriptBrowserMessageHandlers[message] = handler;
     }
 
     /// <summary>
@@ -281,7 +281,7 @@ public partial class Formium
     /// <param name="message">
     /// The message name.
     /// </param>
-    protected void RegisterJavaScriptMessagDispatcher(string message)
+    protected void RegisterJavaScriptMessagHandler(string message)
     {
         JavaScriptBrowserMessageHandlers.Remove(message);
     }

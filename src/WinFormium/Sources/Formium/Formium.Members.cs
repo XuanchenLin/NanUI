@@ -390,9 +390,13 @@ public partial class Formium : IDisposable, IWin32Window
         {
             InvokeOnUIThread(() => _splashScreen.Visible = false);
 
+
             if (HostWindow != null && HostWindow.IsWindowActivated)
             {
                 BrowserHost?.SetFocus(true);
+
+                ResizeWebView();
+
             }
         }
     }
@@ -449,6 +453,7 @@ public partial class Formium : IDisposable, IWin32Window
 
         WebView.InvokeOnActivated();
 
+
     }
 
     private void SetBrowserFocus()
@@ -484,6 +489,7 @@ public partial class Formium : IDisposable, IWin32Window
         BrowserHost?.SetFocus(false);
 
         WebView.InvokeOnDeactivate();
+
     }
     internal void OnEnabledChangedCore()
     {

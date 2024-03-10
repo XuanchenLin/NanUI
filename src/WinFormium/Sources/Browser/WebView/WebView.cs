@@ -97,6 +97,13 @@ internal partial class WebView
 
     public void ResizeWebView(int width, int height)
     {
+        WebViewHost.InvokeOnUIThread(() => {
+            ResizeWebViewCore(width, height);
+        });
+    }
+
+    public void ResizeWebViewCore(int width, int height)
+    {
         if (Browser != null && BrowserHandle == IntPtr.Zero)
         {
             WasResized();
@@ -117,6 +124,8 @@ internal partial class WebView
                 SetWindowPos(BrowserHandle, HWND.NULL, 0, 0, width, height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_SHOWWINDOW);
 
                 SetWindowLong(BrowserHandle, WindowLongFlags.GWL_STYLE, (IntPtr)(WindowStyles.WS_CHILD | WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_TABSTOP | WindowStyles.WS_VISIBLE));
+
+                //System.Diagnostics.Debug.WriteLine($"{width} {height}");
             }
             else
             {

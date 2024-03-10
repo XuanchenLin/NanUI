@@ -897,7 +897,7 @@ public abstract partial class Formium
     /// <param name="args">
     /// The <seealso cref="JavaScriptValue"/> passed to the front end environment. It can be null if no data is needed.
     /// </param>
-    public void PostBrowserJavaScriptMessage(string message, JavaScriptValue? args = null)
+    public void PostJavaScriptMessage(string message, JavaScriptValue? args = null)
     {
         var frame = Browser?.GetMainFrame();
 
