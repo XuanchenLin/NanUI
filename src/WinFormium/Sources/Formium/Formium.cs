@@ -508,6 +508,9 @@ public abstract partial class Formium
         });
     }
 
+    /// <summary>
+    /// Creates the form but does not show it yet.
+    /// </summary>
     public void ShowInvisible()
     {
         InvokeOnUIThread(() =>

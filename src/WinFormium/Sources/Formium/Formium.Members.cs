@@ -223,7 +223,6 @@ public partial class Formium : IDisposable, IWin32Window
     internal void HostWindowCreatedCore(Form target)
     {
 
-
         WindowHandle = target.Handle;
 
         OwnerHandle = target.Owner?.Handle ?? IntPtr.Zero;

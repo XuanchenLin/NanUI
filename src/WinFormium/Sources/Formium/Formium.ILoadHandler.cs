@@ -70,6 +70,8 @@ public partial class Formium : ILoadHandler
 
     private void OnPageLoadErrorCore(CefBrowser browser, CefFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
     {
+        if (frame.IsMain && errorCode == CefErrorCode.Aborted) return;
+
         if (frame.IsMain)
         {
             var args1 = new PageLoadErrorEventArgs(browser, frame, errorCode, errorText, failedUrl);
