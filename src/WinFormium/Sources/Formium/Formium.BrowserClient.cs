@@ -96,7 +96,7 @@ public partial class Formium
         WebViewHost.AudioHandler = AudioHandler;
         WebViewHost.ContextMenuHandler = ContextMenuHandler;
         WebViewHost.DialogHandler = DialogHandler;
-        WebViewHost.DownloadHandler = DownloadHandler;
+        WebViewHost.DownloadHandler = this;
         WebViewHost.FindHandler = FindHandler;
         WebViewHost.FrameHandler = FrameHandler;
         WebViewHost.JSDialogHandler = JSDialogHandler;

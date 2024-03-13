@@ -1,4 +1,4 @@
-﻿// THIS FILE IS PART OF WinFormium PROJECT
+// THIS FILE IS PART OF WinFormium PROJECT
 // THE WinFormium PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 using WinFormium.CefGlue.Interop;
 
-using Windows = WinFormium.CefGlue.Platform.Windows;
 
 namespace WinFormium.CefGlue;
 public sealed unsafe class CefMainArgs
@@ -41,7 +40,7 @@ public sealed unsafe class CefMainArgs
     private cef_main_args_t_windows* ToNativeWindows()
     {
         var ptr = cef_main_args_t_windows.Alloc();
-        ptr->instance = Windows.NativeMethods.GetModuleHandle(null);
+        ptr->instance = WinFormium.CefGlue.Platform.Windows.NativeMethods.GetModuleHandle(null);
         return ptr;
     }
 

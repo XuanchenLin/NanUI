@@ -32,10 +32,10 @@ In the above example, the `formium` object is a global object and you can access
 |onContextReady(callback)| The callback function is triggered when the context of the current form is ready |
 |onDocumentReady(callback)| The callback function is triggered when the document of the current form is ready |
 |postMessage(message,data)| The current host form sends a message |
-|addMessageDispatcher(name,handler)| Add a message handler |
-|removeMessageDispatcher(name)| Remove a message processor |
-|sendHostWindowRequest(string,data)| Send a message request to the current host window and get the return value immediately |
-|sendHostWindowRequestAsync(string,data)| Send a message request to the current host window and obtain the return value asynchronously |
+|addMessageHandler(name,handler)| Add a message handler |
+|removeMessageHandler(name)| Remove a message processor |
+|sendRequest(string,data)| Send a message request to the current host window and get the return value immediately |
+|sendRequestAsync(string,data)| Send a message request to the current host window and obtain the return value asynchronously |
 
 Multiple methods are provided in the `formium` object to communicate with the host form. Please refer to the [Communication](#communication) section later in the document.
 

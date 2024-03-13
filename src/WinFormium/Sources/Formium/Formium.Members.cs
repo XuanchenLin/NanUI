@@ -378,9 +378,12 @@ public partial class Formium : IDisposable, IWin32Window
     {
         if (EnableSplashScreen && _splashScreen != null)
         {
-            _splashScreen.Visible = true;
+            InvokeOnUIThread(() => {
+                _splashScreen.Visible = true;
 
-            _splashScreen.BringToFront();
+                _splashScreen.BringToFront();
+            });
+
         }
     }
 
@@ -388,16 +391,19 @@ public partial class Formium : IDisposable, IWin32Window
     {
         if (EnableSplashScreen && _splashScreen != null)
         {
-            InvokeOnUIThread(() => _splashScreen.Visible = false);
+            InvokeOnUIThread(() => {
 
+                _splashScreen.Visible = false;
 
-            if (HostWindow != null && HostWindow.IsWindowActivated)
-            {
-                BrowserHost?.SetFocus(true);
+                if (HostWindow != null && HostWindow.IsWindowActivated)
+                {
+                    BrowserHost?.SetFocus(true);
 
-                ResizeWebView();
+                    ResizeWebView();
 
-            }
+                }
+            });
+
         }
     }
     protected virtual void PaintSplashScreen(PaintEventArgs e)

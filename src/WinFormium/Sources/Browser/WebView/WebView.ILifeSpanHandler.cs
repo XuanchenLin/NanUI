@@ -97,9 +97,12 @@ internal partial class WebView : ILifeSpanHandler
 
     private void OnAfterCreated(CefBrowser browser)
     {
+
         Browser = browser;
 
         if (BrowserHost == null) throw new NullReferenceException("BrowserHost is null");
+
+        IsBrowserInitialized = true;
 
         MessageDispatcher.RegisterMessageHandler(WinFormiumMessage.WFM_ON_CONTEXT_CREATED, args => ContextCreated(args.Browser, args.Frame));
 
@@ -120,7 +123,6 @@ internal partial class WebView : ILifeSpanHandler
 
 
 
-        IsBrowserInitialized = true;
 
     }
 

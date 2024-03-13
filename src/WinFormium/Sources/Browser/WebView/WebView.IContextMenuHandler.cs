@@ -17,7 +17,7 @@ internal partial class WebView : IContextMenuHandler
         {
             if (_contextMenu.InvokeRequired)
             {
-                _contextMenu?.Invoke(new MethodInvoker(() => _contextMenu.Close(ToolStripDropDownCloseReason.AppClicked)));
+                _contextMenu?.Invoke(new System.Windows.Forms.MethodInvoker(() => _contextMenu.Close(ToolStripDropDownCloseReason.AppClicked)));
             }
             else
             {

@@ -634,7 +634,7 @@ public abstract partial class Formium
 
         if (HostWindow!.InvokeRequired)
         {
-            HostWindow!.Invoke(new MethodInvoker(action));
+            HostWindow!.Invoke(new System.Windows.Forms.MethodInvoker(action));
         }
         else
         {
