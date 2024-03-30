@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace WinFormium.Browser;
-public sealed class BridgeMessage
+internal sealed class BridgeMessage
 {
     public static BridgeMessage? FromJson(string json)
     {

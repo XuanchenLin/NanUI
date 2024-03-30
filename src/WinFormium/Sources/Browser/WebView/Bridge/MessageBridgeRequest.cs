@@ -4,7 +4,7 @@
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
 namespace WinFormium.Browser;
-public sealed class MessageBridgeRequest
+internal sealed class MessageBridgeRequest
 {
     public required string Name { get; set; }
     public required bool IsRemote { get; set; } = false;

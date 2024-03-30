@@ -4,7 +4,7 @@
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
 namespace WinFormium.Browser;
-public sealed class MessageBridgeResponse
+internal sealed class MessageBridgeResponse
 {
 
     //public MessageBridgeResponse(bool isSuccess, string? data = null, string? exception = null)

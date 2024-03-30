@@ -392,7 +392,10 @@ public partial class Formium : IDisposable, IWin32Window
         {
             InvokeOnUIThread(() => {
 
+                _splashScreen.SendToBack();
                 _splashScreen.Visible = false;
+
+                
 
                 if (HostWindow != null && HostWindow.IsWindowActivated)
                 {

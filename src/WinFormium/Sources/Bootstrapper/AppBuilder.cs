@@ -92,6 +92,16 @@ public sealed class AppBuilder
         return this;
     }
 
+    public AppBuilder ClearCache()
+    {
+        Configure(@this =>
+        {
+            @this.Properties.SetValue(nameof(ClearCache), true);
+        });
+
+        return this;
+    }
+
     public AppBuilder UseSingleApplicationInstanceMode(Action<OnApplicationInstanceRunningHandler>? onApplicationInstanceRunning = null)
     {
         Configure(@this =>

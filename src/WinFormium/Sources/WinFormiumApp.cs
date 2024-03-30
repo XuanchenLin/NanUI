@@ -68,7 +68,7 @@ public sealed class WinFormiumApp
 
         ProcessType = processType;
         Architecture = architecture;
-        AppName = appName ?? Application.ProductName;
+        AppName = appName ?? Application.ProductName ?? "WinFormium App";
 
         AppDataDirectory = DefaultAppDataDirectory;
 
@@ -170,6 +170,23 @@ public sealed class WinFormiumApp
             Application.CurrentCulture = CurrentCulture;
             CultureInfo.DefaultThreadCurrentCulture = CurrentCulture;
             CultureInfo.DefaultThreadCurrentUICulture = CurrentCulture;
+
+            var shouldClearCache = Properties.GetValue<bool?>(nameof(AppBuilder.ClearCache)) ?? false;
+
+            if (shouldClearCache)
+            {
+                try
+                {
+                    if (Directory.Exists(AppDataDirectory))
+                    {
+                        Directory.Delete(AppDataDirectory,true);
+                    }
+                }
+                catch(IOException)
+                {
+
+                }
+            }
 
             CefRuntime.Load(_env.LibCefPath);
 

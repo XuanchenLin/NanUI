@@ -4,7 +4,7 @@
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
 namespace WinFormium.Browser;
-public class ProcessMessageDispatcher
+internal class ProcessMessageDispatcher
 {
     private readonly Dictionary<string, Action<ProcessMessageReceivedEventArgs>> _messageHandlers = new();
 
