@@ -192,9 +192,12 @@ public class JavaScriptValue : IDisposable
     {
         if (ValueType == JavaScriptValueType.Number)
         {
-            var value = Math.Ceiling((double?)RawValue ?? 0);
+            if(RawValue is double || RawValue is float || RawValue is decimal)
+            {
+                return (double)Convert.ChangeType(RawValue, TypeCode.Double);
+            }
 
-            return (double)Convert.ChangeType(value, TypeCode.Double);
+            return (double)(Convert.ChangeType(RawValue, TypeCode.Int32));
         }
 
         if (ValueType == JavaScriptValueType.Bool)
