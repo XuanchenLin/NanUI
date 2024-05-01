@@ -15,11 +15,22 @@ public class JavaScriptValue : IDisposable
 
     internal static void Release()
     {
-        for(var i=0;i< JAVASCRIPT_VALUE_COLLECTION.Count; i++)
+        for (var i = 0; i < JAVASCRIPT_VALUE_COLLECTION.Count; i++)
         {
             JAVASCRIPT_VALUE_COLLECTION.ElementAt(i)?.Dispose();
         }
     }
+
+    internal static void Release(CefBrowser browser)
+    {
+        var items = JAVASCRIPT_VALUE_COLLECTION.Where(x => x.GetAssociatedFrame()?.Browser.Identifier == browser.Identifier).ToArray();
+
+        foreach (JavaScriptValue item in items)
+        {
+            item.Dispose();
+        }
+    }
+
 
     internal static void Release(CefFrame frame)
     {

@@ -263,7 +263,7 @@ internal partial class JavaScriptEngineBridge
                 tcs?.SetCanceled();
             }
 
-            JavaScriptValue.Release();
+            JavaScriptValue.Release(browser);
 
         }
         catch (Exception ex)
