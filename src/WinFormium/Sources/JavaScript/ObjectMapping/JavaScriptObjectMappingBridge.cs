@@ -76,6 +76,11 @@ internal partial class JavaScriptObjectMappingBridge : MessageBridgeHandler
             return false;
         }
 
+        if(Objects.Keys.Any(x=>x.frame.Identifier == frame.Identifier && x.name == name))
+        {
+            return false;
+        }
+
         jsObject.AssociateToFrame(frame);
 
         Objects.Add((frame, name), jsObject);

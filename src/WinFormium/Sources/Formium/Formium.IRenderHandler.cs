@@ -243,9 +243,12 @@ public partial class Formium : IRenderHandler
 
         var dataObj = new DataObject();
 
-        dataObj.SetText(dragData.FragmentText ?? "", TextDataFormat.Text);
-        dataObj.SetText(dragData.FragmentText ?? "", TextDataFormat.UnicodeText);
-        dataObj.SetText(dragData.FragmentHtml ?? "", TextDataFormat.Html);
+        
+        if(!string.IsNullOrEmpty(dragData.FragmentText))
+            dataObj.SetText(dragData.FragmentText, TextDataFormat.Text);
+        else if(!string.IsNullOrEmpty(dragData.FragmentHtml))
+            dataObj.SetText(dragData.FragmentHtml, TextDataFormat.Html);
+
 
         var result = HostWindow.DoDragDrop(dataObj, GetDragDropEffects(allowedOps));
 
