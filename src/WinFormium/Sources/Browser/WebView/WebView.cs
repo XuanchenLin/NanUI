@@ -3,6 +3,8 @@
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
+using System.Security.Policy;
+
 using static Vanara.PInvoke.User32;
 
 namespace WinFormium.Browser;
@@ -37,7 +39,17 @@ internal partial class WebView
     public string Url
     {
         get => Browser?.GetMainFrame()?.Url ?? _url;
-        set => LoadUrl(value);
+        set {
+            _url = $"{value}".Trim();
+
+            TaskAction.Run(() =>
+            {
+                if (IsBrowserInitialized)
+                {
+                    Browser?.GetMainFrame()?.LoadUrl(_url);
+                }
+            });
+        }
     }
 
     public WebView(IWebViewHost host)
