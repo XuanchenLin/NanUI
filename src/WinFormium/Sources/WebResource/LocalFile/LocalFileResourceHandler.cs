@@ -61,7 +61,7 @@ internal class LocalFileResourceHandler : ResourceHandler
 
         if (File.Exists(physicalFilePath))
         {
-            response.ContentBody = File.OpenRead(physicalFilePath);
+            response.ContentBody = File.Open(physicalFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite); //File.OpenRead(physicalFilePath);
             response.ContentType = CefRuntime.GetMimeType(Path.GetExtension(physicalFilePath).Trim('.')) ?? "text/plain";
         }
         else

@@ -154,13 +154,14 @@ internal static class SystemDpiManager
     public static int GetDpiForWindow(HWND handle)
     {
 
+
         if (IsPerMonitorV2Awareness)
         {
             var hMonitor = MonitorFromWindow(handle, MonitorFlags.MONITOR_DEFAULTTONEAREST);
 
-            GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out _);
+            GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_DEFAULT, out var dpiX, out var dpiY);
 
-            return (int)dpiX;
+            return (int)dpiY;
         }
 
         return DeviceDpi;

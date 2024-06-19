@@ -7,7 +7,7 @@ namespace WinFormium.JavaScript;
 public static class JavaScriptWindowBindingObjectRegister
 {
 
-    public static AppBuilder RegsiterWindowBindingObject<T>(this AppBuilder appBuilder, Func<IServiceProvider, T> registerDelegate) where T : JavaScriptWindowBindingObject
+    public static AppBuilder RegisterWindowBindingObject<T>(this AppBuilder appBuilder, Func<IServiceProvider, T> registerDelegate) where T : JavaScriptWindowBindingObject
     {
 
         appBuilder.Services.AddScoped<JavaScriptWindowBindingObject>(registerDelegate);
@@ -15,7 +15,7 @@ public static class JavaScriptWindowBindingObjectRegister
         return appBuilder;
     }
 
-    public static AppBuilder RegsiterWindowBindingObject<T>(this AppBuilder appBuilder) where T : JavaScriptWindowBindingObject
+    public static AppBuilder RegisterWindowBindingObject<T>(this AppBuilder appBuilder) where T : JavaScriptWindowBindingObject
     {
         if(appBuilder.ProcessType == ProcessType.Main)
         {

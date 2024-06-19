@@ -48,7 +48,7 @@ public class WindowDpiAdapter : NativeWindow
             }
         }
 
-        
+
 
         base.WndProc(ref m);
     }
@@ -78,17 +78,27 @@ public class WindowDpiAdapter : NativeWindow
         }
     }
 
+    bool _isPerformDpiChanged = false;
+
     private bool WmDpiChanged(ref Message m)
     {
+        if (_isPerformDpiChanged) return false;
+
+        _isPerformDpiChanged = true;
+
         var oldDeviceDpi = _deviceDpi;
         var newDeviceDpi = Macros.SignedHIWORD(m.WParam);
         var suggestedRect = Marshal.PtrToStructure<RECT>(m.LParam);
+
+        
 
         if (m.HWnd == (nint)0) return false;
 
         var hWnd = m.HWnd;
 
         ScaleFactor = SystemDpiManager.GetScaleFactorForWindow(hWnd);
+
+
 
         _deviceDpi = newDeviceDpi;
 
@@ -97,10 +107,26 @@ public class WindowDpiAdapter : NativeWindow
         _targetForm.MinimumSize = Size.Empty;
         _targetForm.MaximumSize = Size.Empty;
 
+        var scaleFactor = (float)newDeviceDpi / oldDeviceDpi;
+
+        GetWindowRect(hWnd, out var lpCurrentRect);
+
+//#if NET8_0_OR_GREATER
+
+//        if (scaleFactor != 1.0f && lpCurrentRect == suggestedRect)
+//        {
+//            suggestedRect.Size = new Size((int)(suggestedRect.Width * scaleFactor), (int)(suggestedRect.Height * scaleFactor));
+//        }
+
+//        System.Diagnostics.Debug.WriteLine($"{scaleFactor} {lpCurrentRect.Location} {lpCurrentRect.Size} -> {suggestedRect.Location} {suggestedRect.Size}");
+
+//#endif
+
+
+
         SetWindowPos(hWnd, HWND.NULL, suggestedRect.left, suggestedRect.top, suggestedRect.Width, suggestedRect.Height, SetWindowPosFlags.SWP_NOZORDER | SetWindowPosFlags.SWP_NOACTIVATE);
 
 
-        var scaleFactor = (float)newDeviceDpi / oldDeviceDpi;
 
         _targetForm.MinimumSize = SystemDpiManager.CalcScaledSize(minSizeState, new SizeF(scaleFactor, scaleFactor));
         _targetForm.MaximumSize = SystemDpiManager.CalcScaledSize(maxSizeState, new SizeF(scaleFactor, scaleFactor));
@@ -115,6 +141,7 @@ public class WindowDpiAdapter : NativeWindow
 
         WindowDpiChanged?.Invoke(this, new WindowDpiChangedEventArgs(oldDeviceDpi, newDeviceDpi));
 
+        _isPerformDpiChanged = false;
         return true;
     }
 
