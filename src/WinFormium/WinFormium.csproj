@@ -46,7 +46,7 @@
         <PackageReference Include="SharpGen.Runtime.COM" Version="2.0.0-beta.13" />
         <PackageReference Include="SkiaSharp" Version="2.88.6" />
         <PackageReference Include="System.Net.Http" Version="4.3.4" />
-        <PackageReference Include="System.Text.Json" Version="7.0.3" />
+        <PackageReference Include="System.Text.Json" Version="8.0.4" />
         <PackageReference Include="Vanara.PInvoke.SHCore" Version="3.4.16" />
         <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.16" />
         <PackageReference Include="Vanara.PInvoke.Gdi32" Version="3.4.16" />
