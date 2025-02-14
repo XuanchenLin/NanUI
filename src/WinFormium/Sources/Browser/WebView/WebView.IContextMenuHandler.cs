@@ -301,10 +301,12 @@ internal partial class WebView : IContextMenuHandler
 
         var scaleFactor = WebViewHost.GetScaleFactor();
 
+        if (scaleFactor > 1.25f) scaleFactor = 1.25f;
+
         var contextMenu = new AnimatedContextMenuStrip()
         {
             Renderer = new ContextMenuStripRenderer(ColorMode == WebViewColorMode.Dark),
-            Font = new Font("Segoe UI", 10.25f * scaleFactor, FontStyle.Regular, GraphicsUnit.Point, 0),
+            //Font = new Font("Microsoft Yahei", 10.25f, FontStyle.Regular, GraphicsUnit.Point, 0),
         };
 
         ToolStripDropDownClosedEventHandler? closeHandler = null;

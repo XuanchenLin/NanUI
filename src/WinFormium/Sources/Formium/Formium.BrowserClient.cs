@@ -9,100 +9,112 @@ public partial class Formium
     /// <summary>
     /// Return the handler for audio rendering events.
     /// </summary>
-    public AudioHandler? AudioHandler { get; set; }
+    public IAudioHandler? AudioHandler
+    {
+        get => WebViewHost.AudioHandler;
+        set
+        {
+            WebViewHost.AudioHandler = value;
+        }
+    }
 
     /// <summary>
     /// Return the handler for dialogs.
     /// </summary>
-    public DialogHandler? DialogHandler { get; set; }
+    public IDialogHandler? DialogHandler
+    {
+        get => WebViewHost.DialogHandler;
+        set => WebViewHost.DialogHandler = value;
+    }
+
 
     /// <summary>
     /// Return the handler for browser display state events.
     /// </summary>
-    public DisplayHandler? DisplayHandler { get; set; } // <--- this is the one of internal handlers
+    public IDisplayHandler? DisplayHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for download events.
     /// </summary>
-    public DownloadHandler? DownloadHandler { get; set; }
+    public IDownloadHandler? DownloadHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for drag events.
     /// </summary>
-    public DragHandler? DragHandler { get; set; } // <--- this is the one of internal handlers
+    public IDragHandler? DragHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for find result events.
     /// </summary>
-    public FindHandler? FindHandler { get; set; }
+    public IFindHandler? FindHandler { get => WebViewHost.FindHandler; set => WebViewHost.FindHandler = value; }
 
     /// <summary>
     /// Return the handler for focus events.
     /// </summary>
-    public FocusHandler? FocusHandler { get; set; } // <--- this is the one of internal handlers
+    public IFocusHandler? FocusHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for events related to CefFrame lifespan. This method will be called once during CefBrowser creation and the result will be cached for performance reasons.
     /// </summary>
-    public FrameHandler? FrameHandler { get; set; }
+    public IFrameHandler? FrameHandler { get => WebViewHost.FrameHandler; set => WebViewHost.FrameHandler = value; }
 
     /// <summary>
     /// Return the handler for JavaScript dialogs.
     /// </summary>
-    public JSDialogHandler? JSDialogHandler { get; set; }
+    public IJSDialogHandler? JSDialogHandler { get => WebViewHost.JSDialogHandler; set => WebViewHost.JSDialogHandler = value; }
 
     /// <summary>
     /// Return the handler for keyboard events.
     /// </summary>
-    public KeyboardHandler? KeyboardHandler { get; set; } // <--- this is the one of internal handlers
+    public IKeyboardHandler? KeyboardHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for browser life span events.
     /// </summary>
-    public LifeSpanHandler? LifeSpanHandler { get; set; } // <--- this is the one of internal handlers
+    public ILifeSpanHandler? LifeSpanHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for browser load status events.
     /// </summary>
-    public LoadHandler? LoadHandler { get; set; } // <--- this is the one of internal handlers
+    public ILoadHandler? LoadHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for printing on Linux.
     /// </summary>
-    public PrintHandler? PrintHandler { get; set; }
+    public IPrintHandler? PrintHandler { get => WebViewHost.PrintHandler; set => WebViewHost.PrintHandler = value; }
 
     /// <summary>
     /// Return the handler for off-screen rendering events.
     /// </summary>
-    public RenderHandler? RenderHandler { get; set; }
+    public IRenderHandler? RenderHandler { get; set; }
 
     /// <summary>
     /// Return the handler for browser request events.
     /// </summary>
-    public RequestHandler? RequestHandler { get; set; } // <--- this is the one of internal handlers
+    public IRequestHandler? RequestHandler { get; set; } // <--- this is the one of internal handlers
 
     /// <summary>
     /// Return the handler for permission requests.
     /// </summary>
-    public PermissionHandler? PermissionHandler { get; set; }
+    public IPermissionHandler? PermissionHandler { get => WebViewHost.PermissionHandler; set => WebViewHost.PermissionHandler = value; }
 
     /// <summary>
     /// Return the handler for context menus. If no handler is provided the default implementation will be used.
     /// </summary>
-    public ContextMenuHandler? ContextMenuHandler { get; set; } // <--- this is the one of internal handlers
+    public IContextMenuHandler? ContextMenuHandler { get; set; } // <--- this is the one of internal handlers
 
     internal void OnBrowserClientCreatedCore()
     {
         WebViewHost.AudioHandler = AudioHandler;
-        WebViewHost.ContextMenuHandler = ContextMenuHandler;
         WebViewHost.DialogHandler = DialogHandler;
-        WebViewHost.DownloadHandler = this;
         WebViewHost.FindHandler = FindHandler;
         WebViewHost.FrameHandler = FrameHandler;
         WebViewHost.JSDialogHandler = JSDialogHandler;
         WebViewHost.PrintHandler = PrintHandler;
         WebViewHost.PermissionHandler = PermissionHandler;
 
+        WebViewHost.ContextMenuHandler = ContextMenuHandler;
+        WebViewHost.DownloadHandler = this;
         WebViewHost.LifeSpanHandler = this;
         WebViewHost.LoadHandler = this;
         WebViewHost.RequestHandler = this;

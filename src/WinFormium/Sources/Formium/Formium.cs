@@ -30,7 +30,7 @@ public abstract partial class Formium
     public bool AllowFullScreen { get => CurrentFormStyle.AllowFullScreen; set => CurrentFormStyle.AllowFullScreen = value; }
 
 
-    public bool EnableSplashScreen { get; set; } = true;
+    public bool EnableSplashScreen { get; set;} = true;
 
     /// <summary>
     /// Gets or sets the size of the form.

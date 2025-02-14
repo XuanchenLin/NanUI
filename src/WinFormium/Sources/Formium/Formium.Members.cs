@@ -229,13 +229,13 @@ public partial class Formium : IDisposable, IWin32Window
 
         System.Diagnostics.Debug.WriteLine("[LIFECYCLE] -> WindowCreated");
 
+        ModifySystemMenu();
+
         _splashScreen = new SplashScreen(target, PaintSplashScreen);
 
         target.Controls.Add(_splashScreen);
 
         _splashScreen.Visible = EnableSplashScreen;
-
-        ModifySystemMenu();
 
         ShowSplash();
 
