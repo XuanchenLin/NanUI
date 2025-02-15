@@ -395,7 +395,7 @@ public partial class Formium : IDisposable, IWin32Window
                 _splashScreen.SendToBack();
                 _splashScreen.Visible = false;
 
-                
+
 
                 if (HostWindow != null && HostWindow.IsWindowActivated)
                 {
@@ -934,7 +934,7 @@ public partial class Formium : IDisposable, IWin32Window
         {
             ReleaseCapture();
 
-            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)mode, Macros.MAKELPARAM((ushort)point.X, (ushort)point.Y));
+            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)mode, (IntPtr)((point.X & 0xFFFF) | (point.Y << 16)));
 
             return true;
         }
@@ -942,7 +942,7 @@ public partial class Formium : IDisposable, IWin32Window
         {
             ReleaseCapture();
 
-            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)HitTestValues.HTCAPTION, Macros.MAKELPARAM((ushort)point.X, (ushort)point.Y));
+            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)HitTestValues.HTCAPTION, (IntPtr)((point.X & 0xFFFF) | (point.Y << 16)));
 
             return true;
         }
