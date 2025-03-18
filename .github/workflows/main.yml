@@ -14,7 +14,7 @@ jobs:
       - name: Install .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "7.0.x"
+          dotnet-version: "8.0.x"
 
       - name: Get .NET information
         run: dotnet --info
@@ -35,20 +35,20 @@ jobs:
         id: clean_dotnet_cache
         shell: pwsh
         run: |
-          dotnet clean .\WinFormiumProject-EN.sln
+          dotnet clean .\"NanUI Project.sln"
           dotnet nuget locals all --clear
 
       - name: Install NuGet packages
         id: install_nuget_packages
         shell: pwsh
         run: |
-          nuget restore .\WinFormiumProject-EN.sln
+          nuget restore .\"NanUI Project.sln"
 
       - name: Build solution
         id: build_solution
         shell: pwsh
         run: |
-          msbuild .\WinFormiumProject-EN.sln -property:Configuration=Release
+          msbuild .\"NanUI Project.sln" -property:Configuration=Release
 
       - name: Install Nuget
         run: |
