@@ -35,20 +35,20 @@ jobs:
         id: clean_dotnet_cache
         shell: pwsh
         run: |
-          dotnet clean .\NanUI Project.sln
+          dotnet clean .\"NanUI Project.sln"
           dotnet nuget locals all --clear
 
       - name: Install NuGet packages
         id: install_nuget_packages
         shell: pwsh
         run: |
-          nuget restore .\NanUI Project.sln
+          nuget restore .\"NanUI Project.sln"
 
       - name: Build solution
         id: build_solution
         shell: pwsh
         run: |
-          msbuild .\NanUI Project.sln -property:Configuration=Release
+          msbuild .\"NanUI Project.sln" -property:Configuration=Release
 
       - name: Install Nuget
         run: |
