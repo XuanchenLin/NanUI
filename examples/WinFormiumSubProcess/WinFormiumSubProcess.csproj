@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\WinFormium\NetDimension.NanUI.csproj" />
+      <ProjectReference Include="..\..\src\NetDimension.NanUI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
