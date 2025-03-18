@@ -1,12 +1,17 @@
+// THIS FILE IS PART OF NanUI PROJECT
+// THE NanUI PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.
+// COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
+// GITHUB: https://github.com/XuanchenLin/NanUI
+
 using Microsoft.Extensions.DependencyInjection;
 
-using WinFormium;
-using WinFormium.WebResource;
-using WinFormium.JavaScript;
+using NetDimension.NanUI;
+using NetDimension.NanUI.WebResource;
+using NetDimension.NanUI.JavaScript;
 
 
 namespace MinimalWinFormiumApp;
-internal class MyApp : WinFormiumStartup
+internal class MyApp : NanUIAppStartup
 {
     protected override MainWindowCreationAction? UseMainWindow(MainWindowOptions opts)
     {
@@ -18,7 +23,7 @@ internal class MyApp : WinFormiumStartup
         //return opts.UseMainForm<Form1>();
     }
 
-    protected override void WinFormiumMain(string[] args)
+    protected override void ProgramMain(string[] args)
     {
         // 现在把 Main 函数搬到这里来。避免用户搞不清主进程和渲染进程的区别，在 Program.cs 里面写太多代码导致子进程内部出现问题。
         // Now move the Main function here. To avoid users not knowing the difference between the main process and the rendering process, write too much code in Program.cs, which causes problems in the sub-process.

@@ -36,7 +36,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\WinFormium\WinFormium.csproj" />
+      <PackageReference Include="NetDimension.NanUI.Runtime" Version="109.0.5414.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\WinFormium\NetDimension.NanUI.csproj" />
     </ItemGroup>
 
     <ItemGroup>

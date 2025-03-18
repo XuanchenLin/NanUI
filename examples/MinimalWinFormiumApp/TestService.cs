@@ -1,5 +1,5 @@
-// THIS FILE IS PART OF WinFormium PROJECT
-// THE WinFormium PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.
+// THIS FILE IS PART OF NanUI PROJECT
+// THE NanUI PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using WinFormium.WebResource;
+using NetDimension.NanUI.WebResource;
 
 namespace MinimalWinFormiumApp;
 

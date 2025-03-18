@@ -1,6 +1,11 @@
-using WinFormium;
-using WinFormium.JavaScript;
-using WinFormium.WebResource;
+// THIS FILE IS PART OF NanUI PROJECT
+// THE NanUI PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.
+// COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
+// GITHUB: https://github.com/XuanchenLin/NanUI
+
+using NetDimension.NanUI;
+using NetDimension.NanUI.JavaScript;
+using NetDimension.NanUI.WebResource;
 
 namespace MinimalWinFormiumApp;
 
@@ -13,12 +18,12 @@ internal static class Program
     static void Main(string[] args)
     {
 
-        var builder = WinFormiumApp.CreateBuilder();
+        var builder = NanUIApp.CreateBuilder();
 
         var app = builder
             // 使用WinFormiumStartup的子类来启动应用程序，这个子类必须继承自WinFormiumStartup类，这个类提供了一些方法来配置应用程序。
             // Use a subclass of WinFormiumStartup to start the application. This subclass must inherit from the WinFormiumStartup class, which provides some methods to configure the application.
-            .UseWinFormiumApp<MyApp>()
+            .UseNanUIApp<MyApp>()
             // 启用内部浏览器，这个版本默认外部Url打开方式是调用系统默认浏览器，需要手动开启内部浏览器后才能使用内部浏览器打开外部Url。
             // Enable the internal browser. In this version, the default external URL opening method is to call the system default browser. You need to manually enable the internal browser before you can use the internal browser to open the external URL.
             .UseEmbeddedBrowser()

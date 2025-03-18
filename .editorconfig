@@ -1,4 +1,4 @@
-# WinFormium
+﻿# WinFormium
 
 # 如果要从更高级别的目录继承 .editorconfig 设置，请删除以下行
 root = true
@@ -24,7 +24,7 @@ trim_trailing_whitespace = true
 # 组织 Using
 dotnet_separate_import_directive_groups = true
 dotnet_sort_system_directives_first = true
-file_header_template = THIS FILE IS PART OF WinFormium PROJECT\nTHE WinFormium PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.\nCOPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.\nGITHUB: https://github.com/XuanchenLin/NanUI
+file_header_template = THIS FILE IS PART OF NanUI PROJECT\nTHE NanUI PROJECT IS AN OPENSOURCE LIBRARY LICENSED UNDER THE MIT License.\nCOPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.\nGITHUB: https://github.com/XuanchenLin/NanUI
 
 # this. 和 Me. 首选项
 dotnet_style_qualification_for_event = false
@@ -258,6 +258,9 @@ dotnet_naming_style.c___like_const.required_prefix =
 dotnet_naming_style.c___like_const.required_suffix =
 dotnet_naming_style.c___like_const.word_separator = _
 dotnet_naming_style.c___like_const.capitalization = all_upper
+csharp_prefer_system_threading_lock = true:suggestion
+csharp_prefer_static_anonymous_function = true:suggestion
+csharp_style_prefer_unbound_generic_type_in_nameof = true:suggestion
 
 [*.{cs,vb}]
 end_of_line = crlf
@@ -294,3 +297,4 @@ dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
 dotnet_style_predefined_type_for_member_access = true:silent
+dotnet_style_prefer_collection_expression = when_types_loosely_match:suggestion

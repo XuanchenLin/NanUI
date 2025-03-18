@@ -1,26 +1,25 @@
-<p align="center">
+﻿<p align="center">
     <img src="./artworks/WinFormiumLogo.png" width="144" />
 </p>
-<h1 align="center">The WinFormium Project<br />(A.K.A. NanUI)</h1>
+<h1 align="center">The NanUI Project</h1>
 <p align="center"><strong>Easily build powerful WinForm applications with HTML, CSS and JavaScript.</strong></p>
 
-# WinFormium
+# NanUI
 
 点击[[此处]](https://gitee.com/dotNetChina/NanUI/)切换到**简体中文**仓库首页。
 
-![GitHub](https://img.shields.io/github/license/XuanchenLin/WinFormium)
+![GitHub](https://img.shields.io/github/license/XuanchenLin/NanUI)
 ![Nuget](https://img.shields.io/nuget/v/NetDimension.NanUI)
 ![Nuget](https://img.shields.io/nuget/dt/NetDimension.NanUI)
 
-NanUI has always been in the testing stage. After 9 years, it is time to release the official v1.0 version of NanUI! When version 1.0 is released, the new name of the project will be officially launched - **WinFormium**
 
 ## ⭐ About
 
-WinFormium is an open source framework on .NET platform for creating user interface for WinForm Applications using HTML5, CSS3, and JavaScript. It is based on the [Xilium.CefGlue](https://bitbucket.org/xilium/xilium.cefglue/wiki/Home) project, which is a .NET wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef).
+NanUI is an open source framework on .NET platform for creating user interface for WinForm Applications using HTML5, CSS3, and JavaScript. It is based on the [Xilium.CefGlue](https://bitbucket.org/xilium/xilium.cefglue/wiki/Home) project, which is a .NET wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef).
 
-If you are looking for a framework for creating a WinForm application with a modern user interface, WinFormium is a good choice. you can use HTML, CSS, and JavaScript to create a user interface, and use C# to write the business logic of the application.
+If you are looking for a framework for creating a WinForm application with a modern user interface, NanUI is a good choice. you can use HTML, CSS, and JavaScript to create a user interface, and use C# to write the business logic of the application.
 
-**Please give WinFormium project a star⭐ if you like it.**
+**Please give NanUI project a star⭐ if you like it.**
 
 If this project helps, please consider funding it.
 
@@ -46,25 +45,25 @@ The minimum supported Windows is Windows 7 Service Pack 1, and some features (su
 
 ## 🧰 Getting Started
 
-Create a simple WinFormium Application by following the steps below:
+Create a simple NanUI Application by following the steps below:
 
 **1. Create a WinForm Application by default template.**
 
-**2. Install WinFormium NuGet Package**
+**2. Install NanUI NuGet Package**
 
-Open the NuGet Package Manager to install or use NuGet Package Manager Console, and run the following command to install WinFormium nuget package:
+Open the NuGet Package Manager to install or use NuGet Package Manager Console, and run the following command to install NanUI nuget package:
 
 ```powershell
 PM> Install-Package NetDimension.NanUI
 ```
 
-Install the dependencies of Chromium Embedded Framework that WinFormium depends on:
+Install the dependencies of Chromium Embedded Framework that NanUI depends on:
 
 ```powershell
 PM> Install-Package NetDimension.NanUI.Runtime
 ```
 
-**3. A basic WinFormium application requires the following code:**
+**3. A basic NanUI application requires the following code:**
 
 Modify the code in the **Program.cs** file as follows:
 
@@ -158,14 +157,14 @@ For more info please see - [Documentation](docs/README.md)
 
 ## 🔗 Third-Party References & Tools
 
-- CEF - [https://bitbucket.org/chromiumembedded/cef]()
-- Xilium.CefGlue - [https://gitlab.com/xiliumhq/chromiumembedded/cefglue/]()
-- Vanara.Library - [https://github.com/dahall/Vanara/]()
-- Vortice.Windows - [https://github.com/amerkoleci/Vortice.Windows]()
-- SkiaSharp - [https://github.com/mono/SkiaSharp]()
-- React - [https://github.com/facebook/react]()
-- React-Router - [https://github.com/remix-run/react-router]()
-- Vite - [https://github.com/vitejs/vite]()
+- CEF - [https://bitbucket.org/chromiumembedded/cef](https://bitbucket.org/chromiumembedded/cef)
+- Xilium.CefGlue - [https://gitlab.com/xiliumhq/chromiumembedded/cefglue/](https://gitlab.com/xiliumhq/chromiumembedded/cefglue)
+- Vanara.Library - [https://github.com/dahall/Vanara](https://github.com/dahall/Vanara)
+- Vortice.Windows - [https://github.com/amerkoleci/Vortice.Windows](https://github.com/amerkoleci/Vortice.Windows)
+- SkiaSharp - [https://github.com/mono/SkiaSharp](https://github.com/mono/SkiaSharp)
+- React - [https://github.com/facebook/react](https://github.com/facebook/react)
+- React-Router - [https://github.com/remix-run/react-router](https://github.com/remix-run/react-router)
+- Vite - [https://github.com/vitejs/vite](https://github.com/vitejs/vite)
 
 ## 🏆 Inspirations
 
