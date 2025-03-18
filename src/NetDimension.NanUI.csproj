@@ -65,7 +65,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\artworks\WinFormiumLogo.png">
+        <None Include="..\artworks\WinFormiumLogo.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
