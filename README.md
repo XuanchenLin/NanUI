@@ -12,7 +12,6 @@
 ![Nuget](https://img.shields.io/nuget/v/NetDimension.NanUI)
 ![Nuget](https://img.shields.io/nuget/dt/NetDimension.NanUI)
 
-
 ## ⭐ About
 
 NanUI is an open source framework on .NET platform for creating user interface for WinForm Applications using HTML5, CSS3, and JavaScript. It is based on the [Xilium.CefGlue](https://bitbucket.org/xilium/xilium.cefglue/wiki/Home) project, which is a .NET wrapper around the [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/cef).
@@ -75,9 +74,9 @@ class Program
     [STAThread]
     static void Main(string[] args)
     {
-        var builder = WinFormiumApp.CreateBuilder();
+        var builder = NanUIApp.CreateBuilder();
 
-        builder.UseWinFormiumApp<MyApp>();
+        builder.UseNanUIApp<MyApp>();
 
         var app = builder.Build();
 
@@ -86,12 +85,12 @@ class Program
 }
 ```
 
-Create a class implements **WinFormiumStartup** for configuring the application:
+Create a class implements **NanUIAppStartup** for configuring the application:
 
 ```csharp
-using WinFormium;
+using NetDimension.NanUI;
 
-class MyAPP : WinFormiumStartup
+class MyAPP : NanUIAppStartup
 {
     protected override MainWindowCreationAction? UseMainWindow(MainWindowOptions opts)
     {
@@ -99,7 +98,7 @@ class MyAPP : WinFormiumStartup
         return opts.UseMainFormium<MyWindow>();
     }
 
-    protected override void WinFormiumMain(string[] args)
+    protected override void ProgramMain(string[] args)
     {
         // The codes in Main function should be here, this function only runs in Main process. So it can prevent the codes in Main process running in sub-processes.
         ApplicationConfiguration.Initialize();
@@ -120,8 +119,8 @@ class MyAPP : WinFormiumStartup
 Create a class implements **Formium** for configuring the main window of the application:
 
 ```csharp
-using WinFormium;
-using WinFormium.Forms;
+using NetDimension.NanUI;
+using NetDimension.NanUI.Forms;
 
 class MyWindow : Formium
 {
@@ -145,7 +144,7 @@ class MyWindow : Formium
 }
 ```
 
-**4. Build and run your WinFormium application**
+**4. Build and run your NanUI application**
 
 ## 📖 Documentation
 
