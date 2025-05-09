@@ -9,6 +9,7 @@
 点击[[此处]](https://gitee.com/dotNetChina/NanUI/)切换到**简体中文**仓库首页。
 
 ![GitHub](https://img.shields.io/github/license/XuanchenLin/NanUI)
+[![Build](https://github.com/XuanchenLin/NanUI/actions/workflows/main.yml/badge.svg)](https://github.com/XuanchenLin/NanUI/actions/workflows/main.yml)
 ![Nuget](https://img.shields.io/nuget/v/NetDimension.NanUI)
 ![Nuget](https://img.shields.io/nuget/dt/NetDimension.NanUI)
 
