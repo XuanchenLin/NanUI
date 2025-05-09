@@ -3,12 +3,16 @@
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
+using System.ComponentModel;
+
 using NetDimension.NanUI.Properties;
 
 namespace NetDimension.NanUI.Browser.EmbeddedBrowser;
 internal class EmbeddedBrowserWindow : StandardWindowForm
 {
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public nint? BrowserWindowHandle { get; internal set; }
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public CefBrowser? Browser { get; internal set; }
 
     public EmbeddedBrowserWindow()

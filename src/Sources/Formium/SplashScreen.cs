@@ -3,13 +3,15 @@
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
+using System.ComponentModel;
+
 namespace NetDimension.NanUI;
 internal class SplashScreen : Panel
 {
     private readonly Action<PaintEventArgs> _drawAction;
 
     protected Form TargetControl { get; }
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Image? CachedImage { get; private set; }
 
     //private Rectangle CanvasBounds {

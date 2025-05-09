@@ -3,11 +3,13 @@
 // COPYRIGHTS (C) Xuanchen Lin. ALL RIGHTS RESERVED.
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
+using System.ComponentModel;
+
 namespace NetDimension.NanUI.Browser.DevTools;
 internal class DevToolsWindow : StandardWindowForm
 {
     public WebView WebView { get; }
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public IntPtr? BrowserWindowHandle { get; internal set; }
 
     public DevToolsWindow(WebView webview)

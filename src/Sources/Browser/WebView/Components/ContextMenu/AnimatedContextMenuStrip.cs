@@ -17,7 +17,7 @@ internal class AnimatedContextMenuStrip : ContextMenuStrip
     private const uint AW_ACTIVATE = 0x20000;
     private const uint AW_SLIDE = 0x40000;
     private const uint AW_BLEND = 0x80000;
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool DarkMode { get; set; } = false;
 
     public AnimatedContextMenuStrip() {
