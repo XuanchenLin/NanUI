@@ -930,11 +930,13 @@ public partial class Formium : IDisposable, IWin32Window
 
         ClientToScreen(WindowHandle, ref point);
 
+        var lparam = Macros.MAKELPARAM((uint)point.X, (uint)point.Y);
+
         if (CurrentFormStyle.Sizable && CurrentFormStyle.UseBrowserHitTest && mode != HitTestValues.HTCLIENT && HostWindow!.WindowState == FormWindowState.Normal)
         {
             ReleaseCapture();
 
-            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)mode, (IntPtr)((point.X & 0xFFFF) | (point.Y << 16)));
+            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)mode, lparam);
 
             return true;
         }
@@ -942,7 +944,7 @@ public partial class Formium : IDisposable, IWin32Window
         {
             ReleaseCapture();
 
-            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)HitTestValues.HTCAPTION, (IntPtr)((point.X & 0xFFFF) | (point.Y << 16)));
+            PostMessage(WindowHandle, (uint)WindowMessage.WM_NCLBUTTONDOWN, (IntPtr)HitTestValues.HTCAPTION, lparam);
 
             return true;
         }

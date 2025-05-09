@@ -5,6 +5,8 @@
 
 
 
+using System.ComponentModel;
+
 using static Vanara.PInvoke.User32;
 
 namespace NetDimension.NanUI.Forms;
@@ -16,6 +18,7 @@ partial class _FackUnusedClass
 
 public abstract class StandardWindowBase : Form
 {
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal protected HWND WND { get; protected set; }
     internal protected WindowDpiAdapter WindowDpiAdapter { get; }
 
@@ -42,6 +45,8 @@ public abstract class StandardWindowBase : Form
 
     public StandardWindowBase()
     {
+        AutoScaleMode = AutoScaleMode.Dpi;
+
         WindowDpiAdapter = new WindowDpiAdapter(this);
 
         BackColor = Color.White;
@@ -248,7 +253,7 @@ public abstract class StandardWindowBase : Form
 
 
     private bool _isWindowActivated = false;
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal protected bool IsWindowActivated
     {
         get => _isWindowActivated;

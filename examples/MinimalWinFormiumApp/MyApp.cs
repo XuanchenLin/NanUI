@@ -11,7 +11,7 @@ using NetDimension.NanUI.JavaScript;
 
 
 namespace MinimalWinFormiumApp;
-internal class MyApp : NanUIAppStartup
+internal class MyApp : AppStartup
 {
     protected override MainWindowCreationAction? UseMainWindow(MainWindowOptions opts)
     {

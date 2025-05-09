@@ -55,7 +55,7 @@ public sealed class AppBuilder
         return this;
     }
 
-    public AppBuilder UseNanUIApp<TApp>() where TApp : notnull, NanUIAppStartup
+    public AppBuilder UseNanUIApp<TApp>() where TApp : notnull, AppStartup
     {
         Services.AddSingleton<INanUIStartup, TApp>();
 

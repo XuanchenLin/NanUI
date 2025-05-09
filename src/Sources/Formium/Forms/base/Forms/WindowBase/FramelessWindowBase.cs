@@ -60,11 +60,11 @@ public abstract class FramelessWindowBase : StandardWindowBase
 
         return Color.FromArgb(color.A, (int)red, (int)green, (int)blue);
     }
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal protected Color BorderColor { get; set; } = Color.FromArgb(0xB2, 0xB2, blue: 0xB2);
 
     private Color? _inactiveBorderColor = null;
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal protected Color InactiveBorderColor
     {
         get => _inactiveBorderColor ?? ChangeColor(BorderColor,-0.1f);
@@ -87,7 +87,7 @@ public abstract class FramelessWindowBase : StandardWindowBase
     private readonly IntPtr FALSE = new IntPtr(0);
 
     protected abstract bool EnableHitTest { get; }
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal protected bool ShowBorder
     {
         get => _showBorder;

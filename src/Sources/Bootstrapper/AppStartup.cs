@@ -4,7 +4,7 @@
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
 namespace NetDimension.NanUI;
-public abstract class NanUIAppStartup : INanUIStartup
+public abstract class AppStartup : INanUIStartup
 {
     /// <summary>
     /// The main entry point for WinFormium app.

@@ -40,6 +40,7 @@ public class WindowDpiAdapter : NativeWindow
 
     protected override void WndProc(ref Message m)
     {
+#if !NET8_0_OR_GREATER
         if (m.Msg == (int)WindowMessage.WM_DPICHANGED)
         {
             if (WmDpiChanged(ref m))
@@ -47,7 +48,7 @@ public class WindowDpiAdapter : NativeWindow
                 return;
             }
         }
-
+#endif
 
 
         base.WndProc(ref m);
