@@ -8,26 +8,26 @@ on:
 
 jobs:
   ci:
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
       # Install the .NET Core workload
       - name: Install .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: "9.0.x"
 
       - name: Get .NET information
         run: dotnet --info
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
         with:
           vs-version: "[17.0,18.0)"
           vs-prerelease: true
 
       - name: Checkout repository
         id: checkout_repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
