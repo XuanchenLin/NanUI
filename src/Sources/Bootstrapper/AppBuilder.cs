@@ -57,7 +57,7 @@ public sealed class AppBuilder
 
     public AppBuilder UseNanUIApp<TApp>() where TApp : notnull, AppStartup
     {
-        Services.AddSingleton<INanUIStartup, TApp>();
+        Services.AddSingleton<IAppStartup, TApp>();
 
         return this;
     }
@@ -144,7 +144,7 @@ public sealed class AppBuilder
         {
             var tempServiceProvider = Services.BuildServiceProvider();
 
-            var startup = tempServiceProvider.GetRequiredService<INanUIStartup>();
+            var startup = tempServiceProvider.GetRequiredService<IAppStartup>();
 
             _configureChromium += startup.ConfigureChromiumEmbeddedFramework;
 

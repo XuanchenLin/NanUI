@@ -54,7 +54,7 @@ public sealed class NanUIApp
 
     private ChromiumEnvironment _env => Services.GetRequiredService<ChromiumEnvironment>();
 
-    private INanUIStartup _startup => Services.GetRequiredService<INanUIStartup>();
+    private IAppStartup _startup => Services.GetRequiredService<IAppStartup>();
 
     internal NanUIApp(ProcessType processType, PlatformArchitecture architecture, IServiceCollection services, string? appName = null)
     {

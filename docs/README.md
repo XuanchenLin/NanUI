@@ -9,11 +9,11 @@ WinFormium (formerly known as NanUI) is an open-source framework for creating Wi
 
 If you are looking for a framework to create WinForm applications with modern user interfaces, WinFormium is a great choice. You can use HTML, CSS, and JavaScript to create the user interface while leveraging the powerful capabilities of C# for application logic.
 
-If you want to experience coding firsthand, check out the example programs in this project. These examples are usually located in the **[[examples]](https://github.com/XuanchenLin/NanUI/tree/master/examples)** folder on the project repository homepage.
+If you want to experience coding firsthand, check out the example programs in this project. These examples are usually located in the **[[examples]](../examples/)** folder on the project repository homepage.
 
 For other languages, please see:
 
-- [简体中文](https://gitee.com/dotnetchina/NanUI/tree/master/docs)
+- [简体中文](../docs.zh-CN/)
 
 ## 📖 Table of Contents
 

@@ -4,7 +4,7 @@
 // GITHUB: https://github.com/XuanchenLin/NanUI
 
 namespace NetDimension.NanUI;
-public abstract class AppStartup : INanUIStartup
+public abstract class AppStartup : IAppStartup
 {
     /// <summary>
     /// The main entry point for WinFormium app.
@@ -50,22 +50,22 @@ public abstract class AppStartup : INanUIStartup
     }
 
 
-    void INanUIStartup.ProgramMain(string[] args)
+    void IAppStartup.ProgramMain(string[] args)
     {
         ProgramMain(args);
     }
 
-    MainWindowCreationAction? INanUIStartup.UseMainWindow(MainWindowOptions opts)
+    MainWindowCreationAction? IAppStartup.UseMainWindow(MainWindowOptions opts)
     {
         return UseMainWindow(opts);
     }
 
-    void INanUIStartup.ConfigureChromiumEmbeddedFramework(ChromiumEnvironmentBuiler builder)
+    void IAppStartup.ConfigureChromiumEmbeddedFramework(ChromiumEnvironmentBuiler builder)
     {
         ConfigurationChromiumEmbedded(builder);
     }
 
-    void INanUIStartup.ConfigureServices(IServiceCollection services)
+    void IAppStartup.ConfigureServices(IServiceCollection services)
     {
         ConfigureServices(services);
     }

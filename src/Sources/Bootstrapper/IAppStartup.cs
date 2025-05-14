@@ -5,7 +5,7 @@
 
 namespace NetDimension.NanUI;
 
-public interface INanUIStartup
+public interface IAppStartup
 {
     void ProgramMain(string[] args);
 

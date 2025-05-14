@@ -13,7 +13,7 @@ If you want to experience coding firsthand, check out the example programs in th
 
 For other languages, please see:
 
-- [简体中文](https://gitee.com/dotnetchina/NanUI/tree/master/docs)
+- [简体中文](../docs.zh-CN/)
 
 ## 📖 Table of Contents
 
