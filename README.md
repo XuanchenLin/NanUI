@@ -6,7 +6,7 @@
 
 # NanUI
 
-点击[[此处]](https://gitee.com/dotNetChina/NanUI/)切换到**简体中文**仓库首页。
+点击[[此处]](https://gitee.com/linxuanchen/NanUI/)切换到**简体中文**仓库首页。
 
 ![GitHub](https://img.shields.io/github/license/XuanchenLin/NanUI)
 [![Build](https://github.com/XuanchenLin/NanUI/actions/workflows/main.yml/badge.svg)](https://github.com/XuanchenLin/NanUI/actions/workflows/main.yml)
@@ -24,6 +24,17 @@ If you are looking for a framework for creating a WinForm application with a mod
 If this project helps, please consider funding it.
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/mrjson?country.x=C2&locale.x=zh_XC)
+
+## ✨ Recommended for developers interested in WebView2
+
+If you think that NanUI based on CEF is too heavy, you can try the **WinFormedge** project now. It is a lightweight WinForm framework based on [WebView2](https://learn.microsoft.com/en-us/microsoft-edge/webview2/) as the core. Suitable for developers who do not want to integrate libcef, using WinFormege and cooperating with the WebView2 that comes with the Windows system will effectively reduce the size of the application release package.
+
+After testing, the size of the .NET 8.0 x64 + WinFormedge application packaged with ZIP compression is only 36MB, while the application packaged with NanUI is at least 125M after compression.
+
+But it should be noted that applications created with WinFormedge can only run on Windows 10 and Windows 11, while NanUI supports Windows 7 SP1 and above.
+
+- GitHub - [WinFormedge](https://github.com/XuanchenLin/WinFormedge)
+- Gitee - [WinFormedge](https://gitee.com/linxuanchen/WinFormedge)
 
 ## 🖥️ Requirements
 
