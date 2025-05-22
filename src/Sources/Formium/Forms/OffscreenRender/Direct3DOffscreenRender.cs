@@ -58,9 +58,10 @@ internal class Direct3DOffscreenRender : IOffscreenRender, IDisposable
 
         var dxgiAdapter = _dxgiDevice.GetAdapter();
 
-        //_dxgiFactory = DXGI.CreateDXGIFactory2<IDXGIFactory2>(false);
+        _dxgiFactory = DXGI.CreateDXGIFactory2<IDXGIFactory2>(false);
 
-        _dxgiFactory = dxgiAdapter!.GetParent<IDXGIFactory2>();
+        //_dxgiFactory = dxgiAdapter!.GetParent<IDXGIFactory2>();
+
 
         _d2d1Factory = D2D1.D2D1CreateFactory<ID2D1Factory1>();
         _d2dDevice = _d2d1Factory.CreateDevice(_dxgiDevice);

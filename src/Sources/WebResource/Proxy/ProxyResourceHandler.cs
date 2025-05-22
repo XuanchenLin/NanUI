@@ -45,10 +45,34 @@ internal class ProxyResourceHandler : ResourceHandler
                 var headerKey = request.Headers.GetKey(i);
                 var headerValue = request.Headers.Get(i);
 
-                if(headerKey !=null && !message.Headers.TryAddWithoutValidation(headerKey, headerValue))
+                if (headerKey != null && !message.Headers.TryAddWithoutValidation(headerKey, headerValue))
                 {
                 }
             }
+        }
+
+        if (request.JsonData != null && request.IsJson)
+        {
+            message.Content = new StringContent(request.JsonData, request.ContentEncoding, request.ContentType);
+        }
+        else if (request.FormData != null && request.FormData.AllKeys != null && request.FormData.AllKeys.Length > 0)
+        {
+
+            var formData = request.FormData!.AllKeys!.Where(x => x != null).ToDictionary(x => x!, x => request.FormData![x!]);
+            var formContent = new FormUrlEncodedContent(formData);
+            message.Content = formContent;
+        }
+        else if (request.UploadFiles != null && request.UploadFiles.Length > 0)
+        {
+            var multipartContent = new MultipartFormDataContent();
+            foreach (var file in request.UploadFiles)
+            {
+                var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read);
+                var fileName = Path.GetFileName(file);
+                var fileContent = new StreamContent(fileStream);
+                multipartContent.Add(fileContent, "file", fileName);
+            }
+            message.Content = multipartContent;
         }
 
         var result = httpClient.SendAsync(message).GetAwaiter().GetResult()!;
@@ -59,7 +83,7 @@ internal class ProxyResourceHandler : ResourceHandler
             HttpStatus = (int)result.StatusCode,
         };
 
-        foreach(var header in result.Headers.ToList())
+        foreach (var header in result.Headers.ToList())
         {
             foreach (var v in header.Value)
             {
@@ -69,7 +93,7 @@ internal class ProxyResourceHandler : ResourceHandler
 
         response.ContentBody = result.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
 
-        
+
 
         return response;
     }
