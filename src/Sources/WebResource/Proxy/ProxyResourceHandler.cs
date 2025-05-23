@@ -53,7 +53,16 @@ internal class ProxyResourceHandler : ResourceHandler
 
         if (request.JsonData != null && request.IsJson)
         {
-            message.Content = new StringContent(request.JsonData, request.ContentEncoding, request.ContentType);
+            var data = request.JsonData;
+
+            if (data.StartsWith("\"") && data.EndsWith("\""))
+            {
+                data = data.Substring(1, data.Length - 2);
+
+                data = Regex.Unescape(data);
+            }
+
+            message.Content = new StringContent(data, request.ContentEncoding, request.ContentType);
         }
         else if (request.FormData != null && request.FormData.AllKeys != null && request.FormData.AllKeys.Length > 0)
         {

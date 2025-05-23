@@ -37,7 +37,7 @@
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>1.1.$(ChromiumVersion).4</Version>
+        <Version>1.1.$(ChromiumVersion).5</Version>
 
     </PropertyGroup>
 

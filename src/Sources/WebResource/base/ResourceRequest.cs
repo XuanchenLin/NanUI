@@ -174,7 +174,7 @@ public sealed class ResourceRequest
             }
             catch
             {
-                JsonData = string.Empty;
+                JsonData = null;
             }
         }
     }
